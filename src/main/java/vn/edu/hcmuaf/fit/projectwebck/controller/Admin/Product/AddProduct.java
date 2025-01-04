@@ -98,7 +98,6 @@ public class AddProduct extends HttpServlet {
             out.println("</script>");
         }
     }
-
     private String saveProductImage(HttpServletRequest request, Part productImagePart) throws IOException {
         // Lấy tên file
         String fileName = System.currentTimeMillis() + "_" + productImagePart.getSubmittedFileName();
