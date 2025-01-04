@@ -1,0 +1,1107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif, Tahoma;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+h3 {
+    color: #888888;
+}
+
+.btn {
+    background: #7cc652;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background: #00845c;
+    padding: 3px 8px;
+    color: white;
+
+}
+
+.btnOrder{
+    background: #7cc652;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.btnOrder:hover {
+    background: #00845c;
+    padding: 3px 8px;
+    color: white;
+
+}
+
+.NavigationbarSelect.active {
+    background-color: #BFD8D1; /* Màu khi được chọn */
+    color: #00845c;
+}
+
+.title_Dashboar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px 10px;
+    border-bottom: 2px solid #4c4848;
+}
+
+table {
+    padding: 10px;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+.side-menu {
+    position: fixed;
+    background: #7cc652;
+    width: 20vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-menu .brand-name {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-menu li {
+    font-size: 24px;
+    margin: 20px 40px;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.side-menu li:hover {
+    color: #00845c;
+    background: #BFD8D1;
+    cursor: pointer;
+    padding: 3px 8px;
+
+}
+
+.container {
+    position: absolute;
+    right: 0;
+    width: 80vw;
+    height: 100vh;
+    background: white;
+}
+
+.container .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80vw;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    background: #E0E5DC;
+}
+
+.container .header .nav {
+    width: 90%;
+    display: flex;
+    align-items: center;
+}
+
+.container .header .nav .search {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+}
+
+.container .header .nav .search input[type=text] {
+    border: none;
+    background: white;
+    padding: 10px;
+    width: 50%;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.container .header .nav .search button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+}
+
+.container .header .nav .search button img {
+    width: 30px;
+    height: 30px;
+}
+
+.container .header .nav .user {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container .header .nav .user img {
+    width: 40px;
+    height: 40px;
+}
+
+.container .header .nav .user .img-case {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.container .header .nav .user .img-case img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Menu tùy chọn (mặc định ẩn) */
+.dropdown-menu {
+    display: none; /* Ẩn menu */
+    position: absolute;
+    top: 60px; /* Căn chỉnh vị trí menu bên dưới ảnh */
+    right: 0;
+    width: 100px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+/* Button Đăng Xuất */
+.logout-btn {
+    background-color: #7cc652;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.logout-btn:hover {
+    background-color: #00845c;
+}
+
+.container .content {
+    position: relative;
+    margin-top: 10vh;
+    min-height: 90vh;
+    background: white;
+}
+
+.container .content .cards {
+    padding: 20px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.container .content .cards .card {
+    width: 250px;
+    height: 150px;
+    background: white;
+    margin: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+}
+
+.container .content .content-2 {
+    min-height: 60vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.container .content .content-2 .recent-payments {
+    min-height: 50vh;
+    flex: 4;
+    background: white;
+    margin: 0 25px 25px 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .content .content-2 .new-users {
+    flex: 3;
+    background: white;
+    min-height: 50vh;
+    margin: 0 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+}
+
+.container .content .content-2 .new-users table td:nth-child(1) img {
+    height: 40px;
+    width: 40px;
+}
+
+@media screen and (max-width: 1050px) {
+    .side-menu li {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 940px) {
+    .side-menu li span {
+        display: none;
+    }
+
+    .side-menu {
+        align-items: center;
+    }
+
+    .side-menu li img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .side-menu li:hover {
+        background: #7cc652;
+        padding: 8px 38px;
+        border: solid 2px white
+    }
+}
+
+@media screen and (max-width: 536px) {
+    .brand-name h1 {
+        font-size: 16px;
+    }
+
+    .container .content .cards {
+        justify-content: center;
+    }
+
+    .side-menu li img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .container .content .content-2 .recent-payments table th:nth-child(2),
+    .container .content .content-2 .recent-payments table td:nth-child(2) {
+        display: none;
+
+    }
+}
+
+.content.active1 {
+    display: flex;
+    margin-left: 30px;
+}
+
+/*phan AdminOder*/
+.AdminListOrder {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+}
+
+.AdminListOrderHeader {
+    height: 30px;
+    display: flex;
+}
+
+.AdminListOrderHeader div {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 2px;
+    color: #7cc652;
+}
+
+.AdminListOrderHeader input {
+    margin-left: 100px;
+    padding: 5px;
+    width: 250px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.AdminListOrder ul {
+    padding-left: 0;
+}
+
+.AdminListOrder li {
+    list-style: none;
+    display: flex;
+    border-bottom: 1px solid gainsboro;
+    width: 92%;
+}
+
+.AdminListOrder li div {
+    font-size: 16px;
+    width: 190px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.AdminListOrder li .menu {
+    width: 5px;
+    padding-bottom: 0;
+}
+
+.AdminListOrder .title_Item div {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00845c;
+}
+
+.AdminListOrder .fa-ellipsis-vertical {
+    color: #7cc652;
+    margin-left: 60px;
+    width: 20px;
+    padding-left: 10px;
+}
+
+.AdminListOrder .statusT {
+    height: 28px;
+    padding: 5px 25px;
+    background-color: #7cc652;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+    margin-top: 5px;
+    width: 170px;
+}
+
+.AdminListOrder .statusF {
+    height: 28px;
+    padding: 5px 25px;
+    background-color: crimson;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+    margin-top: 5px;
+    width: 170px;
+}
+
+.AdminListOrder .menu {
+    height: 1px;
+    position: relative;
+}
+
+.AdminListOrder .ellipsis {
+    position: absolute;
+    right: -85px;
+    top: 15px;
+    padding: 5px 15px;
+    border: 1px solid gainsboro;
+    color: #888888;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    z-index: 1;
+    display: none;
+}
+
+.AdminListOrder .ellipsis::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: -20px;
+    border-width: 10px 15px;
+    border-style: solid;
+    border-color: transparent transparent whitesmoke transparent;
+    cursor: pointer;
+}
+
+.AdminListOrder .menu:hover .ellipsis {
+    display: block;
+}
+
+.AdminListOrder .ellipsis div:hover {
+    color: #00845c;
+}
+
+.AdminListOrder li .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Phan AdminListUser*/
+.AdminListUser {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+}
+
+.AdminListUserHeader button {
+    background-color: #7cc652;
+    border: none;
+    border-radius: 5px;
+    margin-left: 440px;
+    color: white;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.AdminListUserHeader {
+    height: 30px;
+    display: flex;
+}
+
+.AdminListUserHeader div {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 2px;
+    color: #7cc652;
+}
+
+.AdminListUserHeader input {
+    margin-left: 100px;
+    padding: 5px;
+    width: 280px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.AdminListUser ul {
+    padding-left: 0;
+}
+
+.AdminListUser li {
+    list-style: none;
+    display: flex;
+    border-bottom: 1px solid gainsboro;
+    width: 92%;
+}
+
+.AdminListUser .fa-ellipsis-vertical {
+    color: #7cc652;
+    margin-left: 20px;
+}
+
+.AdminListUser li div {
+    font-size: 16px;
+    width: 230px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.AdminListUser .ellipsis {
+    position: absolute;
+    right: -35px;
+    top: 15px;
+    padding: 5px 15px;
+    border: 1px solid gainsboro;
+    color: #888888;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    display: none;
+    width: 100px;
+}
+
+.AdminListUser .ellipsis::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: -20px;
+    border-width: 10px 15px;
+    border-style: solid;
+    border-color: transparent transparent whitesmoke transparent;
+    cursor: pointer;
+}
+
+.AdminListUser .menu:hover .ellipsis {
+    display: block;
+}
+
+.AdminListUser .ellipsis div:hover {
+    color: #00845c;
+}
+
+.AdminListUser li .name {
+    width: 250px;
+    padding-bottom: 0;
+}
+
+.AdminListUser .menu {
+    height: 1px;
+    position: relative;
+}
+
+.AdminListUser li .menu {
+    width: 5px;
+    padding-bottom: 0;
+}
+
+/*phan AdminProduct */
+.AdminListProduct {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+}
+
+.AdminListProductHeader {
+    height: 30px;
+    display: flex;
+}
+
+.AdminListProduct button {
+    background-color: #7cc652;
+    border: none;
+    border-radius: 5px;
+    margin-left: 430px;
+    color: white;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.AdminListProduct button:hover {
+    background-color: #00845c;
+}
+
+.AdminListProductHeader div {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 2px;
+    color: #7cc652;
+}
+
+.AdminListProductHeader input {
+    margin-left: 100px;
+    padding: 5px;
+    width: 250px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.AdminListProduct ul {
+    padding-left: 0;
+}
+
+.AdminListProduct li {
+    list-style: none;
+    display: flex;
+    border-bottom: 1px solid gainsboro;
+    width: 92%;
+    align-items: center;
+}
+
+.AdminListProduct li div {
+    font-size: 16px;
+    width: 190px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.AdminListProduct li .menu {
+    width: 5px;
+    padding-bottom: 0;
+}
+
+.AdminListProduct .title_Item div {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00845c;
+}
+
+.AdminListProduct .fa-ellipsis-vertical {
+    color: #7cc652;
+    position: absolute;
+    top: -13px;
+    right: -13px;
+}
+
+.AdminListProduct .menu {
+    height: 1px;
+    position: relative;
+}
+
+.AdminListProduct .ellipsis {
+    position: absolute;
+    right: -28px;
+    top: 1px;
+    padding: 5px 15px;
+    border: 1px solid gainsboro;
+    color: #888888;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    display: none;
+    width: 100px;
+}
+
+.AdminListProduct .ellipsis::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: -20px;
+    border-width: 10px 15px;
+    border-style: solid;
+    border-color: transparent transparent whitesmoke transparent;
+    cursor: pointer;
+}
+
+.AdminListProduct .menu:hover .ellipsis {
+    display: block;
+}
+
+.AdminListProduct .ellipsis div:hover {
+    color: #00845c;
+}
+/*Phan AdminListPromotion*/
+.AdminListPromotion {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+}
+
+.AdminListPromotionHeader button {
+    background-color: #7cc652;
+    border: none;
+    border-radius: 5px;
+    margin-left: 440px;
+    color: white;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.AdminListPromotionHeader {
+    height: 30px;
+    display: flex;
+}
+
+.AdminListPromotionHeader div {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 2px;
+    color: #7cc652;
+}
+
+.AdminListPromotionHeader input {
+    margin-left: 100px;
+    padding: 5px;
+    width: 280px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.AdminListPromotion ul {
+    padding-left: 0;
+}
+
+.AdminListPromotion li {
+    list-style: none;
+    display: flex;
+    border-bottom: 1px solid gainsboro;
+    width: 92%;
+}
+
+.AdminListPromotion .fa-ellipsis-vertical {
+    color: #7cc652;
+    margin-left: 20px;
+}
+
+.AdminListPromotion li div {
+    font-size: 16px;
+    width: 230px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.AdminListPromotion .ellipsis {
+    position: absolute;
+    right: -35px;
+    top: 15px;
+    padding: 5px 15px;
+    border: 1px solid gainsboro;
+    color: #888888;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    display: none;
+    width: 100px;
+}
+
+.AdminListPromotion .ellipsis::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: -20px;
+    border-width: 10px 15px;
+    border-style: solid;
+    border-color: transparent transparent whitesmoke transparent;
+    cursor: pointer;
+}
+
+.AdminListPromotion .menu:hover .ellipsis {
+    display: block;
+}
+
+.AdminListPromotion .ellipsis div:hover {
+    color: #00845c;
+}
+.AdminListPromotion .menu {
+    height: 1px;
+    position: relative;
+}
+
+.AdminListPromotion li .menu {
+    width: 5px;
+    padding-bottom: 0;
+}
+/*Phan tro giup*/
+.content-3 { /* Ẩn mặc định */
+    position: absolute; /* Để phần này nằm đè lên các phần khác */
+    top: 0;
+    left: 0;
+    width: 80vw;
+    z-index: 1500;
+    padding: 20px;
+    box-sizing: border-box;
+    right: 0;
+    min-height: 105vh;
+    background: white;
+}
+.content-3 ul.help-admin{
+    display: flex;
+    flex-direction: column;
+    border: solid 2px #7cc652;
+    padding-bottom: 10px;
+}
+.content-3 ul.help-admin>li{
+    display: block;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+.content-3 ul.help-admin>li>span{
+    font-size: 25px;
+    cursor: pointer;
+    color: #7cc652;
+    font-weight: bold;
+}
+.content-3 ul.help-admin ul.submenu h6.toggle{
+    font-weight: normal;
+    font-size: 17px;
+}
+.content-3 ul.help-admin ul.submenu p{
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 5px 0;
+    color: #333;
+    font-weight: 200;
+}
+.content-3 ul.help-admin ul.submenu {
+    padding-left: 40px;
+}
+
+.content-3 ul.help-admin>li li {
+    display: block;
+    font-size: 20px;
+    color: black;
+    padding-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.help-admin .submenu {
+    display: none; /* Ẩn nội dung con mặc định */
+    margin-left: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.help-admin .submenu li {
+    margin-bottom: 10px;
+}
+
+.help-admin .submenu.active {
+    display: block; /* Hiển thị nội dung con khi có class active */
+}
+
+/*Cua so nhap lieu san pham*/
+
+.ProductWindow {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+
+.ProductWindow Button {
+    margin-left: 0;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.ProductWindow span {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 50px;
+}
+
+.ProductWindow input {
+    margin: 5px 0;
+    width: 250px;
+    padding: 5px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Làm tối nền */
+    z-index: 1000; /* Đảm bảo overlay nằm trên cùng */
+}
+
+/*Cua so nhap lieu tai khoan*/
+
+.UserWindow {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+
+.UserWindow Button {
+    margin-left: 0;
+    margin-top: 10px;
+    background-color: #7cc652;
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.UserWindow Button:hover {
+    background-color: #00845c;
+}
+
+.UserWindow span {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 50px;
+}
+
+.UserWindow input {
+    margin: 5px 0;
+    width: 250px;
+    padding: 5px;
+}
+/*Cua so nhap lieu khuyen mai*/
+
+.PromotionWindow {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+
+.PromotionWindow Button {
+    margin-left: 0;
+    margin-top: 10px;
+    background-color: #7cc652;
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.PromotionWindow Button:hover {
+    background-color: #00845c;
+}
+
+.PromotionWindow span {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 50px;
+    color: #00845c;
+}
+
+.PromotionWindow input {
+    margin: 5px 0;
+    width: 250px;
+    padding: 5px;
+}
+.PromotionWindow label{
+    color: #7cc652;
+}
+/*OderWindow */
+.OderWindow{
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 400px;
+    border: 1px solid gainsboro;
+    margin: 30px 50px;
+    padding: 10px 20px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+.Product_List_item .Product_item {
+    display: flex;
+    padding: 5px 0;
+}
+.iconClose{
+    float: right;
+    color: #00845c;
+}
+.iconClose:hover{
+    cursor: pointer;
+    color: #7cc652;
+}
+
+.OderWindowTitle{
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+.Product_List_item {
+    padding: 15px 0 0;
+    list-style: none;
+    max-height: 220px; /* Chiều cao tối đa hiển thị, tùy chỉnh theo ý muốn */
+    overflow-y: auto;
+    border-bottom: 1px solid gainsboro;
+}
+
+.Product_item_imgnotice {
+    position: relative;
+}
+
+.Product_item_notice {
+    position: absolute;
+    top: -10px;
+    left: 45px;
+    padding: 2px 5px;
+    color: white;
+    font-size: 0.6rem;
+    background-color: #00845c;
+    border-radius: 8px;
+    border: 1px solid green;
+}
+
+.OderWindow .Product_img_item {
+    margin: 2px 5px 0 5px;
+    width: 50px;
+    border: 1px solid gainsboro;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.Product_item_info {
+    padding: 10px 0 0 15px;
+}
+
+.Product_item_name {
+    display: inline-block;
+    width: 170px;
+    margin-right: 5px;
+    overflow-wrap: break-word;
+}
+
+.Product_item_price {
+    display: inline-block;
+}
+.TotalAmount{
+    margin-top: 20px;
+    margin-left: 5px;
+}
+.text {
+    display: inline-block;
+    width: 220px;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.total {
+    color: #7cc652;
+    font-size: 20px;
+}
