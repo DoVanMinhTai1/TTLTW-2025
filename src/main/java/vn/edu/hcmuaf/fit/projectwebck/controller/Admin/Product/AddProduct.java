@@ -1,12 +1,8 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.Product;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
@@ -98,6 +94,7 @@ public class AddProduct extends HttpServlet {
             out.println("</script>");
         }
     }
+
     private String saveProductImage(HttpServletRequest request, Part productImagePart) throws IOException {
         // Lấy tên file
         String fileName = System.currentTimeMillis() + "_" + productImagePart.getSubmittedFileName();

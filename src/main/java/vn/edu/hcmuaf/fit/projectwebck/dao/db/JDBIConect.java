@@ -7,6 +7,9 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import java.sql.SQLException;
 import java.util.List;
 
+
+
+
 public class JDBIConect {
     private static Jdbi jdbi;
 
@@ -33,8 +36,8 @@ public class JDBIConect {
 
     public static void main(String[] args) {
         Jdbi jdbi = get();
-        List<vn.edu.hcmuaf.fit.projectwebck.dao.model.Product> products = jdbi.withHandle(handle -> handle.createQuery("select * from products")
-                .mapToBean(vn.edu.hcmuaf.fit.projectwebck.dao.model.Product.class)
+        List<Product> products = jdbi.withHandle(handle -> handle.createQuery("select * from products")
+                .mapToBean(Product.class)
                 .list());
         System.out.println(products);
     }

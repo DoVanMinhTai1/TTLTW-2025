@@ -1,12 +1,11 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Admin;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -18,17 +17,7 @@ public class Show extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductServices productService = new ProductServices();
         List<Product> products = productService.getAll();
-        request.setAttribute("listproduct",products);// Lấy danh sách sản phẩm từ database
-//        UserServices userServices = new UserServices();
-//        List<User> listUser = userServices.getAllUsers();
-//        request.setAttribute("listuser",listUser);
-//        PromotionServices promotionServices = new PromotionServices();
-//        List<Promotion> listPromotion = promotionServices.getAllPromotion();
-//        request.setAttribute("listpromotion", listPromotion);
-//        OrderServices orderServices = new OrderServices();
-//        List<Order> listOrder = orderServices.getAllOrders();
-//        request.setAttribute("listorder", listOrder);
-
+        request.setAttribute("listproduct",products);
         request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
     }
 
