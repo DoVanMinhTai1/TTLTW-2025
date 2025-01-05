@@ -1,8 +1,10 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Admin;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
@@ -18,6 +20,7 @@ public class Show extends HttpServlet {
         ProductServices productService = new ProductServices();
         List<Product> products = productService.getAll();
         request.setAttribute("listproduct",products);
+
         request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
     }
 

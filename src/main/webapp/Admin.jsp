@@ -19,7 +19,6 @@
     <div class="brand-name">
         <h1>NLU Food</h1>
     </div>
-
     <ul>
         <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
                 src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
