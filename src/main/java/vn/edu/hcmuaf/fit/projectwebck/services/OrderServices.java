@@ -24,4 +24,7 @@ public class OrderServices {
     public void removeOrder(int orderId) {
         orderDao.removeOrder(orderId);
     }
+    public List<Order> searchById(int id) {
+        return orderDao.searchById(id);
+    }
 }
