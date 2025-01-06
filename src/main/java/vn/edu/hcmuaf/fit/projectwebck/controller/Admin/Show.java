@@ -5,7 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 
@@ -19,9 +21,12 @@ public class Show extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductServices productService = new ProductServices();
         List<Product> products = productService.getAll();
-        request.setAttribute("listproduct",products);
+        request.setAttribute("listproduct", products);
+        OrderServices orderServices = new OrderServices();
+        List<Order> listOrder = orderServices.getAllOrders();
+        request.setAttribute("listorder", listOrder);
 
-        request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
+        request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request, response);
     }
 
     @Override

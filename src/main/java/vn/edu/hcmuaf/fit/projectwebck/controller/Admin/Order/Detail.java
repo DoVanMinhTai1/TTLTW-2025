@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
-
 import java.io.IOException;
 
 @WebServlet(name = "Detail", value = "/detailOrder")
