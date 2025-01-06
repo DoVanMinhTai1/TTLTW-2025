@@ -23,5 +23,15 @@ public class PromotionDao {
                 .mapToBean(Promotion.class)
                 .findOne().orElse(null));
     }
+    public void insertPromotion(Promotion promotion) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value) " +
+                        "VALUES (:name, :startDate, :endDate, :value)")
+                .bind("name", promotion.getName())
+                .bind("startDate", promotion.getStartDate())
+                .bind("endDate", promotion.getEndDate())
+                .bind("value", promotion.getValue())
+                .execute());
+    }
 
 }
