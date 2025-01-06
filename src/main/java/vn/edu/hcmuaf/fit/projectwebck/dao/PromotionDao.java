@@ -33,5 +33,12 @@ public class PromotionDao {
                 .bind("value", promotion.getValue())
                 .execute());
     }
+    // Xóa một chương trình khuyến mãi theo ID
+    public void removePromotion(int promotionId) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM promotions WHERE id = :promotionId")
+                .bind("promotionId", promotionId)
+                .execute());
+    }
 
 }

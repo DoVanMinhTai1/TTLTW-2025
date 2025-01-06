@@ -20,5 +20,8 @@ public class PromotionServices {
     public void insertPromotion(Promotion promotion) {
         promotionDao.insertPromotion(promotion);
     }
+    public void removePromotion(int promotionId) {
+        promotionDao.removePromotion(promotionId);
+    }
 
 }
