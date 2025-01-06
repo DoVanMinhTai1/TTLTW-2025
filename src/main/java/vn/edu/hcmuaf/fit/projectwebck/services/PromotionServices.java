@@ -1,0 +1,18 @@
+package vn.edu.hcmuaf.fit.projectwebck.services;
+
+
+
+import vn.edu.hcmuaf.fit.projectwebck.dao.PromotionDao;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
+
+import java.util.List;
+
+public class PromotionServices {
+    PromotionDao promotionDao = new PromotionDao();
+
+    public List<Promotion> getAllPromotion() {
+        return promotionDao.getAllPromotions();
+    }
+
+
+}
