@@ -25,6 +25,9 @@ public class ProductServices {
             return null;
         }
     }
+    public List<Product> searchByName(String name) {
+        return productDao.searchByName(name);
+    }
 
     public void insert(Product product) {
         productDao.insertProduct(product);

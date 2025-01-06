@@ -65,7 +65,13 @@ public class ProductDao {
                     .execute();
         });
     }
-
+    public List<Product> searchByName(String name) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE name LIKE :name")
+                .bind("name", "%" + name + "%")
+                .mapToBean(Product.class)
+                .list());
+    }
 
 
 }
