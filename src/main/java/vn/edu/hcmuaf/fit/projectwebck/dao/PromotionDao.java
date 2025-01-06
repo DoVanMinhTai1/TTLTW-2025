@@ -40,5 +40,17 @@ public class PromotionDao {
                 .bind("promotionId", promotionId)
                 .execute());
     }
+//    / Cập nhật thông tin chương trình khuyến mãi
+    public void updatePromotion(Promotion promotion) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("UPDATE promotions SET name = :name, startDate = :startDate, " +
+                        "endDate = :endDate, value = :value WHERE id = :promotionId")
+                .bind("name", promotion.getName())
+                .bind("startDate", promotion.getStartDate())
+                .bind("endDate", promotion.getEndDate())
+                .bind("value", promotion.getValue())
+                .bind("promotionId", promotion.getId())
+                .execute());
+    }
 
 }

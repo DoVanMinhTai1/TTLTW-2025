@@ -23,5 +23,8 @@ public class PromotionServices {
     public void removePromotion(int promotionId) {
         promotionDao.removePromotion(promotionId);
     }
+    public void updatePromotion(Promotion promotion) {
+        promotionDao.updatePromotion(promotion);
+    }
 
 }
