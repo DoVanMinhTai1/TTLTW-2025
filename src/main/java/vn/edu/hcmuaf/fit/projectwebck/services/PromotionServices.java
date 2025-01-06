@@ -14,5 +14,7 @@ public class PromotionServices {
         return promotionDao.getAllPromotions();
     }
 
-
+    public Promotion getPromotionById(int id) {
+        return promotionDao.getPromotionById(id);
+    }
 }

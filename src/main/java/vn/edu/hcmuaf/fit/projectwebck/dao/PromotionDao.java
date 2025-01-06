@@ -16,6 +16,12 @@ public class PromotionDao {
                 .list());
     }
 
-
+    public Promotion getPromotionById(int id) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM promotions WHERE id = :id")
+                .bind("id", id)
+                .mapToBean(Promotion.class)
+                .findOne().orElse(null));
+    }
 
 }
