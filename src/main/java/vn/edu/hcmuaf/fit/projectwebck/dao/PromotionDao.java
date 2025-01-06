@@ -52,5 +52,12 @@ public class PromotionDao {
                 .bind("promotionId", promotion.getId())
                 .execute());
     }
+    public List<Promotion> searchById(int id) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM promotions WHERE id LIKE :id")
+                .bind("id", "%" + id + "%")
+                .mapToBean(Promotion.class)
+                .list());
+    }
 
 }

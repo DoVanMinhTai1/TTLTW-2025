@@ -26,5 +26,8 @@ public class PromotionServices {
     public void updatePromotion(Promotion promotion) {
         promotionDao.updatePromotion(promotion);
     }
+    public List<Promotion> searchById(int id) {
+        return promotionDao.searchById(id);
+    }
 
 }
