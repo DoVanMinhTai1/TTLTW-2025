@@ -66,4 +66,11 @@ public class UserDao {
                 .bind("id", user.getId())
                 .execute());
     }
+    public List<User> searchByName(String name) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE fullName LIKE :name")
+                .bind("name", "%" + name + "%")
+                .mapToBean(User.class)
+                .list());
+    }
 }

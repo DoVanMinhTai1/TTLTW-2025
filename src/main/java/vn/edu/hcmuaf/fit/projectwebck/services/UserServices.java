@@ -29,4 +29,7 @@ public class UserServices {
     public void updatePassword(User user) {
         userDao.updatePassword(user);
     }
+    public List<User> searchByName(String name) {
+        return userDao.searchByName(name);
+    }
 }
