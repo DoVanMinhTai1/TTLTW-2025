@@ -17,6 +17,8 @@ public class UserServices {
     public User getUserById(int id) {
         return userDao.getUserById(id);
     }
-
+    public void insertUser(User user) {
+        userDao.insertUser(user);
+    }
 
 }

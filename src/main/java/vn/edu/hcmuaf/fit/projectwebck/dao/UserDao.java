@@ -22,5 +22,19 @@ public class UserDao {
                 .mapToBean(User.class)
                 .findOne().orElse(null));
     }
+    // Thêm một người dùng mới
+    public void insertUser(User user) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone) " +
+                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone)")
+                .bind("username", user.getUsername())
+                .bind("password", user.getPassword())
+                .bind("decentralization", user.getRole())
+                .bind("fullName", user.getFullName())
+                .bind("email", user.getEmail())
+                .bind("dateOfBirth", user.getDateOfBirth())
+                .bind("phone", user.getPhone())
+                .execute());
+    }
 
 }
