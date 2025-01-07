@@ -14,6 +14,13 @@ public class UserDao {
                 .mapToBean(User.class)
                 .list());
     }
-
+    // Lấy thông tin người dùng theo ID
+    public User getUserById(int id) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE id = :id")
+                .bind("id", id)
+                .mapToBean(User.class)
+                .findOne().orElse(null));
+    }
 
 }
