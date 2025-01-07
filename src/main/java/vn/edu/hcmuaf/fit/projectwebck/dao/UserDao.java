@@ -59,4 +59,11 @@ public class UserDao {
                 .bind("userId", user.getId())
                 .execute());
     }
+    public void updatePassword(User user) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("UPDATE users SET  password = :password WHERE id = :id ")
+                .bind("password", user.getPassword())
+                .bind("id", user.getId())
+                .execute());
+    }
 }
