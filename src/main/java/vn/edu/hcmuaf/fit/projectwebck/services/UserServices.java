@@ -20,5 +20,7 @@ public class UserServices {
     public void insertUser(User user) {
         userDao.insertUser(user);
     }
-
+    public void removeUser(int userId) {
+        userDao.removeUser(userId);
+    }
 }

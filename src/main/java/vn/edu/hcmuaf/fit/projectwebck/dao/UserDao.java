@@ -36,5 +36,11 @@ public class UserDao {
                 .bind("phone", user.getPhone())
                 .execute());
     }
-
+    // Xóa một người dùng theo ID
+    public void removeUser(int userId) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM users WHERE id = :userId")
+                .bind("userId", userId)
+                .execute());
+    }
 }
