@@ -23,4 +23,7 @@ public class UserServices {
     public void removeUser(int userId) {
         userDao.removeUser(userId);
     }
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
 }

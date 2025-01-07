@@ -43,4 +43,20 @@ public class UserDao {
                 .bind("userId", userId)
                 .execute());
     }
+    // Cập nhật thông tin người dùng
+    public void updateUser(User user) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("UPDATE users SET username = :username, password = :password, " +
+                        "role = :role, fullName = :fullName, email = :email, " +
+                        "dateOfBirth = :dateOfBirth, phone = :phone WHERE id = :userId")
+                .bind("username", user.getUsername())
+                .bind("password", user.getPassword())
+                .bind("role", user.getRole())
+                .bind("fullName", user.getFullName())
+                .bind("email", user.getEmail())
+                .bind("dateOfBirth", user.getDateOfBirth())
+                .bind("phone", user.getPhone())
+                .bind("userId", user.getId())
+                .execute());
+    }
 }
