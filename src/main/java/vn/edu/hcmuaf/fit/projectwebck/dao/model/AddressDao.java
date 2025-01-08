@@ -39,5 +39,11 @@ public class AddressDao {
                 .bind("company", address.getCompany())
                 .execute());
     }
+    public void removeAddress(int addressId) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM address WHERE id = :addressId")
+                .bind("addressId", addressId)
+                .execute());
+    }
 
 }
