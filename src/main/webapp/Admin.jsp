@@ -233,9 +233,9 @@
                                placeholder="Vui lòng nhập số lượng ..." required><br>
                         <label for="productCategory">Loại:</label><br>
                         <select name="category" id="productCategory" required>
-                            <option value="Rau" selected>Rau</option>
-                            <option value="Củ">Củ</option>
-                            <option value="Quả">Quả</option>
+                            <option value="1" selected>Rau</option>
+                            <option value="2">Củ</option>
+                            <option value="3">Quả</option>
                         </select><br>
                         <button type="submit" class="ButtonProduct1">Lưu</button>
                         <button type="button" class="ButtonProduct2" onclick="closeProduct()">Hủy</button>

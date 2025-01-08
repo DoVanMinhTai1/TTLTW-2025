@@ -57,16 +57,6 @@ public class AddProduct extends HttpServlet {
             // Chuyển đổi giá trị đầu vào
             double price = Double.parseDouble(priceStr);
             double mass = Double.parseDouble(massStr);
-            if (category.equals("Rau")) {
-                category = "1";
-            } else if (category.equals("Củ")) {
-                category = "2";
-            } else if (category.equals("Quả")) {
-                category = "3";
-            } else {
-                // Xử lý trường hợp nếu category không khớp với bất kỳ giá trị nào
-                category = "default_value"; // Hoặc có thể để category = null
-            }
 
             int categoryId = Integer.parseInt(category);
 

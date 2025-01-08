@@ -114,16 +114,7 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     document.getElementById('productPrice').value = price;
     document.getElementById('productDescribe').value = description;
     document.getElementById('productMass').value = mass;
-    if (category === "1") {
-        category = "Rau";
-    } else if (category === "2") {
-        category = "Củ";
-    } else if (category === "3") {
-        category = "Quả";
-    } else {
-        // Xử lý trường hợp nếu category không khớp với bất kỳ giá trị nào
-        category = "default_value"; // Hoặc có thể để category = null
-    }
+
     document.getElementById('productCategory').value = category;
     const saveButton = document.querySelector(".ButtonProduct1");
     saveButton.textContent = "Cập nhật";
