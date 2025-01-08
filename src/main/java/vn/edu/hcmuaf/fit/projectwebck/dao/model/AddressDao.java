@@ -18,5 +18,14 @@ public class AddressDao {
                 .mapToBean(Address.class)
                 .list());
     }
+    public Address getByIdOrigin(int userId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from address where userId = :userId AND origin = :origin")
+                .bind("userId", userId)
+                .bind("origin", 1)
+                .mapToBean(Address.class)
+                .findOne() // Tìm một đối tượng duy nhất
+                .orElse(null)); // Trả về null nếu không tìm thấy
+    }
 
 }
