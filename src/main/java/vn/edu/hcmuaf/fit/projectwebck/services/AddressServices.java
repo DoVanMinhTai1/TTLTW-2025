@@ -24,4 +24,7 @@ public class AddressServices {
     public void removeAddress(int addressId) {
         addressDao.removeAddress(addressId);
     }
+    public void updateAddress(Address address) {
+        addressDao.updateAddress(address);
+    }
 }

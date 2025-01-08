@@ -45,5 +45,20 @@ public class AddressDao {
                 .bind("addressId", addressId)
                 .execute());
     }
+    public void updateAddress(Address address) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            handle.createUpdate("UPDATE address SET name = :name, address = :address, phone = :phone, " +
+                            "origin = :origin, company = :company " +
+                            "WHERE id = :id")
+                    .bind("name", address.getName())
+                    .bind("address", address.getAddress())
+                    .bind("phone", address.getPhone())
+                    .bind("origin", address.getOrigin())
+                    .bind("company", address.getCompany())
+                    .bind("id", address.getId()) // Điều kiện cập nhật
+                    .execute();
+        });
+    }
 
 }
