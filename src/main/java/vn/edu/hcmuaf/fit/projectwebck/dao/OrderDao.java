@@ -40,4 +40,15 @@ public class OrderDao {
                 .mapToBean(Order.class)
                 .list());
     }
+    //    Lấy tất cả đơn hàng của một userId
+    public List<Order> getOrderByUserId(int userId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT o.id, o.userId, o.dateOfBooking, o.status, o.money, o.addressId, a.address FROM orders o INNER JOIN address a ON o.addressId = a.id WHERE o.userId = :userId")
+                        .bind("userId", userId)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
+
 }

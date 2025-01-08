@@ -27,4 +27,7 @@ public class OrderServices {
     public List<Order> searchById(int id) {
         return orderDao.searchById(id);
     }
+    public List<Order> getOrderByUserId(int userId) {
+        return orderDao.getOrderByUserId(userId);
+    }
 }
