@@ -10,6 +10,7 @@ import java.util.List;
 public class ProductServices {
     static ProductDao productDao = new ProductDao();
 
+
     public List<Product> getAll() {
         return productDao.getAll();
     }
@@ -38,4 +39,6 @@ public class ProductServices {
     public void updateProduct(Product product) {
         productDao.updateProduct(product);
     }
+
+    public List<Product> getBestSellers() {return productDao.getBestSellers();}
 }
