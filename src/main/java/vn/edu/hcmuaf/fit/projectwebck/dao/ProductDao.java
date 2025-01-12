@@ -75,6 +75,8 @@ public class ProductDao {
     }
 
 
+
+    //Home
     public List<Product> getBestSellers() {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery(
@@ -85,6 +87,37 @@ public class ProductDao {
                         "group by p.image, p.category, p.name, p.price " +
                         "order by SLB desc "+
                         "limit 8")
+                .mapToBean(Product.class)
+                .list());
+    }
+
+    public List<Product> getAllHome() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from products limit 40")
+                .mapToBean(Product.class)
+                .list());
+    }
+
+    //Vegetables
+    public List<Product> getAllVegetables() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from products where category = 1")
+                .mapToBean(Product.class)
+                .list());
+    }
+
+    //Tuber
+    public List<Product> getAllTubers() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from products where category = 2")
+                .mapToBean(Product.class)
+                .list());
+    }
+
+    //Fruit
+    public List<Product> getAllFruits() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from products where category = 3")
                 .mapToBean(Product.class)
                 .list());
     }
