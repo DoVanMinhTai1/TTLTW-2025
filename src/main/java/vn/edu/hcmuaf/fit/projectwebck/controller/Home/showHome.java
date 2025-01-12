@@ -8,15 +8,18 @@ import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "BestSellerProductH", value = "/showBestSellerProductH")
-public class BestSellerProductH extends HttpServlet {
+@WebServlet(name = "showHome", value = "/showHome")
+public class showHome extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductServices productService = new ProductServices();
-        List<Product> products = productService.getBestSellers();
+        List<Product> productsSeller = productService.getBestSellers();
 
-        request.setAttribute("listProductBestSeller",products);
+        List<Product> products = productService.getAllHome();
+
+        request.setAttribute("listProductBestSeller",productsSeller);
+        request.setAttribute("allProduct",products);
         request.getRequestDispatcher("jsp/Home.jsp").forward(request,response);
     }
 
