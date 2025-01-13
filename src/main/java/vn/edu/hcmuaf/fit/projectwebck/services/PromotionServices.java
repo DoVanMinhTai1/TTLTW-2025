@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.projectwebck.services;
 
 
 
+import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.PromotionDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 
@@ -14,8 +15,9 @@ public class PromotionServices {
         return promotionDao.getAllPromotions();
     }
 
-    public Promotion getPromotionById(int id) {
-        return promotionDao.getPromotionById(id);
+    // Lấy thông tin khuyến mãi của user theo ID
+    public Integer getPromotionByUser(int userId, int proId) {
+        return promotionDao.getPromotionByUser(userId, proId);
     }
     public void insertPromotion(Promotion promotion) {
         promotionDao.insertPromotion(promotion);

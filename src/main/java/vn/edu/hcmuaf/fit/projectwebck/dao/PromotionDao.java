@@ -16,12 +16,16 @@ public class PromotionDao {
                 .list());
     }
 
-    public Promotion getPromotionById(int id) {
+    // Lấy thông tin khuyến mãi của user theo ID
+    public Integer getPromotionByUser(int userId, int proId) {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM promotions WHERE id = :id")
-                .bind("id", id)
-                .mapToBean(Promotion.class)
-                .findOne().orElse(null));
+        return jdbi.withHandle(handle -> handle.createQuery(
+                        "SELECT p.value FROM promotionuser pu INNER JOIN promotions p ON pu.promotionId = p.id WHERE pu.userId = :userId AND pu.promotionId = :proId")
+                .bind("userId", userId)
+                .bind("proId", proId)
+                .mapTo(Integer.class)
+                .findOne()
+                .orElse(0));  // Trả về 0 nếu không tìm thấy
     }
     public void insertPromotion(Promotion promotion) {
         Jdbi jdbi = JDBIConect.get();
@@ -59,5 +63,6 @@ public class PromotionDao {
                 .mapToBean(Promotion.class)
                 .list());
     }
+
 
 }
