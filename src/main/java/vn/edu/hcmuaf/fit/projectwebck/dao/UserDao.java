@@ -36,6 +36,7 @@ public class UserDao {
                 .bind("phone", user.getPhone())
                 .execute());
     }
+
     // Xóa một người dùng theo ID
     public void removeUser(int userId) {
         Jdbi jdbi = JDBIConect.get();
@@ -72,5 +73,38 @@ public class UserDao {
                 .bind("name", "%" + name + "%")
                 .mapToBean(User.class)
                 .list());
+    }
+
+    public User login(String username, String password) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE username = :username AND password = :password")
+                .bind("username", username)
+                .bind("password", password)
+                .mapToBean(User.class)
+                .findOne().orElse(null));
+    }
+
+    public User findUserByUsername(String username) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE username = :username")
+                .bind("username", username)
+                .mapToBean(User.class)
+                .findOne().orElse(null));
+    }
+
+
+    public int register(User user) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone) " +
+                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone)")
+                .bind("username", user.getUsername())
+                .bind("password", user.getPassword())
+                .bind("decentralization", user.getRole())
+                .bind("fullName", user.getFullName())
+                .bind("email", user.getEmail())
+                .bind("dateOfBirth", user.getDateOfBirth())
+                .bind("phone", user.getPhone())
+                .execute());
+
     }
 }
