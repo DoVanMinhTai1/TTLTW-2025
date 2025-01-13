@@ -47,9 +47,9 @@
 <div class="menu">
     <ul>
         <li>
-            <a href="/web/show"><i class="fa-brands fa-product-hunt" id="all"></i></a>
+            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
             <div class="all">
-                <a href="/web/showVegetables"><span>TẤT CẢ SẢN PHẨM</span></a>
+                <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
             </div>
         </li>
 
@@ -60,15 +60,15 @@
             </div>
         </li>
         <li>
-            <a href="tuber.html"><i class="fa-solid fa-carrot" id="root"></i></a>
+            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
             <div class="tubers">
-                <a href="tuber.html"><span>CỦ</span></a>
+                <a href="/web/showTubers"><span>CỦ</span></a>
             </div>
         </li>
         <li>
-            <a href="fruit.html"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
+            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
             <div class="vegetable_fruits">
-                <a href="fruit.html"><span>QUẢ</span></a>
+                <a href="/web/showFruits"><span>QUẢ</span></a>
             </div>
         </li>
     </ul>

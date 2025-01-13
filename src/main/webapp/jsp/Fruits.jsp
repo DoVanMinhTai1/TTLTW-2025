@@ -47,28 +47,28 @@
 <div class="menu">
   <ul>
     <li>
-      <a href="allProduct.html"><i class="fa-brands fa-product-hunt" id="all"></i></a>
+      <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
       <div class="all">
-        <a href="allProduct.html"><span>TẤT CẢ SẢN PHẨM</span></a>
+        <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
       </div>
     </li>
 
     <li>
-      <a href="vegetable1.html"><i class="fa-solid fa-leaf" id="ves"></i></a>
+      <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>
       <div class="vegetables">
-        <a href="vegetable1.html"><span>RAU</span></a>
+        <a href="/web/showVegetables"><span>RAU</span></a>
       </div>
     </li>
     <li>
-      <a href="tuber.html"><i class="fa-solid fa-carrot" id="root"></i></a>
+      <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
       <div class="tubers">
-        <a href="tuber.html"><span>CỦ</span></a>
+        <a href="/web/showTubers"><span>CỦ</span></a>
       </div>
     </li>
     <li>
-      <a href="fruit.html"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
+      <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
       <div class="vegetable_fruits">
-        <a href="fruit.html"><span>QUẢ</span></a>
+        <a href="/web/showFruits"><span>QUẢ</span></a>
       </div>
     </li>
   </ul>
@@ -77,7 +77,7 @@
   <div class="filter">
     <div class="left">
       <h6>Bạn đang xem: </h6>
-      <div class="pro-cat"><h6>Sản Phẩm</h6></div>
+      <div class="pro-cat"><h6>Quả</h6></div>
     </div>
     <div class="right">
       <button id="option">

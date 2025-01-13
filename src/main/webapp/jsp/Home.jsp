@@ -1,4 +1,4 @@
-<%--
+<%@ page import="vn.edu.hcmuaf.fit.projectwebck.dao.model.User" %><%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 1/6/2025
@@ -29,13 +29,32 @@
     </form>
     <i class="fas fa-phone"></i>
     <div class="headerphone">HOTLINE: 0327237467</div>
-    <a href="CustomerPage/CustomerPage.html">
-      <div class="headercontendangnhap">Đăng nhập</div>
-    </a>
-    <div class="line"></div>
-    <a href="signIn&Up/index.html">
-      <div class="headercontendangki">Đăng kí</div>
-    </a>
+    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+      <c:choose>
+        <c:when test="${not empty currentUser}">
+          <a href="CustomerPage/CustomerPage.html" style="text-decoration: none">
+            <div class="headercontendangnhap">
+            ${currentUser.username}
+            </div>
+          </a>
+          <div class="line"></div>
+          <a href="logout" style="text-decoration: none">
+            <div class="headercontendangki">Đăng Xuất</div>
+          </a>
+        </c:when>
+        <c:otherwise>
+          <a href="showLogin" style="text-decoration: none">
+            <div class="headercontendangnhap">
+              Đăng Nhập
+            </div>
+          </a>
+          <div class="line"></div>
+          <a href="showLogin" style="text-decoration: none">
+            <div class="headercontendangki">Đăng Kí</div>
+          </a>
+        </c:otherwise>
+      </c:choose>
+
     <!--        gio hang-->
     <div class="shopping_cart">
       <div class="shopping_cart_swap">
@@ -49,9 +68,9 @@
 <div class="menu">
   <ul>
     <li>
-      <a href="allProduct.html"><i class="fa-brands fa-product-hunt" id="all"></i></a>
+      <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
       <div class="all">
-        <a href="allProduct.html"><span>TẤT CẢ SẢN PHẨM</span></a>
+        <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
       </div>
     </li>
 
@@ -149,15 +168,15 @@
         <li>
           <div class="product-item">
             <div class="product-top">
-              <a href="" class="product-thumb">
+              <a href="showDetail?id=${p.id}" class="product-thumb">
                 <img src="${p.image}" alt=""/>
               </a>
               <!--xem ngay-->
-              <a href="detailProduct?id=${p.id}" class="buy-now">Xem ngay</a>
+              <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
             </div>
             <div class="product-info">
               <a href="" class="product-cat">${p.category}</a>
-              <a href="" class="product-name">${p.name}</a>
+              <a href="showDetail?id=${p.id}" class="product-name">${p.name}</a>
               <div class="product-price">${p.price}đ</div>
             </div>
           </div>
