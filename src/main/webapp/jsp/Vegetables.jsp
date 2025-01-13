@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Tuber</title>
+    <title>Vegetables</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
           integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -77,7 +77,7 @@
     <div class="filter">
         <div class="left">
             <h6>Bạn đang xem: </h6>
-            <div class="pro-cat"><h6>Củ</h6></div>
+            <div class="pro-cat"><h6>Rau</h6></div>
         </div>
         <div class="right">
             <button id="option">
@@ -99,7 +99,7 @@
         <h3>DANH SÁCH SẢN PHẨM</h3>
     </div>
     <ul class="products">
-        <c:forEach var="p" items="${listTubers}">
+        <c:forEach var="p" items="${listVegetables}">
             <li>
                 <div class="product-item">
                     <div class="product-top">

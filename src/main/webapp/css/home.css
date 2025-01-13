@@ -19,14 +19,12 @@ ul{
     display: flex;
     margin: 20px 30px 20px auto;
 }
-a{
-    text-decoration: none;
-}
+
 #header{
     width:100%;
     position: fixed;
     top: 0;
-    /*left: 160px;*/
+    left: 0;
     height:auto;
     padding: 0;
     margin: 0;
@@ -44,7 +42,7 @@ a{
     display: flex;
 }
 .container1 #logo{
-    margin-left: 160px;
+    margin-left: 10px;
 }
 .container1 #search-box10{
     width: 300px;
@@ -52,7 +50,7 @@ a{
     border: solid 1px gray;
     border-radius: 35px;
     padding-left: 15px;
-    margin: 25px 50px 0 130px;
+    margin: 20px 50px 0 130px;
 }
 .container1 #search-box10 #search {
     width: 250px;
@@ -69,20 +67,17 @@ a{
 }
 .fas {
     margin-right: 5px;
-    margin-top: 32px;
+    margin-top: 30px;
     color: #7cc652;
 }
 .container1 .headerphone {
-    margin: 30px 50px 0 0;
+    margin: 30px 50px 0px 0;
     color: #7cc652;
 }
 .container1 .headercontendangnhap {
     margin: 30px 5px;
     color: gray;
     cursor: pointer;
-}
-.container1 .headercontendangnhap:hover, .container1 .headercontendangki:hover{
-    color: #7cc652;
 }
 .container1 .headercontendangki {
     margin: 30px 30px 0 5px;
@@ -92,7 +87,7 @@ a{
 .container1 .line {
     border: solid 1px gray;
     height: 15px;
-    margin-top: 32px;
+    margin-top: 30px;
 }
 .fa-solid {
     color: #7cc652;
@@ -106,200 +101,70 @@ a{
 .fa-regular{
     color: #7cc652;
 }
-.shoppingtext a{
-    text-decoration: none;
-    color: #7cc652;
-}
 .container1 .shoppingtext {
     margin-top: 30px;
     color: #7cc652;
     cursor: pointer;
 }
 /*xu li gio hang khi di chuot vo gio hang*/
-.shopping_cart {
+.container1 .shopping_cart {
+    position: relative;
     height: 30px;
     margin: 30px 5px 0 0;
     padding: 0 5px;
-}
-
-.shopping_cart_swap {
-    display: inline-block;
-    position: relative;
     cursor: pointer;
 }
-
 .shopping_cartlist {
     position: absolute;
-    top: 150%;
-    right: -15px;
-    background-color: #f5f5f5;;
-    /*background-color: white;*/
-    width: 300px;
+    top: 100%;
+    right: -10px;
+    background-color: white;
+    width: 400px;
     border-radius: 5px;
     box-shadow: 0 1px 3.125rem 0 rgba(0, 0, 0, 0.2);
     display: none;
-    cursor: default;
 }
-
-.shopping_cart_swap:hover .shopping_cartlist {
-    display: block;
-}
-
-.shopping_notice {
+.shopping_notice{
     position: absolute;
     top: -13px;
     left: 15px;
     padding: 2px 5px;
     color: white;
     font-size: 0.6rem;
-    background-color: #00845c;
+    background-color: #7cc652;
     border-radius: 8px;
     border: 1px solid green;
 }
-
-
-.shopping_cartlist::after {
+.shopping_cart:hover .shopping_cartlist {
+    display: block;
+}
+.shopping_cartlist--no_cart::after {
     content: "";
     position: absolute;
-    right: 9px;
+    right: -2px;
     top: -20px;
-    border-width: 10px 15px;
+    border-width: 20px 26px;
     border-style: solid;
     border-color: transparent transparent white transparent;
-    cursor: pointer;
 }
-/*Trong trươờng hợp co  .shopping_cartlist--no_cart*/
-.shopping_cartlist--no_cart .imgno_cart {
+.shopping_cartlist--no_cart .imgno_cart{
     display: block;
 }
-
 .imgno_cart {
     width: 70%;
-    margin-left: 42px;
+    margin-left: 62px;
     display: none;
 }
-
 .shopping_cartlist--no_cart {
-    padding: 20px 0;
+    padding: 20px 0 0;
 }
-
-.shopping_cartlist_item {
-    display: flex;
-    padding: 30px 0;
-    border-bottom: 1px dashed #ebebeb
-}
-
-.header_Shop {
-    text-align: center;
-    background-color: #7cc652;
-    padding: 10px 0;
-}
-
-.shopping_cartlist_header {
-    color: white;
-}
-
-.header_Shop .headeritem {
-    font-size: 20px;
-    color: white;
-
-}
-.shopping_cartlist ul{
-    display: block;
-    margin: 0;
-}
-.shopping_cartlist_List_item{
-    padding: 0;
-    list-style: none;
-    margin: 0;
-    max-height: 300px; /* Chiều cao tối đa hiển thị, tùy chỉnh theo ý muốn */
-    overflow-y: auto;
-}
-
-.shopping_cartlist_item_imgnotice {
-    position: relative;
-}
-
-.shopping_cartlist_item_notice {
-    position: absolute;
-    top: -10px;
-    left: 45px;
-    padding: 2px 5px;
-    color: white;
-    font-size: 0.6rem;
-    background-color: #00845c;
-    border-radius: 8px;
-    border: 1px solid green;
-}
-*, ::after, ::before {
-    box-sizing: content-box;
-}
-
-.shopping_cartlist_img_item {
-    margin: 0 5px;
-    width: 50px;
-    border: solid 1px gainsboro;
-    cursor: pointer;
-}
-
-.shopping_cartlist_item_name {
-    display: inline-block;
-    width: 190px;
-    margin-right: 5px;
-}
-
-.fa-trash-can {
-    color: #00845c;
-    cursor: pointer;
-}
-
-.shopping_cartlist_item_body {
-    margin: 5px 0;
-}
-
-.shopping_cart .shopping_cartlist_item_plus {
-    display: inline-block;
-    padding: 0 0 5px 4px;
-    background-color: #cde2c0;
-    width: 12px;
-    height: 13px;
-    border-radius: 100%;
-    cursor: pointer;
-}
-
-.shopping_cartlist .shopping_cartlist_item_price {
-    color: #00845c;
-    font-weight: 600;
-}
-
-.shopping_cartlist_item_quantity {
-    color: #00845c;
-    font-weight: 600;
-}
-
-.shopping_cartlist .shopping_cartlist_item_minus {
-    display: inline-block;
-    padding: 0 0 5px 4px;
-    background-color: #cde2c0;
-    width: 12px;
-    height: 13px;
-    border-radius: 100%;
-    cursor: pointer;
-}
-
-.shopping_cartlist_button {
-    float: right;
-    margin: 10px 10px 10px 0;
-    background-color: #7cc652;
-    color: white;
-    border: none;
-    height: 30px;
-    width: 70px;
-    border-radius: 30px;
-    cursor: pointer;
+.pathline {
+    width: 100%;
+    border: solid 1px gray;
 }
 /*menu*/
 .menu{
+    width: 100%;
     background:#e0e5dc;
     border: 1px solid gray;
 }
@@ -730,8 +595,7 @@ ul.products li img{
     border: none;
     background: white;
 }
-
-
+/*footer*/
 .footer{
     margin-top: 5px;
     width: 100%;
@@ -851,7 +715,7 @@ ul.products li img{
 }
 .detail-product{
     width: 100%;
-    margin: 20px;
+    /*margin: 20px;*/
     display: flex;
     justify-content: space-between;
 }
@@ -887,8 +751,9 @@ ul.products li img{
     display: flex;
     flex-direction: column;
     width: 50%;
-    background: beige;
+    background: white;
     border-radius: 10%;
+    box-shadow: 0 0 5px 3px rgb(187, 248, 147);
 }
 .detail-right .detail-headline{
     margin: 0 auto 0 auto;
@@ -933,6 +798,7 @@ ul.products li img{
 .detail-right .main-bottom .option>span{
     margin: 10px 0;
 }
+
 .detail-right .main-bottom .option .btn-choose{
     margin: 10px 10px 10px 0;
 }
@@ -969,56 +835,34 @@ ul.products li img{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: none;
 }
 .main-bottom .btn-bounder>button{
     margin: 5px;
     height: 35px;
     justify-content: center;
     align-items: center;
+    border: 1px solid gray;
     background: #7cc652;
-    border-radius: 5px;
+    border-radius: 20%;
     font-size: 17px;
     color: white;
-    border: none;
 }
-.btn-bounder button:hover{
-    cursor: pointer;
-    background-color: #00845c;
-}
-
 .main-bottom .btn-bounder>button>a{
     text-decoration: none;
     color:white
 }
-.detail-bottom{
-    margin: 10px 10px 10px 30px;
-}
-.detail-bottom .btn-describe{
-    margin-right: auto;
-    margin-left: auto;
-}
-.detail-bottom .btn-describe>button{
-    margin: 0;
-    padding: 10px;
-    width: 100px;
-    border-radius: 5%;
-    border: 1px solid gray;
-    border-bottom: 0 solid gray;
-    background: #7cc652;
-}
-.detail-bottom .describe-text{
-    border: 1px solid gray;
-    padding: 20px;
-}
 .ralated-product {
     text-align: center;
     width: 1200px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 .ralated-product .headline-related{
     text-transform: uppercase;
-    font-size: 25px;
+    font-size: 20px;
+    font-weight: 20;
 }
 .ralated-product ul.products li{
     flex-basis: 20%;
