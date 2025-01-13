@@ -10,9 +10,11 @@ import java.util.List;
 public class ProductServices {
     static ProductDao productDao = new ProductDao();
 
+
     public List<Product> getAll() {
         return productDao.getAll();
     }
+
     public Product getById(int id) {
        return productDao.getById(id);
     }
@@ -37,5 +39,26 @@ public class ProductServices {
     }
     public void updateProduct(Product product) {
         productDao.updateProduct(product);
+    }
+
+    //Home
+    public List<Product> getBestSellers() {return productDao.getBestSellers();}
+    public List<Product> getAllHome() {
+        return productDao.getAllHome();
+    }
+
+    //Vegetables
+    public List<Product> getAllVegetables() {
+        return productDao.getAllVegetables();
+    }
+
+    //Tubers
+    public List<Product> getAllTubers() {
+        return productDao.getAllTubers();
+    }
+
+    //Fruits
+    public List<Product> getAllFruits() {
+        return productDao.getAllFruits();
     }
 }
