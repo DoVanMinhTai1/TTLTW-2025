@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
 
 import java.util.List;
+import java.util.Map;
 
 public class OrderDao {
     // Lấy tất cả các đơn hàng
@@ -49,6 +50,52 @@ public class OrderDao {
                         .mapToBean(Order.class)
                         .list()
         );
+    }
+    public long insertOrderByUser(Order order, Map<Integer, Map<String, Double>> cartMap) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> {
+            // 1. Cập nhật câu lệnh SQL để lưu thông tin đơn hàng
+            handle.createUpdate("INSERT INTO orders (userId, dateOfBooking, status, money, addressId) " +
+                            "VALUES (:userId, :dateOfBooking, :status, :money, :addressId)")
+                    .bind("userId", order.getUserId())
+                    .bind("dateOfBooking", order.getDateOfBooking())
+                    .bind("status", order.getStatus())
+                    .bind("money", order.getMoney())
+                    .bind("addressId", order.getAddressId())
+                    .execute();
+
+            // 2. Lấy ID của đơn hàng vừa chèn (orderId)
+            String getOrderIdQuery = "SELECT id FROM orders ORDER BY id DESC LIMIT 1";
+            long orderId = handle.createQuery(getOrderIdQuery)
+                    .mapTo(Long.class)
+                    .one();
+
+            // 3. Thêm chi tiết đơn hàng vào bảng orderdetail
+            String orderDetailQuery = "INSERT INTO orderdetail (productId, quantity, totalamount, orderId) " +
+                    "VALUES (:productId, :quantity, :totalamount, :orderId)";
+            String updateProductMass = "UPDATE products SET  mass= mass - :quantity WHERE id = :productId";
+            for (Map.Entry<Integer, Map<String, Double>> entry : cartMap.entrySet()) {
+                int productId = entry.getKey();
+                Map<String, Double> productInfo = entry.getValue();
+                int quantity = productInfo.get("quantity") != null ? productInfo.get("quantity").intValue() : 0;
+                double price = productInfo.get("price") != null ? productInfo.get("price") : 0.0;
+
+                handle.createUpdate(orderDetailQuery)
+                        .bind("productId", productId)
+                        .bind("quantity", quantity)
+                        .bind("totalamount", price * quantity)
+                        .bind("orderId", orderId)
+                        .execute();
+                // Cập nhật số lượng sản phẩm trong bảng products
+                handle.createUpdate(updateProductMass)
+                        .bind("quantity", quantity)
+                        .bind("productId", productId)
+                        .execute();
+            }
+
+            // Trả về orderId
+            return orderId;
+        });
     }
 
 }

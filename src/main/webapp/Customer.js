@@ -47,7 +47,7 @@ function navigationbarClick(select) {
 
 async function viewOrder(orderId) {
 
-    const response = await fetch(`/DoAnWebTest_war_exploded/detailOrder?orderId=${orderId}`);
+    const response = await fetch(`/ProjectWebCK_war_exploded/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
     // Thêm một lớp overlay để làm tối nền

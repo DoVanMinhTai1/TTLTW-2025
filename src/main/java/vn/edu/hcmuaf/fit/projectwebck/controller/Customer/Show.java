@@ -11,7 +11,7 @@ import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 import java.io.IOException;
 
 @WebServlet(name = "ShowCustomerPage", value = "/showCustomerPage")
-public class ShowOptionCustomer extends HttpServlet {
+public class Show extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,23 +19,33 @@
         <h1>NLU Food</h1>
     </div>
     <ul>
-        <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
-                src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
-        </li>
-        <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
-                src="Img/snapedit_ves-admin.png" alt=""
-                style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
-        <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
-                src="Img/snapedit_user-admin2.png" alt=""
-                style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
-        </li>
-        <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
-                src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
-        </li>
-        <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
-                src="Img/discount-admin.png" alt=""
-                style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
-        </li>
+        <a href="showOption?option=option1">
+            <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
+                    src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
+            </li>
+        </a>
+        <a href="showOption?option=option2">
+            <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
+                    src="Img/snapedit_ves-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
+        </a>
+        <a href="showOption?option=option3">
+            <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
+                    src="Img/snapedit_user-admin2.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
+            </li>
+        </a>
+        <a href="showOption?option=option4">
+            <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
+                    src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
+            </li>
+        </a>
+        <a href="showOption?option=option5">
+            <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
+            </li>
+        </a>
     </ul>
 </div>
 <div class="container">
@@ -180,7 +189,9 @@
         <div class="AdminListProduct select">
             <div class="AdminListProductHeader">
                 <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
-                <input type="text" name="searchProduct" id="searchProduct" placeholder="Tìm kiếm sản phẩm?">
+                <form action="searchProduct" method="get">
+                    <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
+                </form>
                 <button type="submit" onclick="addProduct()">Thêm sản phẩm</button>
             </div>
             <ul class="Product_Item" id="ProductItem">
@@ -196,7 +207,7 @@
                         <div>${p.id}</div>
                         <div><img src="${p.image}" alt="" style="width: 50px"></div>
                         <div>${p.name}</div>
-                        <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND" /></div>
+                        <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND"/></div>
                         <div>${p.mass}Kg</div>
                         <div class="menu">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -247,7 +258,9 @@
         <div class="AdminListUser select">
             <div class="AdminListUserHeader">
                 <div>Tài khoản(<span>${listuser.size()}</span>)</div>
-                <input type="text" name="searchUser" id="searchUser" placeholder="Tìm kiếm khách hàng?">
+                <form action="searchUser" method="get">
+                    <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
+                </form>
                 <button type="submit" onclick="addUser()">Thêm tài khoản</button>
             </div>
             <ul class="User_Item" id="UserItem">
@@ -317,8 +330,10 @@
         <%--Don hang--%>
         <div class="AdminListOrder select">
             <div class="AdminListOrderHeader">
-                <div>Đơn Hàng(<span>7</span>)</div>
-                <input type="text" name="searchOrder" id="searchOrder" placeholder="Tìm kiếm đơn hàng?">
+                <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
+                <form action="searchOrder" method="get">
+                    <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
+                </form>
             </div>
             <ul class="Order_Item">
                 <li class="title_Item">
@@ -333,7 +348,7 @@
                         <div>${order.id}</div>
                         <div class="name">${order.fullName}</div>
                         <div>${order.dateOfBooking}</div>
-                        <div><f:formatNumber value="${order.money}" type="number" pattern="#,##0VND" /></div>
+                        <div><f:formatNumber value="${order.money}" type="number" pattern="#,##0VND"/></div>
                         <div class="${order.status == '1' ? 'statusT' : 'statusF'}">
                                 ${order.status == '1' ? 'Đã thanh toán' : 'Chờ thanh toán'}
                         </div>
@@ -353,7 +368,7 @@
                 <div class="iconClose" onclick="viewOrderClose()"><i class="fa-solid fa-xmark"></i></div>
                 <div class="OderWindowTitle">Danh sách sản phẩm</div>
                 <div id="ProductItems" class="Product_List_item">
-<%--                    Phan chi tiet don hang--%>
+                    <%--                    Phan chi tiet don hang--%>
                 </div>
                 <div class="TotalAmount">
                     <span class="text">Tổng cộng</span>
@@ -365,7 +380,9 @@
         <div class="AdminListPromotion select">
             <div class="AdminListPromotionHeader">
                 <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
-                <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Tìm kiếm khuyến mãi?">
+                <form action="searchPromotion" method="get">
+                    <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                </form>
                 <button type="submit" onclick="addPromotion()">Thêm khuyến mãi</button>
             </div>
             <ul class="Promotion_Item" id="PromotionItem">

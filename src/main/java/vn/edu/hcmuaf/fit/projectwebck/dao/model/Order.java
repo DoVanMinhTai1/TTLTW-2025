@@ -5,11 +5,12 @@ public class Order {
     private int userId;
     private String dateOfBooking;
     private int status;
-    private int money;
+    private double money;
     private int addressId;
     private String fullName;
+    private String address;
 
-    public Order(int id, int userId, String dateOfBooking, int status, int money, int addressId, String fullName) {
+    public Order(int id, int userId, String dateOfBooking, int status, double money, int addressId, String fullName) {
         this.id = id;
         this.userId = userId;
         this.dateOfBooking = dateOfBooking;
@@ -20,6 +21,14 @@ public class Order {
     }
 
     public Order() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getFullName() {
@@ -62,11 +71,11 @@ public class Order {
         this.status = status;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

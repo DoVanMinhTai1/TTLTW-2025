@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
 
 import java.util.List;
+import java.util.Map;
 
 public class OrderServices {
     static OrderDao orderDao = new OrderDao();
@@ -29,5 +30,8 @@ public class OrderServices {
     }
     public List<Order> getOrderByUserId(int userId) {
         return orderDao.getOrderByUserId(userId);
+    }
+    public long insertOrderByUser(Order order, Map<Integer, Map<String, Double>> cartMap) {
+        return orderDao.insertOrderByUser(order, cartMap);
     }
 }
