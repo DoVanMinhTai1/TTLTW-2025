@@ -15,6 +15,9 @@ public class PromotionServices {
     public Integer getPromotionByUser(int userId, int proId) {
         return promotionDao.getPromotionByUser(userId, proId);
     }
+    public void updatePromotionByUser(int userId, int proId, int num) {
+        promotionDao.updatePromotionByUser(userId, proId, num);
+    }
     public void insertPromotion(Promotion promotion) {
         promotionDao.insertPromotion(promotion);
     }

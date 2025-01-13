@@ -27,6 +27,18 @@ public class PromotionDao {
                 .findOne()
                 .orElse(0));  // Trả về 0 nếu không tìm thấy
     }
+    public void updatePromotionByUser(int userId, int proId, int num) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE promotionuser SET num = :num WHERE userId = :userId AND promotionId = :proId")
+                        .bind("num", num)
+                        .bind("userId", userId)
+                        .bind("proId", proId)
+                        .execute()
+        );
+    }
+
+
     public void insertPromotion(Promotion promotion) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value) " +
