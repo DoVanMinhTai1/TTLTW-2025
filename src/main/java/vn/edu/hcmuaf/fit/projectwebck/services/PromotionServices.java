@@ -1,8 +1,4 @@
 package vn.edu.hcmuaf.fit.projectwebck.services;
-
-
-
-import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.PromotionDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 
