@@ -1,8 +1,20 @@
+<%@ page import="vn.edu.hcmuaf.fit.projectwebck.dao.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    session = request.getSession();
     String runScript = request.getParameter("runScript");
+    User user =(User) session.getAttribute("user");
+
+    if(user == null){
+        response.sendRedirect("/web/showLogin");
+        return;
+    }
+    if(user.getRole() !=1 ){
+        response.sendRedirect("/web/showHome");
+        return;
+    }
 %>
 <html>
 <head>
