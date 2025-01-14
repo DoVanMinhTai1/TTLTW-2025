@@ -6,9 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.OrderDetailServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 
 import java.io.IOException;
@@ -25,7 +29,18 @@ public class Show extends HttpServlet {
         OrderServices orderServices = new OrderServices();
         List<Order> listOrder = orderServices.getAllOrders();
         request.setAttribute("listorder", listOrder);
+        UserServices userServices = new UserServices();
+        List<User> listUser = userServices.getAllUsers();
+        request.setAttribute("listuser", listUser);
+        OrderDetailServices orderDetailServices = new OrderDetailServices();
+        List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
+        request.setAttribute("listordetail", listOrD);
 
+        double sum = 0;
+        for (OrderDetail o : listOrD) {
+            sum += o.getTotalAmount();
+        }
+        request.setAttribute("totalRevenue", sum);
         request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request, response);
     }
 
