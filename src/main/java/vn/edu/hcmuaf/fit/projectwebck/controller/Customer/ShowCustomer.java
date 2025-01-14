@@ -21,16 +21,17 @@ public class ShowCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String option = request.getParameter("option");
+        int uId =Integer.parseInt(request.getParameter("uId")) ;
         switch (option) {
             case "option1":
                 UserServices userServices = new UserServices();
-                User user = userServices.getUserById(1);
+                User user = userServices.getUserById(uId);
                 request.setAttribute("user", user);
                 request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request, response);
                 break;
             case "option2":
                 OrderServices orderServices = new OrderServices();
-                List<Order> orders = orderServices.getOrderByUserId(1);
+                List<Order> orders = orderServices.getOrderByUserId(uId);
                 for (Order order : orders) {
                     System.out.println(order.toString());
                 }
@@ -42,7 +43,7 @@ public class ShowCustomer extends HttpServlet {
                 break;
             case "option4":
                 AddressServices addressServices = new AddressServices();
-                List<Address> listAddress = addressServices.getAllById(1);
+                List<Address> listAddress = addressServices.getAllById(uId);
                 request.setAttribute("listAddress", listAddress);
                 request.getRequestDispatcher("Customer.jsp?runScript=option4").forward(request, response);
                 break;
