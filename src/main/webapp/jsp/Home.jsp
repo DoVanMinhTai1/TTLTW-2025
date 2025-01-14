@@ -32,7 +32,7 @@
     <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
       <c:choose>
         <c:when test="${not empty currentUser}">
-          <a href="CustomerPage/CustomerPage.html" style="text-decoration: none">
+          <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
             <div class="headercontendangnhap">
             ${currentUser.username}
             </div>

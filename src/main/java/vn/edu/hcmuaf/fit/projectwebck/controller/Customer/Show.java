@@ -15,8 +15,9 @@ public class Show extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int uId =Integer.parseInt(request.getParameter("uId")) ;
         UserServices userServices = new UserServices();
-        User user = userServices.getUserById(1);
+        User user = userServices.getUserById(uId);
         request.setAttribute("user", user);
         request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request,response);
 
