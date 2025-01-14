@@ -61,4 +61,7 @@ public class ProductServices {
     public List<Product> getAllFruits() {
         return productDao.getAllFruits();
     }
+    public Integer getMass(int id) {
+        return productDao.getMass(id);
+    }
 }
