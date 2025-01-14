@@ -16,7 +16,7 @@ public class showVegetables extends  HttpServlet{
         List<Product> vegetables = productService.getAllVegetables();
 
         request.setAttribute("listVegetables",vegetables);
-        request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp/Vegetables.jsp").forward(request,response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

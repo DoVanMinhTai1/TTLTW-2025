@@ -87,7 +87,7 @@
             <div class="cards">
                 <div class="card">
                     <div class="box">
-                        <h1>160</h1>
+                        <h1>${listproduct.size()}</h1>
                         <h3>Rau, củ, quả</h3>
                     </div>
                     <div class="icon-case">
@@ -96,7 +96,7 @@
                 </div>
                 <div class="card">
                     <div class="box">
-                        <h1>200</h1>
+                        <h1>${listuser.size()}</h1>
                         <h3>Người dùng</h3>
                     </div>
                     <div class="icon-case">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="card">
                     <div class="box">
-                        <h1>320</h1>
+                        <h1>${listorder.size()}</h1>
                         <h3>Đơn hàng</h3>
                     </div>
                     <div class="icon-case">
@@ -114,7 +114,7 @@
                 </div>
                 <div class="card">
                     <div class="box">
-                        <h1>3.200.000đ</h1>
+                        <h1><c:out value="${totalRevenue}"/>đ</h1>
                         <h3>Doanh thu</h3>
                     </div>
                     <div class="icon-case">
