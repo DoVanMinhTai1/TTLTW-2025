@@ -13,7 +13,7 @@ public class showLogin extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ProductServices productService = new ProductServices();
+//        ProductServices productService = new ProductServices();
 //        List<Product> productsSeller = productService.getBestSellers();
 //
 //        List<Product> products = productService.getAllHome();

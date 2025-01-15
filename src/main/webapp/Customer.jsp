@@ -40,6 +40,7 @@
         </div>
     </div>
     <div class="pathline"></div>
+    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
     <div class="CustomerPageConttent">
         <div class="Container">
             <div class="CustomerPageConttentHeader">
@@ -49,7 +50,7 @@
             </div>
             <div class="CustomerPageConttenNavigationbar">
                 <div class="NavigationbarTitle">TRANG TÀI KHOẢN</div>
-                <div class="NavigationbarHello">Xin chào, <span>Nguyễn Vỹ</span> !</div>
+                <div class="NavigationbarHello">Xin chào, <span>${currentUser.username}</span> !</div>
                 <a href="showCustomer?option=option1">
                     <div class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')">Thông tin tài
                         khoản
@@ -76,9 +77,9 @@
             <div class="CustomerPageConttenNavigationbarContent" id="CustomerPageConttenNavigationbarContent">
                 <div class="AccountInformation select">
                     <div class="AccountInformationTitle">THÔNG TIN TÀI KHOẢN</div>
-                    <div class="AccountInformationContent">Họ tên: <span>${user.fullName}</span></div>
-                    <div class="AccountInformationContent">Email: <span>${user.email}</span></div>
-                    <div class="AccountInformationContent">Điện thoại: <span>${user.phone}</span></div>
+                    <div class="AccountInformationContent">Họ tên: <span>${currentUser.fullName}</span></div>
+                    <div class="AccountInformationContent">Email: <span>${currentUser.email}</span></div>
+                    <div class="AccountInformationContent">Điện thoại: <span>${currentUser.phone}</span></div>
                 </div>
                 <div class="YourOrder select">
                     <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>
