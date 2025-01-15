@@ -121,4 +121,77 @@ public class ProductDao {
                 .mapToBean(Product.class)
                 .list());
     }
+    //paging
+    public static int getTotalProducts() {
+        Jdbi jdbi = JDBIConect.get();
+        try {
+            return jdbi.withHandle(handle ->
+                    handle.createQuery("SELECT count(*) FROM products")
+                            .mapTo(Integer.class)
+                            .one()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    public static int getTotalVegetables() {
+        Jdbi jdbi = JDBIConect.get();
+        try {
+            return jdbi.withHandle(handle ->
+                    handle.createQuery("SELECT count(*) FROM products where category = 1")
+                            .mapTo(Integer.class)
+                            .one()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public List<Product> pagingProduct(int index) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM products ORDER BY id LIMIT 50 OFFSET :offset")
+                        .bind("offset", (index - 1) * 50) // Tính toán offset
+                        .mapToBean(Product.class) // Ánh xạ kết quả vào đối tượng Product
+                        .list()
+        );
+    }
+
+    //Detail
+    public List<String> getDescription(String productId) {
+        Jdbi jdbi = JDBIConect.get();
+
+        // Lấy danh sách mô tả từ cơ sở dữ liệu
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT description FROM products WHERE id = :productId")
+                        .bind("productId", productId)
+                        .mapTo(String.class)
+                        .list()
+        );
+    }
+
+    public List<Product> getRandomRelatedProducts(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM products " +
+                                "WHERE category = (SELECT category FROM products WHERE id = :id) " +
+                                "AND id <> :id " +
+                                "ORDER BY RAND() " + // Sử dụng ORDER BY RAND() để lấy ngẫu nhiên
+                                "LIMIT 5")
+                        .bind("id", productId)
+                        .map((rs, ctx) -> {
+                            Product product = new Product();
+                            product.setId(rs.getInt("id")); // Thay đổi theo tên cột trong bảng
+                            product.setName(rs.getString("name")); // Thay đổi theo tên cột trong bảng
+                            product.setPrice(rs.getDouble("price"));
+                            product.setCategory(rs.getInt("category")); // Thay đổi theo tên cột trong bảng
+                            product.setImage(rs.getString("image"));
+                            // Thiết lập các thuộc tính khác của Product nếu có
+                            return product;
+                        })
+                        .list()
+        );
+    }
 }
