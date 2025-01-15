@@ -16,6 +16,32 @@ public class OrderDao {
                 .mapToBean(Order.class)
                 .list());
     }
+    //Lấy đơn hàng gần nhất
+    public List<Map<String, Object>> getLatestOrders() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT u.username, p.name, od.totalamount FROM orders o JOIN orderdetail od ON " +
+                                "o.id = od.orderId JOIN products p ON p.id = od.productId JOIN users u ON u.id = o.userId " +
+                                "ORDER BY o.dateOfBooking " +
+                                "DESC LIMIT 8")
+                        .mapToMap() // Ánh xạ kết quả thành Map
+                        .list()
+        );
+    }
+
+    //lấy người dùng mua nhiều trong tháng
+    public List<Map<String, Object>> getCustomer() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("select u.username, count(o.userId) as SOLANMUAHANG from orders o join users u on o.userId = u.id\n" +
+                                "where MONTH(o.dateOfBooking) = MONTH(CURRENT_DATE()) and YEAR(o.dateOfBooking) = YEAR(CURRENT_DATE())\n" +
+                                "group by u.username\n" +
+                                "order by SOLANMUAHANG desc\n" +
+                                "limit 4")
+                        .mapToMap() // Ánh xạ kết quả thành Map
+                        .list()
+        );
+    }
 
 //     Lấy đơn hàng theo ID
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
