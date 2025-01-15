@@ -15,6 +15,12 @@ public class showFruits extends  HttpServlet{
         ProductServices productService = new ProductServices();
         List<Product> fruits = productService.getAllFruits();
 
+        if (request.getAttribute("listFruits") != null) {
+            fruits = (List<Product>) request.getAttribute("listFruits");
+        } else {
+            fruits = productService.getAllFruits(); // Lấy danh sách sản phẩm từ database
+        }
+
         request.setAttribute("listFruits",fruits);
         request.getRequestDispatcher("jsp/Fruits.jsp").forward(request,response);
     }
