@@ -61,4 +61,14 @@ public class ProductServices {
     public List<Product> getAllFruits() {
         return productDao.getAllFruits();
     }
+    //paging
+    public static int getTotalProducts() { return productDao.getTotalProducts(); }
+
+    public static int getTotalVegetables() { return productDao.getTotalVegetables(); }
+
+    public List<Product> pagingProduct(int index) { return productDao.pagingProduct(index); }
+
+    //detail
+    public List<String> getDescription(String productId){return productDao.getDescription(productId);}
+    public List<Product> getRandomRelatedProducts(int productId) {return productDao.getRandomRelatedProducts(productId);}
 }
