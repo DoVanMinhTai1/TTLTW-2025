@@ -17,6 +17,7 @@ import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ListProduct", value = "/showAdmin")
 public class Show extends HttpServlet {
@@ -36,6 +37,13 @@ public class Show extends HttpServlet {
         List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
         request.setAttribute("listordetail", listOrD);
 
+        //show order
+//        List<Order> listLatestOrders = orderServices.getLatestOrders();
+        List<Map<String, Object>> listLatestOrders = orderServices.getLatestOrders();
+        request.setAttribute("listlatestorders", listLatestOrders);
+
+        List<Map<String, Object>> buyCustomer = orderServices.getCustomer();
+        request.setAttribute("listCustomer", buyCustomer);
         double sum = 0;
         for (OrderDetail o : listOrD) {
             sum += o.getTotalAmount();

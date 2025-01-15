@@ -1638,9 +1638,7 @@ function  btnclick(){
 }
 // Hàm đăng xuất
 function logout() {
-    alert('Bạn đã đăng xuất!');
-    window.location.href = "../signIn&Up/index.html"
-    // Thêm logic đăng xuất tại đây
+    window.location.href = '/logout';
 }
 //xem chi tiet
 function viewDetail(select){
