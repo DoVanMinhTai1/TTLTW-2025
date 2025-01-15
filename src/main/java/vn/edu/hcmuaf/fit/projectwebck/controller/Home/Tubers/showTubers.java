@@ -15,6 +15,12 @@ public class showTubers extends  HttpServlet{
         ProductServices productService = new ProductServices();
         List<Product> tubers = productService.getAllTubers();
 
+        if (request.getAttribute("listTubers") != null) {
+            tubers = (List<Product>) request.getAttribute("listTubers");
+        } else {
+            tubers = productService.getAllTubers(); // Lấy danh sách sản phẩm từ database
+        }
+
         request.setAttribute("listTubers",tubers);
         request.getRequestDispatcher("jsp/Tubers.jsp").forward(request,response);
     }
