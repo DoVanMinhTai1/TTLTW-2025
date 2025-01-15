@@ -93,6 +93,9 @@
                     <li data-value="Giá tăng dần" data-link="allProduct-asc.html">Giá tăng dần</li>
                 </ul>
             </div>
+            <form id="sortForm" action="sortTubers" method="GET" style="display:none;">
+                <input type="hidden" name="sortProduct" value="" id="sortProductInput">
+            </form>
         </div>
     </div>
     <div class="headline-listProduct">
@@ -195,12 +198,14 @@
         item.addEventListener("click", function () {
             // Lấy giá trị của mục được chọn
             const selectedValue = this.getAttribute("data-value");
-            const link = this.getAttribute("data-link");
             // Thay đổi nội dung trong nút
             document.getElementById("selected-option").textContent = selectedValue;
-            if(link){
-                window.location.href=link;
-            }
+
+            // Gán giá trị vào trường ẩn
+            document.getElementById("sortProductInput").value = selectedValue;
+
+            // Gửi form tới servlet
+            document.getElementById("sortForm").submit();
             // Ẩn menu thả xuống sau khi chọn
             document.querySelector(".drop-menu").classList.remove("show");
         });
@@ -217,6 +222,11 @@
         if (!option.contains(event.target) && !menu.contains(event.target)) {
             menu.classList.remove("show");
         }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectedValue = "${param.sortProduct != null ? param.sortProduct : 'Mặc định'}";
+        document.getElementById("selected-option").textContent = selectedValue;
+        document.getElementById("sortProductInput").value = selectedValue; // Cập nhật giá trị input
     });
 </script>
 </html>
