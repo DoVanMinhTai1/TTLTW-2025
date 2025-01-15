@@ -32,7 +32,7 @@
     <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
       <c:choose>
         <c:when test="${not empty currentUser}">
-          <a href="CustomerPage/CustomerPage.html" style="text-decoration: none">
+          <a href="Customer.jsp" style="text-decoration: none">
             <div class="headercontendangnhap">
             ${currentUser.username}
             </div>
@@ -262,7 +262,7 @@
     });
   })
   $('#more').click(function () {
-    window.location.href = "allProduct.html";
+    window.location.href = "showAll";
   });
 
 </script>

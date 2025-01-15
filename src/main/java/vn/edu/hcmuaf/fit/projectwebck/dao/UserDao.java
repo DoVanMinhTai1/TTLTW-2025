@@ -75,6 +75,8 @@ public class UserDao {
                 .list());
     }
 
+    //login
+
     public User login(String username, String password) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE username = :username AND password = :password")

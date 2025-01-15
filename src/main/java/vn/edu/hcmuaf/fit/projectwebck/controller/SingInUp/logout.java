@@ -11,11 +11,13 @@ import java.io.IOException;
 public class logout extends HttpServlet { 
 
 @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    HttpSession session = request.getSession();
+    HttpSession session = request.getSession(false);
     if(session!=null){
         session.invalidate();
     }
+    response.setStatus(HttpServletResponse.SC_OK);
     response.sendRedirect("showLogin");
 }
-@Override protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { } 
+@Override protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+
 }
