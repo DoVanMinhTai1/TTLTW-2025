@@ -22,7 +22,6 @@ public class ApplyPromotion extends HttpServlet {
         double total = Double.parseDouble(request.getParameter("total"));
         PromotionServices promotionServices = new PromotionServices();
         Integer value = promotionServices.getPromotionByUser(1, code);
-
         Map<String, Object> result = new HashMap<>();
         if (value == 0) {
             result.put("status", "error");
