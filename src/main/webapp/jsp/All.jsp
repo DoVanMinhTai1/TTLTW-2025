@@ -88,18 +88,21 @@
             </button>
             <div class="drop-menu">
                 <ul class="dropdown-menu">
-                    <li data-value="Mặc định" data-link="allProduct.html"  >Mặc định</li>
+                    <li data-value="Mặc định" data-link="allProduct.html">Mặc định</li>
                     <li data-value="Giá giảm dần" data-link="allProduct-desc.html">Giá giảm dần</li>
-                    <li data-value="Giá tăng dần" data-link="allProduct-asc.html">Giá tăng dần</li>
+                    <li data-value="Giá tăng dần">Giá tăng dần</li>
                 </ul>
             </div>
+            <form id="sortForm" action="sort" method="GET" style="display:none;">
+                <input type="hidden" name="sortProduct" value="" id="sortProductInput">
+            </form>
         </div>
     </div>
     <div class="headline-listProduct">
         <h3>DANH SÁCH SẢN PHẨM</h3>
     </div>
     <ul class="products">
-        <c:forEach var="p" items="${listProduct}">
+        <c:forEach var="p" items="${listPaging}">
             <li>
                 <div class="product-item">
                     <div class="product-top">
@@ -120,17 +123,12 @@
     </ul>
     <div class="button-more">
         <ul class="more-product">
+            <c:forEach begin ="1" end = "${endPage}" var="i">
             <li>
-                <button class="btn-1">1</button>
+                <button class="btn-1" type="button" onclick="location.href='showAll?index=${i}'">${i}</button>
             </li>
-            <li><a href="allProduct-page2.html"><button class="btn-2" >2</button> </a>
+            </c:forEach>
 
-            </li>
-            <li>
-                <a href="allProduct-page3.html">
-                    <button class="btn-3">3</button>
-                </a>
-            </li>
         </ul>
     </div>
 </div>
@@ -210,12 +208,14 @@
         item.addEventListener("click", function () {
             // Lấy giá trị của mục được chọn
             const selectedValue = this.getAttribute("data-value");
-            const link = this.getAttribute("data-link");
             // Thay đổi nội dung trong nút
             document.getElementById("selected-option").textContent = selectedValue;
-            if(link){
-                window.location.href=link;
-            }
+
+            // Gán giá trị vào trường ẩn
+            document.getElementById("sortProductInput").value = selectedValue;
+
+            // Gửi form tới servlet
+            document.getElementById("sortForm").submit();
             // Ẩn menu thả xuống sau khi chọn
             document.querySelector(".drop-menu").classList.remove("show");
         });
@@ -232,6 +232,11 @@
         if (!option.contains(event.target) && !menu.contains(event.target)) {
             menu.classList.remove("show");
         }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectedValue = "${param.sortProduct != null ? param.sortProduct : 'Mặc định'}";
+        document.getElementById("selected-option").textContent = selectedValue;
+        document.getElementById("sortProductInput").value = selectedValue; // Cập nhật giá trị input
     });
 </script>
 </html>
