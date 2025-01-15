@@ -15,7 +15,10 @@ public class OrderServices {
     public List<Order> getAllOrders() {
         return orderDao.getAllOrders();
     }
-
+    //Admin, lấy đơn hàng gần đây
+    public List<Map<String, Object>> getLatestOrders() {return orderDao.getLatestOrders();}
+    //Admin, lấy người dùng mua nhiều nhất trong tháng
+    public List<Map<String, Object>> getCustomer() {return orderDao.getCustomer();}
     // Lấy đơn hàng theo ID
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         return orderDao.getOrderDetailsByOrderId(orderId);
