@@ -6,6 +6,8 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "showDetail", value = "/showDetail")
@@ -16,6 +18,30 @@ public class showDetail extends  HttpServlet{
         ProductServices productService= new ProductServices();
         Product detail = productService.getDetail(id);
         request.setAttribute("p",detail);
+
+        // Lấy mô tả sản phẩm
+        List<String> descriptions = productService.getDescription(id);
+        List<String> sentences = new ArrayList<>();
+
+        // Kiểm tra nếu mô tả không rỗng
+        if (descriptions != null && !descriptions.isEmpty()) {
+            for (String description : descriptions) {
+                if (description != null) { // Kiểm tra null trước khi cắt
+                    String[] splitSentences = description.split("\\.\\s*");
+                    Collections.addAll(sentences, splitSentences);
+                } else {
+                    sentences.add("Không có mô tả nào."); // Thêm thông báo nếu description là null
+                }
+            }
+        } else {
+            sentences.add("Không có mô tả nào.");
+        }
+
+        //lay ngau nhien 5sp
+        List<Product> relatedProducts= productService.getRandomRelatedProducts(Integer.parseInt(id));
+
+        request.setAttribute("sentences", sentences);
+        request.setAttribute("relatedProducts",relatedProducts);
         request.getRequestDispatcher("jsp/Detail.jsp").forward(request,response);
     }
     @Override

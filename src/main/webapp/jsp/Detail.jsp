@@ -75,13 +75,12 @@
     </ul>
 </div>
 <main id="main-detail">
-    var ="p" item = ${p}
     <div class="headline-detail">
         <a href="/web/showHome" class="navigationBarHome">Trang Chủ</a>
         <span class="navigationBar/">/</span>
-        <a href="fruit.html" class="navigationBarHome">Quả</a>
+        <a href="fruit.html" class="navigationBarHome">${p.category}</a>
         <span class="navigationBar/">/</span>
-        <span class="navigationBarType">Quả Bí Đao</span>
+        <span class="navigationBarType">${p.name}</span>
     </div>
     <div class="detail-product">
         <div class="detail-left">
@@ -89,20 +88,20 @@
                 <div class="main-image">
                     <ul>
                         <li>
-                            <img src="Img/bi_dao.webp">
+                            <img src="${p.image}">
                         </li>
                     </ul>
                 </div>
                 <div class="bounder">
                     <ul class="img-describe">
                         <li>
-                            <img src="Img/bi_dao.webp">
+                            <img src="${p.image}">
                         </li>
                         <li>
-                            <img src="Img/bi_dao_2.webp">
+                            <img src="${p.image}">
                         </li>
                         <li>
-                            <img src="Img/bi_dao_3.jpg">
+                            <img src="${p.image}">
                         </li>
                     </ul>
                 </div>
@@ -110,39 +109,40 @@
         </div>
         <div class="detail-right">
             <div class="detail-headline">
-                <h3>Quả Bí Đao</h3>
+                <h3>${p.name}</h3>
             </div>
             <div class="detail-price">
-                <h4>30.000đ</h4>
+                <h4><f:formatNumber value="${p.price}"/>đ</h4>
             </div>
             <div class="summary-detail-describeContent">
-                <h6>
-                    <i class="fa-solid fa-clover"></i>
-                    Bí đao có hàm lượng vitamin B2 rất cao, tăng lượng B2 giúp làm giảm nguy cơ rối loạn mắt.
-                    Ngoài ra, các chất chống oxy hóa có trong bí đao giúp giảm stress oxy hóa ở võng mạc và giảm nguy cơ thoái hóa điểm vàng.</h6>
-                <h6>
-                    <i class="fa-solid fa-clover"></i>
-                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>
-                <h6>
-                    <i class="fa-solid fa-clover"></i>
-                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>
+                <c:if test="${not empty sentences}">
+                    <c:forEach var="sentence" items="${sentences}">
+                        <h6>
+                            <i class="fa-solid fa-clover"></i>
+                            <c:out value="${sentence}"/>
+                        </h6>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty sentences}">
+                    <h6>
+                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.
+                    </h6>
+                </c:if>
+<%--                <h6>--%>
+<%--                    <i class="fa-solid fa-clover"></i>--%>
+<%--                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>--%>
+<%--                <h6>--%>
+<%--                    <i class="fa-solid fa-clover"></i>--%>
+<%--                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>--%>
             </div>
             <div class="main-bottom">
                 <div class="size-bounder">
                     <div class="option">
-                        <span>Kích thước</span>
+                        <span>Khối Lượng</span>
                         <div class="btn-choose">
-                            <button>500g</button>
+<%--                            <button>500g</button>--%>
                             <button>1 kg</button>
                         </div>
-                    </div>
-                    <div class="quantity-picker">
-                        <div class="pick">
-                            <button class="btn minus">-</button>
-                            <span class="quantity">1</span>
-                            <button class="btn plus">+</button>
-                        </div>
-                        <span class="status">Còn hàng</span>
                     </div>
                 </div>
                 <div class="btn-bounder">
@@ -182,86 +182,26 @@
             <h3>Sản Phẩm Liên Quan</h3>
         </div>
         <ul class="products">
-            <li>
-                <div class="product-item">
-                    <div class="product-top">
-                        <a href="" class="product-thumb">
-                            <img src="images/ot_xanh.jpg" alt=""/>
-                        </a>
-                        <!--xem ngay-->
-                        <a href="" class="buy-now">Xem ngay</a>
+            <c:forEach var="pr" items="${relatedProducts}">
+                <li>
+                    <div class="product-item">
+                        <div class="product-top">
+                            <a href="showDetail?id=${pr.id}" class="product-thumb">
+                                <img src="${pageContext.request.contextPath}/${pr.image}">
+
+                            </a>
+                            <!--xem ngay-->
+                            <a href="showDetail?id=${pr.id}" class="buy-now">Xem ngay</a>
+                        </div>
+                        <div class="product-info">
+                            <a href="" class="product-cat">${p.category}</a>
+                            <a href="showDetail?id=${pr.id}" class="product-name">${pr.name}</a>
+                            <div class="product-price">${pr.price}đ</div>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat">Quả</a>
-                        <a href="" class="product-name">Ớt Xanh</a>
-                        <div class="product-price">7.000đ</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="product-item">
-                    <div class="product-top">
-                        <a href="" class="product-thumb">
-                            <img src="images/su_su.jpg" alt=""/>
-                        </a>
-                        <!--xem ngay-->
-                        <a href="" class="buy-now">Xem ngay</a>
-                    </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat">Quả</a>
-                        <a href="" class="product-name">Su Su</a>
-                        <div class="product-price">20.000đ</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="product-item">
-                    <div class="product-top">
-                        <a href="" class="product-thumb">
-                            <img src="images/ot_chuong.webp" alt=""/>
-                        </a>
-                        <!--xem ngay-->
-                        <a href="" class="buy-now">Xem ngay</a>
-                    </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat">Quả</a>
-                        <a href="" class="product-name"Ớt Chuông</a>
-                        <div class="product-price">30.000đ</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="product-item">
-                    <div class="product-top">
-                        <a href="" class="product-thumb">
-                            <img src="images/ot_ba_tri.jpg" alt="" />
-                        </a>
-                        <!--xem ngay-->
-                        <a href="" class="buy-now">Xem ngay</a>
-                    </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat">Quả</a>
-                        <a href="" class="product-name">Ớt Ba Tri</a>
-                        <div class="product-price">25.000đ</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="product-item">
-                    <div class="product-top">
-                        <a href="" class="product-thumb">
-                            <img src="images/bi_do_huu_co.webp" alt=""/>
-                        </a>
-                        <!--xem ngay-->
-                        <a href="" class="buy-now">Xem ngay</a>
-                    </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat">Quả</a>
-                        <a href="" class="product-name">Bí Đỏ</a>
-                        <div class="product-price">15.000đ</div>
-                    </div>
-                </div>
-            </li>
+                </li>
+            </c:forEach>
+
         </ul>
     </div>
 </main>
