@@ -71,10 +71,12 @@
                 <div class="img-case">
                     <ul>
                         <li>
-                            <img src="Img/user.png" alt="" class="admin-avatar" onclick="btnclick()">
-                            <div class="dropdown-menu">
-                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>
-                            </div>
+                            <a href="/web/logout">
+                            <img src="Img/power.png" alt="" class="admin-avatar">
+<%--                            <div class="dropdown-menu">--%>
+<%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
+<%--                            </div>--%>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -126,73 +128,67 @@
                 <div class="recent-payments">
                     <div class="title_Dashboar">
                         <h2>Đơn hàng gần đây</h2>
-                        <button class="btn" id="btn1" onclick="btnClick('btn2')">Xem Tất Cả</button>
                     </div>
                     <table>
                         <tr>
                             <th>Người dùng</th>
                             <th>Rau Củ Quả</th>
                             <th>Thành Tiền</th>
-                            <th>Lựa Chọn</th>
                         </tr>
-                        <tr>
-                            <td>thungan584</td>
-                            <td>Quả Bí Đao</td>
-                            <td>30.000đ</td>
-                            <td><a href="#" class="btn">Xem</a></td>
-                        </tr>
-                        <tr>
-                            <td>thungan584</td>
-                            <td>Quả Bí Đao</td>
-                            <td>30.000đ</td>
-                            <td><a href="#" class="btn">Xem</a></td>
-                        </tr>
-                        <tr>
-                            <td>thungan584</td>
-                            <td>Quả Bí Đao</td>
-                            <td>30.000đ</td>
-                            <td><a href="#" class="btn">Xem</a></td>
-                        </tr>
-                        <tr>
-                            <td>thungan584</td>
-                            <td>Quả Bí Đao</td>
-                            <td>30.000đ</td>
-                            <td><a href="#" class="btn">Xem</a></td>
-                        </tr>
-                        <tr>
-                            <td>thungan584</td>
-                            <td>Quả Bí Đao</td>
-                            <td>30.000đ</td>
-                            <td><a href="#" class="btn">Xem</a></td>
-                        </tr>
+<%--                        <c:forEach var="o" items="${listlatestorders}">--%>
+<%--                            <tr>--%>
+<%--                                <td>${o.get}</td>--%>
+<%--                                <td>Quả Bí Đao</td>--%>
+<%--                                <td>30.000đ</td>--%>
+<%--                                <td><a href="#" class="btn">Xem</a></td>--%>
+<%--                            </tr>--%>
+<%--                        </c:forEach>--%>
+
+                        <c:choose>
+                            <c:when test="${not empty listlatestorders}">
+                                <c:forEach var="summary" items="${listlatestorders}">
+                                    <tr>
+                                        <td>${summary.username}</td>
+                                        <td>${summary.name}</td>
+                                        <td>${summary.totalamount}</td>
+<%--                                        <td><a href="#" class="btn">Xem</a></td>--%>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="3">No order summaries found.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </table>
                 </div>
                 <div class="new-users">
                     <div class="title_Dashboar">
-                        <h2>Người dùng</h2>
-                        <button class="btn" id="btn2" onclick="btnClick('btn1')">Xem Tất Cả</button>
+                        <h2>Người dùng mua nhiều</h2>
                     </div>
                     <table>
                         <tr>
                             <th>Tài khoản</th>
                             <th>Tên</th>
-                            <th>Lựa chọn</th>
                         </tr>
-                        <tr>
-                            <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
-                            <td>thungan584</td>
-                            <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>
-                        </tr>
-                        <tr>
-                            <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
-                            <td>thungan584</td>
-                            <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>
-                        </tr>
-                        <tr>
-                            <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
-                            <td>thungan584</td>
-                            <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty listCustomer}">
+                                <c:forEach var="conclusion" items="${listCustomer}">
+                                    <tr>
+                                        <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
+                                        <td>${conclusion.username}</td>
+<%--                                        <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>--%>
+
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="3">No order summaries found.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </table>
                 </div>
             </div>
