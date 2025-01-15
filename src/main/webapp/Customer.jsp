@@ -23,7 +23,7 @@
 <div class="CustomerPage">
     <div class="Header">
         <div class="Container">
-            <a href="../home.html"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+            <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                                         style="width: 150px"></a>
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
             <i class="fas fa-phone"></i>
@@ -40,7 +40,6 @@
         </div>
     </div>
     <div class="pathline"></div>
-    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
     <div class="CustomerPageConttent">
         <div class="Container">
             <div class="CustomerPageConttentHeader">
@@ -56,20 +55,20 @@
                         khoản
                     </div>
                 </a>
-                <a href="showCustomer?option=option2">
+                <a href="showCustomer?option=option2&uId=${sessionScope.user.id}">
                     <div class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')">Đơn hàng của
                         bạn
                     </div>
                 </a>
-                <a href="showCustomer?option=option3">
+                <a href="showCustomer?option=option3&uId=${sessionScope.user.id}">
                     <div class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')">Đổi mật khẩu
                     </div>
                 </a>
-                <a href="showCustomer?option=option4">
+                <a href="showCustomer?option=option4&uId=${sessionScope.user.id}">
                     <div class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')">Sổ địa chỉ
                     </div>
                 </a>
-                <a href="showCustomer?option=option5">
+                <a href="showCustomer?option=option5&uId=${sessionScope.user.id}">
                     <div class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')">Đăng xuất
                     </div>
                 </a>
@@ -77,9 +76,9 @@
             <div class="CustomerPageConttenNavigationbarContent" id="CustomerPageConttenNavigationbarContent">
                 <div class="AccountInformation select">
                     <div class="AccountInformationTitle">THÔNG TIN TÀI KHOẢN</div>
-                    <div class="AccountInformationContent">Họ tên: <span>${currentUser.fullName}</span></div>
-                    <div class="AccountInformationContent">Email: <span>${currentUser.email}</span></div>
-                    <div class="AccountInformationContent">Điện thoại: <span>${currentUser.phone}</span></div>
+                    <div class="AccountInformationContent">Họ tên: <span>${user.fullName}</span></div>
+                    <div class="AccountInformationContent">Email: <span>${user.email}</span></div>
+                    <div class="AccountInformationContent">Điện thoại: <span>${user.phone}</span></div>
                 </div>
                 <div class="YourOrder select">
                     <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>

@@ -1,26 +1,19 @@
-package vn.edu.hcmuaf.fit.projectwebck.controller.Customer;
+package vn.edu.hcmuaf.fit.projectwebck.controller.Cart;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
-import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.IOException;
 
-@WebServlet(name = "ShowCustomerPage", value = "/showCustomerPage")
+@WebServlet(name = "ShowCart", value = "/ShowCart")
 public class Show extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int uId =Integer.parseInt(request.getParameter("uId")) ;
-        UserServices userServices = new UserServices();
-        User user = userServices.getUserById(uId);
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request,response);
-
+        request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
     }
 
     @Override

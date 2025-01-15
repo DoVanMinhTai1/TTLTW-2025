@@ -121,6 +121,14 @@ public class ProductDao {
                 .mapToBean(Product.class)
                 .list());
     }
+    public Integer getMass(int id) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT mass FROM products WHERE id = :id")
+                .bind("id", id)
+                .mapTo(Integer.class)
+                .one());
+    }
+
     //paging
     public static int getTotalProducts() {
         Jdbi jdbi = JDBIConect.get();
