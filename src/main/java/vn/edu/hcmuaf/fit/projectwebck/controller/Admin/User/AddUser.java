@@ -49,6 +49,7 @@ public class AddUser extends HttpServlet {
         userServices.insertUser(user);
         List<User> listUser = userServices.getAllUsers();
         request.setAttribute("listuser",listUser);
+        request.setAttribute("message", "Thêm user thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
     }
 

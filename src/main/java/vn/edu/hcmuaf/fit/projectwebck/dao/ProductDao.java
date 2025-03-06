@@ -15,7 +15,7 @@ public class ProductDao {
 
     public List<Product> getAll() {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("select * from products")
+        return jdbi.withHandle(handle -> handle.createQuery("select * from products order by id desc")
                 .mapToBean(Product.class)
                 .list());
     }
@@ -80,13 +80,13 @@ public class ProductDao {
     public List<Product> getBestSellers() {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery(
-                "select p.image, p.category, p.name, p.price, count(od.id) as SLB " +
-                        "from products p join  orderdetail od on p.id = od.productID " +
-                        "join orders o on od.orderId = o.id " +
-                        "where o.dateOfBooking = CURRENT_DATE() " +
-                        "group by p.image, p.category, p.name, p.price " +
-                        "order by SLB desc "+
-                        "limit 8")
+                        "select p.id, p.image, p.category, p.name, p.price, count(od.id) as SLB " +
+                                "from products p join orderdetail od on p.id = od.productID " +
+                                "join orders o on od.orderId = o.id " +
+                                "where o.dateOfBooking = CURRENT_DATE() " +
+                                "group by p.id, p.image, p.category, p.name, p.price " +
+                                "order by SLB desc " +
+                                "limit 8")
                 .mapToBean(Product.class)
                 .list());
     }

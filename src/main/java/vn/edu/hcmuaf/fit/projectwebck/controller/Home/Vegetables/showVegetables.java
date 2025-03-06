@@ -13,21 +13,36 @@ public class showVegetables extends  HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductServices productService = new ProductServices();
-        List<Product> vegetables = productService.getAllVegetables();
+        String indexPage = request.getParameter("index");
 
-        if (request.getAttribute("listVegetables") != null) {
-            vegetables = (List<Product>) request.getAttribute("listVegetables");
+        if (indexPage == null) {
+            indexPage = "1"; // Mặc định chỉ số trang là 1
+        }
+        int index = Integer.parseInt(indexPage);
+
+
+        List<Product> products;
+        if (request.getAttribute("listPaging") != null) {
+            products = (List<Product>) request.getAttribute("listPaging");
         } else {
-            vegetables = productService.getAllVegetables(); // Lấy danh sách sản phẩm từ database
+            products = productService.getAllVegetables(); // Nếu không có, lấy tất cả rau
         }
 
         int count = productService.getTotalVegetables();
         int productsPerPage = 50; // Số sản phẩm trên mỗi trang
         int endPage = (int) Math.ceil((double) count / productsPerPage);
 
-        request.setAttribute("endPage", endPage);
+        int fromIndex = (index - 1) * productsPerPage;
+        int toIndex = Math.min(fromIndex + productsPerPage, products.size());
+        List<Product> list = products.subList(fromIndex, toIndex);
 
-        request.setAttribute("listVegetables",vegetables);
+        // Lưu giá trị sortProduct về request để hiển thị trên giao diện
+        String sortProduct = request.getParameter("sortProduct");
+        request.setAttribute("sortProduct", sortProduct);
+
+        request.setAttribute("listPaging", list);
+        request.setAttribute("endPage", endPage);
+//        request.setAttribute("listProduct", products);
         request.getRequestDispatcher("jsp/Vegetables.jsp").forward(request,response);
     }
     @Override

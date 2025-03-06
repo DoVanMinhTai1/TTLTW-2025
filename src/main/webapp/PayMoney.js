@@ -1,6 +1,6 @@
-async function discount(total) {
+async function discount(total,userId) {
     var discountCode = document.getElementById("DiscountCode").value;
-    const response = await fetch(`/ProjectWebCK_war_exploded/applyPromotion?total=${total}&discountCode=${discountCode}`);
+    const response = await fetch(`/web/applyPromotion?total=${total}&discountCode=${discountCode}&uId=${userId}`);
     const valueProvisional = await response.json();
     if (valueProvisional.status === "success") {
         alert(valueProvisional.message);  // Thông báo "Áp mã thành công"
@@ -59,7 +59,7 @@ async function order(userId, addressId, total) {
     console.log(userId);
     console.log(addressId);
     console.log(total);
-    const response = await fetch(`/ProjectWebCK_war_exploded/addOrder`, {
+    const response = await fetch(`/web/addOrder`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -85,7 +85,8 @@ async function order(userId, addressId, total) {
         newAddress.style.display = "block";
 
     } else {
-        console.error("Lỗi từ server:", response.status);
-        alert("Đặt hàng thất bại!");
+        const errorResponse = await response.json();
+        console.error("Lỗi từ server:", errorResponse);
+        alert(`Đặt hàng thất bại: ${errorResponse.message || "Lỗi không xác định."}`);
     }
 }

@@ -19,15 +19,16 @@ public class ApplyPromotion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int code = Integer.parseInt(request.getParameter("discountCode"));
+        int userId = Integer.parseInt(request.getParameter("uId"));
         double total = Double.parseDouble(request.getParameter("total"));
         PromotionServices promotionServices = new PromotionServices();
-        Integer value = promotionServices.getPromotionByUser(1, code);
+        Integer value = promotionServices.getPromotionByUser(userId, code);
         Map<String, Object> result = new HashMap<>();
         if (value == 0) {
             result.put("status", "error");
             result.put("message", "Mã khuyến mãi không tồn tại");
         } else {
-            promotionServices.updatePromotionByUser(1,code,value--);
+            promotionServices.updatePromotionByUser(userId,code,value--);
             double discountValue = value / 100.0;
             double totalAmount = total - (total * discountValue);
             result.put("status", "success");

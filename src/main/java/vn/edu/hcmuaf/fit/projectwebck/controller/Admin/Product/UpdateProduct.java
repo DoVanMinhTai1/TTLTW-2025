@@ -54,21 +54,10 @@ public class UpdateProduct extends HttpServlet {
         } else {
             imagePath = saveProductImage(request, productImagePart);
         }
-
         try {
             // Chuyển đổi giá trị đầu vào
             double price = Double.parseDouble(priceStr);
             double mass = Double.parseDouble(massStr);
-
-            if (category.equals("Rau")) {
-                category = "1";
-            } else if (category.equals("Củ")) {
-                category = "2";
-            } else if (category.equals("Quả")) {
-                category = "3";
-            } else {
-                throw new IllegalArgumentException("Invalid category provided: " + category);
-            }
             int categoryId = Integer.parseInt(category);
 
 
@@ -86,10 +75,11 @@ public class UpdateProduct extends HttpServlet {
             service.updateProduct(productUpdate);
             List<Product> products = service.getAll();
             request.setAttribute("listproduct", products);
+            request.setAttribute("message", "Cập nhật sản phẩm thành công");
             request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid number format for price, mass, or category.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("message", "Cập nhật sản phẩm không thành công");
+            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
         }
     }
 

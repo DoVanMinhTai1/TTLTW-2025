@@ -43,10 +43,8 @@ public class AddPromotion extends HttpServlet {
         // Retrieve the updated list of promotions
         List<Promotion> listPromotion = promotionServices.getAllPromotion();
         request.setAttribute("listpromotion", listPromotion);
-
+        request.setAttribute("message", "Thêm khuyến mãi thành công");
         // Forward to the Admin page with the appropriate script to load
         request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request, response);
-
-
     }
 }

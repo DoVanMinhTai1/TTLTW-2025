@@ -24,7 +24,7 @@
   <div class="container1">
     <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                              style="width: 150px"></a>
-    <form action="" id="search-box10">
+    <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">
       <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
     </form>
     <i class="fas fa-phone"></i>
@@ -32,7 +32,7 @@
     <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
       <c:choose>
         <c:when test="${not empty currentUser}">
-          <a href="Customer.jsp" style="text-decoration: none">
+          <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
             <div class="headercontendangnhap">
             ${currentUser.username}
             </div>
@@ -138,14 +138,35 @@
           <li>
             <div class="product-item">
               <div class="product-top">
-                <a href="" class="product-thumb">
+                <a href="showDetail?id=${p.id}" class="product-thumb">
                   <img src="${p.image}" alt=""/>
                 </a>
                 <!--xem ngay-->
                 <a href="detailProduct?id=${p.id}" class="buy-now">Xem ngay</a>
               </div>
               <div class="product-info">
-                <a href="" class="product-cat">${p.category}</a>
+                <c:set var="categoryHref">
+                  <c:choose>
+                    <c:when test="${p.category == 1}">/web/showVegetables</c:when>
+                    <c:when test="${p.category == 2}">/web/showTubers</c:when>
+                    <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                    <c:otherwise>/khong-xac-dinh</c:otherwise>
+                  </c:choose>
+                </c:set>
+                <a href="${categoryHref}" class="product-cat"> <c:choose>
+                  <c:when test="${p.category == 1}">
+                    Rau
+                  </c:when>
+                  <c:when test="${p.category == 2}">
+                    Củ
+                  </c:when>
+                  <c:when test="${p.category == 3}">
+                    Quả
+                  </c:when>
+                  <c:otherwise>
+                    Không xác định
+                  </c:otherwise>
+                </c:choose></a>
                 <a href="" class="product-name">${p.name}</a>
                 <div class="product-price">${p.price}đ</div>
               </div>
@@ -175,7 +196,28 @@
               <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
             </div>
             <div class="product-info">
-              <a href="" class="product-cat">${p.category}</a>
+              <c:set var="categoryHref">
+                <c:choose>
+                  <c:when test="${p.category == 1}">/web/showVegetables</c:when>
+                  <c:when test="${p.category == 2}">/web/showTubers</c:when>
+                  <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                  <c:otherwise>/khong-xac-dinh</c:otherwise>
+                </c:choose>
+              </c:set>
+              <a href="${categoryHref}" class="product-cat"> <c:choose>
+                <c:when test="${p.category == 1}">
+                  Rau
+                </c:when>
+                <c:when test="${p.category == 2}">
+                  Củ
+                </c:when>
+                <c:when test="${p.category == 3}">
+                  Quả
+                </c:when>
+                <c:otherwise>
+                  Không xác định
+                </c:otherwise>
+              </c:choose></a>
               <a href="showDetail?id=${p.id}" class="product-name">${p.name}</a>
               <div class="product-price">${p.price}đ</div>
             </div>

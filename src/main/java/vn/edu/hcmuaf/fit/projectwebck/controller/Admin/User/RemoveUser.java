@@ -22,6 +22,7 @@ public class RemoveUser extends HttpServlet {
         userServices.removeUser(uid);
         List<User> listUser = userServices.getAllUsers();
         request.setAttribute("listuser",listUser);
+        request.setAttribute("message", "Xóa user thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
     }
 

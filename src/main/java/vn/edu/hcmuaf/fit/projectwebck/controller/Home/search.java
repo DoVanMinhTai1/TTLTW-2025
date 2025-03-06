@@ -9,12 +9,12 @@ import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "searchProduct", value = "/searchProduct")
-public class searchProduct extends HttpServlet {
+@WebServlet(name = "search", value = "/search")
+public class search extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("name"); // Lấy từ khóa tìm kiếm từ request
+        String keyword = request.getParameter("search"); // Lấy từ khóa tìm kiếm từ request
         ProductServices productServices = new ProductServices();
 
         // Tìm kiếm sản phẩm theo tên

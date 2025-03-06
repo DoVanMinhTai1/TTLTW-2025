@@ -31,7 +31,7 @@ public class Add extends HttpServlet {
 
         session.setAttribute("total", cart.getTotal());
 //        them tong tien vao session
-        response.sendRedirect("detailProduct?addCart=ok");
+        response.sendRedirect("showDetail?addCart=ok&id="+pid.getId());
     }
 
     @Override
