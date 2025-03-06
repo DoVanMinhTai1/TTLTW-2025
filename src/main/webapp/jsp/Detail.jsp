@@ -22,28 +22,48 @@
 <body>
 <header class="header" id="header">
     <div class="container1">
-        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image" style="width: 150px"></a>
+        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+                                     style="width: 150px"></a>
         <form action="" id="search-box10">
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
-
         </form>
         <i class="fas fa-phone"></i>
         <div class="headerphone">HOTLINE: 0327237467</div>
-        <div class="headercontendangnhap" >Đăng nhập</div>
-        <div class="line"></div>
-        <div class="headercontendangki">Đăng kí</div>
+        <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+        <c:choose>
+            <c:when test="${not empty currentUser}">
+                <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
+                    <div class="headercontendangnhap">
+                            ${currentUser.username}
+                    </div>
+                </a>
+                <div class="line"></div>
+                <a href="logout" style="text-decoration: none">
+                    <div class="headercontendangki">Đăng Xuất</div>
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a href="showLogin" style="text-decoration: none">
+                    <div class="headercontendangnhap">
+                        Đăng Nhập
+                    </div>
+                </a>
+                <div class="line"></div>
+                <a href="showLogin" style="text-decoration: none">
+                    <div class="headercontendangki">Đăng Kí</div>
+                </a>
+            </c:otherwise>
+        </c:choose>
+
         <!--        gio hang-->
         <div class="shopping_cart">
-            <i class="fa-solid fa-basket-shopping"></i>
-            <span class="shopping_notice">0</span>
-            <!--            khi nào gi hàng khong co gi thi them vo shopping_cartlist--no_cart-->
-            <div class="shopping_cartlist ">
-                <img src="images/ảnh%20giỏ%20hàng%20trống.jpg" alt="" class="imgno_cart">
+            <div class="shopping_cart_swap">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
             </div>
         </div>
-        <div class="shoppingtext">Giỏ hàng</div>
+        <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>
     </div>
-    <div class="pathline"></div>
 </header>
 <div class="menu">
     <ul>
@@ -78,7 +98,28 @@
     <div class="headline-detail">
         <a href="/web/showHome" class="navigationBarHome">Trang Chủ</a>
         <span class="navigationBar/">/</span>
-        <a href="fruit.html" class="navigationBarHome">${p.category}</a>
+        <c:set var="categoryHref">
+            <c:choose>
+                <c:when test="${p.category == 1}">/web/showVegetables</c:when>
+                <c:when test="${p.category == 2}">/web/showTubers</c:when>
+                <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                <c:otherwise>/khong-xac-dinh</c:otherwise>
+            </c:choose>
+        </c:set>
+        <a href="${categoryHref}" class="product-cat"> <c:choose>
+            <c:when test="${p.category == 1}">
+                Rau
+            </c:when>
+            <c:when test="${p.category == 2}">
+                Củ
+            </c:when>
+            <c:when test="${p.category == 3}">
+                Quả
+            </c:when>
+            <c:otherwise>
+                Không xác định
+            </c:otherwise>
+        </c:choose></a>
         <span class="navigationBar/">/</span>
         <span class="navigationBarType">${p.name}</span>
     </div>
@@ -146,7 +187,7 @@
                     </div>
                 </div>
                 <div class="btn-bounder">
-                    <button class="add-later">Thêm vào giỏ hàng</button>
+                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a></button>
                     <button class="buy"><a href="">Mua ngay</a></button>
                 </div>
             </div>
@@ -194,7 +235,28 @@
                             <a href="showDetail?id=${pr.id}" class="buy-now">Xem ngay</a>
                         </div>
                         <div class="product-info">
-                            <a href="" class="product-cat">${p.category}</a>
+                            <c:set var="categoryHref">
+                                <c:choose>
+                                    <c:when test="${p.category == 1}">/web/showVegetables</c:when>
+                                    <c:when test="${p.category == 2}">/web/showTubers</c:when>
+                                    <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                                    <c:otherwise>/khong-xac-dinh</c:otherwise>
+                                </c:choose>
+                            </c:set>
+                            <a href="${categoryHref}" class="product-cat"> <c:choose>
+                                <c:when test="${p.category == 1}">
+                                    Rau
+                                </c:when>
+                                <c:when test="${p.category == 2}">
+                                    Củ
+                                </c:when>
+                                <c:when test="${p.category == 3}">
+                                    Quả
+                                </c:when>
+                                <c:otherwise>
+                                    Không xác định
+                                </c:otherwise>
+                            </c:choose></a>
                             <a href="showDetail?id=${pr.id}" class="product-name">${pr.name}</a>
                             <div class="product-price">${pr.price}đ</div>
                         </div>

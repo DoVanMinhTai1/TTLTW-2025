@@ -22,6 +22,7 @@ public class RemoveProduct extends HttpServlet {
         productService.removeProduct(pid);
         List<Product> products = productService.getAll();
         request.setAttribute("listproduct", products);
+        request.setAttribute("message", "Xóa sản phẩm thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
     }
 

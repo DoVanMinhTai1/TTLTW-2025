@@ -36,6 +36,7 @@ public class AddProduct extends HttpServlet {
         String massStr = request.getParameter("mass");
         String description = request.getParameter("describe");
         String category = request.getParameter("category");
+        System.out.println(category);
         Part productImagePart = request.getPart("image");
         // Kiểm tra dữ liệu đầu vào
         if (name == null || name.trim().isEmpty() ||
@@ -57,7 +58,6 @@ public class AddProduct extends HttpServlet {
             // Chuyển đổi giá trị đầu vào
             double price = Double.parseDouble(priceStr);
             double mass = Double.parseDouble(massStr);
-
             int categoryId = Integer.parseInt(category);
 
             // Lưu ảnh vào thư mục Img
@@ -77,15 +77,13 @@ public class AddProduct extends HttpServlet {
             ProductServices service = new ProductServices();
             service.insert(product);
             List<Product> products = service.getAll();
-            request.setAttribute("listproduct",products);
-            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request,response);
+            request.setAttribute("listproduct", products);
+            request.setAttribute("message", "Thêm sản phẩm thành công");
+            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
         } catch (NumberFormatException e) {
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Thêm sản phẩm không thành công: Định dạng số không hợp lệ cho giá, khối lượng hoặc danh mục!');");
-            out.println("history.back();"); // Quay lại trang trước
-            out.println("</script>");
+            request.setAttribute("message", "Thêm sản phẩm không thành công");
+            // Trả về kết quả và hiển thị lỗi bằng cách chuyển hướng
+            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
         }
     }
 
@@ -111,5 +109,4 @@ public class AddProduct extends HttpServlet {
         // Trả về đường dẫn tương đối để lưu vào database
         return "Img/" + fileName;
     }
-
 }

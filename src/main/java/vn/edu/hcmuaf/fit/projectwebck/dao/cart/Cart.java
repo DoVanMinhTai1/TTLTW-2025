@@ -36,6 +36,9 @@ public class Cart {
         data.remove(id);
         return true;
     }
+    public void removeAll() {
+        data.clear();
+    }
 
     public List<CartProduct> getList() {
         return new ArrayList<>(data.values());

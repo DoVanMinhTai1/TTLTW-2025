@@ -16,13 +16,17 @@ public class AddressServices {
     public Address getByIdOrigin(int userId) {
         return addressDao.getByIdOrigin(userId);
     }
+
     public void insertAddress(Address address) {
         addressDao.insertAddress(address);
     }
+
     public void removeAddress(int addressId) {
         addressDao.removeAddress(addressId);
     }
+
     public void updateAddress(Address address) {
         addressDao.updateAddress(address);
     }
+
 }

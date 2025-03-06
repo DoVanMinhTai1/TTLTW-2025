@@ -51,6 +51,7 @@ public class UpdateUser extends HttpServlet {
         userServices.updateUser(userUpdate);
         List<User> listUser = userServices.getAllUsers();
         request.setAttribute("listuser",listUser);
+        request.setAttribute("message", "Cập nhật user thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
 
     }

@@ -21,11 +21,11 @@ public class ShowPay extends HttpServlet {
         TransportServices transportServices = new TransportServices();
         List<Transport> list= transportServices.getAll();
         request.setAttribute("listTransport", list);
-
+        int uId =Integer.parseInt(request.getParameter("uId")) ;
         UserServices us = new UserServices();
-        String email = us.getUserById(1).getEmail();
+        String email = us.getUserById(uId).getEmail();
         AddressServices addressServices = new AddressServices();
-        Address address = addressServices.getByIdOrigin(1);
+        Address address = addressServices.getByIdOrigin(uId);
         request.setAttribute("address", address);
 
         String[] parts = address.getAddress().split(",");

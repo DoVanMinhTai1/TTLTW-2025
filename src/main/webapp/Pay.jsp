@@ -38,7 +38,7 @@
                 <input type="text" name="" id="Address" placeholder="Address" class="form" value="${number}"><br>
                 <select name="Conscious" id="Conscious" style="width: 93%;height:40px;">
                     <option value="" selected>${province}</option>
-                    <option value="KonTum"> Kon Tum</option>
+                    <option value="Hồ Chí Minh"> Hồ Chí Minh</option>
                     <option value="Thái Bình">Thái Bình</option>
                     <option value="Hưng Yên">Hưng Yên</option>
                 </select>
@@ -110,7 +110,7 @@
                 </ul>
                 <div class="PayRightContentTitleProductListDiscountCode">
                     <input type="text" name="DiscountCode" id="DiscountCode" placeholder="Mã giảm giá" class="form">
-                    <button type="button" onclick="discount(${sessionScope.total})">Áp dụng</button>
+                    <button type="button" onclick="discount(${sessionScope.total},${sessionScope.user.id})">Áp dụng</button>
 
                 </div>
                 <div class="PayRightContentTitleProductListSum">
@@ -135,7 +135,7 @@
                             class="Back" target="myTab">
                     < Quay về giỏ hàng</a></span>
                     <span class="total"><button type="submit" id="ConfirmAddressButton"
-                                                onclick="order(1, '${address.id}', '${sessionScope.total}')">Đặt Hàng</button></span>
+                                                onclick="order(${sessionScope.user.id}, '${address.id}', '${sessionScope.total}')">Đặt Hàng</button></span>
                     <%--                    1 la userId cua tai khoan dang dn--%>
                 </div>
             </div>
@@ -155,7 +155,7 @@
         <span>Mã đơn hàng</span><span class="Code" id="code">#FOOD1998</span>
     </div>
     <button type="submit"><a
-            href="showProductH"
+            href="showHome"
             class="Continue" target="myTab">
         VỀ TRANG CHỦ
     </a></button>

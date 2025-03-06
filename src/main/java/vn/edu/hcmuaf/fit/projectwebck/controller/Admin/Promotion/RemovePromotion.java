@@ -23,6 +23,7 @@ public class RemovePromotion extends HttpServlet {
         promotionServices.removePromotion(poid);
         List<Promotion> listPromotion = promotionServices.getAllPromotion();
         request.setAttribute("listpromotion", listPromotion);
+        request.setAttribute("message", "Xóa khuyến mãi thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request, response);
     }
 

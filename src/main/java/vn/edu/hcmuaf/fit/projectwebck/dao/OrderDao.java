@@ -23,7 +23,7 @@ public class OrderDao {
                 handle.createQuery("SELECT u.username, p.name, od.totalamount FROM orders o JOIN orderdetail od ON " +
                                 "o.id = od.orderId JOIN products p ON p.id = od.productId JOIN users u ON u.id = o.userId " +
                                 "ORDER BY o.dateOfBooking " +
-                                "DESC LIMIT 8")
+                                "DESC LIMIT 7")
                         .mapToMap() // Ánh xạ kết quả thành Map
                         .list()
         );
