@@ -26,6 +26,11 @@
 
 </head>
 <body>
+<c:if test="${not empty message}">
+    <script type="text/javascript">
+        alert("${message}");
+    </script>
+</c:if>
 <div class="side-menu">
     <div class="brand-name">
         <h1>NLU Food</h1>
@@ -157,7 +162,7 @@
                             </c:when>
                             <c:otherwise>
                                 <tr>
-                                    <td colspan="3">No order summaries found.</td>
+                                    <td colspan="3">Không tìm thấy đơn hàng nào.</td>
                                 </tr>
                             </c:otherwise>
                         </c:choose>
@@ -185,7 +190,7 @@
                             </c:when>
                             <c:otherwise>
                                 <tr>
-                                    <td colspan="3">No order summaries found.</td>
+                                    <td colspan="3">Không tìm thấy khách hàng nào.</td>
                                 </tr>
                             </c:otherwise>
                         </c:choose>
@@ -237,8 +242,8 @@
                     <form action="addProduct" method="post" enctype="multipart/form-data">
                         <input type="hidden" id="idp" name="idp">
                         <label for="productImage">Ảnh:</label><br>
-                        <input type="file" id="productImage" name="image" required>
-                        <span><img src="" alt="" id="image" style="width: 50px"><br></span>
+                        <input type="file" id="productImage" name="image" required><br>
+                        <span><img src="" alt="" id="image" style="width: 50px; display: none"><br></span>
                         <label for="productName">Tên:</label><br>
                         <input type="text" id="productName" name="name" placeholder="Vui lòng nhập tên ..."
                                required><br>

@@ -21,28 +21,48 @@
 </head>
 <body><header class="header" id="header">
     <div class="container1">
-        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image" style="width: 150px"></a>
-        <form action="" id="search-box10">
+        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+                                     style="width: 150px"></a>
+        <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
-
         </form>
         <i class="fas fa-phone"></i>
         <div class="headerphone">HOTLINE: 0327237467</div>
-        <div class="headercontendangnhap" >Đăng nhập</div>
-        <div class="line"></div>
-        <div class="headercontendangki">Đăng kí</div>
+        <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+        <c:choose>
+            <c:when test="${not empty currentUser}">
+                <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
+                    <div class="headercontendangnhap">
+                            ${currentUser.username}
+                    </div>
+                </a>
+                <div class="line"></div>
+                <a href="logout" style="text-decoration: none">
+                    <div class="headercontendangki">Đăng Xuất</div>
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a href="showLogin" style="text-decoration: none">
+                    <div class="headercontendangnhap">
+                        Đăng Nhập
+                    </div>
+                </a>
+                <div class="line"></div>
+                <a href="showLogin" style="text-decoration: none">
+                    <div class="headercontendangki">Đăng Kí</div>
+                </a>
+            </c:otherwise>
+        </c:choose>
+
         <!--        gio hang-->
         <div class="shopping_cart">
-            <i class="fa-solid fa-basket-shopping"></i>
-            <span class="shopping_notice">0</span>
-            <!--            khi nào gi hàng khong co gi thi them vo shopping_cartlist--no_cart-->
-            <div class="shopping_cartlist ">
-                <img src="images/ảnh%20giỏ%20hàng%20trống.jpg" alt="" class="imgno_cart">
+            <div class="shopping_cart_swap">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
             </div>
         </div>
-        <div class="shoppingtext">Giỏ hàng</div>
+        <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>
     </div>
-    <div class="pathline"></div>
 </header>
 <div class="menu">
     <ul>
@@ -106,15 +126,36 @@
             <li>
                 <div class="product-item">
                     <div class="product-top">
-                        <a href="" class="product-thumb">
+                        <a href="showDetail?id=${p.id}" class="product-thumb">
                             <img src="${p.image}" alt=""/>
                         </a>
                         <!--xem ngay-->
-                        <a href="detailProduct?id=${p.id}" class="buy-now">Xem ngay</a>
+                        <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
                     </div>
                     <div class="product-info">
-                        <a href="" class="product-cat">${p.category}</a>
-                        <a href="" class="product-name">${p.name}</a>
+                        <c:set var="categoryHref">
+                            <c:choose>
+                                <c:when test="${p.category == 1}">/web/showVegetables</c:when>
+                                <c:when test="${p.category == 2}">/web/showTubers</c:when>
+                                <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                                <c:otherwise>/khong-xac-dinh</c:otherwise>
+                            </c:choose>
+                        </c:set>
+                        <a href="${categoryHref}" class="product-cat"> <c:choose>
+                            <c:when test="${p.category == 1}">
+                                Rau
+                            </c:when>
+                            <c:when test="${p.category == 2}">
+                                Củ
+                            </c:when>
+                            <c:when test="${p.category == 3}">
+                                Quả
+                            </c:when>
+                            <c:otherwise>
+                                Không xác định
+                            </c:otherwise>
+                        </c:choose></a>
+                        <a href="showDetail?id=${p.id}" class="product-name">${p.name}</a>
                         <div class="product-price">${p.price}đ</div>
                     </div>
                 </div>

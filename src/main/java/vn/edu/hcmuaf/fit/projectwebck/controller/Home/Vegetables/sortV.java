@@ -39,8 +39,15 @@ public class sortV extends HttpServlet {
             // Sắp xếp mặc định
 
         }
-        request.setAttribute("listVegetables", products);
-        request.getRequestDispatcher("showVegetables").forward(request,response);
+        request.setAttribute("listPaging", products);
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1"; // Mặc định là trang 1
+        }
+        request.getRequestDispatcher("showVegetables?index=" + indexPage + "&sortProduct=" + sort).forward(request, response);
+
+//        request.setAttribute("listVegetables", products);
+//        request.getRequestDispatcher("showVegetables").forward(request,response);
     }
 
     @Override

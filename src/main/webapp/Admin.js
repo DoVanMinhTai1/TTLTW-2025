@@ -208,7 +208,7 @@ function UpdateUser(id, username, password, role, fullName, email, dateOfBirth, 
 // hien form chi tiet don hang
 async function viewOrder(orderId) {
 
-    const response = await fetch(`/ProjectWebCK_war_exploded/detailOrder?orderId=${orderId}`);
+    const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
     // Thêm một lớp overlay để làm tối nền

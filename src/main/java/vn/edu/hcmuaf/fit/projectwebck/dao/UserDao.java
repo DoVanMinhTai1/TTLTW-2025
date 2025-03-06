@@ -109,4 +109,23 @@ public class UserDao {
                 .execute());
 
     }
+
+    public String checkPhoneInDatabase(String phone) {
+        String dbMessage = null;
+
+        // Tạo kết nối JDBI
+        Jdbi jdbi = JDBIConect.get();
+
+        // Sử dụng JDBI để thực hiện truy vấn
+        dbMessage = jdbi.withHandle(handle -> {
+            Long count = handle.createQuery("SELECT COUNT(*) FROM users WHERE phone = :phone")
+                    .bind("phone", phone)
+                    .mapTo(Long.class)
+                    .one();
+            // Kiểm tra nếu số điện thoại không tồn tại
+            return count == 0 ? "Số điện thoại không có trong hệ thống." : null;
+        });
+
+        return dbMessage; // Nếu số điện thoại tồn tại, trả về null
+    }
 }

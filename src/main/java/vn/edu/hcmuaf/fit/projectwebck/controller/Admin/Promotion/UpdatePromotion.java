@@ -45,7 +45,7 @@ public class UpdatePromotion extends HttpServlet {
         // Lấy danh sách khuyến mãi cập nhật
         List<Promotion> listPromotion = promotionServices.getAllPromotion();
         request.setAttribute("listpromotion", listPromotion);
-
+        request.setAttribute("message", "Cập nhật khuyến mãi thành công");
         // Chuyển hướng về trang Admin với script phù hợp
         request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request, response);
     }

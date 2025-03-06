@@ -893,8 +893,9 @@ ul.products li img{
     display: flex;
     flex-direction: column;
     width: 50%;
-    background: beige;
+    background: white;
     border-radius: 10%;
+    box-shadow: 0 0 5px 3px rgb(187, 248, 147);
 }
 .detail-right .detail-headline{
     margin: 0 auto 0 auto;
@@ -939,6 +940,7 @@ ul.products li img{
 .detail-right .main-bottom .option>span{
     margin: 10px 0;
 }
+
 .detail-right .main-bottom .option .btn-choose{
     margin: 10px 10px 10px 0;
 }

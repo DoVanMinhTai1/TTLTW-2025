@@ -29,6 +29,7 @@ public class AddAddress extends HttpServlet {
         String district = request.getParameter("District");
         String wardAndCommune = request.getParameter("Wardandcommune");
         int origin = Integer.parseInt(request.getParameter("isDefault"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
         String addresss = address + "," + wardAndCommune + "," + district + "," + province + "," + nation;
         // Kiểm tra trạng thái của nút "Đặt địa chỉ làm mặc định"
 
@@ -39,7 +40,7 @@ public class AddAddress extends HttpServlet {
         newAddress.setCompany(company);
         newAddress.setAddress(addresss);
         newAddress.setOrigin(origin);
-        newAddress.setUserId(1);
+        newAddress.setUserId(userId);
 
         // Gọi service để thêm địa chỉ vào cơ sở dữ liệu
         AddressServices addressServices = new AddressServices();

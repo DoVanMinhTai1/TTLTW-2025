@@ -22,8 +22,10 @@ public class RemoveOder extends HttpServlet {
         service.removeOrder(oid);
         List<Order> listOrder = service.getAllOrders();
         request.setAttribute("listpromotion", listOrder);
+        request.setAttribute("message", "Xóa đơn hàng thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option4").forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -32,6 +32,7 @@
       </div>
       <span>hoặc sử dụng số điện thoại của bạn để đăng ký</span>
       <input type="text" placeholder="Tên người dùng" name="username"/>
+      <input type="text" placeholder="Email" name="email"/>
       <input type="text" placeholder="Số điện thoại" name="phone"/>
       <input type="password" placeholder="Mật khẩu" name="password"/>
       <button type="submit" >Đăng Kí</button>
@@ -48,7 +49,7 @@
       <span>hoặc sử dụng tài khoản của bạn</span>
       <input type="text" placeholder="Tên người dùng" name = "username" />
       <input type="password" placeholder="Mật khẩu" name ="password" />
-      <a href="passwordBack.html">Quên mật khẩu?</a>
+      <a href="jsp/PasswordBack.jsp">Quên mật khẩu?</a>
       <button type="submit" >Đăng nhập</button>
       <c:if test="${not empty error}">
         <div class="alert alert-danger" role="alert">${error}</div>

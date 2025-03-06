@@ -207,21 +207,21 @@
                 </select>
                 <select name="Province" id="Province" style="width: 31.5%;height:44px;">
                   <option value="" disabled selected>Tỉnh thành</option>
-                  <option value="KonTum"> Kon Tum</option>
+                  <option value="Hồ Chí Minh"> Hồ Chí Minh</option>
                   <option value="Thái Bình">Thái Bình</option>
                   <option value="Hưng Yên">Hưng Yên</option>
                 </select>
                 <select name="District" id="District" style="width: 31.5%;height:44px;">
                   <option value="" disabled selected>Quận huyện</option>
-                  <option value="KonPlong"> KonPlong</option>
-                  <option value="Quận 1">Quận 1</option>
-                  <option value="KrongPak">KrongPak</option>
+                  <option value="Quận 1">Quận 1 </option>
+                  <option value="Quận 2">Quận 2</option>
+                  <option value="Quận 3">Quận 3</option>
                 </select>
                 <select name="Wardandcommune" id="Wardandcommune" style="width: 31.5%;height:44px;">
                   <option value="" disabled selected>Phường xã</option>
                   <option value="Hiệp Bình">Hiệp Bình</option>
-                  <option value="An Long">An Long</option>
-                  <option value="Hoài Nhơn">Hoài Nhơn</option>
+                  <option value="Võ Thị Sáu">Võ Thị Sáu</option>
+                  <option value="Linh Trung">Linh Trung</option>
                 </select>
                 <div class="radiobutton" onclick="toggleRadioButton()" id="radiobutton"><i
                         class="fa-solid fa-check" id="fa-check"></i></div>

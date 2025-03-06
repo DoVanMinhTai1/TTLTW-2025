@@ -28,15 +28,38 @@
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
             <i class="fas fa-phone"></i>
             <div class="headerphone">HOTLINE: 0327237467</div>
-            <div class="headercontendangnhap">Đăng nhập</div>
-            <div class="line"></div>
-            <div class="headercontendangki">Đăng kí</div>
+            <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+            <c:choose>
+                <c:when test="${not empty currentUser}">
+                    <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
+                        <div class="headercontendangnhap">
+                                ${currentUser.username}
+                        </div>
+                    </a>
+                    <div class="line"></div>
+                    <a href="logout" style="text-decoration: none">
+                        <div class="headercontendangki">Đăng Xuất</div>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="showLogin" style="text-decoration: none">
+                        <div class="headercontendangnhap">
+                            Đăng Nhập
+                        </div>
+                    </a>
+                    <div class="line"></div>
+                    <a href="showLogin" style="text-decoration: none">
+                        <div class="headercontendangki">Đăng Kí</div>
+                    </a>
+                </c:otherwise>
+            </c:choose>
             <div class="shopping_cart">
                 <div class="shopping_cart_swap">
                     <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="shopping_notice"></span>
                 </div>
             </div>
-            <div class="shoppingtext"><a href="../ShoppingCart/ShoppingCart.html">Giỏ hàng</a></div>
+            <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>
         </div>
     </div>
     <div class="pathline"></div>
@@ -50,7 +73,7 @@
             <div class="CustomerPageConttenNavigationbar">
                 <div class="NavigationbarTitle">TRANG TÀI KHOẢN</div>
                 <div class="NavigationbarHello">Xin chào, <span>${currentUser.username}</span> !</div>
-                <a href="showCustomer?option=option1">
+                <a href="showCustomer?option=option1&uId=${sessionScope.user.id}">
                     <div class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')">Thông tin tài
                         khoản
                     </div>
@@ -193,8 +216,9 @@
                     <div class="Addnewaddress" id="Addnewaddress">
                         <div class="AddnewaddressTitle">THÊM ĐỊA CHỈ MỚI</div>
                         <div class="AddnewaddressContent">
-                            <form action="addAddress" method="post">
+                            <form action="addAddress" method="post" >
                                 <input type="hidden" id="addressId" name="addressId">
+                                <input type="hidden" id="userId" name="userId" value="${sessionScope.user.id}">
                                 <input type="text" name="Name" id="Name" placeholder="Họ và tên" class="form"><br>
                                 <input type="text" name="Phone" id="Phone" placeholder="Số điện thoại" class="form"><br>
                                 <input type="text" name="Company" id="Company" placeholder="Công ty" class="form"><br>
@@ -207,21 +231,21 @@
                                 </select>
                                 <select name="Province" id="Province" style="width: 31.5%;height:44px;">
                                     <option value="" disabled selected>Tỉnh thành</option>
-                                    <option value="KonTum"> Kon Tum</option>
+                                    <option value="Hồ Chí Minh"> Hồ Chí Minh</option>
                                     <option value="Thái Bình">Thái Bình</option>
                                     <option value="Hưng Yên">Hưng Yên</option>
                                 </select>
                                 <select name="District" id="District" style="width: 31.5%;height:44px;">
                                     <option value="" disabled selected>Quận huyện</option>
-                                    <option value="KonPlong"> KonPlong</option>
+                                    <option value="Thủ Đức">Thủ Đức</option>
                                     <option value="Quận 1">Quận 1</option>
-                                    <option value="KrongPak">KrongPak</option>
+                                    <option value="Quận 2">Quận 2</option>
                                 </select>
                                 <select name="Wardandcommune" id="Wardandcommune" style="width: 31.5%;height:44px;">
                                     <option value="" disabled selected>Phường xã</option>
-                                    <option value="Hiệp Bình">Hiệp Bình</option>
-                                    <option value="An Long">An Long</option>
-                                    <option value="Hoài Nhơn">Hoài Nhơn</option>
+                                    <option value="Linh Trung">Linh Trung</option>
+                                    <option value="Linh Tây">Linh Tây</option>
+                                    <option value="Linh Xuân">Linh Xuân</option>
                                 </select>
                                 <div class="radiobutton" onclick="toggleRadioButton()" id="radiobutton"><i
                                         class="fa-solid fa-check" id="fa-check"></i></div>

@@ -23,6 +23,14 @@ public class UpdatePassword extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserServices us = new UserServices();
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        if (currentUser == null) {
+            request.setAttribute("error", "Người dùng không tồn tại.");
+            request.getRequestDispatcher("Customer.jsp?runScript=option3").forward(request, response);
+            return;
+        }
         // Lấy thông tin từ form
         String oldPassword = request.getParameter("oldpassword");
         String newPassword = request.getParameter("newpassword");
@@ -35,25 +43,33 @@ public class UpdatePassword extends HttpServlet {
             return;
         }
 
-
         // Kiểm tra mật khẩu cũ
         UserServices userServices = new UserServices();
-        User user = userServices.getUserById(8);
-        String storedPassword = user.getPassword();
-
-        String password = request.getParameter("password");
-
-        String hashedPassword = hashPassword(password);
-        if (hashedPassword.equals(storedPassword)) {
-            
+        User user = userServices.getUserById(currentUser.getId()); // Hoặc lấy ID từ session nếu cần
+        if (user == null) {
+            request.setAttribute("error", "Người dùng không tồn tại.");
+            request.getRequestDispatcher("Customer.jsp?runScript=option3").forward(request, response);
+            return;
         }
 
-        if (!oldPassword.equals(storedPassword)) {
+        String storedPassword = user.getPassword();
+        String hashedOldPassword = hashPassword(oldPassword);
+
+        if (!hashedOldPassword.equals(storedPassword)) {
             request.setAttribute("error", "Mật khẩu cũ không đúng.");
             request.getRequestDispatcher("Customer.jsp?runScript=option3").forward(request, response);
             return;
         }
-        user.setPassword(newPassword);
+
+        // Kiểm tra mật khẩu mới và xác nhận
+        if (!newPassword.equals(confirmPassword)) {
+            request.setAttribute("error", "Mật khẩu mới và xác nhận không khớp.");
+            request.getRequestDispatcher("Customer.jsp?runScript=option3").forward(request, response);
+            return;
+        }
+
+        // Cập nhật mật khẩu mới
+        user.setPassword(hashPassword(newPassword)); // Mã hóa mật khẩu mới
         userServices.updatePassword(user);
 
         // Thông báo thành công

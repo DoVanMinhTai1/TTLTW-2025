@@ -45,9 +45,9 @@ function navigationbarClick(select) {
     NavigationbarContent.appendChild(div);
 }
 
-async function viewOrder(orderId) {
+async function  viewOrder(orderId) {
 
-    const response = await fetch(`/ProjectWebCK_war_exploded/detailOrder?orderId=${orderId}`);
+    const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
     // Thêm một lớp overlay để làm tối nền
@@ -233,3 +233,16 @@ function addConfirmPasswordValidation(passwordId, confirmPasswordId) {
         console.error(`Element with id "${confirmPasswordId}" not found.`);
     }
 }
+
+// Hàm hiển thị thông báo
+function displayMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = message;
+    messageDiv.className = type === 'error' ? 'alert alert-danger' : 'alert alert-success';
+}
+
+// Gọi các hàm kiểm tra khi tài liệu đã sẵn sàng
+document.addEventListener('DOMContentLoaded', function() {
+    addPasswordValidation('newpassword');
+    addConfirmPasswordValidation('newpassword', 'confirm-password');
+});

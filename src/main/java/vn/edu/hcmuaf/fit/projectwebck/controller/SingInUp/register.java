@@ -32,6 +32,7 @@ public class register extends HttpServlet {
         user.setFullName(username);
         user.setPassword(hashedPassword);
         user.setPhone(phone);
+        user.setEmail(email);
 
         int num = us.register(user);
         if(num>0){
