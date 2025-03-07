@@ -2,6 +2,8 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.Home.All;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.projectwebck.controller.testLogin.GoogleLogin;
+import vn.edu.hcmuaf.fit.projectwebck.dao.GoogleProfile;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
@@ -46,6 +48,12 @@ public class showAll extends  HttpServlet{
         request.setAttribute("listPaging", list);
         request.setAttribute("endPage", endPage);
 //        request.setAttribute("listProduct", products);
+        String code =request.getParameter("code");
+        System.out.println(code);
+        GoogleLogin googleLogin = new GoogleLogin();
+        String accessToken = googleLogin.getToken(code);
+        GoogleProfile googleProfile =googleLogin.getUserInfo(accessToken);
+        System.out.println(googleProfile);
         request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
     }
     @Override
