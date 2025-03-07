@@ -8,3 +8,5 @@
 /dataSources.local.xml
 
 src/main/java/vn/edu/hcmuaf/fit/projectwebck/constant/Constant.java
+
+.env
