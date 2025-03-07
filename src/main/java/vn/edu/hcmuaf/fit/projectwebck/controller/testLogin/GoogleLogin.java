@@ -20,13 +20,13 @@ public class GoogleLogin {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost post = new HttpPost(Constant.GOOGLE_LINK_GET_TOKEN);
 
-            String body = "client_id=" + Constant.GOOGLE_CLIENT_ID +
+//            String body = "client_id=" + Constant.GOOGLE_CLIENT_ID +
 //                    "&client_secret=" + Constant.GOOGLE_CLIENT_SECRET +
-                    "&redirect_uri=" + Constant.GOOGLE_REDIRECT_URI +
-                    "&code=" + code +
-                    "&grant_type=" + Constant.GOOGLE_GRANT_TYPE;
+//                    "&redirect_uri=" + Constant.GOOGLE_REDIRECT_URI +
+//                    "&code=" + code +
+//                    "&grant_type=" + Constant.GOOGLE_GRANT_TYPE;
 
-            post.setEntity(new StringEntity(body));
+//            post.setEntity(new StringEntity(body));
             post.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
             try (CloseableHttpResponse response = httpClient.execute(post)) {
