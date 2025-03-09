@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vege1</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="header" id="header">
+  <div class="container1">
+    <a href="home.html"><img id="logo" src="images/snapedit_1730861562696.png" alt="Shopping Cart Image" style="width: 150px"></a>
+    <form action="" id="search-box10">
+      <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
+
+    </form>
+    <i class="fas fa-phone"></i>
+    <div class="headerphone">HOTLINE: 0327237467</div>
+    <div class="headercontendangnhap" >Đăng nhập</div>
+    <div class="line"></div>
+    <div class="headercontendangki">Đăng kí</div>
+    <!--        gio hang-->
+    <div class="shopping_cart">
+      <i class="fa-solid fa-basket-shopping"></i>
+      <span class="shopping_notice">0</span>
+      <!--            khi nào gi hàng khong co gi thi them vo shopping_cartlist--no_cart-->
+      <div class="shopping_cartlist ">
+        <img src="images/ảnh%20giỏ%20hàng%20trống.jpg" alt="" class="imgno_cart">
+      </div>
+    </div>
+    <div class="shoppingtext">Giỏ hàng</div>
+  </div>
+  <div class="pathline"></div>
+</header>
+<div class="menu">
+  <ul>
+    <li>
+      <a href="allProduct.html"><i class="fa-brands fa-product-hunt" id="all"></i></a>
+      <div class="all">
+        <a href="allProduct.html"><span>TẤT CẢ SẢN PHẨM</span></a>
+      </div>
+    </li>
+
+    <li>
+      <a href="vegetable1.html"><i class="fa-solid fa-leaf" id="ves"></i></a>
+      <div class="vegetables">
+        <a href="vegetable1.html"><span>RAU</span></a>
+      </div>
+    </li>
+    <li>
+      <a href="tuber.html"><i class="fa-solid fa-carrot" id="root"></i></a>
+      <div class="tubers">
+        <a href="tuber.html"><span>CỦ</span></a>
+      </div>
+    </li>
+    <li>
+      <a href="fruit.html"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
+      <div class="vegetable_fruits">
+        <a href="fruit.html"><span>QUẢ</span></a>
+      </div>
+    </li>
+  </ul>
+</div>
+<div id="allProduct">
+  <div class="filter">
+    <div class="left">
+      <h6>Bạn đang xem: </h6>
+      <div class="pro-cat"><h6>Rau</h6></div>
+    </div>
+    <div class="right">
+      <button id="option">
+        <h6>
+          <span  id="selected-option">Mặc định</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </h6>
+      </button>
+      <div class="drop-menu">
+        <ul class="dropdown-menu">
+          <li data-value="Mặc định">Mặc định</li>
+          <li data-value="Giá giảm dần">Giá giảm dần</li>
+          <li data-value="Giá tăng dần">Giá tăng dần</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="headline-listProduct">
+    <h3>DANH SÁCH SẢN PHẨM</h3>
+  </div>
+  <ul class="products">
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xaLachFrise.webp" alt="" />
+          </a>
+          <!--Xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Frise</a>
+          <div class="product-price">30.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_diep_ca.webp" alt=""  />
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Diếp Cá</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bap_cai.webp" alt=""  />
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bắp Cải</a>
+          <div class="product-price">13.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_rung_TayNinh.jpg" alt="" />
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Rừng Tây Ninh</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rai_que.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Quế</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_muong.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Muống</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_ram.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Răm</a>
+          <div class="product-price">9.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/cai_cau_vong.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Cải Cầu Vồng</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_dien_dien.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông Điên Điển</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/ngo_ri.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Ngò Rí</a>
+          <div class="product-price">9.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_giang.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name"Lá Giang</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bap_cai_tim.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bắp Cải Tím</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bap_chuoi.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bắp Chuối</a>
+          <div class="product-price">27.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_dong.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Dong</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_me.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Me</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xa_lach_xoong.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Xoong</a>
+          <div class="product-price">27.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/hung_chanh.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Húng Chanh</a>
+          <div class="product-price">7.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/ngo_tay.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Ngò Tây</a>
+          <div class="product-price">5.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_cai_xanh.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông Cải Xanh</a>
+          <div class="product-price">17.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_he.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông Hẹ</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_so_dua.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông So Đũa</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_day.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Đay</a>
+          <div class="product-price">17.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xa_lach_iceberg.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Iceberg</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/tia_to.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Tía Tô</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_sung.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông Súng</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/bong_thien_ly.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Bông Thiên Lý</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_den.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Dền</a>
+          <div class="product-price">13.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_nhut.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Nhút</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_nhip.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Nhíp</a>
+          <div class="product-price">30.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_muong_nuoc.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Muống Nước</a>
+          <div class="product-price">17.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/chum_ngay.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Chùm Ngây</a>
+          <div class="product-price">3.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/ngo_om.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Ngò Ôm</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/cai_xoan_kale.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Cải Xoăn Kale</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xa_lach_lua.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Lụa</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/cai_be_xanh.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Cải Bẹ Xanh</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_ngot.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Ngót</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_ma.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Má</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_coc.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Cóc</a>
+          <div class="product-price">18.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_lang.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Lang</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_tien_vua.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Tiến Vua</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_chuoi.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Chuối</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/cai_thao.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Cải Thảo</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_nep.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Nếp</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xa_lach_rocket.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Rocket</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/mang_non.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Măng Non</a>
+          <div class="product-price">40.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_gia_vi.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Gia Vị</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/gia.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Giá</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/hanh_la.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Hành Lá</a>
+          <div class="product-price">8.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_dang.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Đắng</a>
+          <div class="product-price">10.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_xoai_non.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Xoài Non</a>
+          <div class="product-price">5.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_tra_xanh.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Trà Xanh</a>
+          <div class="product-price">40.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_cang_cua.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Rau Càng Cua</a>
+          <div class="product-price">5.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/mang_tay.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Măng Tây</a>
+          <div class="product-price">20.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/xa_lach_romaine.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Xà Lách Romaine</a>
+          <div class="product-price">25.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/ngo_gai.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Ngò Gai</a>
+          <div class="product-price">12.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/la_mo.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Lá Mơ</a>
+          <div class="product-price">7.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/rau_thia_la.jpg" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Thìa Là</a>
+          <div class="product-price">5.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/mong_toi.webp" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Mồng Tơi</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="product-item">
+        <div class="product-top">
+          <a href="" class="product-thumb">
+            <img src="images/ngo_sen.png" alt=""/>
+          </a>
+          <!--xem ngay-->
+          <a href="" class="buy-now">Xem ngay</a>
+        </div>
+        <div class="product-info">
+          <a href="" class="product-cat">Rau</a>
+          <a href="" class="product-name">Ngó Sen</a>
+          <div class="product-price">15.000đ</div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="button-more">
+    <ul class="more-product">
+      <li>
+        <button class="btn-1">1</button>
+      </li>
+      <li>
+        <a href="vegetable2.html">
+          <button class="btn-2">2</button>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<footer class="footer">
+  <section class="head-footer" style="background-color: #E0E5DC; border-bottom: 1px solid #B1B1B1">
+    <div class="head-text">
+      <span>KẾT NỐI VỚI CHÚNG TÔI TRÊN MẠNG XÃ HỘI:</span>
+    </div>
+    <div class="icon">
+      <a href="https://www.facebook.com/">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://x.com/">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://accounts.google.com/InteractiveLogin/signinchooser?ifkv=AcMMx-eAnI_k5fnUiekh_ZIVLJbaydtwEkoPzxadnu-8S0hZHL_JYdaDtvE4CMit7jumqRy6ZsBxzQ&ddm=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="https://www.instagram.com/">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com/login" >
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/login" >
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </section>
+  <section class ="main-footer">
+    <!--    <div class="container text-center text-md-start mt-5">-->
+    <!--      <div class="row mt-3">-->
+    <div class="main-footer-column">
+      <h6 class="footer-quotes">Nông Lâm Food</h6>
+      <p>
+        Luôn nỗ lực mang đến cho người tiêu dùng Việt Nam những sản phẩm sạch sẽ, đầy dinh dưỡng, được
+        trồng theo phương pháp khoa học.
+      </p>
+    </div>
+    <div class="footer-contact">
+      <a href="contact.html"><h6 class="">LIÊN HỆ TẠI ĐÂY</h6></a>
+    </div>
+    <div class="footer-in4">
+      <h6 class="">THÔNG TIN LIÊN HỆ</h6>
+      <p><i class="fas fa-home mr-3"></i>Khu phố 6, phường Linh Trung, thành phố Thủ Đức, Thành
+        phố Hồ Chí Minh, Việt Nam</p>
+      <p><i class="fas fa-envelope mr-3"></i>22130322@st.hcmuaf.edu.vn</p>
+      <p><i class="fas fa-phone mr-3"></i> + 84 327 237 467</p>
+    </div>
+    <!--      </div>-->
+    <!--    </div>-->
+  </section>
+  <div class="text-bottom" style="background-color: #E0E5DC">
+    © 2024 Copyright: Group03
+  </div>
+</footer>
+<div id="backtop">
+  <i class="fa-solid fa-arrow-up"></i>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $(window).scroll(function (){
+      if($(this).scrollTop()){
+        $('#backtop').fadeIn();
+      } else{
+        $('#backtop').fadeOut();
+      }
+    })
+    $('#backtop').click(function (){
+      $('html, body').animate({scrollTop:0}, 300);
+    });
+  })
+
+  document.querySelectorAll(".dropdown-menu li").forEach(item => {
+    item.addEventListener("click", function () {
+      // Lấy giá trị của mục được chọn
+      const selectedValue = this.getAttribute("data-value");
+
+      // Thay đổi nội dung trong nút
+      document.getElementById("selected-option").textContent = selectedValue;
+
+      // Ẩn menu thả xuống sau khi chọn
+      document.querySelector(".drop-menu").classList.remove("show");
+    });
+  });
+  const menu = document.querySelector(".drop-menu");
+  const option = document.getElementById("option");
+  document.getElementById("option").addEventListener("click", function (e) {
+    e.stopPropagation(); // Ngăn chặn sự kiện nổi lên
+    document.querySelector(".drop-menu").classList.toggle("show");
+  });
+
+  // Đóng menu nếu người dùng nhấp ra ngoài
+  document.addEventListener("click", function (event) {
+    if (!option.contains(event.target) && !menu.contains(event.target)) {
+      menu.classList.remove("show");
+    }
+  });
+</script>
+</html>
