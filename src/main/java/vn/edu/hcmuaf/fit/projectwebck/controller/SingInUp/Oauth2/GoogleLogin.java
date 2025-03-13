@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp;
+package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
