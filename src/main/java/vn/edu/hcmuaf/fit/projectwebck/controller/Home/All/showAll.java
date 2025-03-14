@@ -48,11 +48,11 @@ public class showAll extends  HttpServlet{
         request.setAttribute("endPage", endPage);
 
         String code = request.getParameter("code");
-        GoogleLogin token = new GoogleLogin();
-        String accessToken = token.getToken(code);
-        GoogleProfile gp = token.getUserInfo(accessToken);
-        System.out.println(accessToken);
-        System.out.println(gp);
+//        if (code != null) {
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("OAuth2CallbackServlet-servlet");
+//            dispatcher.forward(request, response);
+//            return; // Dừng xử lý tiếp
+//        }
 
 //        request.setAttribute("listProduct", products);
         request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
