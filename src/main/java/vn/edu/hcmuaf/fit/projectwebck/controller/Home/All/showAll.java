@@ -2,11 +2,12 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.Home.All;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2.GoogleLogin;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.GoogleProfile;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "showAll", value = "/showAll")
@@ -45,6 +46,14 @@ public class showAll extends  HttpServlet{
 
         request.setAttribute("listPaging", list);
         request.setAttribute("endPage", endPage);
+
+        String code = request.getParameter("code");
+//        if (code != null) {
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("OAuth2CallbackServlet-servlet");
+//            dispatcher.forward(request, response);
+//            return; // Dừng xử lý tiếp
+//        }
+
 //        request.setAttribute("listProduct", products);
         request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
     }
