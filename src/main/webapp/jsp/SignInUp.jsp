@@ -49,11 +49,15 @@
       <span>hoặc sử dụng tài khoản của bạn</span>
       <input type="text" placeholder="Tên người dùng" name = "username" />
       <input type="password" placeholder="Mật khẩu" name ="password" />
+      <input type="text" placeholder="Captcha" name ="captcha" />
+      <img src="CaptchaServlet" alt="CAPTCHA Image">
       <a href="jsp/PasswordBack.jsp">Quên mật khẩu?</a>
       <button type="submit" >Đăng nhập</button>
-      <c:if test="${not empty error}">
-        <div class="alert alert-danger" role="alert">${error}</div>
-      </c:if>
+      <% if (request.getAttribute("errorMessage") != null) { %>
+      <script>
+        alert("<%= request.getAttribute("errorMessage") %>");
+      </script>
+      <% } %>
     </form>
   </div>
   <div class="overlay-container">
