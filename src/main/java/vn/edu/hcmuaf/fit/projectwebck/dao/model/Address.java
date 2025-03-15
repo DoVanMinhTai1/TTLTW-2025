@@ -9,8 +9,9 @@ public class Address {
     int origin;
     String company;
     String dateOfBooking;
-
-    public Address(int id, int userId, String name, String address, String phone, int origin, String company, String dateOfBooking) {
+    String thirty_party_id;
+    public Address(int id, int userId, String name, String address, String phone,
+                   int origin, String company, String dateOfBooking,String thirty_party_id) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -19,6 +20,7 @@ public class Address {
         this.origin = origin;
         this.company = company;
         this.dateOfBooking = dateOfBooking;
+        this.thirty_party_id = thirty_party_id;
     }
 
     public Address() {
@@ -88,6 +90,14 @@ public class Address {
         this.company = company;
     }
 
+    public String getThirty_party_id() {
+        return thirty_party_id;
+    }
+
+    public void setThirty_party_id(String thirty_party_id) {
+        this.thirty_party_id = thirty_party_id;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -98,6 +108,8 @@ public class Address {
                 ", phone='" + phone + '\'' +
                 ", origin=" + origin +
                 ", company='" + company + '\'' +
+                ", dateOfBooking='" + dateOfBooking + '\'' +
+                ", thirty_party_id='" + thirty_party_id + '\'' +
                 '}';
     }
 }

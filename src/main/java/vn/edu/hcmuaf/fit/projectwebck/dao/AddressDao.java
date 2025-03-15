@@ -63,5 +63,30 @@ public class AddressDao {
     }
 
 
+    public Address getByThirtyPartyId(String uIdParam) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("select * from address where thirty_party_id = :thirty_party_id AND origin = :origin")
+                .bind("thirty_party_id", uIdParam)
+                .bind("origin", 1)
+                .mapToBean(Address.class)
+                .findOne() // Tìm một đối tượng duy nhất
+                .orElse(null)); // Trả về null nếu không tìm thấy
+    }
 
+    public void insertAddressByThirtyParTyId(Address address) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO address (thirty_party_id,name, address, phone, origin, company) " +
+                        "VALUES (:thirty_party_id, :name, :address, :phone, :origin, :company)")
+                .bind("thirty_party_id", address.getThirty_party_id())
+                .bind("name", address.getName())
+                .bind("address", address.getAddress())
+                .bind("phone", address.getPhone())
+                .bind("origin", address.getOrigin())
+                .bind("company", address.getCompany())
+                .execute());
+    }
+
+//    public Address getByIdThirtyOrigin(String userId) {
+//        return null;
+//    }
 }

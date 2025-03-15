@@ -51,7 +51,9 @@ public class GoogleLogin {
     public static GoogleProfile getUserInfo(final String accessToken) throws IOException {
 
         String link = Constant.GOOGLE_LINK_GET_USER_INFO + accessToken;
+
         String response = new String(Request.get(link).execute().returnContent().asBytes(), StandardCharsets.UTF_8);
+        System.out.println(response);
         GoogleProfile profile = new Gson().fromJson(response, GoogleProfile.class);
         return profile;
     }

@@ -1,18 +1,29 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao.model;
 
 public class GoogleProfile {
-    private String  id, email, name, first_name, given_name, family_name, picture;
+    private String  id, email, username, first_name, given_name, family_name, picture;
     private boolean verified_email;
-
-    public GoogleProfile(String id, String email, String name, String first_name, String given_name, String family_name, String picture, boolean verified_email) {
+    private String fullName;
+    private String phone;
+    private String dateOfBirth;
+    public GoogleProfile(String id, String email, String username,
+                         String first_name, String given_name,
+                         String family_name, String picture, boolean verified_email,
+                         String fullName,
+                         String phone,
+                         String dateOfBirth
+                         ) {
         this.id = id;
         this.email = email;
-        this.name = name;
+        this.username = username;
         this.first_name = first_name;
         this.given_name = given_name;
         this.family_name = family_name;
         this.picture = picture;
         this.verified_email = verified_email;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getId() {
@@ -31,13 +42,7 @@ public class GoogleProfile {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getFirst_name() {
         return first_name;
@@ -79,17 +84,52 @@ public class GoogleProfile {
         this.verified_email = verified_email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     @Override
     public String toString() {
         return "GoogleProfile{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", first_name='" + first_name + '\'' +
                 ", given_name='" + given_name + '\'' +
                 ", family_name='" + family_name + '\'' +
                 ", picture='" + picture + '\'' +
                 ", verified_email=" + verified_email +
+                ", fullName='" + fullName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
                 '}';
     }
 }

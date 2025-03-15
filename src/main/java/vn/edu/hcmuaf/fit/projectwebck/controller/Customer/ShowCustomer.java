@@ -13,20 +13,33 @@ import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 
 @WebServlet(name = "ShowCustomer", value = "/showCustomer")
 public class ShowCustomer extends HttpServlet {
+    private static final BigInteger MAX_LONG = new BigInteger(String.valueOf(Long.MAX_VALUE));
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String option = request.getParameter("option");
-        int uId =Integer.parseInt(request.getParameter("uId")) ;
+        String uIdParam = request.getParameter("uId");
+        UserServices userServices = new UserServices();
+        BigInteger uIdLong = new BigInteger(uIdParam);
+        User user = null;
+        int uId = 0;
+        if(uIdLong.compareTo(MAX_LONG) > 0) {
+             user = userServices.getUserByThirtyPartyId(uIdParam);
+        } else {
+
+             uId =Integer.parseInt(request.getParameter("uId")) ;
+             user = userServices.getUserById(uId);
+        }
+
+        request.setAttribute("user", user);
+
         switch (option) {
             case "option1":
-                UserServices userServices = new UserServices();
-                User user = userServices.getUserById(uId);
-                request.setAttribute("user", user);
                 request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request, response);
                 break;
             case "option2":
