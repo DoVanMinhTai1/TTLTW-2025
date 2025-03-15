@@ -34,7 +34,7 @@ public class AddAddress extends HttpServlet {
         int origin = Integer.parseInt(request.getParameter("isDefault"));
         String userIdString = request.getParameter("userId");
         BigInteger userIdbig = new BigInteger(userIdString);
-        if (userIdbig.compareTo(MAX_LONG) > 0) {
+        if (userIdbig.longValue() > 10000) {
 
             String addresss = address + "," + wardAndCommune + "," + district + "," + province + "," + nation;
             // Kiểm tra trạng thái của nút "Đặt địa chỉ làm mặc định"

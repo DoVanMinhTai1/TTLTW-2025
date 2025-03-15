@@ -33,7 +33,7 @@ public class AddOrder extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request);
+        System.out.println(request.getContentType());
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = request.getReader().readLine()) != null) {
@@ -48,7 +48,7 @@ public class AddOrder extends HttpServlet {
         if(userIdElement.isJsonPrimitive()) {
             String userId = jsonObject.get("userId").getAsString();
             BigInteger userIdBigInteger = new BigInteger(userId);
-            if (userIdBigInteger.compareTo(MAX_LONG) > 0) {
+            if (userIdBigInteger.longValue() > 10000) {
                 userId = userId;
                 int addressId = jsonObject.get("addressId").getAsInt();
                 double total = jsonObject.get("total").getAsDouble();
