@@ -35,11 +35,21 @@ public class OAuth2CallbackServlet extends HttpServlet {
 //            Map<String, String> userInfo = (Map<String, String>) getUserInfo(accessToken);
             GoogleProfile gp = googleLogin.getUserInfo(accessToken);
             UserServices userServices = new UserServices();
-            User user = userServices.getUserByThirtyPartyId(gp.getId());
+            String userId = gp.getId();
+            if(userId.length() > 10) {
+                userId = userId.substring(0, 10);
+            } else {
+                userId = ""; // Nếu không đủ 10 ký tự, gán là chuỗi rỗng
+            }
+
+
+            User user = userServices.getUserByThirtyPartyId(userId);
             if (user == null) {
 
                 saveUserToDatabase(gp);
             }
+            gp.setId(userId);
+            System.out.println(gp);
 
             HttpSession session = request.getSession();
             session.setAttribute("user", gp);
@@ -56,9 +66,16 @@ public class OAuth2CallbackServlet extends HttpServlet {
         String baseUserNamed = gp.getEmail().split("@")[0];
 
         String userName = generateUniqueUserName(baseUserNamed);
+        String userId = gp.getId();
+        if (userId.length() > 10) {
+            userId = userId.substring(0, 10);
+        } else {
+            userId = "";
+        }
+        String finalUserName = userId;
         jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users (thirty_party_id,username, role, fullName, email) " +
                         "VALUES (:thirty_party_id, :username, :decentralization, :fullName, :email)")
-                .bind("thirty_party_id", gp.getId())
+                .bind("thirty_party_id", finalUserName)
                 .bind("username", userName)
                 .bind("decentralization", 0)
                 .bind("fullName", gp.getUsername())

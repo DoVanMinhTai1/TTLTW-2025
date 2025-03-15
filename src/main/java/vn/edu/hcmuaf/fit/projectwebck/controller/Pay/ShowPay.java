@@ -29,7 +29,7 @@ public class ShowPay extends HttpServlet {
         AddressServices addressServices = new AddressServices();
 
         int uId = 0;
-        if (uIdLong.compareTo(MAX_LONG) > 0) {
+        if (uIdLong.longValue() > 10000) {
 //            String uIdParam = request.getParameter("uId")
             Address address = addressServices.getByThirtyPartyId(uIdParam);
             UserServices us = new UserServices();

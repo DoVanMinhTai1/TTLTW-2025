@@ -135,7 +135,7 @@
                             class="Back" target="myTab">
                     < Quay về giỏ hàng</a></span>
                     <span class="total"><button type="submit" id="ConfirmAddressButton"
-                                                onclick="order(${sessionScope.user.id.toString()}, '${address.id}', '${sessionScope.total}')">Đặt Hàng</button></span>
+                                                onclick="order(${sessionScope.user.id}, '${address.id}', '${sessionScope.total}')">Đặt Hàng</button></span>
                     <%--                    1 la userId cua tai khoan dang dn--%>
                 </div>
             </div>
@@ -162,8 +162,10 @@
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/PayMoney.js"></script>
 <script type="text/javascript">
-    console.log("User ID: " + "${sessionScope.user.id.toString()}");
+    var userId = "${sessionScope.user.id}";
+    console.log("User ID type: " + typeof userId);
 </script>
+
 
 </body>
 </html>
