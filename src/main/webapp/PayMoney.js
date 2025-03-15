@@ -42,7 +42,7 @@ async function submitForm() {
 async function order(userId, addressId, total) {
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
-
+    const userId1 = userId;
     // Tạo object để lưu productId, quantity, và price
     const cartMap = {};
 
@@ -56,16 +56,16 @@ async function order(userId, addressId, total) {
     });
 
     console.log("Dữ liệu gửi đi:", cartMap);
-    console.log(userId);
+    console.log(userId.toString());
     console.log(addressId);
     console.log(total);
-    const response = await fetch(`/web/addOrder`, {
+    const response = await fetch(`/addOrder`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            userId: userId,
+            userId: userId1,
             addressId: addressId,
             cartMap: cartMap,
             total: total

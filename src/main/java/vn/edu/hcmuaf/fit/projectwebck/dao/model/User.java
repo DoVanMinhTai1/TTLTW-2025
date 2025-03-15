@@ -9,8 +9,10 @@ public class User {
     private String email;
     private String dateOfBirth;
     private String phone;
+    private String thirty_party_id;
 
-    public User(int id, String username, String password, int role, String fullName, String email, String dateOfBirth, String phone) {
+    public User(int id, String username, String password, int role, String fullName, String email, String dateOfBirth, String phone
+    , String thirty_party_id) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -19,6 +21,7 @@ public class User {
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
+        this.thirty_party_id = thirty_party_id;
     }
     public User(){};
     public int getId() {
@@ -85,10 +88,26 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return id + ";" + username + ";" + password + ";" + role + ";" +
-                fullName + ";" + email + ";" + dateOfBirth + ";" + phone;
+    public String getThirty_party_id() {
+        return thirty_party_id;
     }
 
+    public void setThirty_party_id(String thirty_party_id) {
+        this.thirty_party_id = thirty_party_id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", phone='" + phone + '\'' +
+                ", thirty_party_id='" + thirty_party_id + '\'' +
+                '}';
+    }
 }

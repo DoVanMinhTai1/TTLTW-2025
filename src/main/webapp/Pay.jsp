@@ -161,5 +161,11 @@
     </a></button>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/PayMoney.js"></script>
+<script type="text/javascript">
+    var userId = "${sessionScope.user.id}";
+    console.log("User ID type: " + typeof userId);
+</script>
+
+
 </body>
 </html>

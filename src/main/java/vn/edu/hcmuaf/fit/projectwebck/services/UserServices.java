@@ -5,6 +5,7 @@ package vn.edu.hcmuaf.fit.projectwebck.services;
 import vn.edu.hcmuaf.fit.projectwebck.dao.UserDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class UserServices {
@@ -36,4 +37,8 @@ public class UserServices {
     public int register(User user) { return userDao.register(user); }
     public User findUserByUsername(String username) {return userDao.findUserByUsername(username);}
     public String checkPhoneInDatabase(String phone) { return userDao.checkPhoneInDatabase(phone); }
+
+    public User getUserByThirtyPartyId(String uId) {
+        return userDao.getUserByThirtyPartyId(uId);
+    }
 }

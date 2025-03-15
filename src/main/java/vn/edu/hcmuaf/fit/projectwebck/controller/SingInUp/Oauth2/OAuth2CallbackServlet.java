@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,10 +11,12 @@ import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.UserDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.GoogleProfile;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import static vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2.GoogleLogin.getUserInfo;
 
-@WebServlet(name = "OAuth2CallbackServletServlet", value = "/OAuth2CallbackServlet-servlet")
+@WebServlet(name = "OAuth2CallbackServlet", value = "/OAuth2CallbackServlet")
 public class OAuth2CallbackServlet extends HttpServlet {
     private String message;
     private UserDao userDao;
@@ -25,13 +28,28 @@ public class OAuth2CallbackServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String code =request.getParameter("code");
+        String code = request.getParameter("code");
         if (code != null) {
             GoogleLogin googleLogin = new GoogleLogin();
             String accessToken = googleLogin.getToken(code);
 //            Map<String, String> userInfo = (Map<String, String>) getUserInfo(accessToken);
             GoogleProfile gp = googleLogin.getUserInfo(accessToken);
-            saveUserToDatabase(gp);
+            UserServices userServices = new UserServices();
+            String userId = gp.getId();
+            if(userId.length() > 10) {
+                userId = userId.substring(0, 10);
+            } else {
+                userId = ""; // Nếu không đủ 10 ký tự, gán là chuỗi rỗng
+            }
+
+
+            User user = userServices.getUserByThirtyPartyId(userId);
+            if (user == null) {
+
+                saveUserToDatabase(gp);
+            }
+            gp.setId(userId);
+            System.out.println(gp);
 
             HttpSession session = request.getSession();
             session.setAttribute("user", gp);
@@ -48,12 +66,19 @@ public class OAuth2CallbackServlet extends HttpServlet {
         String baseUserNamed = gp.getEmail().split("@")[0];
 
         String userName = generateUniqueUserName(baseUserNamed);
-
-        jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users (username, role, fullName, email) " +
-                        "VALUES (:username, :decentralization, :fullName, :email)")
+        String userId = gp.getId();
+        if (userId.length() > 10) {
+            userId = userId.substring(0, 10);
+        } else {
+            userId = "";
+        }
+        String finalUserName = userId;
+        jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users (thirty_party_id,username, role, fullName, email) " +
+                        "VALUES (:thirty_party_id, :username, :decentralization, :fullName, :email)")
+                .bind("thirty_party_id", finalUserName)
                 .bind("username", userName)
                 .bind("decentralization", 0)
-                .bind("fullName", gp.getName())
+                .bind("fullName", gp.getUsername())
                 .bind("email", gp.getEmail())
                 .execute());
 
@@ -62,7 +87,7 @@ public class OAuth2CallbackServlet extends HttpServlet {
     private String generateUniqueUserName(String baseUserNamed) {
         String userName = baseUserNamed;
 
-        while(userDao.findUserByUsername(userName) != null) {
+        while (userDao.findUserByUsername(userName) != null) {
             userName = baseUserNamed + "_" + UUID.randomUUID().toString().substring(0, 4);
         }
         return userName;

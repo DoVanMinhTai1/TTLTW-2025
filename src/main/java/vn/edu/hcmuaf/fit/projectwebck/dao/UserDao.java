@@ -4,6 +4,7 @@ import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class UserDao {
@@ -110,6 +111,7 @@ public class UserDao {
 
     }
 
+
     public String checkPhoneInDatabase(String phone) {
         String dbMessage = null;
 
@@ -127,5 +129,13 @@ public class UserDao {
         });
 
         return dbMessage; // Nếu số điện thoại tồn tại, trả về null
+    }
+
+    public User     getUserByThirtyPartyId(String uId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE thirty_party_id = :thirty_party_id")
+                .bind("thirty_party_id", uId)
+                .mapToBean(User.class)
+                .findOne().orElse(null));
     }
 }
