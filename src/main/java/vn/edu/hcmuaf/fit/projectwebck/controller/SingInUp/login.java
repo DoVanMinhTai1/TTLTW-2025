@@ -20,17 +20,24 @@ public class login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserServices userService = new UserServices();
+
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
+        String userCaptcha = request.getParameter("captcha");
 //        User user = userService.login(username, password);
+        String captchaSession = (String) session.getAttribute("captcha");
+        // Kiểm tra CAPTCHA trước khi xử lý đăng nhập
+        if (captchaSession == null || !captchaSession.equals(userCaptcha)) {
+            request.setAttribute("errorMessage", "CAPTCHA không chính xác.");
+            request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
+            return; // Dừng xử lý nếu CAPTCHA sai
+        }
+        UserServices userService = new UserServices();
         User user = userService.findUserByUsername(username);
-
         if (user != null) {
             String hashedPassword = hashPassword(password);
             if (hashedPassword.equals(user.getPassword())) {
-                HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 if (user.getRole() == 1) {
                     response.sendRedirect("showAdmin");
@@ -40,48 +47,14 @@ public class login extends HttpServlet {
             }
             else {
                 request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
-                response.sendRedirect("showLogin");
+                request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
-            response.sendRedirect("showLogin");
+            request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
         }
 
     }
-
-
-
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        UserServices userService = new UserServices();
-//        String username = request.getParameter("username");
-//        String password = request.getParameter("password");
-//
-//        User user = userService.findUserByUsername(username);
-//
-//        if (user != null) {
-//            // Băm mật khẩu nhập vào
-//            String hashedPassword = hashPassword(password);
-//
-//            // Kiểm tra mật khẩu
-//            if (hashedPassword.equals(user.getPassword())) {
-//                // Mật khẩu đúng, tạo phiên mới
-//                HttpSession session = request.getSession();
-//                session.setAttribute("user", user);
-////                session.setMaxInactiveInterval(30 * 60); // Thời gian hết hạn phiên (30 phút)
-//
-//                // Chuyển hướng dựa trên vai trò của người dùng
-//                if (user.getRole() == 0) {
-//                    response.sendRedirect("showHome");
-//                } else {
-//                    response.sendRedirect("showAdmin");
-//                }
-//            }
-//        } else {
-//            request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
-//            response.sendRedirect("showLogin");
-//        }
-//
-//    }
     private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
