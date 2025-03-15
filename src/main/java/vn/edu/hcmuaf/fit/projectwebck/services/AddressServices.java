@@ -29,4 +29,14 @@ public class AddressServices {
         addressDao.updateAddress(address);
     }
 
+    public Address getByThirtyPartyId(String uIdParam) {
+        return addressDao.getByThirtyPartyId(uIdParam);
+    }
+
+    public void insertAddressByThirtyPartyId(Address newAddress) {
+        addressDao.insertAddressByThirtyParTyId(newAddress);
+    }
+    public Address getByIdThirtyOrigin(String userId) {
+        return addressDao.getByThirtyPartyId(userId);
+    }
 }

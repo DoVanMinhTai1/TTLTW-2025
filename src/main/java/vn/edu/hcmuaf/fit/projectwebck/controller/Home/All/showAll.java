@@ -47,7 +47,7 @@ public class showAll extends  HttpServlet{
         request.setAttribute("listPaging", list);
         request.setAttribute("endPage", endPage);
 
-        String code = request.getParameter("code");
+//        String code = request.getParameter("code");
 //        if (code != null) {
 //            RequestDispatcher dispatcher = request.getRequestDispatcher("OAuth2CallbackServlet-servlet");
 //            dispatcher.forward(request, response);
@@ -55,6 +55,7 @@ public class showAll extends  HttpServlet{
 //        }
 
 //        request.setAttribute("listProduct", products);
+        System.out.println(response);
         request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
     }
     @Override

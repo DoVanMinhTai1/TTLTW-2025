@@ -9,8 +9,9 @@ public class Order {
     private int addressId;
     private String fullName;
     private String address;
-
-    public Order(int id, int userId, String dateOfBooking, int status, double money, int addressId, String fullName) {
+    private String thirty_party_id;
+    public Order(int id, int userId, String dateOfBooking, int status,
+                 double money, int addressId, String fullName,String thirty_party_id) {
         this.id = id;
         this.userId = userId;
         this.dateOfBooking = dateOfBooking;
@@ -18,6 +19,7 @@ public class Order {
         this.money = money;
         this.addressId = addressId;
         this.fullName = fullName;
+        this.thirty_party_id = thirty_party_id;
     }
 
     public Order() {
@@ -87,9 +89,26 @@ public class Order {
         this.addressId = addressId;
     }
 
-    @Override
-    public String toString() {
-        return id + ";" + userId + ";" + dateOfBooking + ";" + status + ";" + money + ";" + addressId+ ";" + fullName;
+    public String getThirty_party_id() {
+        return thirty_party_id;
     }
 
+    public void setThirty_party_id(String thirty_party_id) {
+        this.thirty_party_id = thirty_party_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", dateOfBooking='" + dateOfBooking + '\'' +
+                ", status=" + status +
+                ", money=" + money +
+                ", addressId=" + addressId +
+                ", fullName='" + fullName + '\'' +
+                ", address='" + address + '\'' +
+                ", thirty_party_id='" + thirty_party_id + '\'' +
+                '}';
+    }
 }

@@ -27,7 +27,7 @@
       <h1>Tạo Tài Khoản</h1>
       <div class="social-container">
         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OAuth2CallbackServlet&response_type=code&client_id=314134351747-96fqghf4l57catc97as2q2ibv14l7u0u.apps.googleusercontent.com&approval_prompt=force" class="social"><i class="fab fa-google-plus-g"></i></a>
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>hoặc sử dụng số điện thoại của bạn để đăng ký</span>
@@ -43,7 +43,13 @@
       <h1>Đăng Nhập</h1>
       <div class="social-container">
         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+
+        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OAuth2CallbackServlet&response_type=code&client_id=314134351747-96fqghf4l57catc97as2q2ibv14l7u0u.apps.googleusercontent.com&approval_prompt=force">
+
+          <i class="fab fa-google-plus-g"></i>
+
+        </a>
+
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>hoặc sử dụng tài khoản của bạn</span>
