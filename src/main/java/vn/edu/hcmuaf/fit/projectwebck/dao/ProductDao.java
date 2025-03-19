@@ -3,12 +3,12 @@ package vn.edu.hcmuaf.fit.projectwebck.dao;
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
 
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductDao {
     static Map<Integer, Product> data = new HashMap<>();
@@ -20,12 +20,49 @@ public class ProductDao {
                 .list());
     }
 
+//    public Product getById(int id) {
+//        Jdbi jdbi = JDBIConect.get();
+//        return jdbi.withHandle(handle -> handle.createQuery("select * from products where id = :id")
+//                .bind("id", id)
+//                .mapToBean(Product.class)
+//                .findOne().orElse(null));
+//    }
     public Product getById(int id) {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("select * from products where id = :id")
+        Map<Product,List<ProductImage>> products =  jdbi.withHandle(handle -> handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category,p.isNew,pi.id as productImageId,pi.productid as productId, pi.url" +
+                        " from products p " +
+                        "join productimages pi ON p.id = pi.productId " +
+                        "where p.id = :id")
                 .bind("id", id)
-                .mapToBean(Product.class)
-                .findOne().orElse(null));
+                .map(
+                        rs -> {
+                            Product product = new Product();
+                            product.setId(rs.getColumn("id",Integer.class));
+                            product.setName(rs.getColumn("name",String.class));
+                            product.setPrice(rs.getColumn("price",Double.class));
+                            product.setMass(rs.getColumn("mass",Double.class));
+                            product.setDescription(rs.getColumn("description",String.class));
+                            product.setImage(rs.getColumn("image",String.class));
+                            product.setCategory(rs.getColumn("category",Integer.class));
+
+                            ProductImage productImage = new ProductImage();
+                            String imageId = rs.getColumn("url",String.class);
+                            if(imageId != null) {
+                                productImage.setId(rs.getColumn("productImageId",Integer.class));
+                                productImage.setProductId(rs.getColumn("productId",Integer.class));
+                                productImage.setUrl(imageId);
+
+                            }
+                            return new AbstractMap.SimpleEntry<>(product,productImage);
+                        })
+                .collect(Collectors.groupingBy(Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList()))));
+        if (products.isEmpty()) return  null;
+        Product product = products.keySet().iterator().next();
+        product.setProductImages(products.getOrDefault(product, new ArrayList<>()));
+        System.out.println(product);
+        return product;
+
     }
     public void insertProduct(Product product) {
         Jdbi jdbi = JDBIConect.get();
