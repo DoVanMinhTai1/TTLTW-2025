@@ -4,6 +4,7 @@ import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductVariant;
 
 
 import java.text.SimpleDateFormat;
@@ -20,7 +21,7 @@ public class ProductDao {
                 .list());
     }
 
-//    public Product getById(int id) {
+    //    public Product getById(int id) {
 //        Jdbi jdbi = JDBIConect.get();
 //        return jdbi.withHandle(handle -> handle.createQuery("select * from products where id = :id")
 //                .bind("id", id)
@@ -29,41 +30,64 @@ public class ProductDao {
 //    }
     public Product getById(int id) {
         Jdbi jdbi = JDBIConect.get();
-        Map<Product,List<ProductImage>> products =  jdbi.withHandle(handle -> handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category,p.isNew,pi.id as productImageId,pi.productid as productId, pi.url" +
+        Product products = jdbi.withHandle(handle -> handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category,p.isNew" +
                         " from products p " +
-                        "join productimages pi ON p.id = pi.productId " +
                         "where p.id = :id")
                 .bind("id", id)
                 .map(
                         rs -> {
                             Product product = new Product();
-                            product.setId(rs.getColumn("id",Integer.class));
-                            product.setName(rs.getColumn("name",String.class));
-                            product.setPrice(rs.getColumn("price",Double.class));
-                            product.setMass(rs.getColumn("mass",Double.class));
-                            product.setDescription(rs.getColumn("description",String.class));
-                            product.setImage(rs.getColumn("image",String.class));
-                            product.setCategory(rs.getColumn("category",Integer.class));
-
-                            ProductImage productImage = new ProductImage();
-                            String imageId = rs.getColumn("url",String.class);
-                            if(imageId != null) {
-                                productImage.setId(rs.getColumn("productImageId",Integer.class));
-                                productImage.setProductId(rs.getColumn("productId",Integer.class));
-                                productImage.setUrl(imageId);
-
-                            }
-                            return new AbstractMap.SimpleEntry<>(product,productImage);
+                            product.setId(rs.getColumn("id", Integer.class));
+                            product.setName(rs.getColumn("name", String.class));
+                            product.setPrice(rs.getColumn("price", Double.class));
+                            product.setMass(rs.getColumn("mass", Double.class));
+                            product.setDescription(rs.getColumn("description", String.class));
+                            product.setImage(rs.getColumn("image", String.class));
+                            product.setCategory(rs.getColumn("category", Integer.class));
+                            return product;
                         })
-                .collect(Collectors.groupingBy(Map.Entry::getKey,
-                        Collectors.mapping(Map.Entry::getValue, Collectors.toList()))));
-        if (products.isEmpty()) return  null;
-        Product product = products.keySet().iterator().next();
-        product.setProductImages(products.getOrDefault(product, new ArrayList<>()));
-        System.out.println(product);
-        return product;
+                .findOne().orElse(null));
+        products.setProductImages(getProductImagesByProductId(products.getId()));
+        products.setProductVariants(getSizeByProductId(products.getId()));
+        return products;
 
     }
+
+    public List<ProductVariant> getSizeByProductId(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle
+                .createQuery("SELECT pv.id as pvId, pv.mass_value as pvValue,pv.mass_unit as pvUnit,pv.price as pvPrice,pv.productId as pvIdProduct\n" +
+                        "FROM productvariants pv\n" +
+                        "WHERE pv.productId = :productId")
+                .bind("productId", productId)
+                .map(rs -> {
+                    ProductVariant productSize = new ProductVariant();
+                    productSize.setId(rs.getColumn("pvId", Integer.class));
+                    productSize.setMassValue(rs.getColumn("pvValue", Integer.class));
+                    productSize.setMassUnits(rs.getColumn("pvUnit", String.class));
+                    productSize.setProductId(rs.getColumn("pvIdProduct", Integer.class));
+                    productSize.setPrice(rs.getColumn("pvPrice", Double.class));
+                    return productSize;
+                }).list());
+    }
+
+    public List<ProductImage> getProductImagesByProductId(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> handle
+                .createQuery("SELECT pi.id as piId, pi.url as piUrl, pi.productId as piProductId\n" +
+                        "FROM productimages pi\n" +
+                        "WHERE pi.productId = :productId")
+                .bind("productId", productId)
+                .map(rs -> {
+                    ProductImage productImage = new ProductImage();
+                    productImage.setId(rs.getColumn("piId", Integer.class));
+                    productImage.setProductId(rs.getColumn("piProductId", Integer.class));
+                    productImage.setUrl(rs.getColumn("piUrl", String.class));
+                    return productImage;
+                }).list());
+    }
+
+
     public void insertProduct(Product product) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> {
@@ -79,6 +103,7 @@ public class ProductDao {
                     .execute();
         });
     }
+
     public void removeProduct(int productId) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> {
@@ -87,6 +112,7 @@ public class ProductDao {
                     .execute();
         });
     }
+
     public void updateProduct(Product product) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> {
@@ -103,6 +129,7 @@ public class ProductDao {
                     .execute();
         });
     }
+
     public List<Product> searchByName(String name) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE name LIKE :name")
@@ -110,7 +137,6 @@ public class ProductDao {
                 .mapToBean(Product.class)
                 .list());
     }
-
 
 
     //Home
@@ -158,6 +184,7 @@ public class ProductDao {
                 .mapToBean(Product.class)
                 .list());
     }
+
     public Integer getMass(int id) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT mass FROM products WHERE id = :id")
@@ -180,6 +207,7 @@ public class ProductDao {
             return 0;
         }
     }
+
     public static int getTotalVegetables() {
         Jdbi jdbi = JDBIConect.get();
         try {

@@ -10,6 +10,21 @@ public class Product {
     private int category;
     private String isNew;
     private List<ProductImage> productImages;
+    private List<ProductVariant> productVariants;
+
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.mass = mass;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+        this.isNew = isNew;
+        this.productImages = productImages;
+        this.productVariants = productVariants;
+    }
+
     public Product(String name, int id, double price, double mass, String description, String image, int category, String isNew) {
         this.name = name;
         this.id = id;
@@ -108,6 +123,14 @@ public class Product {
         this.productImages = productImages;
     }
 
+    public List<ProductVariant> getProductVariants() {
+        return productVariants;
+    }
+
+    public void setProductVariants(List<ProductVariant> productVariants) {
+        this.productVariants = productVariants;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -120,6 +143,7 @@ public class Product {
                 ", category=" + category +
                 ", isNew='" + isNew + '\'' +
                 ", productImages=" + productImages +
+                ", productVariants=" + productVariants +
                 '}';
     }
 }
