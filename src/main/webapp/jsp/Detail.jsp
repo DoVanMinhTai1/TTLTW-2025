@@ -156,10 +156,10 @@
                         <c:forEach var="size" items="${p.productVariants}">
                             <button class="size-btn"
                                     data-price="${size.price}"
-                                onclick="updatePrice(this)"
+                                    onclick="updatePrice(this)"
                             >
                                     ${size.massUnits}
-                                ${size.massValue}
+                                    ${size.massValue}
 
                             </button>
                         </c:forEach>
@@ -280,7 +280,7 @@
                                 </c:otherwise>
                             </c:choose></a>
                             <a href="showDetail?id=${pr.id}" class="product-name">${pr.name}</a>
-                            <div  class="product-price">${pr.price}đ</div>
+                            <div class="product-price">${pr.price}đ</div>
                         </div>
                     </div>
                 </li>
@@ -374,12 +374,8 @@
         document.getElementById("product-price").innerText = selectedPrice + " VND";
         console.log('click456')
         console.log(selectedPrice)
-
-        // // Xóa class "active" của tất cả nút size
-        // document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
-        //
-        // // Thêm class "active" cho nút được chọn
-        // element.classList.add('active');
+        document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
     }
 </script>
 
