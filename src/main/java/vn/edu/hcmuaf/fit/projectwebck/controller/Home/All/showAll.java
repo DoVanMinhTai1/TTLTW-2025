@@ -1,4 +1,5 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Home.All;
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "showAll", value = "/showAll")
-public class showAll extends  HttpServlet{
+public class showAll extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductServices productService = new ProductServices();
@@ -55,9 +56,21 @@ public class showAll extends  HttpServlet{
 //        }
 
 //        request.setAttribute("listProduct", products);
+
+        String[] listMainBanner = {
+                "Img/banner.png",
+                "Img/banner.png",
+                "Img/banner.png"
+        };
+
+        // Gửi dữ liệu vào JSP
+        request.setAttribute("listMainBanner", listMainBanner);
+
+
         System.out.println(response);
-        request.getRequestDispatcher("jsp/All.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp/All.jsp").forward(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }

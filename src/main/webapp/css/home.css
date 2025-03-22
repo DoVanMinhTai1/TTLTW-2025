@@ -306,31 +306,31 @@ a{
     cursor: pointer;
 }
 /*menu*/
-.menu{
-    background:#e0e5dc;
-    border: 1px solid gray;
-}
-.menu>ul>li{
-    margin-left: auto;
-    margin-right: auto;
-    justify-items: center;
-    align-content: center;
-    list-style: none;
-}
-.menu>ul>li>a>i{
-    padding-bottom: 10px;
-    font-size: 30px;
-}
-.menu>ul>li .all,  .menu>ul>li .vegetables, .menu>ul>li .tubers, .menu>ul>li .vegetable_fruits  {
-    cursor: pointer;
-}
-.all>a, .vegetables>a, .tubers>a, .vegetable_fruits>a{
-    text-decoration: none;
-    color:black;
-}
-.all>a:hover, .vegetables>a:hover, .tubers>a:hover, .vegetable_fruits>a:hover{
-    color:red;
-}
+/*.menu{*/
+/*    background:#e0e5dc;*/
+/*    border: 1px solid gray;*/
+/*}*/
+/*.menu>ul>li{*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*    justify-items: center;*/
+/*    align-content: center;*/
+/*    list-style: none;*/
+/*}*/
+/*.menu>ul>li>a>i{*/
+/*    padding-bottom: 10px;*/
+/*    font-size: 30px;*/
+/*}*/
+/*.menu>ul>li .all,  .menu>ul>li .vegetables, .menu>ul>li .tubers, .menu>ul>li .vegetable_fruits  {*/
+/*    cursor: pointer;*/
+/*}*/
+/*.all>a, .vegetables>a, .tubers>a, .vegetable_fruits>a{*/
+/*    text-decoration: none;*/
+/*    color:black;*/
+/*}*/
+/*.all>a:hover, .vegetables>a:hover, .tubers>a:hover, .vegetable_fruits>a:hover{*/
+/*    color:red;*/
+/*}*/
 
 /*main*/
 /*banner*/

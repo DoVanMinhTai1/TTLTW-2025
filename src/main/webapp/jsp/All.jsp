@@ -111,7 +111,8 @@
                                 Đăng Nhập
                             </div>
                         </a>
-                        <div class="line d-flex align-items-center justify-content-center" style="border: solid 1px gray;  height: 16px; margin-left: 3px; margin-right: 3px"></div>
+                        <div class="line d-flex align-items-center justify-content-center"
+                             style="border: solid 1px gray;  height: 16px; margin-left: 3px; margin-right: 3px"></div>
                         <a href="showLogin" style="text-decoration: none">
                             <div class="headercontendangki">Đăng Kí</div>
                         </a>
@@ -123,50 +124,106 @@
         <div class="col-lg-2 d-flex align-items-center justify-content-center">
             <a href="ShowCart">
                 <div class="d-flex align-items-center justify-content-center gap-3">
-            <div class="shopping_cart">
-                <div class="shopping_cart_swap">
-                    <i class="fa-solid fa-basket-shopping"></i>
-                    <span
-                            class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
+                    <div class="shopping_cart">
+                        <div class="shopping_cart_swap">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                            <span
+                                    class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
+                        </div>
+                    </div>
+                    <div class="shoppingtext">Giỏ hàng</div>
                 </div>
-            </div>
-            <div class="shoppingtext">Giỏ hàng</div>
-                </div>
-           </a>
+            </a>
         </div>
     </div>
 </header>
 
 
-<div class="menu">
-    <ul>
-        <li>
-            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
-            <div class="all">
-                <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
-            </div>
-        </li>
+<%--<div class="menu">--%>
+<%--    <ul>--%>
+<%--        <li>--%>
+<%--            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>--%>
+<%--            <div class="all">--%>
+<%--                <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>--%>
+<%--            </div>--%>
+<%--        </li>--%>
 
-        <li>
-            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>
-            <div class="vegetables">
-                <a href="/web/showVegetables"><span>RAU</span></a>
-            </div>
-        </li>
-        <li>
-            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
-            <div class="tubers">
-                <a href="/web/showTubers"><span>CỦ</span></a>
-            </div>
-        </li>
-        <li>
-            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
-            <div class="vegetable_fruits">
-                <a href="/web/showFruits"><span>QUẢ</span></a>
-            </div>
-        </li>
-    </ul>
+<%--        <li>--%>
+<%--            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>--%>
+<%--            <div class="vegetables">--%>
+<%--                <a href="/web/showVegetables"><span>RAU</span></a>--%>
+<%--            </div>--%>
+<%--        </li>--%>
+<%--        <li>--%>
+<%--            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>--%>
+<%--            <div class="tubers">--%>
+<%--                <a href="/web/showTubers"><span>CỦ</span></a>--%>
+<%--            </div>--%>
+<%--        </li>--%>
+<%--        <li>--%>
+<%--            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>--%>
+<%--            <div class="vegetable_fruits">--%>
+<%--                <a href="/web/showFruits"><span>QUẢ</span></a>--%>
+<%--            </div>--%>
+<%--        </li>--%>
+<%--    </ul>--%>
+<%--</div>--%>
+
+<div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
+    <div class="row" style="">
+        <div class="col-lg-3 d-flex align-items-center  " style=" gap: 10px; justify-content: center">
+            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
+                <span style="text-decoration: none; color: black">TẤT CẢ SẢN PHẨM</span>
+            </a>
+        </div>
+
+        <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
+            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
+                <span style="text-decoration: none; color: black">RAU</span></a>
+        </div>
+        <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap:10px;">
+            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
+                <span style="text-decoration: none; color: black">CỦ</span>
+            </a>
+        </div>
+        <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
+            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
+                <span style="text-decoration: none; color: black">QUẢ</span></a>
+        </div>
+    </div>
 </div>
+
+
+<div class="container" >
+    <div class="row">
+        <div class="col-12">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <c:forEach var="item" items="${listMainBanner}" varStatus="status">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}"></li>
+                    </c:forEach>
+                </ol>
+                <div class="carousel-inner">
+                    <c:forEach var="item" items="${listMainBanner}" varStatus="status">
+
+                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                            <img src="${item}" class="d-block w-100" alt="Banner ${status.index + 1}">
+                        </div>
+                    </c:forEach>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="allProduct">
     <div class="filter">
         <div class="left">
@@ -354,5 +411,7 @@
         document.getElementById("selected-option").textContent = selectedValue;
         document.getElementById("sortProductInput").value = selectedValue; // Cập nhật giá trị input
     });
+
+    console.log('check',${item})
 </script>
 </html>
