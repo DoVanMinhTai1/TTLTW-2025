@@ -29,7 +29,7 @@
         </form>
         <i class="fas fa-phone"></i>
         <div class="headerphone">HOTLINE: 0327237467</div>
-        <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+        <c:set var="currentUser" value="${sessionScope.user}"/> <!-- Lấy user từ session -->
         <c:choose>
             <c:when test="${not empty currentUser}">
                 <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
@@ -145,6 +145,27 @@
                             <img src="${p.image}">
                         </li>
                     </ul>
+                    <ul class="img-describe">
+                        <c:forEach var="img" items="${p.productImages}">
+                            <li>
+                                <img src="${img.url}" alt="Ảnh sản phẩm">
+                            </li>
+                        </c:forEach>
+                    </ul>
+                    <ul class="img-describe">
+                        <c:forEach var="size" items="${p.productVariants}">
+                            <button class="size-btn"
+                                    data-price="${size.price}"
+                                    onclick="updatePrice(this)"
+                            >
+                                    ${size.massUnits}
+                                    ${size.massValue}
+
+                            </button>
+                        </c:forEach>
+                    </ul>
+
+
                 </div>
             </div>
         </div>
@@ -153,7 +174,7 @@
                 <h3>${p.name}</h3>
             </div>
             <div class="detail-price">
-                <h4><f:formatNumber value="${p.price}"/>đ</h4>
+                <h4 id="product-price"><f:formatNumber value="${p.price}"/>đ</h4>
             </div>
             <div class="summary-detail-describeContent">
                 <c:if test="${not empty sentences}">
@@ -169,25 +190,26 @@
                         <i class="fa-solid fa-clover"></i>Không có mô tả nào.
                     </h6>
                 </c:if>
-<%--                <h6>--%>
-<%--                    <i class="fa-solid fa-clover"></i>--%>
-<%--                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>--%>
-<%--                <h6>--%>
-<%--                    <i class="fa-solid fa-clover"></i>--%>
-<%--                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>--%>
+                <%--                <h6>--%>
+                <%--                    <i class="fa-solid fa-clover"></i>--%>
+                <%--                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>--%>
+                <%--                <h6>--%>
+                <%--                    <i class="fa-solid fa-clover"></i>--%>
+                <%--                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>--%>
             </div>
             <div class="main-bottom">
                 <div class="size-bounder">
                     <div class="option">
                         <span>Khối Lượng</span>
                         <div class="btn-choose">
-<%--                            <button>500g</button>--%>
+                            <%--                            <button>500g</button>--%>
                             <button>1 kg</button>
                         </div>
                     </div>
                 </div>
                 <div class="btn-bounder">
-                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a></button>
+                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>
+                    </button>
                     <button class="buy"><a href="">Mua ngay</a></button>
                 </div>
             </div>
@@ -293,7 +315,7 @@
             </a>
         </div>
     </section>
-    <section class ="main-footer">
+    <section class="main-footer">
         <!--    <div class="container text-center text-md-start mt-5">-->
         <!--      <div class="row mt-3">-->
         <div class="main-footer-column">
@@ -324,22 +346,37 @@
     <i class="fa-solid fa-arrow-up"></i>
 </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<%--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="--%>
+<%--        crossorigin="anonymous"></script>--%>
+<%--<script>--%>
+<%--    $(document).ready(function () {--%>
+<%--        $(window).scroll(function () {--%>
+<%--            if ($(this).scrollTop()) {--%>
+<%--                $('#backtop').fadeIn();--%>
+<%--            } else {--%>
+<%--                $('#backtop').fadeOut();--%>
+<%--            }--%>
+<%--        })--%>
+<%--        $('#backtop').click(function () {--%>
+<%--            $('html, body').animate({scrollTop: 0}, 300);--%>
+<%--        });--%>
+<%--    })--%>
+<%--    $('#more').click(function () {--%>
+<%--        window.location.href = "allProduct.html";--%>
+<%--    });--%>
+
+
+<%--</script>--%>
 <script>
-    $(document).ready(function () {
-        $(window).scroll(function (){
-            if($(this).scrollTop()){
-                $('#backtop').fadeIn();
-            } else{
-                $('#backtop').fadeOut();
-            }
-        })
-        $('#backtop').click(function (){
-            $('html, body').animate({scrollTop:0}, 300);
-        });
-    })
-    $('#more').click(function (){
-        window.location.href="allProduct.html";
-    });
+    function updatePrice(element) {
+        console.log('click123')
+        let selectedPrice = element.getAttribute("data-price");
+        document.getElementById("product-price").innerText = selectedPrice + " VND";
+        console.log('click456')
+        console.log(selectedPrice)
+        document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+    }
 </script>
+
 </html>

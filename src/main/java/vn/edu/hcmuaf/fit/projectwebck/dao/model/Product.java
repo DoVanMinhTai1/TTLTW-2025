@@ -1,5 +1,5 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao.model;
-
+import java.util.List;
 public class Product {
     private int id;
     private String name;
@@ -9,6 +9,21 @@ public class Product {
     private String image;
     private int category;
     private String isNew;
+    private List<ProductImage> productImages;
+    private List<ProductVariant> productVariants;
+
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.mass = mass;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+        this.isNew = isNew;
+        this.productImages = productImages;
+        this.productVariants = productVariants;
+    }
 
     public Product(String name, int id, double price, double mass, String description, String image, int category, String isNew) {
         this.name = name;
@@ -19,6 +34,18 @@ public class Product {
         this.image = image;
         this.category = category;
         this.isNew = isNew;
+    }
+
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.mass = mass;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+        this.isNew = isNew;
+        this.productImages = productImages;
     }
 
     public void setId(int id) {
@@ -88,8 +115,35 @@ public class Product {
         return isNew;
     }
 
+    public List<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(List<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
+
+    public List<ProductVariant> getProductVariants() {
+        return productVariants;
+    }
+
+    public void setProductVariants(List<ProductVariant> productVariants) {
+        this.productVariants = productVariants;
+    }
+
     @Override
     public String toString() {
-        return id + ";" + name + ";" + price + ";" + mass + ";" + description + ";" + image + ";" + category + ";" + isNew;
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", mass=" + mass +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", category=" + category +
+                ", isNew='" + isNew + '\'' +
+                ", productImages=" + productImages +
+                ", productVariants=" + productVariants +
+                '}';
     }
 }
