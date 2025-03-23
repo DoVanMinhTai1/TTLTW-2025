@@ -42,11 +42,9 @@ function navigationbarClick(select) {
             div.innerHTML = "<p>Vui lòng chọn một mục.</p>";
             break
     }
-    NavigationbarContent.appendChild(div);
 }
 
-async function  viewOrder(orderId) {
-
+async function  viewOrder(orderId,address,dateOfBooking) {
     const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
@@ -58,8 +56,6 @@ async function  viewOrder(orderId) {
 
     const detailContainer = viewOrder.querySelector(".Product_List_item");
     detailContainer.innerHTML = ""; // Xóa dữ liệu cũ
-    const detailTotalAmount = viewOrder.querySelector(".TotalAmount");
-    detailTotalAmount.innerHTML = ""; // Xóa dữ liệu cũ
     let totalAmount = 0;
 
     orderDetails.forEach(detail => {
@@ -81,11 +77,9 @@ async function  viewOrder(orderId) {
         `;
         detailContainer.innerHTML += itemHTML;
     });
-    const itemHTMLTotalAmount = `
-        <span class="text">Tổng cộng</span>
-        <span class="total" id="total">${totalAmount}VND</span>
-    `;
-    detailTotalAmount.innerHTML = itemHTMLTotalAmount;
+    viewOrder.querySelector(".total").innerText = totalAmount+'VND';
+    viewOrder.querySelector(".delivery").innerText = address;
+    viewOrder.querySelector(".deliveryDate").innerText = dateOfBooking;
     //
     viewOrder.style.display = "block";
 
