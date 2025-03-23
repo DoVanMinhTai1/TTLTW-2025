@@ -101,9 +101,10 @@
             <div class="CustomerPageConttenNavigationbarContent" id="CustomerPageConttenNavigationbarContent">
                 <div class="AccountInformation select">
                     <div class="AccountInformationTitle">THÔNG TIN TÀI KHOẢN</div>
-                    <div class="AccountInformationContent">Họ tên: <span>${currentUser.fullName}</span></div>
-                    <div class="AccountInformationContent">Email: <span>${currentUser.email}</span></div>
-                    <div class="AccountInformationContent">Điện thoại: <span>${currentUser.phone}</span></div>
+                    <div class="AccountInformationContent">Họ tên: <span id="nameAccount">${currentUser.fullName}</span></div>
+                    <div class="AccountInformationContent">Email: <span id="emailAccount">${currentUser.email}</span></div>
+                    <div class="AccountInformationContent">Điện thoại: <span id="phoneAccount">${currentUser.phone}</span></div>
+                    <button id="editButton" onclick="editAccountInf(${currentUser.id})" >Chỉnh sửa</button>
                 </div>
                 <div class="YourOrder select">
                     <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>
