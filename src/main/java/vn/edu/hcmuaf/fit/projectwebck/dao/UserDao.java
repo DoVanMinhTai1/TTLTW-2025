@@ -61,6 +61,26 @@ public class UserDao {
                 .bind("userId", user.getId())
                 .execute());
     }
+    public boolean updateUserCustomer(int id, String name, String email, String phone) {
+        try {
+            Jdbi jdbi = JDBIConect.get();
+            int updatedRows = jdbi.withHandle(handle ->
+                    handle.createUpdate("UPDATE users SET fullName = :fullName, email = :email, phone = :phone WHERE id = :userId")
+                            .bind("fullName", name)
+                            .bind("email", email)
+                            .bind("phone", phone)
+                            .bind("userId", id)
+                            .execute()
+            );
+
+            return updatedRows > 0; // Nếu có ít nhất 1 hàng được cập nhật thì trả về true
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public void updatePassword(User user) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> handle.createUpdate("UPDATE users SET  password = :password WHERE id = :id ")
