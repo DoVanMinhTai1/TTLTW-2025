@@ -1,42 +1,66 @@
 package vn.edu.hcmuaf.fit.projectwebck.services;
 
 
-
+import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.UserDao;
+import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 
 import java.math.BigInteger;
 import java.util.List;
 
 public class UserServices {
-    UserDao userDao= new UserDao();
+    UserDao userDao = new UserDao();
     // Lấy tất cả người dùng
 
     public List<User> getAllUsers() {
-       return userDao.getAllUsers();
+        return userDao.getAllUsers();
     }
+
     public User getUserById(int id) {
         return userDao.getUserById(id);
     }
+
     public void insertUser(User user) {
         userDao.insertUser(user);
     }
+
     public void removeUser(int userId) {
         userDao.removeUser(userId);
     }
+
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
+
+    public boolean updateUserCustomer(int id, String name, String email, String phone) {
+        return userDao.updateUserCustomer(id, name, email, phone);
+    }
+
+
     public void updatePassword(User user) {
         userDao.updatePassword(user);
     }
+
     public List<User> searchByName(String name) {
         return userDao.searchByName(name);
     }
-    public User login(String username, String password) { return userDao.login(username, password); }
-    public int register(User user) { return userDao.register(user); }
-    public User findUserByUsername(String username) {return userDao.findUserByUsername(username);}
-    public String checkPhoneInDatabase(String phone) { return userDao.checkPhoneInDatabase(phone); }
+
+    public User login(String username, String password) {
+        return userDao.login(username, password);
+    }
+
+    public int register(User user) {
+        return userDao.register(user);
+    }
+
+    public User findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
+    }
+
+    public String checkPhoneInDatabase(String phone) {
+        return userDao.checkPhoneInDatabase(phone);
+    }
 
     public User getUserByThirtyPartyId(String uId) {
         return userDao.getUserByThirtyPartyId(uId);
