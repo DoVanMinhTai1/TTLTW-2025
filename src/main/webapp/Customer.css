@@ -537,12 +537,34 @@ input:focus {
 }
 .text {
     display: inline-block;
-    width: 220px;
+    width: 175px;
     margin-bottom: 15px;
-    font-size: 20px;
+    font-size: 16px;
+    color: #00845c;
 }
 
 .total {
-    color: #7cc652;
-    font-size: 20px;
+    font-size: 16px;
+}
+.DeliveryAddress {
+    max-width: 100%; /* Đảm bảo không vượt quá phần tử cha */
+    margin-left: 5px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.DeliveryAddress .text {
+    display: inline-block; /* Để "Địa chỉ nhận hàng:" không bị xuống dòng */
+    margin-bottom: 2px;
+}
+
+.DeliveryAddress .delivery {
+    display: inline; /* Hiển thị trên cùng dòng nếu còn đủ chỗ */
+    white-space: normal; /* Xuống dòng tự nhiên nếu không đủ không gian */
+    word-break: break-word; /* Đảm bảo chuỗi dài không tràn ra ngoài */
+    color: black;
+}
+.DeliveryAddress .deliveryDate {
+    color: black;
 }
