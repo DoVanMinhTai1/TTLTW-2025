@@ -23,54 +23,6 @@
 </head>
 <body>
 
-
-<%--<header class="header" id="header">--%>
-<%--    <div class="container1">--%>
-<%--        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"--%>
-<%--                                     style="width: 150px"></a>--%>
-<%--        <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">--%>
-<%--            <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">--%>
-<%--        </form>--%>
-<%--        <i class="fas fa-phone"></i>--%>
-<%--        <div class="headerphone">HOTLINE: 0327237467</div>--%>
-<%--        <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->--%>
-<%--        <c:choose>--%>
-<%--            <c:when test="${not empty currentUser}">--%>
-<%--                <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">--%>
-<%--                    <div class="headercontendangnhap">--%>
-<%--                            ${not empty currentUser.username ? currentUser.username : currentUser.given_name}--%>
-<%--                    </div>--%>
-<%--                </a>--%>
-<%--                <div class="line"></div>--%>
-<%--                <a href="logout" style="text-decoration: none">--%>
-<%--                    <div class="headercontendangki">Đăng Xuất</div>--%>
-<%--                </a>--%>
-<%--            </c:when>--%>
-<%--            <c:otherwise>--%>
-<%--                <a href="showLogin" style="text-decoration: none">--%>
-<%--                    <div class="headercontendangnhap">--%>
-<%--                        Đăng Nhập--%>
-<%--                    </div>--%>
-<%--                </a>--%>
-<%--                <div class="line"></div>--%>
-<%--                <a href="showLogin" style="text-decoration: none">--%>
-<%--                    <div class="headercontendangki">Đăng Kí</div>--%>
-<%--                </a>--%>
-<%--            </c:otherwise>--%>
-<%--        </c:choose>--%>
-
-<%--        <!--        gio hang-->--%>
-<%--        <div class="shopping_cart">--%>
-<%--            <div class="shopping_cart_swap">--%>
-<%--                <i class="fa-solid fa-basket-shopping"></i>--%>
-<%--                <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>--%>
-<%--    </div>--%>
-<%--</header>--%>
-
-
 <header class="container" id="">
     <div class="row">
         <div class="col-lg-2">
@@ -138,41 +90,10 @@
     </div>
 </header>
 
-
-<%--<div class="menu">--%>
-<%--    <ul>--%>
-<%--        <li>--%>
-<%--            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>--%>
-<%--            <div class="all">--%>
-<%--                <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>--%>
-<%--            </div>--%>
-<%--        </li>--%>
-
-<%--        <li>--%>
-<%--            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>--%>
-<%--            <div class="vegetables">--%>
-<%--                <a href="/web/showVegetables"><span>RAU</span></a>--%>
-<%--            </div>--%>
-<%--        </li>--%>
-<%--        <li>--%>
-<%--            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>--%>
-<%--            <div class="tubers">--%>
-<%--                <a href="/web/showTubers"><span>CỦ</span></a>--%>
-<%--            </div>--%>
-<%--        </li>--%>
-<%--        <li>--%>
-<%--            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>--%>
-<%--            <div class="vegetable_fruits">--%>
-<%--                <a href="/web/showFruits"><span>QUẢ</span></a>--%>
-<%--            </div>--%>
-<%--        </li>--%>
-<%--    </ul>--%>
-<%--</div>--%>
-
 <div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
     <div class="row" style="">
         <div class="col-lg-3 d-flex align-items-center  " style=" gap: 10px; justify-content: center">
-            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
+            <a href="/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">TẤT CẢ SẢN PHẨM</span>
             </a>
         </div>
@@ -261,6 +182,7 @@
                             <img src="${p.image}" alt=""/>
                         </a>
                         <!--xem ngay-->
+                        <a href="#" class = "add-to-cart">Them</a>
                         <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
                     </div>
                     <div class="product-info">

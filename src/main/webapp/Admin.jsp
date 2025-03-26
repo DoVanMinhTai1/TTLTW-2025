@@ -8,11 +8,11 @@
     User user =(User) session.getAttribute("user");
 
     if(user == null){
-        response.sendRedirect("/web/showLogin");
+        response.sendRedirect("showLogin");
         return;
     }
     if(user.getRole() !=1 ){
-        response.sendRedirect("/web/showHome");
+        response.sendRedirect("showHome");
         return;
     }
 %>
@@ -76,7 +76,7 @@
                 <div class="img-case">
                     <ul>
                         <li>
-                            <a href="/web/logout">
+                            <a href="logout">
                             <img src="Img/power.png" alt="" class="admin-avatar">
 <%--                            <div class="dropdown-menu">--%>
 <%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>

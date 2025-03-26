@@ -6,7 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 
 import java.util.Properties;
 
-public class sendEmail{
+public class sendEmail {
     private Session session;
 
     public sendEmail() {
@@ -39,3 +39,4 @@ public class sendEmail{
             throw new IllegalStateException("Error sending email", e);
         }
     }
+}
