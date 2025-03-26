@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-lg-2">
 
-            <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+            <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                                          style="width: 150px"></a>
         </div>
         <div class="col-lg-8 d-flex ">
@@ -93,22 +93,22 @@
 <div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
     <div class="row" style="">
         <div class="col-lg-3 d-flex align-items-center  " style=" gap: 10px; justify-content: center">
-            <a href="/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
+            <a href="showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">TẤT CẢ SẢN PHẨM</span>
             </a>
         </div>
 
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
-            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
+            <a href="showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">RAU</span></a>
         </div>
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap:10px;">
-            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
+            <a href="showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
                 <span style="text-decoration: none; color: black">CỦ</span>
             </a>
         </div>
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
-            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
+            <a href="showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">QUẢ</span></a>
         </div>
     </div>
@@ -182,15 +182,15 @@
                             <img src="${p.image}" alt=""/>
                         </a>
                         <!--xem ngay-->
-                        <a href="#" class = "add-to-cart">Them</a>
+                        <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
                         <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
                     </div>
                     <div class="product-info">
                         <c:set var="categoryHref">
                             <c:choose>
-                                <c:when test="${p.category == 1}">/web/showVegetables</c:when>
-                                <c:when test="${p.category == 2}">/web/showTubers</c:when>
-                                <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                                <c:when test="${p.category == 1}">showVegetables</c:when>
+                                <c:when test="${p.category == 2}">showTubers</c:when>
+                                <c:when test="${p.category == 3}">showFruits</c:when>
                                 <c:otherwise>/khong-xac-dinh</c:otherwise>
                             </c:choose>
                         </c:set>

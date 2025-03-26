@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
 </head>
-<body><header class="header" id="header">
+<body>
+<header class="header" id="header">
     <div class="container1">
         <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                                      style="width: 150px"></a>
@@ -130,7 +131,7 @@
                             <img src="${p.image}" alt=""/>
                         </a>
                         <!--xem ngay-->
-                        <a href="#" class = "add-to-cart">Them</a>
+                        <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
                         <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
                     </div>
                     <div class="product-info">

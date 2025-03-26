@@ -142,15 +142,15 @@
                   <img src="${p.image}" alt=""/>
                 </a>
                 <!--xem ngay-->
-                <a href="#" class = "add-to-cart">Them</a>
+                <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
                 <a href="detailProduct?id=${p.id}" class="buy-now">Xem ngay</a>
               </div>
               <div class="product-info">
                 <c:set var="categoryHref">
                   <c:choose>
-                    <c:when test="${p.category == 1}">/web/showVegetables</c:when>
-                    <c:when test="${p.category == 2}">/web/showTubers</c:when>
-                    <c:when test="${p.category == 3}">/web/showFruits</c:when>
+                    <c:when test="${p.category == 1}">showVegetables</c:when>
+                    <c:when test="${p.category == 2}">showTubers</c:when>
+                    <c:when test="${p.category == 3}">showFruits</c:when>
                     <c:otherwise>/khong-xac-dinh</c:otherwise>
                   </c:choose>
                 </c:set>
@@ -194,7 +194,7 @@
                 <img src="${p.image}" alt=""/>
               </a>
               <!--xem ngay-->
-              <a href="#" class = "add-to-cart">Them</a>
+              <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
               <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
             </div>
             <div class="product-info">

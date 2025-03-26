@@ -130,7 +130,7 @@
               <img src="${p.image}" alt=""/>
             </a>
             <!--xem ngay-->
-            <a href="#" class = "add-to-cart">Them</a>
+            <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
             <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
           </div>
           <div class="product-info">

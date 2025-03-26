@@ -440,11 +440,12 @@ ul.products li .product-top a.add-to-cart{
     padding: 5px 0;
     position: absolute;
     bottom: -50%;
-    width: 50%;
+    width: 49%;
     transition: 0.25s ease-in-out;
     opacity: 0.75;
     left: 0;
-    border-right: 1px solid black;
+    border-right: 2px solid black;
+    z-index: 1;
 }
 ul.products li:hover a.add-to-cart{
     bottom: 0;
@@ -458,10 +459,12 @@ ul.products li .product-top a.buy-now{
     padding: 5px 0;
     position: absolute;
     bottom: -50%;
-    width: 50%;
+    width: 49%;
     transition: 0.25s ease-in-out;
     opacity: 0.75;
     right: 0;
+    border-left: 2px solid black;
+    z-index: 1;
 }
 ul.products li:hover a.buy-now{
     bottom: 0;
