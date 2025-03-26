@@ -151,7 +151,36 @@ a{
 .AccountInformationContent span {
     font-weight: normal;
 }
-
+.AccountInformation button{
+    background-color: #7cc652;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+}
+.AccountInformation button:hover{
+    background-color: #00845c;
+}
+#nameInput{
+    width: 250px;
+    margin-left: 27px;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    padding: 3px;
+}
+#emailInput{
+    width: 250px;
+    margin-left: 34px;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    padding: 3px;
+}
+#phoneInput{
+    width: 250px;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    padding: 3px;
+}
 /*Don hang cua ban*/
 .YourOrder{
     display: none;
@@ -537,12 +566,34 @@ input:focus {
 }
 .text {
     display: inline-block;
-    width: 220px;
+    width: 175px;
     margin-bottom: 15px;
-    font-size: 20px;
+    font-size: 16px;
+    color: #00845c;
 }
 
 .total {
-    color: #7cc652;
-    font-size: 20px;
+    font-size: 16px;
+}
+.DeliveryAddress {
+    max-width: 100%; /* Đảm bảo không vượt quá phần tử cha */
+    margin-left: 5px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.DeliveryAddress .text {
+    display: inline-block; /* Để "Địa chỉ nhận hàng:" không bị xuống dòng */
+    margin-bottom: 2px;
+}
+
+.DeliveryAddress .delivery {
+    display: inline; /* Hiển thị trên cùng dòng nếu còn đủ chỗ */
+    white-space: normal; /* Xuống dòng tự nhiên nếu không đủ không gian */
+    word-break: break-word; /* Đảm bảo chuỗi dài không tràn ra ngoài */
+    color: black;
+}
+.DeliveryAddress .deliveryDate {
+    color: black;
 }

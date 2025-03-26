@@ -17,6 +17,7 @@
     <title>Customer Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js" defer></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Customer.css">
 </head>
 <body>
@@ -24,11 +25,11 @@
     <div class="Header">
         <div class="Container">
             <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
-                                        style="width: 150px"></a>
+                                    style="width: 150px"></a>
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
             <i class="fas fa-phone"></i>
             <div class="headerphone">HOTLINE: 0327237467</div>
-            <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+            <c:set var="currentUser" value="${sessionScope.user}"/> <!-- Lấy user từ session -->
             <c:choose>
                 <c:when test="${not empty currentUser}">
                     <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
@@ -63,7 +64,7 @@
         </div>
     </div>
     <div class="pathline"></div>
-    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
+    <c:set var="currentUser" value="${sessionScope.user}"/> <!-- Lấy user từ session -->
     <div class="CustomerPageConttent">
         <div class="Container">
             <div class="CustomerPageConttentHeader">
@@ -100,9 +101,10 @@
             <div class="CustomerPageConttenNavigationbarContent" id="CustomerPageConttenNavigationbarContent">
                 <div class="AccountInformation select">
                     <div class="AccountInformationTitle">THÔNG TIN TÀI KHOẢN</div>
-                    <div class="AccountInformationContent">Họ tên: <span>${currentUser.fullName}</span></div>
-                    <div class="AccountInformationContent">Email: <span>${currentUser.email}</span></div>
-                    <div class="AccountInformationContent">Điện thoại: <span>${currentUser.phone}</span></div>
+                    <div class="AccountInformationContent">Họ tên: <span id="nameAccount">${currentUser.fullName}</span></div>
+                    <div class="AccountInformationContent">Email: <span id="emailAccount">${currentUser.email}</span></div>
+                    <div class="AccountInformationContent">Điện thoại: <span id="phoneAccount">${currentUser.phone}</span></div>
+                    <button id="editButton" onclick="editAccountInf(${currentUser.id})" >Chỉnh sửa</button>
                 </div>
                 <div class="YourOrder select">
                     <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>
@@ -133,7 +135,8 @@
                                 </c:choose></span></td>
                                 <td><span class="Order_Money">${order.money}đ</span></td>
                                 <td>
-                                    <div class="Detail" onclick="viewOrder(${order.id})">
+                                    <div class="Detail"
+                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}')">
                                         <i class="fa-regular fa-eye"></i><span>Xem</span>
                                     </div>
                                 </td>
@@ -148,7 +151,14 @@
                             </div>
                             <div class="TotalAmount">
                                 <span class="text">Tổng cộng</span>
-                                <span class="total" id="total">1.240.000đ</span>
+                                <span class="total" id="total"></span>
+                            </div>
+                            <div class="DeliveryAddress">
+                                <span class="text">Địa chỉ nhận hàng:</span>
+                                <span class="delivery"></span>
+                            </div>
+                            <div class="DeliveryAddress">
+                                <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                             </div>
                         </div>
                     </table>
@@ -217,7 +227,7 @@
                     <div class="Addnewaddress" id="Addnewaddress">
                         <div class="AddnewaddressTitle">THÊM ĐỊA CHỈ MỚI</div>
                         <div class="AddnewaddressContent">
-                            <form action="addAddress" method="post" >
+                            <form action="addAddress" method="post">
                                 <input type="hidden" id="addressId" name="addressId">
                                 <input type="hidden" id="userId" name="userId" value="${sessionScope.user.id}">
                                 <input type="text" name="Name" id="Name" placeholder="Họ và tên" class="form"><br>
@@ -274,6 +284,6 @@
         <% } %>
     };
 </script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js"></script>
+
 </body>
 </html>
