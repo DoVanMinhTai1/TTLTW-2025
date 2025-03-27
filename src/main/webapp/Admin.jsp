@@ -5,13 +5,13 @@
 <%
     session = request.getSession();
     String runScript = request.getParameter("runScript");
-    User user =(User) session.getAttribute("user");
+    User user = (User) session.getAttribute("user");
 
-    if(user == null){
+    if (user == null) {
         response.sendRedirect("/web/showLogin");
         return;
     }
-    if(user.getRole() !=1 ){
+    if (user.getRole() != 1) {
         response.sendRedirect("/web/showHome");
         return;
     }
@@ -22,6 +22,10 @@
     <title>Admin Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Admin.css">
 
 </head>
@@ -63,6 +67,12 @@
                     style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
             </li>
         </a>
+        <a href="showOption?option=option6">
+            <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá test</span>
+            </li>
+        </a>
     </ul>
 </div>
 <div class="container">
@@ -77,10 +87,10 @@
                     <ul>
                         <li>
                             <a href="/web/logout">
-                            <img src="Img/power.png" alt="" class="admin-avatar">
-<%--                            <div class="dropdown-menu">--%>
-<%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
-<%--                            </div>--%>
+                                <img src="Img/power.png" alt="" class="admin-avatar">
+                                <%--                            <div class="dropdown-menu">--%>
+                                <%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
+                                <%--                            </div>--%>
                             </a>
                         </li>
                     </ul>
@@ -140,14 +150,14 @@
                             <th>Rau Củ Quả</th>
                             <th>Thành Tiền</th>
                         </tr>
-<%--                        <c:forEach var="o" items="${listlatestorders}">--%>
-<%--                            <tr>--%>
-<%--                                <td>${o.get}</td>--%>
-<%--                                <td>Quả Bí Đao</td>--%>
-<%--                                <td>30.000đ</td>--%>
-<%--                                <td><a href="#" class="btn">Xem</a></td>--%>
-<%--                            </tr>--%>
-<%--                        </c:forEach>--%>
+                        <%--                        <c:forEach var="o" items="${listlatestorders}">--%>
+                        <%--                            <tr>--%>
+                        <%--                                <td>${o.get}</td>--%>
+                        <%--                                <td>Quả Bí Đao</td>--%>
+                        <%--                                <td>30.000đ</td>--%>
+                        <%--                                <td><a href="#" class="btn">Xem</a></td>--%>
+                        <%--                            </tr>--%>
+                        <%--                        </c:forEach>--%>
 
                         <c:choose>
                             <c:when test="${not empty listlatestorders}">
@@ -156,7 +166,7 @@
                                         <td>${summary.username}</td>
                                         <td>${summary.name}</td>
                                         <td>${summary.totalamount}</td>
-<%--                                        <td><a href="#" class="btn">Xem</a></td>--%>
+                                            <%--                                        <td><a href="#" class="btn">Xem</a></td>--%>
                                     </tr>
                                 </c:forEach>
                             </c:when>
@@ -183,7 +193,7 @@
                                     <tr>
                                         <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
                                         <td>${conclusion.username}</td>
-<%--                                        <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>--%>
+                                            <%--                                        <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>--%>
 
                                     </tr>
                                 </c:forEach>
@@ -446,6 +456,38 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="AdminListProductDiscount select" >
+            <div class>
+                <div>Khuyến mãi (<span id="promotionCount"></span>)</div>
+                <form >
+                    <input type="text" name="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                </form>
+                <button type="submit" onclick="addPromotion()">Thêm khuyến mãi</button>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Loại giảm giá</th>
+                    <th>Phần trăm giảm giá</th>
+                    <th>Gía sau khi giảm</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+                <c:forEach var="productDiscount" items="${productWithDiscount}" >
+    <div>${productDiscount.nameProduct}</div>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 <script type="text/javascript">
@@ -457,6 +499,11 @@
         <% } %>
     };
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>
