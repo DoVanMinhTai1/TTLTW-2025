@@ -254,6 +254,7 @@
 
                             </a>
                             <!--xem ngay-->
+                            <a href="addRelativePr?id=${p.id}&pid=${pr.id}" class = "add-to-cart">Them</a>
                             <a href="showDetail?id=${pr.id}" class="buy-now">Xem ngay</a>
                         </div>
                         <div class="product-info">

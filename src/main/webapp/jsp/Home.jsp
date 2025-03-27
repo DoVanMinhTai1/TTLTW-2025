@@ -142,7 +142,7 @@
                   <img src="${p.image}" alt=""/>
                 </a>
                 <!--xem ngay-->
-                <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
+                <a href="addItemHome?pid=${p.id}" class = "add-to-cart">Them</a>
                 <a href="detailProduct?id=${p.id}" class="buy-now">Xem ngay</a>
               </div>
               <div class="product-info">
@@ -194,7 +194,7 @@
                 <img src="${p.image}" alt=""/>
               </a>
               <!--xem ngay-->
-              <a href="add-cart?pid=${p.id}" class = "add-to-cart">Them</a>
+              <a href="addItemHome?pid=${p.id}" class = "add-to-cart">Them</a>
               <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
             </div>
             <div class="product-info">
