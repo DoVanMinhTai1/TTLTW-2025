@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
+import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.*;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class ShowOption extends HttpServlet {
 //            sum += o.getTotalAmount();
 //        }
 //        request.setAttribute("totalRevenue", sum);
+
         switch (option) {
             case "option1":
                 List<Map<String, Object>> listLatestOrders = orderServices.getLatestOrders();
@@ -74,6 +76,11 @@ public class ShowOption extends HttpServlet {
                 List<Promotion> listPromotion = promotionServices.getAllPromotion();
                 request.setAttribute("listpromotion", listPromotion);
                 request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
+                break;
+            case "option6":
+                List<ProductWithDiscount> product = productService.getProductsWithDiscount();
+                request.setAttribute("productWithDiscount", product);
+                request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
             default:
 

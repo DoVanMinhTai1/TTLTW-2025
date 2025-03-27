@@ -897,6 +897,18 @@ th, td {
     font-weight: 600;
     color: #00845c;
 }
+
+
+.AdminListProductDiscount {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+    display: none;
+}
+
 /*Cua so nhap lieu san pham*/
 
 .ProductWindow {

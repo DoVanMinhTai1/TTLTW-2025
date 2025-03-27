@@ -11,7 +11,7 @@ public class Product {
     private String isNew;
     private List<ProductImage> productImages;
     private List<ProductVariant> productVariants;
-
+    private List<ProductDiscount> productDiscounts;
     public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants) {
         this.id = id;
         this.name = name;
@@ -46,6 +46,20 @@ public class Product {
         this.category = category;
         this.isNew = isNew;
         this.productImages = productImages;
+    }
+
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants, List<ProductDiscount> productDiscounts) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.mass = mass;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+        this.isNew = isNew;
+        this.productImages = productImages;
+        this.productVariants = productVariants;
+        this.productDiscounts = productDiscounts;
     }
 
     public void setId(int id) {
@@ -131,6 +145,15 @@ public class Product {
         this.productVariants = productVariants;
     }
 
+
+    public List<ProductDiscount> getProductDiscounts() {
+        return productDiscounts;
+    }
+
+    public void setProductDiscounts(List<ProductDiscount> productDiscounts) {
+        this.productDiscounts = productDiscounts;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -144,6 +167,7 @@ public class Product {
                 ", isNew='" + isNew + '\'' +
                 ", productImages=" + productImages +
                 ", productVariants=" + productVariants +
+                ", productDiscounts=" + productDiscounts +
                 '}';
     }
 }
