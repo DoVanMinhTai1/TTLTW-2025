@@ -4,6 +4,7 @@ package vn.edu.hcmuaf.fit.projectwebck.services;
 
 import vn.edu.hcmuaf.fit.projectwebck.dao.ProductDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
 
 import java.util.List;
 
@@ -74,4 +75,7 @@ public class ProductServices {
     //detail
     public List<String> getDescription(String productId){return productDao.getDescription(productId);}
     public List<Product> getRandomRelatedProducts(int productId) {return productDao.getRandomRelatedProducts(productId);}
+    public List<ProductWithDiscount> getProductsWithDiscount() {
+        return productDao.getProductDiscountIsActive();
+    }
 }

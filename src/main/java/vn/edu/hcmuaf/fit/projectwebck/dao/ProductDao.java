@@ -2,12 +2,12 @@ package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductVariant;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
+import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
 
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -267,4 +267,31 @@ public class ProductDao {
                         .list()
         );
     }
+//    sản phẩm đang giảm giá
+    public List<ProductWithDiscount> getProductDiscountIsActive() {
+        Jdbi jdbi = JDBIConect.get();
+        String sql = "select pd.id,pd.product_id,pd.discount_price,pd.discoun_type,pd.percentage_discount,pd.startdatetime,pd.enddatetime,p.`name`\n" +
+                "from products p\n" +
+                "INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
+                "WHERE pd.is_active = TRUE AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
+                "ORDER BY pd.id asc;";
+        List<ProductWithDiscount> product =  jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .map((rs) -> {
+                            ProductWithDiscount productWithDiscount = new ProductWithDiscount();
+                            productWithDiscount.setId(rs.getColumn("id",Integer.class));
+                            productWithDiscount.setProuctId(rs.getColumn("product_id",Integer.class));
+                            productWithDiscount.setPrice(rs.getColumn("discount_price",Double.class));
+                            productWithDiscount.setDiscoutType(rs.getColumn("discoun_type", DiscoutType.class));
+                            productWithDiscount.setDiscountPercentage(rs.getColumn("percentage_discount",Double.class));
+                            productWithDiscount.setStartDate(rs.getColumn("startdatetime",LocalDateTime.class));
+                            productWithDiscount.setEndDate(rs.getColumn("enddatetime", LocalDateTime.class));
+                            productWithDiscount.setNameProduct(rs.getColumn("name",String.class));
+                            return productWithDiscount;
+                        }).list());
+        System.out.println(product);
+        product.forEach(item -> item.setProductImageList(getProductImagesByProductId(item.getProuctId())));
+        return product;
+    }
+
 }

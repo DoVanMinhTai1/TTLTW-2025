@@ -45,6 +45,14 @@ function navigationbarClick(select) {
                 promotionContent.classList.add("active1");
             }
             break;
+        case "option6":
+            const productDiscount = document.querySelector(".AdminListProductDiscount");
+            if (productDiscount) {
+                productDiscount.classList.add("active1");
+            }
+            break;
+
+
         default:
             console.warn(`No content found for select: ${select}`);
             break;
