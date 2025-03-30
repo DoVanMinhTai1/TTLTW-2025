@@ -422,6 +422,13 @@ ul.products li .product-top{
     overflow: hidden;
     border: 1px solid #a7dd8c;
 }
+ul.products li .product-top .newProduct {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -20px;
+    right: 5px;
+}
 ul.products li .product-top .product-thumb{
     display: block;
 }
