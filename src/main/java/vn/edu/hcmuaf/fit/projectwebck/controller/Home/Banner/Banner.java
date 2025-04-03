@@ -14,18 +14,18 @@ public class Banner extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String[] listMainBanner = {
-                "/img/banner.png",
-                "/img/banner.png",
-                "/img/banner.png"
-        };
-
-        // Gửi dữ liệu vào JSP
-        request.setAttribute("listMainBanner", listMainBanner);
-
-        // Chuyển hướng đến trang JSP
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/showAll");
-        dispatcher.forward(request, response);
+//        String[] listMainBanner = {
+//                "/img/banner.png",
+//                "/img/banner.png",
+//                "/img/banner.png"
+//        };
+//
+//        // Gửi dữ liệu vào JSP
+//        request.setAttribute("listMainBanner", listMainBanner);
+//
+//        // Chuyển hướng đến trang JSP
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/showAll");
+//        dispatcher.forward(request, response);
     }
 
     public void destroy() {

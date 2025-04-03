@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -196,6 +196,19 @@
               <!--xem ngay-->
               <a href="addItemHome?pid=${p.id}" class = "add-to-cart">Them</a>
               <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
+              <fmt:parseDate value="${p.extraDay}" pattern="yyyy-MM-dd" var="dateAdded" />
+              <c:set var="now" value="<%= new java.util.Date() %>" />
+              <c:set var="diff" value="${now.time - dateAdded.time}" />
+              <c:set var="days" value="${diff / (1000 * 60 * 60 * 24)}" />
+
+              <c:choose>
+                <c:when test="${days > 3}">
+                  <img src="Img/new.png"  class="newProduct" style="display: none;"/>
+                </c:when>
+                <c:otherwise>
+                  <img src="Img/new.png"  class="newProduct"/>
+                </c:otherwise>
+              </c:choose>
             </div>
             <div class="product-info">
               <c:set var="categoryHref">
@@ -308,6 +321,7 @@
   $('#more').click(function () {
     window.location.href = "showAll";
   });
+
 
 </script>
 </body>

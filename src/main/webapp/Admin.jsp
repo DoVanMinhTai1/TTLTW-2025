@@ -26,6 +26,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
+
+
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Admin.css">
 
 </head>
@@ -457,22 +460,20 @@
             </div>
         </div>
 
-
-        <div class="AdminListProductDiscount select" >
-            <div class>
-                <div>Khuyến mãi (<span id="promotionCount"></span>)</div>
-                <form >
-                    <input type="text" name="searchPromotion" placeholder="Nhập mã khuyến mãi?">
-                </form>
-                <button type="submit" onclick="addPromotion()">Thêm khuyến mãi</button>
+        <div class="AdminListProductDiscount select container mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Quản lý sản phẩm giảm giá</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
+                    phẩm giảm giá
+                </button>
             </div>
-
-            <table>
+            <table id="productTable " class="table table-striped">
                 <thead>
                 <tr>
                     <th>Tên sản phẩm</th>
                     <th>Loại giảm giá</th>
                     <th>Phần trăm giảm giá</th>
+                    <th>Giảm giá theo tiền tệ</th>
                     <th>Gía sau khi giảm</th>
                     <th>Ngày bắt đầu</th>
                     <th>Ngày kết thúc</th>
@@ -481,13 +482,73 @@
                 </thead>
 
                 <tbody>
-                <c:forEach var="productDiscount" items="${productWithDiscount}" >
-    <div>${productDiscount.nameProduct}</div>
+                <c:forEach var="productDiscount" items="${productWithDiscount}">
+                    <tr>
+                        <td>${productDiscount.nameProduct}</td>
+                        <td>${productDiscount.discoutType}</td>
+                        <td>${productDiscount.discountPercentage}</td>
+                        <td>${productDiscount.price}</td>
+                        <td>abc</td>
+                        <td>${productDiscount.startDate}</td>
+                        <td>${productDiscount.endDate}</td>
+
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
 
+<%--modal add product discount  --%>
+<div class="modal fade" id="addProductDiscount" tabindex="-1" aria-labelledby="addPromotionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPromotionModalLabel">Thêm Sản phẩm giảm giá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="productDiscountForm">
+                    <div class="mb-3">
+                        <label for="productSelect" class="form-label">Chọn sản phẩm</label>
+                        <select class="form-control" id="productSelect" required>
+                            <option value="">-- Tìm sản phẩm --</option>
+                            <!-- Các option sẽ được load bằng Ajax -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountType" class="form-label">Loại giảm giá</label>
+                        <select class="form-control" id="discountType">
+                            <option value="percentage">Phần trăm</option>
+                            <option value="fixed">Giảm giá cố định</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPercent" class="form-label">Phần trăm giảm giá (%)</label>
+                        <input type="number" class="form-control" id="discountPercent" min="0" max="100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDiscountPrice" class="form-label">Gỉam giá cố định</label>
+                        <input type="number" class="form-control" id="productDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPrice" class="form-label">Giá sau giảm (VND)</label>
+                        <input type="number" class="form-control" id="discountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                        <input type="datetime-local" class="form-control" id="startDateDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">Ngày kết thúc</label>
+                        <input type="datetime-local" class="form-control" id="endDateDiscountPrice" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Thêm</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -499,11 +560,117 @@
         <% } %>
     };
 </script>
+
+<%--them san pham khuyen mai--%>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script>
+
+    let isProductLoaded = false;
+
+    $(document).ready(function () {
+        loadProduct(); // Chỉ gọi 1 lần khi trang tải xong
+    });
+
+
+    function loadProduct() {
+        let productSelect = document.getElementById("productSelect"); // Chuyển về DOM element
+        if (isProductLoaded) {
+            return; // Nếu đã load rồi thì không load lại nữa
+        }
+        isProductLoaded = true;
+        $.ajax({
+            url: "/web/productDiscount", // Gọi API lấy danh sách sản phẩm
+            type: "GET",
+            headers: {"discount": "discount"},
+            dataType: "json",
+            success: function (data) {
+                productSelect.innerHTML = ""; // Xóa option cũ
+                let defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "-- Tìm sản phẩm --";
+                productSelect.appendChild(defaultOption); // Thêm option mặc định
+
+                console.log("🚀 Data nhận được:", data);
+
+                data.forEach(product => {
+                    let option = document.createElement("option");
+                    option.value = product.id;
+                    option.textContent = product.name + " - " + product.price + " VND";
+                    productSelect.append(option);
+                });
+
+                console.log("✅ HTML sau khi cập nhật:", productSelect.innerHTML);
+            },
+            error: function () {
+                alert("Không thể tải danh sách sản phẩm!");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#discountType').change( function () {
+            let discountType = $(this).val();
+
+            if(discountType === 'percentage') {
+                $('discountPrice').prop("disabled", true).val("");
+                $('productDiscountPrice').prop("disabled", false);
+
+            } else if (discountType === 'fixed') {
+                $('productDiscountPrice').prop("disabled", true).val("");
+                $('discountPrice').prop("disabled", false);
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        $("#productDiscountForm").submit(function (event) {
+            event.preventDefault();
+            let productId = document.getElementById("productSelect")?.value;
+            let discountPercent = document.getElementById("discountPercent")?.value || 0;
+            let discountPrice = document.getElementById("productDiscountPrice")?.value || 0;
+            let startDate = new Date(document.getElementById("startDateDiscountPrice").value);
+            let endDate = new Date(document.getElementById("endDateDiscountPrice").value);
+
+            if (startDate >= endDate) {
+                alert("Ngày bắt đầu phải trước ngày kết thúc.");
+                return;
+            }
+
+            let timeDifference = endDate - startDate;
+            let hoursDifference = timeDifference / (1000 * 60 * 60);
+            let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+            let DiscountType = daysDifference >=1 ? "HOURLY" : "DAILY";
+            let formData = {
+                productId: productId,
+                discount_type: DiscountType,
+                discount_percent: discountPercent,
+                discount_price: discountPrice,
+                startDateTime: startDate,
+                endDateTime: endDate
+
+            };
+
+            fetch("/web/AddProductDiscount", {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify(formData)
+            })
+                .then(response => reponse.text())
+                .then(data =>  {
+                    alert(data);
+                    location.reload();
+                })
+                .catch(error => console.error(error))
+        })
+    })
+</script>
 </body>
 </html>

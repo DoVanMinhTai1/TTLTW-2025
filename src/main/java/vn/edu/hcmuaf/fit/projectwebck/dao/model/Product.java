@@ -8,11 +8,11 @@ public class Product {
     private String description;
     private String image;
     private int category;
-    private String isNew;
+    private String extraDay;
     private List<ProductImage> productImages;
     private List<ProductVariant> productVariants;
     private List<ProductDiscount> productDiscounts;
-    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants) {
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String extraDay, List<ProductImage> productImages, List<ProductVariant> productVariants) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -20,12 +20,12 @@ public class Product {
         this.description = description;
         this.image = image;
         this.category = category;
-        this.isNew = isNew;
+        this.extraDay = extraDay;
         this.productImages = productImages;
         this.productVariants = productVariants;
     }
 
-    public Product(String name, int id, double price, double mass, String description, String image, int category, String isNew) {
+    public Product(String name, int id, double price, double mass, String description, String image, int category, String extraDay) {
         this.name = name;
         this.id = id;
         this.price = price;
@@ -33,10 +33,10 @@ public class Product {
         this.description = description;
         this.image = image;
         this.category = category;
-        this.isNew = isNew;
+        this.extraDay = extraDay;
     }
 
-    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages) {
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String extraDay, List<ProductImage> productImages) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -44,11 +44,11 @@ public class Product {
         this.description = description;
         this.image = image;
         this.category = category;
-        this.isNew = isNew;
+        this.extraDay = extraDay;
         this.productImages = productImages;
     }
 
-    public Product(int id, String name, double price, double mass, String description, String image, int category, String isNew, List<ProductImage> productImages, List<ProductVariant> productVariants, List<ProductDiscount> productDiscounts) {
+    public Product(int id, String name, double price, double mass, String description, String image, int category, String extraDay, List<ProductImage> productImages, List<ProductVariant> productVariants, List<ProductDiscount> productDiscounts) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -56,7 +56,7 @@ public class Product {
         this.description = description;
         this.image = image;
         this.category = category;
-        this.isNew = isNew;
+        this.extraDay = extraDay;
         this.productImages = productImages;
         this.productVariants = productVariants;
         this.productDiscounts = productDiscounts;
@@ -90,8 +90,8 @@ public class Product {
         this.category = category;
     }
 
-    public void setIsNew(String isNew) {
-        this.isNew = isNew;
+    public void setExtraDay(String extraDay) {
+        this.extraDay = extraDay;
     }
 
     public Product() {
@@ -125,8 +125,8 @@ public class Product {
         return category;
     }
 
-    public String getIsNew() {
-        return isNew;
+    public String getExtraDay() {
+        return extraDay;
     }
 
     public List<ProductImage> getProductImages() {
@@ -164,7 +164,7 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
                 ", category=" + category +
-                ", isNew='" + isNew + '\'' +
+                ", isNew='" + extraDay + '\'' +
                 ", productImages=" + productImages +
                 ", productVariants=" + productVariants +
                 ", productDiscounts=" + productDiscounts +
