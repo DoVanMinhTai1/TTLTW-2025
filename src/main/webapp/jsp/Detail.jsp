@@ -27,22 +27,22 @@
 <div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
     <div class="row" style="">
         <div class="col-lg-3 d-flex align-items-center  " style=" gap: 10px; justify-content: center">
-            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
+            <a href="showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">TẤT CẢ SẢN PHẨM</span>
             </a>
         </div>
 
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
-            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
+            <a href="showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">RAU</span></a>
         </div>
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap:10px;">
-            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
+            <a href="showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
                 <span style="text-decoration: none; color: black">CỦ</span>
             </a>
         </div>
         <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
-            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
+            <a href="showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
                 <span style="text-decoration: none; color: black">QUẢ</span></a>
         </div>
     </div>

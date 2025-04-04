@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-2">
 
-            <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+            <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                                          style="width: 150px"></a>
         </div>
         <div class="col-lg-8 d-flex ">
