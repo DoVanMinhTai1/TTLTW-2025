@@ -5,9 +5,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.projectwebck.dao.cart.Cart;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Address;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Transport;
 import vn.edu.hcmuaf.fit.projectwebck.services.AddressServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.TransportServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
@@ -25,6 +29,7 @@ public class ShowPay extends HttpServlet {
         List<Transport> list = transportServices.getAll();
         request.setAttribute("listTransport", list);
         String uIdParam = request.getParameter("uId");
+        String pIdParam = request.getParameter("productId");
         BigInteger uIdLong = new BigInteger(uIdParam);
         AddressServices addressServices = new AddressServices();
 
@@ -69,10 +74,22 @@ public class ShowPay extends HttpServlet {
             request.setAttribute("district", district);
             request.setAttribute("province", province);
             request.setAttribute("email", email);
+
+            HttpSession session = request.getSession();
+            if (pIdParam == null) {
+                Cart cart = (Cart) session.getAttribute("cart");
+                if (cart != null) {
+                    request.setAttribute("cartList", cart.getList());
+                }
+            } else {
+                ProductServices productServices = new ProductServices();
+                Product p = productServices.getById(Integer.parseInt(pIdParam));
+                request.setAttribute("product", p);
+            }
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
+
+
         }
-
-
     }
 
     @Override
