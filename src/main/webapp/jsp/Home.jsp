@@ -17,83 +17,41 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
+
 </head>
 <body>
-<header class="header" id="header">
-  <div class="container1">
-    <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
-                             style="width: 150px"></a>
-    <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">
-      <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
-    </form>
-    <i class="fas fa-phone"></i>
-    <div class="headerphone">HOTLINE: 0327237467</div>
-    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
-      <c:choose>
-        <c:when test="${not empty currentUser}">
-          <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
-            <div class="headercontendangnhap">
-                ${not empty currentUser.username ? currentUser.username : currentUser.given_name}
-            </div>
-          </a>
-          <div class="line"></div>
-          <a href="logout" style="text-decoration: none">
-            <div class="headercontendangki">Đăng Xuất</div>
-          </a>
-        </c:when>
-        <c:otherwise>
-          <a href="showLogin" style="text-decoration: none">
-            <div class="headercontendangnhap">
-              Đăng Nhập
-            </div>
-          </a>
-          <div class="line"></div>
-          <a href="showLogin" style="text-decoration: none">
-            <div class="headercontendangki">Đăng Kí</div>
-          </a>
-        </c:otherwise>
-      </c:choose>
 
-    <!--        gio hang-->
-    <div class="shopping_cart">
-      <div class="shopping_cart_swap">
-        <i class="fa-solid fa-basket-shopping"></i>
-        <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
-      </div>
+<jsp:include page="Header.jsp" />
+
+
+<div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
+  <div class="row" style="">
+    <div class="col-lg-3 d-flex align-items-center  " style=" gap: 10px; justify-content: center">
+      <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all" style="font-size: 25px;"></i>
+        <span style="text-decoration: none; color: black">TẤT CẢ SẢN PHẨM</span>
+      </a>
     </div>
-    <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>
-  </div>
-</header>
-<div class="menu">
-  <ul>
-    <li>
-      <a href="showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
-      <div class="all">
-        <a href="showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
-      </div>
-    </li>
 
-    <li>
-      <a href="showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>
-      <div class="vegetables">
-        <a href="showVegetables"><span>RAU</span></a>
-      </div>
-    </li>
-    <li>
-      <a href="showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
-      <div class="tubers">
-        <a href="showTubers"><span>CỦ</span></a>
-      </div>
-    </li>
-    <li>
-      <a href="showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
-      <div class="vegetable_fruits">
-        <a href="showFruits"><span>QUẢ</span></a>
-      </div>
-    </li>
-  </ul>
+    <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
+      <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves" style="font-size: 25px;"></i>
+        <span style="text-decoration: none; color: black">RAU</span></a>
+    </div>
+    <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap:10px;">
+      <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root" style="font-size: 25px; "></i>
+        <span style="text-decoration: none; color: black">CỦ</span>
+      </a>
+    </div>
+    <div class="col-lg-3 d-flex align-items-center  " style="justify-content: center; gap: 10px">
+      <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit" style="font-size: 25px;"></i>
+        <span style="text-decoration: none; color: black">QUẢ</span></a>
+    </div>
+  </div>
 </div>
+
+
 <main class="main" id="main">
   <div class="banner">
     <img src="Img/banner.png" alt="" class="image_banner">
@@ -246,59 +204,8 @@
   </div>
 </main>
 
-<footer class="footer">
-  <section class="head-footer" style="background-color: #E0E5DC; border-bottom: 1px solid #B1B1B1">
-    <div class="head-text">
-      <span>KẾT NỐI VỚI CHÚNG TÔI TRÊN MẠNG XÃ HỘI:</span>
-    </div>
-    <div class="icon">
-      <a href="https://www.facebook.com/">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://x.com/">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://accounts.google.com/InteractiveLogin/signinchooser?ifkv=AcMMx-eAnI_k5fnUiekh_ZIVLJbaydtwEkoPzxadnu-8S0hZHL_JYdaDtvE4CMit7jumqRy6ZsBxzQ&ddm=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
-        <i class="fab fa-google"></i>
-      </a>
-      <a href="https://www.instagram.com/">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://www.linkedin.com/login">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="https://github.com/login">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-  </section>
-  <section class="main-footer">
-    <!--    <div class="container text-center text-md-start mt-5">-->
-    <!--      <div class="row mt-3">-->
-    <div class="main-footer-column">
-      <h6 class="footer-quotes">Nông Lâm Food</h6>
-      <p>
-        Luôn nỗ lực mang đến cho người tiêu dùng Việt Nam những sản phẩm sạch sẽ, đầy dinh dưỡng, được
-        trồng theo phương pháp khoa học.
-      </p>
-    </div>
-    <div class="footer-contact">
-      <a href="contact.html"><h6 class="">LIÊN HỆ TẠI ĐÂY</h6></a>
-    </div>
-    <div class="footer-in4">
-      <h6 class="">THÔNG TIN LIÊN HỆ</h6>
-      <p><i class="fas fa-home mr-3"></i>Khu phố 6, phường Linh Trung, thành phố Thủ Đức, Thành
-        phố Hồ Chí Minh, Việt Nam</p>
-      <p><i class="fas fa-envelope mr-3"></i>22130322@st.hcmuaf.edu.vn</p>
-      <p><i class="fas fa-phone mr-3"></i> + 84 327 237 467</p>
-    </div>
-    <!--      </div>-->
-    <!--    </div>-->
-  </section>
-  <div class="text-bottom" style="background-color: #E0E5DC">
-    © 2024 Copyright: Group03
-  </div>
-</footer>
+<jsp:include page="Footer.jsp" />
+
 <div id="backtop">
   <i class="fa-solid fa-arrow-up"></i>
 </div>

@@ -23,72 +23,55 @@
 </head>
 <body>
 
-<header class="container" id="">
-    <div class="row">
-        <div class="col-lg-2">
 
-            <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
-                                         style="width: 150px"></a>
-        </div>
-        <div class="col-lg-8 d-flex ">
-            <div class="col-5 flex-grow-1" style="justify-content: center; align-items: center; height: 100%;">
+<%--<header class="header" id="header">--%>
+<%--    <div class="container1">--%>
+<%--        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"--%>
+<%--                                     style="width: 150px"></a>--%>
+<%--        <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">--%>
+<%--            <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">--%>
+<%--        </form>--%>
+<%--        <i class="fas fa-phone"></i>--%>
+<%--        <div class="headerphone">HOTLINE: 0327237467</div>--%>
+<%--        <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->--%>
+<%--        <c:choose>--%>
+<%--            <c:when test="${not empty currentUser}">--%>
+<%--                <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">--%>
+<%--                    <div class="headercontendangnhap">--%>
+<%--                            ${not empty currentUser.username ? currentUser.username : currentUser.given_name}--%>
+<%--                    </div>--%>
+<%--                </a>--%>
+<%--                <div class="line"></div>--%>
+<%--                <a href="logout" style="text-decoration: none">--%>
+<%--                    <div class="headercontendangki">Đăng Xuất</div>--%>
+<%--                </a>--%>
+<%--            </c:when>--%>
+<%--            <c:otherwise>--%>
+<%--                <a href="showLogin" style="text-decoration: none">--%>
+<%--                    <div class="headercontendangnhap">--%>
+<%--                        Đăng Nhập--%>
+<%--                    </div>--%>
+<%--                </a>--%>
+<%--                <div class="line"></div>--%>
+<%--                <a href="showLogin" style="text-decoration: none">--%>
+<%--                    <div class="headercontendangki">Đăng Kí</div>--%>
+<%--                </a>--%>
+<%--            </c:otherwise>--%>
+<%--        </c:choose>--%>
 
-                <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10"
-                      style="display: flex; justify-content: center; align-items: center; height: 100%">
-                    <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?" style="width: 80%; ">
-                </form>
-            </div>
-            <div class="d-flex flex-grow-1" style="align-items: center; justify-content: center;">
-                <i class="fas fa-phone"></i>
-                <div class="headerphone">HOTLINE: 0327237467</div>
-            </div>
-            <div class="d-flex flex-grow-1" style="align-items: center; justify-content: center;">
+<%--        <!--        gio hang-->--%>
+<%--        <div class="shopping_cart">--%>
+<%--            <div class="shopping_cart_swap">--%>
+<%--                <i class="fa-solid fa-basket-shopping"></i>--%>
+<%--                <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>--%>
+<%--    </div>--%>
+<%--</header>--%>
 
-                <c:set var="currentUser" value="${sessionScope.user}"/> <!-- Lấy user từ session -->
-                <c:choose>
-                    <c:when test="${not empty currentUser}">
-                        <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
-                            <div class="headercontendangnhap">
-                                    ${not empty currentUser.username ? currentUser.username : currentUser.given_name}
-                            </div>
-                        </a>
-                        <div class="line"></div>
-                        <a href="logout" style="text-decoration: none">
-                            <div class="headercontendangki">Đăng Xuất</div>
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="showLogin" style="text-decoration: none">
-                            <div class="headercontendangnhap">
-                                Đăng Nhập
-                            </div>
-                        </a>
-                        <div class="line d-flex align-items-center justify-content-center"
-                             style="border: solid 1px gray;  height: 16px; margin-left: 3px; margin-right: 3px"></div>
-                        <a href="showLogin" style="text-decoration: none">
-                            <div class="headercontendangki">Đăng Kí</div>
-                        </a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
-        <!--        gio hang-->
-        <div class="col-lg-2 d-flex align-items-center justify-content-center">
-            <a href="ShowCart">
-                <div class="d-flex align-items-center justify-content-center gap-3">
-                    <div class="shopping_cart">
-                        <div class="shopping_cart_swap">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                            <span
-                                    class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
-                        </div>
-                    </div>
-                    <div class="shoppingtext">Giỏ hàng</div>
-                </div>
-            </a>
-        </div>
-    </div>
-</header>
+
+<jsp:include page="Header.jsp" />
 
 <div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
     <div class="row" style="">
@@ -239,59 +222,8 @@
         </ul>
     </div>
 </div>
-<footer class="footer">
-    <section class="head-footer" style="background-color: #E0E5DC; border-bottom: 1px solid #B1B1B1">
-        <div class="head-text">
-            <span>KẾT NỐI VỚI CHÚNG TÔI TRÊN MẠNG XÃ HỘI:</span>
-        </div>
-        <div class="icon">
-            <a href="https://www.facebook.com/">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://x.com/">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://accounts.google.com/InteractiveLogin/signinchooser?ifkv=AcMMx-eAnI_k5fnUiekh_ZIVLJbaydtwEkoPzxadnu-8S0hZHL_JYdaDtvE4CMit7jumqRy6ZsBxzQ&ddm=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
-                <i class="fab fa-google"></i>
-            </a>
-            <a href="https://www.instagram.com/">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/login">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/login">
-                <i class="fab fa-github"></i>
-            </a>
-        </div>
-    </section>
-    <section class="main-footer">
-        <!--    <div class="container text-center text-md-start mt-5">-->
-        <!--      <div class="row mt-3">-->
-        <div class="main-footer-column">
-            <h6 class="footer-quotes">Nông Lâm Food</h6>
-            <p>
-                Luôn nỗ lực mang đến cho người tiêu dùng Việt Nam những sản phẩm sạch sẽ, đầy dinh dưỡng, được
-                trồng theo phương pháp khoa học.
-            </p>
-        </div>
-        <div class="footer-contact">
-            <a href="contact.html"><h6 class="">LIÊN HỆ TẠI ĐÂY</h6></a>
-        </div>
-        <div class="footer-in4">
-            <h6 class="">THÔNG TIN LIÊN HỆ</h6>
-            <p><i class="fas fa-home mr-3"></i>Khu phố 6, phường Linh Trung, thành phố Thủ Đức, Thành
-                phố Hồ Chí Minh, Việt Nam</p>
-            <p><i class="fas fa-envelope mr-3"></i>22130322@st.hcmuaf.edu.vn</p>
-            <p><i class="fas fa-phone mr-3"></i> + 84 327 237 467</p>
-        </div>
-        <!--      </div>-->
-        <!--    </div>-->
-    </section>
-    <div class="text-bottom" style="background-color: #E0E5DC">
-        © 2024 Copyright: Group03
-    </div>
-</footer>
+<jsp:include page="Footer.jsp" />
+
 <div id="backtop">
     <i class="fa-solid fa-arrow-up"></i>
 </div>
