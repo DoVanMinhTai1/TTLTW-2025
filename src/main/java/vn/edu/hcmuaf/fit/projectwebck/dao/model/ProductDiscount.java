@@ -1,21 +1,22 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ProductDiscount {
     private int id;
     private int productId;
-    private Double discoutPrice;
+    private Double discountPrice;
     private Double discountPercentage;
     private DiscoutType discountType;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private boolean isActive;
 
-    public ProductDiscount(int id, int productId, Double discoutPrice, Double discountPercentage, DiscoutType discountType, Date startDate, Date endDate, boolean isActive) {
+    public ProductDiscount(int id, int productId, Double discountPrice, Double discountPercentage, DiscoutType discountType, LocalDateTime startDate, LocalDateTime endDate, boolean isActive) {
         this.id = id;
         this.productId = productId;
-        this.discoutPrice = discoutPrice;
+        this.discountPrice = discountPrice;
         this.discountPercentage = discountPercentage;
         this.discountType = discountType;
         this.startDate = startDate;
@@ -24,6 +25,16 @@ public class ProductDiscount {
     }
     public ProductDiscount() {
 
+    }
+
+    public ProductDiscount(Integer productId, DiscoutType discountType, Double discountPercent, Integer discountPrice, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.productId = productId;
+        this.discountType = discountType;  // Chuyển chuỗi thành Enum
+        this.discountPercentage = discountPercent;
+        this.discountPrice = discountPrice != null ? discountPrice.doubleValue() : null;
+        this.startDate = startDateTime;
+        this.endDate = endDateTime;
+        this.isActive = true;
     }
 
     public int getId() {
@@ -42,13 +53,7 @@ public class ProductDiscount {
         this.productId = productId;
     }
 
-    public Double getDiscoutPrice() {
-        return discoutPrice;
-    }
 
-    public void setDiscoutPrice(Double discoutPrice) {
-        this.discoutPrice = discoutPrice;
-    }
 
     public Double getDiscountPercentage() {
         return discountPercentage;
@@ -66,21 +71,6 @@ public class ProductDiscount {
         this.discountType = discountType;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
     public boolean isActive() {
         return isActive;
@@ -90,12 +80,36 @@ public class ProductDiscount {
         isActive = active;
     }
 
+    public Double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(Double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
         return "ProductDiscount{" +
                 "id=" + id +
                 ", productId=" + productId +
-                ", discoutPrice=" + discoutPrice +
+                ", discountPrice=" + discountPrice +
                 ", discountPercentage=" + discountPercentage +
                 ", discountType=" + discountType +
                 ", startDate=" + startDate +

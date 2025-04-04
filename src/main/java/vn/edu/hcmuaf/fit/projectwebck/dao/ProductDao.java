@@ -6,10 +6,8 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
 
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProductDao {
     static Map<Integer, Product> data = new HashMap<>();
@@ -294,4 +292,20 @@ public class ProductDao {
         return product;
     }
 
+    public ProductDiscount save(ProductDiscount productDiscount) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle ->{
+            handle.createUpdate(" INSERT INTO productdiscounts(product_id,discount_price,percentage_discount,discoun_type,startdatetime,enddatetime,is_active) " +
+                    "VALUES (:product_id,:discount_price,:percentage_discount,:discoun_type,:startdatetime,:enddatetime,:is_active)")
+                    .bind("product_id", productDiscount.getProductId())
+                    .bind("discount_price", productDiscount.getDiscountPrice())
+                    .bind("percentage_discount", productDiscount.getDiscountPercentage())
+                    .bind("discoun_type", productDiscount.getDiscountType())
+                    .bind("startdatetime", productDiscount.getStartDate())
+                    .bind("enddatetime", productDiscount.getEndDate())
+                    .bind("is_active",productDiscount.isActive())
+                    .execute();
+        });
+        return productDiscount;
+    }
 }
