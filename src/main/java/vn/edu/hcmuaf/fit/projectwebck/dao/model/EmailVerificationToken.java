@@ -9,9 +9,9 @@ public class EmailVerificationToken {
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private boolean isUsed;
-    public EmailVerificationToken(String token, String email) {
-        this.token = token;
+    public EmailVerificationToken(String email, String token) {
         this.email = email;
+        this.token = token;
     }
 
     public int getId() {
