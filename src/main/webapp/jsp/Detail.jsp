@@ -165,7 +165,7 @@
                 <div class="btn-bounder">
                     <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>
                     </button>
-                    <button class="buy"><a href="">Mua ngay</a></button>
+                    <button class="buy"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}">Mua ngay</a></button>
                 </div>
             </div>
         </div>
