@@ -351,4 +351,32 @@ public class ProductDao {
 
         });
     }
+
+    public ProductWithDiscount updateProductWithDiscount(int id, ProductWithDiscount productWithDiscountCons) {
+        Jdbi jdbi = JDBIConect.get(); // Lấy kết nối JDBI từ lớp kết nối
+
+        String sql = "UPDATE productdiscounts SET " +
+                "discoun_type = :discoun_type, " +
+                "percentage_discount = :percentage_discount, " +
+                "discount_price = :discount_price, " +
+                "startdatetime = :startdatetime, " +
+                "enddatetime = :enddatetime " +
+                "WHERE id = :id";
+
+        // Thực thi câu lệnh SQL với JDBI
+        jdbi.useHandle(handle -> {
+            handle.createUpdate(sql)
+                    .bind("discoun_type", productWithDiscountCons.getDiscoutType())
+                    .bind("percentage_discount", productWithDiscountCons.getDiscountPercentage())
+                    .bind("discount_price", productWithDiscountCons.getPrice())
+                    .bind("startdatetime", productWithDiscountCons.getStartDate())
+                    .bind("enddatetime", productWithDiscountCons.getEndDate())
+                    .bind("id", id) // Lọc theo id của sản phẩm
+                    .execute(); // Thực thi câu lệnh
+        });
+
+        // Sau khi cập nhật, bạn có thể trả về đối tượng cập nhật (nếu cần)
+        return productWithDiscountCons;
+    }
+
 }

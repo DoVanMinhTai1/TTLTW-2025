@@ -92,4 +92,8 @@ public class ProductServices {
     public ProductWithDiscount getProductsWithDiscountById(int productId) {
         return productDao.getProductsWithDiscountById(productId);
     }
+
+    public ProductWithDiscount updateProductWithDiscount(int id, ProductWithDiscount productWithDiscountCons) {
+        return productDao.updateProductWithDiscount(id,productWithDiscountCons);
+    }
 }
