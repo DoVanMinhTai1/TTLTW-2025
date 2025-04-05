@@ -265,7 +265,8 @@ public class ProductDao {
                         .list()
         );
     }
-//    sản phẩm đang giảm giá
+
+    //    sản phẩm đang giảm giá
     public List<ProductWithDiscount> getProductDiscountIsActive() {
         Jdbi jdbi = JDBIConect.get();
         String sql = "select pd.id,pd.product_id,pd.discount_price,pd.discoun_type,pd.percentage_discount,pd.startdatetime,pd.enddatetime,p.`name`\n" +
@@ -273,18 +274,18 @@ public class ProductDao {
                 "INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
                 "WHERE pd.is_active = TRUE AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
                 "ORDER BY pd.id asc;";
-        List<ProductWithDiscount> product =  jdbi.withHandle(handle ->
+        List<ProductWithDiscount> product = jdbi.withHandle(handle ->
                 handle.createQuery(sql)
                         .map((rs) -> {
                             ProductWithDiscount productWithDiscount = new ProductWithDiscount();
-                            productWithDiscount.setId(rs.getColumn("id",Integer.class));
-                            productWithDiscount.setProuctId(rs.getColumn("product_id",Integer.class));
-                            productWithDiscount.setPrice(rs.getColumn("discount_price",Double.class));
+                            productWithDiscount.setId(rs.getColumn("id", Integer.class));
+                            productWithDiscount.setProuctId(rs.getColumn("product_id", Integer.class));
+                            productWithDiscount.setPrice(rs.getColumn("discount_price", Double.class));
                             productWithDiscount.setDiscoutType(rs.getColumn("discoun_type", DiscoutType.class));
-                            productWithDiscount.setDiscountPercentage(rs.getColumn("percentage_discount",Double.class));
-                            productWithDiscount.setStartDate(rs.getColumn("startdatetime",LocalDateTime.class));
+                            productWithDiscount.setDiscountPercentage(rs.getColumn("percentage_discount", Double.class));
+                            productWithDiscount.setStartDate(rs.getColumn("startdatetime", LocalDateTime.class));
                             productWithDiscount.setEndDate(rs.getColumn("enddatetime", LocalDateTime.class));
-                            productWithDiscount.setNameProduct(rs.getColumn("name",String.class));
+                            productWithDiscount.setNameProduct(rs.getColumn("name", String.class));
                             return productWithDiscount;
                         }).list());
         System.out.println(product);
@@ -294,18 +295,60 @@ public class ProductDao {
 
     public ProductDiscount save(ProductDiscount productDiscount) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle ->{
+        jdbi.useHandle(handle -> {
             handle.createUpdate(" INSERT INTO productdiscounts(product_id,discount_price,percentage_discount,discoun_type,startdatetime,enddatetime,is_active) " +
-                    "VALUES (:product_id,:discount_price,:percentage_discount,:discoun_type,:startdatetime,:enddatetime,:is_active)")
+                            "VALUES (:product_id,:discount_price,:percentage_discount,:discoun_type,:startdatetime,:enddatetime,:is_active)")
                     .bind("product_id", productDiscount.getProductId())
                     .bind("discount_price", productDiscount.getDiscountPrice())
                     .bind("percentage_discount", productDiscount.getDiscountPercentage())
                     .bind("discoun_type", productDiscount.getDiscountType())
                     .bind("startdatetime", productDiscount.getStartDate())
                     .bind("enddatetime", productDiscount.getEndDate())
-                    .bind("is_active",productDiscount.isActive())
+                    .bind("is_active", productDiscount.isActive())
                     .execute();
         });
         return productDiscount;
+    }
+
+
+    public boolean deleteProductDiscount(int id) {
+        Jdbi jdbi = JDBIConect.get();
+        String sql = "UPDATE productdiscounts SET is_active = 0 WHERE id = :id";
+        boolean success = false;
+        return jdbi.withHandle(handle -> {
+            int affectedRows = handle.createUpdate(sql)
+                    .bind("id", id)
+                    .execute();
+            return affectedRows > 0;
+        });
+    }
+
+    public ProductWithDiscount getProductsWithDiscountById(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        String sql =   "  SELECT pd.id, pd.product_id, pd.discount_price, pd.discoun_type, \n" +
+                        "           pd.percentage_discount, pd.startdatetime, pd.enddatetime, p.name\n" +
+                        "    FROM products p\n" +
+                        "    INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
+                        "    WHERE pd.is_active = TRUE \n" +
+                        "      AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
+                        "      AND pd.product_id = :productId\n" +
+                        "    ORDER BY pd.id ASC";
+        return jdbi.withHandle(handle -> {
+            return handle.createQuery(sql)
+                    .bind("productId", productId)
+                    .map((rs) -> {
+                        ProductWithDiscount productWithDiscount = new ProductWithDiscount();
+                        productWithDiscount.setId(rs.getColumn("id", Integer.class));
+                        productWithDiscount.setProuctId(rs.getColumn("product_id", Integer.class));
+                        productWithDiscount.setPrice(rs.getColumn("discount_price", Double.class));
+                        productWithDiscount.setDiscoutType(rs.getColumn("discoun_type", DiscoutType.class));
+                        productWithDiscount.setDiscountPercentage(rs.getColumn("percentage_discount", Double.class));
+                        productWithDiscount.setStartDate(rs.getColumn("startdatetime", LocalDateTime.class));
+                        productWithDiscount.setEndDate(rs.getColumn("enddatetime", LocalDateTime.class));
+                        productWithDiscount.setNameProduct(rs.getColumn("name", String.class));
+                        return productWithDiscount;
+                    }).findOnly();
+
+        });
     }
 }

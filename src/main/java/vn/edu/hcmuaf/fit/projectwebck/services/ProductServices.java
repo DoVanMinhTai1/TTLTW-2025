@@ -83,4 +83,13 @@ public class ProductServices {
     public ProductDiscount save(ProductDiscount productDiscount) {
        return  productDao.save(productDiscount);
     }
+
+
+    public boolean deleteProductDiscount(int id) {
+        return productDao.deleteProductDiscount(id);
+    }
+
+    public ProductWithDiscount getProductsWithDiscountById(int productId) {
+        return productDao.getProductsWithDiscountById(productId);
+    }
 }

@@ -477,6 +477,7 @@
                     <th>Gía sau khi giảm</th>
                     <th>Ngày bắt đầu</th>
                     <th>Ngày kết thúc</th>
+                    <th></th>
                 </tr>
 
                 </thead>
@@ -491,7 +492,14 @@
                         <td>abc</td>
                         <td>${productDiscount.startDate}</td>
                         <td>${productDiscount.endDate}</td>
-
+                        <td>
+                            <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
+                            </button>
+                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cật
+                                nhật sản phẩm giảm giá
+                            </button>
+                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -551,6 +559,59 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="updateProductDiscount" tabindex="-1" aria-labelledby="addPromotionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProductDiscountModalLabel">Thêm Sản phẩm giảm giá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateProductDiscountForm">
+                    <div class="mb-3">
+                        <label for="productSelect" class="form-label">Chọn sản phẩm</label>
+                        <select class="form-control" id="updateProductSelect" onchange="getProductById(this.value)"
+                                required>
+                            <option value="">-- Tìm sản phẩm --</option>
+                            <!-- Các option sẽ được load bằng Ajax -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountType" class="form-label">Loại giảm giá</label>
+                        <select class="form-control" id="updateDiscountType">
+                            <option value="percentage">Phần trăm</option>
+                            <option value="fixed">Giảm giá cố định</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPercent" class="form-label">Phần trăm giảm giá (%)</label>
+                        <input type="number" class="form-control" id="updateDiscountPercent" min="0" max="100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDiscountPrice" class="form-label">Gỉam giá cố định</label>
+                        <input type="number" class="form-control" id="updateProductDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPrice" class="form-label">Giá sau giảm (VND)</label>
+                        <input type="number" class="form-control" id="updateDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                        <input type="datetime-local" class="form-control" id="updateStartDateDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">Ngày kết thúc</label>
+                        <input type="datetime-local" class="form-control" id="updateEndDateDiscountPrice" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Cật nhật</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
@@ -597,16 +658,14 @@
                 defaultOption.textContent = "-- Tìm sản phẩm --";
                 productSelect.appendChild(defaultOption); // Thêm option mặc định
 
-                console.log("🚀 Data nhận được:", data);
 
-                data.forEach(product => {
+                data.products.forEach(product => {
                     let option = document.createElement("option");
                     option.value = product.id;
                     option.textContent = product.name + " - " + product.price + " VND";
                     productSelect.append(option);
                 });
 
-                console.log("✅ HTML sau khi cập nhật:", productSelect.innerHTML);
             },
             error: function () {
                 alert("Không thể tải danh sách sản phẩm!");
@@ -615,10 +674,10 @@
     }
 
     $(document).ready(function () {
-        $('#discountType').change( function () {
+        $('#discountType').change(function () {
             let discountType = $(this).val();
 
-            if(discountType === 'percentage') {
+            if (discountType === 'percentage') {
                 $('discountPrice').prop("disabled", true).val("");
                 $('productDiscountPrice').prop("disabled", false);
 
@@ -647,7 +706,7 @@
             let hoursDifference = timeDifference / (1000 * 60 * 60);
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
-            let DiscountType = daysDifference >=1 ? "HOURLY" : "DAILY";
+            let DiscountType = daysDifference < 24 ? "HOURLY" : "DAILY";
             let formData = {
                 productId: productId,
                 discount_type: DiscountType,
@@ -660,17 +719,156 @@
 
             fetch("/web/AddProductDiscount", {
                 method: "POST",
-                headers: { "Content-Type": "application/json"},
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
             })
                 .then(response => reponse.text())
-                .then(data =>  {
+                .then(data => {
                     alert(data);
                     location.reload();
+                    $('addProductDiscount').modal('hide')
                 })
                 .catch(error => console.error(error))
         })
     })
+
+    function deleteProductDiscount(id) {
+        console.log('test', id)
+        const idnew = id;
+        $.ajax({
+            url: `/web/deleteProductDiscount`,
+            type: 'DELETE',
+            data: JSON.stringify({id: idnew}),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success()) {
+                    alert("delete Product success")
+                    location.reload();
+                } else {
+                    alert('Failed to delete product discount.');
+                }
+            }
+        })
+
+    }
+
+
+    //     update product discount
+    function getProductById(productId) {
+
+        $.ajax({
+            url: `/web/getProductById?productId=` + productId, // 👈 Pass productId as a query param
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                let modal = new bootstrap.Modal(document.getElementById('updateProductDiscount'));
+                modal.show();
+                let select = document.getElementById('updateProductSelect option');
+                select.value = data.id;
+
+                // Update option text (optional)
+                let selectedOption = [...select.options].find(opt => opt.value == data.id);
+                if (selectedOption) {
+                    selectedOption.textContent = data.nameProduct + " (Selected)";
+                }
+
+
+                document.getElementById('updateDiscountType').value = data.discountType;
+
+                document.getElementById('updateDiscountPercent').value = data.discountPercentage;
+
+
+                document.getElementById('updateDiscountPrice').value = data.discountPrice;
+                document.getElementById('updateStartDateDiscountPrice').value = data.startDate;
+                document.getElementById('updateEndDateDiscountPrice').value = data.endDate;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching product by ID:', error);
+            }
+        });
+    }
+
+
+    document.getElementById('updateProductDiscountForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+
+        let formData = {
+            productId: document.getElementById('updateProductSelect').value,
+            discountType: document.getElementById('updateDiscountType').value,
+            discountPercent: document.getElementById('updateDiscountPercent').value,
+            discountPrice: document.getElementById('updateProductDiscountPrice').value,
+            discountFinalPrice: document.getElementById('updateDiscountPrice').value,
+            startDate: document.getElementById('updateStartDateDiscountPrice').value,
+            endDate: document.getElementById('updateEndDateDiscountPrice').value
+        };
+
+        // Send data via AJAX for updating
+        $.ajax({
+            url: '/web/updateProductDiscount', // Your API endpoint for updating product discount
+            type: 'POST', // Use POST to submit form data
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                if (response.success) {
+                    alert('Cập nhật sản phẩm giảm giá thành công');
+                    location.reload(); // Reload page or update UI as needed
+                } else {
+                    alert('Lỗi khi cập nhật sản phẩm giảm giá');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating product discount:', error);
+                alert('Có lỗi xảy ra khi cập nhật');
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $("#updateProductDiscountForm").submit(function (event) {
+            event.preventDefault();
+            let productId = document.getElementById("updateProductSelect")?.value;
+            let discountPercent = document.getElementById("updateDiscountPercent")?.value || 0;
+            let discountPrice = document.getElementById("updateProductDiscountPrice")?.value || 0;
+            let startDate = new Date(document.getElementById("updateStartDateDiscountPrice").value);
+            let endDate = new Date(document.getElementById("updateEndDateDiscountPrice").value);
+
+            if (startDate >= endDate) {
+                alert("Ngày bắt đầu phải trước ngày kết thúc.");
+                return;
+            }
+
+            let timeDifference = endDate - startDate;
+            let hoursDifference = timeDifference / (1000 * 60 * 60);
+            let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+            let DiscountType = daysDifference < 24 ? "HOURLY" : "DAILY";
+            let formData = {
+                productId: productId,
+                discount_type: DiscountType,
+                discount_percent: discountPercent,
+                discount_price: discountPrice,
+                startDateTime: startDate,
+                endDateTime: endDate
+
+            };
+
+            fetch("/web/UpdateProductDiscount", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formData)
+            })
+                .then(response => reponse.text())
+                .then(data => {
+                    alert(data);
+                    location.reload();
+                    $('updateProductDiscount').modal('hide')
+                })
+                .catch(error => console.error(error))
+        })
+    })
+
+
 </script>
 </body>
 </html>
