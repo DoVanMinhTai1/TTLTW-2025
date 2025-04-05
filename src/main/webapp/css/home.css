@@ -5,9 +5,9 @@ html, body {
     color: black;
     font-family: sans-serif, Tahoma;
 }
-/*body{*/
-/*    padding-top:90px;*/
-/*}*/
+body{
+    padding-top:90px;
+}
 h4, p{
     margin:0;
 }
@@ -306,31 +306,31 @@ a{
     cursor: pointer;
 }
 /*menu*/
-/*.menu{*/
-/*    background:#e0e5dc;*/
-/*    border: 1px solid gray;*/
-/*}*/
-/*.menu>ul>li{*/
-/*    margin-left: auto;*/
-/*    margin-right: auto;*/
-/*    justify-items: center;*/
-/*    align-content: center;*/
-/*    list-style: none;*/
-/*}*/
-/*.menu>ul>li>a>i{*/
-/*    padding-bottom: 10px;*/
-/*    font-size: 30px;*/
-/*}*/
-/*.menu>ul>li .all,  .menu>ul>li .vegetables, .menu>ul>li .tubers, .menu>ul>li .vegetable_fruits  {*/
-/*    cursor: pointer;*/
-/*}*/
-/*.all>a, .vegetables>a, .tubers>a, .vegetable_fruits>a{*/
-/*    text-decoration: none;*/
-/*    color:black;*/
-/*}*/
-/*.all>a:hover, .vegetables>a:hover, .tubers>a:hover, .vegetable_fruits>a:hover{*/
-/*    color:red;*/
-/*}*/
+.menu{
+    background:#e0e5dc;
+    border: 1px solid gray;
+}
+.menu>ul>li{
+    margin-left: auto;
+    margin-right: auto;
+    justify-items: center;
+    align-content: center;
+    list-style: none;
+}
+.menu>ul>li>a>i{
+    padding-bottom: 10px;
+    font-size: 30px;
+}
+.menu>ul>li .all,  .menu>ul>li .vegetables, .menu>ul>li .tubers, .menu>ul>li .vegetable_fruits  {
+    cursor: pointer;
+}
+.all>a, .vegetables>a, .tubers>a, .vegetable_fruits>a{
+    text-decoration: none;
+    color:black;
+}
+.all>a:hover, .vegetables>a:hover, .tubers>a:hover, .vegetable_fruits>a:hover{
+    color:red;
+}
 
 /*main*/
 /*banner*/
@@ -438,6 +438,25 @@ ul.products li .product-top .product-thumb img{
 ul.products li:hover .product-top .product-thumb img {
     filter: opacity(80%);
 }
+ul.products li .product-top a.add-to-cart{
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    background: #BFD8D1;
+    color: black;
+    padding: 5px 0;
+    position: absolute;
+    bottom: -50%;
+    width: 49%;
+    transition: 0.25s ease-in-out;
+    opacity: 0.75;
+    left: 0;
+    border-right: 2px solid black;
+    z-index: 1;
+}
+ul.products li:hover a.add-to-cart{
+    bottom: 0;
+}
 ul.products li .product-top a.buy-now{
     text-transform: uppercase;
     text-decoration: none;
@@ -447,9 +466,12 @@ ul.products li .product-top a.buy-now{
     padding: 5px 0;
     position: absolute;
     bottom: -50%;
-    width: 100%;
+    width: 49%;
     transition: 0.25s ease-in-out;
     opacity: 0.75;
+    right: 0;
+    border-left: 2px solid black;
+    z-index: 1;
 }
 ul.products li:hover a.buy-now{
     bottom: 0;

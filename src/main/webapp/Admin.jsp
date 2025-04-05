@@ -7,12 +7,12 @@
     String runScript = request.getParameter("runScript");
     User user = (User) session.getAttribute("user");
 
-    if (user == null) {
-        response.sendRedirect("/web/showLogin");
+    if(user == null){
+        response.sendRedirect("showLogin");
         return;
     }
-    if (user.getRole() != 1) {
-        response.sendRedirect("/web/showHome");
+    if(user.getRole() !=1 ){
+        response.sendRedirect("showHome");
         return;
     }
 %>
@@ -89,11 +89,11 @@
                 <div class="img-case">
                     <ul>
                         <li>
-                            <a href="/web/logout">
-                                <img src="Img/power.png" alt="" class="admin-avatar">
-                                <%--                            <div class="dropdown-menu">--%>
-                                <%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
-                                <%--                            </div>--%>
+                            <a href="logout">
+                            <img src="Img/power.png" alt="" class="admin-avatar">
+<%--                            <div class="dropdown-menu">--%>
+<%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
+<%--                            </div>--%>
                             </a>
                         </li>
                     </ul>
