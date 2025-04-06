@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
 </head>
-<body><header class="header" id="header">
+<body>
+<header class="header" id="header">
     <div class="container1">
-        <a href="/web/showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
+        <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
                                      style="width: 150px"></a>
         <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">
             <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
@@ -67,28 +68,28 @@
 <div class="menu">
     <ul>
         <li>
-            <a href="/web/showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
+            <a href="showAll"><i class="fa-brands fa-product-hunt" id="all"></i></a>
             <div class="all">
-                <a href="/web/showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
+                <a href="showAll"><span>TẤT CẢ SẢN PHẨM</span></a>
             </div>
         </li>
 
         <li>
-            <a href="/web/showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>
+            <a href="showVegetables"><i class="fa-solid fa-leaf" id="ves"></i></a>
             <div class="vegetables">
-                <a href="/web/showVegetables"><span>RAU</span></a>
+                <a href="showVegetables"><span>RAU</span></a>
             </div>
         </li>
         <li>
-            <a href="/web/showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
+            <a href="showTubers"><i class="fa-solid fa-carrot" id="root"></i></a>
             <div class="tubers">
-                <a href="/web/showTubers"><span>CỦ</span></a>
+                <a href="showTubers"><span>CỦ</span></a>
             </div>
         </li>
         <li>
-            <a href="/web/showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
+            <a href="showFruits"><i class="fa-solid fa-apple-whole" id="fruit"></i></a>
             <div class="vegetable_fruits">
-                <a href="/web/showFruits"><span>QUẢ</span></a>
+                <a href="showFruits"><span>QUẢ</span></a>
             </div>
         </li>
     </ul>
@@ -130,6 +131,7 @@
                             <img src="${p.image}" alt=""/>
                         </a>
                         <!--xem ngay-->
+                        <a href="addVegetable?pid=${p.id}" class = "add-to-cart">Them</a>
                         <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
                         <fmt:parseDate value="${p.extraDay}" pattern="yyyy-MM-dd" var="dateAdded" />
                         <c:set var="now" value="<%= new java.util.Date() %>" />

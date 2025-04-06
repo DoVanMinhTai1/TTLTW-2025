@@ -115,6 +115,16 @@ public class UserDao {
                 .findOne().orElse(null));
     }
 
+    public boolean isUsernameTaken(String username) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM users WHERE username = :username")
+                        .bind("username", username)
+                        .mapTo(Long.class)
+                        .findOne()
+                        .orElse(0L) > 0);
+    }
+
 
     public int register(User user) {
         Jdbi jdbi = JDBIConect.get();
