@@ -42,6 +42,7 @@ public class ProductDao {
                             product.setDescription(rs.getColumn("description", String.class));
                             product.setImage(rs.getColumn("image", String.class));
                             product.setCategory(rs.getColumn("category", Integer.class));
+                            product.setExtraDay(rs.getColumn("extraDay", String.class));
                             return product;
                         })
                 .findOne().orElse(null));
