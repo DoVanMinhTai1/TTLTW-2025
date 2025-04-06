@@ -6,15 +6,26 @@ public class Promotion {
     private String startDate;
     private String endDate;
     private int value;
+    private String description;
 
-    public Promotion(int id, String name, String startDate, String endDate, int value) {
+    public Promotion(int id, String name, String startDate, String endDate, int value, String description) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.value = value;
+        this.description = description;
     }
+
     public Promotion(){}
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getId() {
         return id;
@@ -58,7 +69,7 @@ public class Promotion {
 
     @Override
     public String toString() {
-        return id + ";" + name + ";" + startDate + ";" + endDate + ";" + value;
+        return id + ";" + name + ";" + startDate + ";" + endDate + ";" + value+ ";" + description;
     }
 
 }

@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Address;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.AddressServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.PromotionServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.IOException;
@@ -37,9 +39,12 @@ public class ShowCustomer extends HttpServlet {
         }
 
         request.setAttribute("user", user);
-
+        uId =Integer.parseInt(request.getParameter("uId")) ;
         switch (option) {
             case "option1":
+                PromotionServices promotionServices = new PromotionServices();
+                List<Promotion> promotions=promotionServices.getPromotionsByUserId(uId);
+                request.setAttribute("listpromotion", promotions);
                 request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request, response);
                 break;
             case "option2":

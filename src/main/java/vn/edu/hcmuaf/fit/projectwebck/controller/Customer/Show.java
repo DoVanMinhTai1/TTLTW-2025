@@ -5,11 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.PromotionServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.List;
 
 @WebServlet(name = "ShowCustomerPage", value = "/showCustomerPage")
 public class Show extends HttpServlet {
@@ -35,6 +38,9 @@ public class Show extends HttpServlet {
                 int uId = (int) uIdL;
                 User user = userServices.getUserById(uId);
                 request.setAttribute("user", user);
+                PromotionServices promotionServices = new PromotionServices();
+                List<Promotion> promotions=promotionServices.getPromotionsByUserId(uId);
+                request.setAttribute("listpromotion", promotions);
                 request.getRequestDispatcher("Customer.jsp?runScript=option1").forward(request, response);
 
             }
