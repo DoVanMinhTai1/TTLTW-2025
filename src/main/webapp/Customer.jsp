@@ -106,6 +106,32 @@
                     <div class="AccountInformationContent">Điện thoại: <span id="phoneAccount">${currentUser.phone}</span></div>
                     <button id="editButton" onclick="editAccountInf(${currentUser.id})" >Chỉnh sửa</button>
                 </div>
+                <div class="AccountListPromotion select">
+                    <div class="ListPromotionTitle">MÃ GIẢM GIÁ CỦA BẠN</div>
+                    <table class="TablePromotion">
+                        <thead>
+                        <tr>
+                            <th>Mã Khuyễn Mãi</th>
+                            <th>Tên Khuyễn Mãi</th>
+                            <th>Ngày Bắt Đầu</th>
+                            <th>Ngày Kết Thúc</th>
+                            <th>Mô tả</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ListPromotionTableBody">
+                        <!-- Các đơn hàng sẽ được chèn vào đây -->
+                        <c:forEach var="promotion" items="${listpromotion}">
+                            <tr class="Promotion_item">
+                                <td><span class="ListPromotion_Id">${promotion.id}</span></td>
+                                <td><span class="ListPromotionName">${promotion.name}</span></td>
+                                <td><span class="ListPromotion_StartDate">${promotion.startDate}</span></td>
+                                <td><span class="ListPromotion_EndDate">${promotion.endDate}</span></td>
+                                <td><span class="ListPromotionDescribe">${promotion.description}</span></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="YourOrder select">
                     <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>
                     <table>
