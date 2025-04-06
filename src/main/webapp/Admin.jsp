@@ -218,7 +218,7 @@
                 <form action="searchProduct" method="get">
                     <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
                 </form>
-                <button type="submit" onclick="addProduct()">Thêm sản phẩm</button>
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm sản phẩm</button>
             </div>
             <ul class="Product_Item" id="ProductItem">
                 <li class="title_Item">
@@ -249,36 +249,63 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="ProductWindow" id="ProductWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin sản phẩm</span><br>
-                    <form action="addProduct" method="post" enctype="multipart/form-data">
-                        <input type="hidden" id="idp" name="idp">
-                        <label for="productImage">Ảnh:</label><br>
-                        <input type="file" id="productImage" name="image" required><br>
-                        <span><img src="" alt="" id="image" style="width: 50px; display: none"><br></span>
-                        <label for="productName">Tên:</label><br>
-                        <input type="text" id="productName" name="name" placeholder="Vui lòng nhập tên ..."
-                               required><br>
-                        <label for="productPrice">Giá:</label><br>
-                        <input type="text" id="productPrice" name="price" placeholder="Vui lòng nhập giá ..."
-                               required><br>
-                        <label for="productDescribe">Mô tả:</label><br>
-                        <textarea id="productDescribe" name="describe" placeholder="Vui lòng mô tả" required></textarea><br>
-                        <label for="productMass">Khối lượng:</label><br>
-                        <input type="text" id="productMass" name="mass"
-                               placeholder="Vui lòng nhập số lượng ..." required><br>
-                        <label for="productCategory">Loại:</label><br>
-                        <select name="category" id="productCategory" required>
-                            <option value="1" selected>Rau</option>
-                            <option value="2">Củ</option>
-                            <option value="3">Quả</option>
-                        </select><br>
-                        <button type="submit" class="ButtonProduct1">Lưu</button>
-                        <button type="button" class="ButtonProduct2" onclick="closeProduct()">Hủy</button>
-                    </form>
+            <!-- Modal -->
+            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addProduct" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="idp" name="idp">
+
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Ảnh:</label>
+                                    <input type="file" class="form-control" id="productImage" name="image" required>
+                                    <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Tên:</label>
+                                    <input type="text" class="form-control" id="productName" name="name" placeholder="Vui lòng nhập tên ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Giá:</label>
+                                    <input type="text" class="form-control" id="productPrice" name="price" placeholder="Vui lòng nhập giá ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productDescribe" class="form-label">Mô tả:</label>
+                                    <textarea class="form-control" id="productDescribe" name="describe" placeholder="Vui lòng mô tả" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productMass" class="form-label">Khối lượng:</label>
+                                    <input type="text" class="form-control" id="productMass" name="mass" placeholder="Vui lòng nhập số lượng ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Loại:</label>
+                                    <select class="form-select" name="category" id="productCategory" required>
+                                        <option value="1" selected>Rau</option>
+                                        <option value="2">Củ</option>
+                                        <option value="3">Quả</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeProduct()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
         <%--        Nguoi dung--%>
         <div class="AdminListUser select">
@@ -287,7 +314,7 @@
                 <form action="searchUser" method="get">
                     <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
                 </form>
-                <button type="submit" onclick="addUser()">Thêm tài khoản</button>
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài khoản</button>
             </div>
             <ul class="User_Item" id="UserItem">
                 <li class="title_Item">
@@ -321,36 +348,65 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="UserWindow" id="UserWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin tài khoản</span><br>
-                    <form action="addUser" method="post">
-                        <input type="hidden" id="uid" name="uid">
-                        <label for="UserName">Tên đăng nhập:</label><br>
-                        <input type="text" id="UserName" name="UserName" placeholder="Vui lòng nhập tên đăng nhập..."
-                               required><br>
-                        <label for="UserPassword">Mật khẩu:</label><br>
-                        <input type="password" id="UserPassword" name="Password" placeholder="Vui lòng nhập mật khẩu..."
-                               required><br>
-                        <label for="Role">Phân quyền:</label><br>
-                        <select name="Role" id="Role" required>
-                            <option value="Quản trị viên">Quản trị viên</option>
-                            <option value="Người dùng">Người dùng</option>
-                        </select><br>
-                        <label for="FullName">Họ tên:</label><br>
-                        <input type="text" id="FullName" name="FullName" placeholder="Vui lòng nhập họ tên..." required><br>
-                        <label for="Phone">Số điện thoại:</label><br>
-                        <input type="text" id="Phone" name="Phone" placeholder="Vui lòng nhập số điện thoại..."
-                               required><br>
-                        <label for="Birthday">Ngày sinh:</label><br>
-                        <input type="date" id="Birthday" name="Birthday" required><br>
-                        <label for="Email">Email:</label><br>
-                        <input type="email" id="Email" name="Email" placeholder="Vui lòng nhập email..." required><br>
-                        <button type="submit" class="ButtonUser1">Lưu</button>
-                        <button type="button" class="ButtonUser2" onclick="closeUser()">Hủy</button>
-                    </form>
+            <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addUser" method="post">
+                                <input type="hidden" id="uid" name="uid">
+
+                                <div class="mb-3">
+                                    <label for="UserName" class="form-label">Tên đăng nhập:</label>
+                                    <input type="text" id="UserName" name="UserName" class="form-control" placeholder="Vui lòng nhập tên đăng nhập..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="UserPassword" class="form-label">Mật khẩu:</label>
+                                    <input type="password" id="UserPassword" name="Password" class="form-control" placeholder="Vui lòng nhập mật khẩu..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Role" class="form-label">Phân quyền:</label>
+                                    <select name="Role" id="Role" class="form-select" required>
+                                        <option value="Quản trị viên">Quản trị viên</option>
+                                        <option value="Người dùng">Người dùng</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="FullName" class="form-label">Họ tên:</label>
+                                    <input type="text" id="FullName" name="FullName" class="form-control" placeholder="Vui lòng nhập họ tên..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Phone" class="form-label">Số điện thoại:</label>
+                                    <input type="text" id="Phone" name="Phone" class="form-control" placeholder="Vui lòng nhập số điện thoại..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Birthday" class="form-label">Ngày sinh:</label>
+                                    <input type="date" id="Birthday" name="Birthday" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">Email:</label>
+                                    <input type="email" id="Email" name="Email" class="form-control" placeholder="Vui lòng nhập email..." required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
+                                    <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal" onclick="closeUser()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <%--Don hang--%>
@@ -409,7 +465,7 @@
                 <form action="searchPromotion" method="get">
                     <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
                 </form>
-                <button type="submit" onclick="addPromotion()">Thêm khuyến mãi</button>
+                <button type="submit"  data-bs-toggle="modal" data-bs-target="#PromotionWindow"  onclick="addPromotion()">Thêm khuyến mãi</button>
             </div>
             <ul class="Promotion_Item" id="PromotionItem">
                 <li class="title_Item">
@@ -438,26 +494,47 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="PromotionWindow" id="PromotionWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin khuyến mãi</span><br>
-                    <form action="addPromotion" method="post">
-                        <input type="hidden" id="poid" name="poid">
-                        <label for="PromotionName">Tên khuyến mãi:</label><br>
-                        <input type="text" id="PromotionName" name="PromotionName"
-                               placeholder="Vui lòng nhập tên khuyến mãi..." required><br>
-                        <label for="StartDate">Ngày bắt đầu:</label><br>
-                        <input type="date" id="StartDate" name="StartDate" required><br>
-                        <label for="EndDate">Ngày kết thúc:</label><br>
-                        <input type="date" id="EndDate" name="EndDate" required><br>
-                        <label for="Value">Giá trị (%):</label><br>
-                        <input type="number" id="Value" name="Value" placeholder="Nhập giá trị khuyến mãi (%)..."
-                               required><br>
-                        <button type="submit" class="ButtonPromotion1">Lưu</button>
-                        <button type="button" class="ButtonPromotion2" onclick="closePromotion()">Hủy</button>
-                    </form>
+            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addPromotion" method="post">
+                                <input type="hidden" id="poid" name="poid">
+
+                                <div class="mb-3">
+                                    <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
+                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control" placeholder="Vui lòng nhập tên khuyến mãi..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
+                                    <input type="date" id="StartDate" name="StartDate" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="EndDate" class="form-label">Ngày kết thúc:</label>
+                                    <input type="date" id="EndDate" name="EndDate" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Value" class="form-label">Giá trị (%):</label>
+                                    <input type="number" id="Value" name="Value" class="form-control" placeholder="Nhập giá trị khuyến mãi (%)..." required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
+                                    <button type="button" class="btn btn-secondary ButtonPromotion2" data-bs-dismiss="modal" onclick="closePromotion()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div class="AdminListProductDiscount select container mt-4">

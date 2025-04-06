@@ -28,9 +28,13 @@ public class ProductDao {
 //    }
     public Product getById(int id) {
         Jdbi jdbi = JDBIConect.get();
-        Product products = jdbi.withHandle(handle -> handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category,p.extraDay" +
-                        " from products p " +
-                        "where p.id = :id")
+        Product products = jdbi.withHandle(handle ->
+//                handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category,p.extraDay" +
+//                        " from products p " +
+//                        "where p.id = :id")
+                handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category" +
+                                " from products p " +
+                                "where p.id = :id")
                 .bind("id", id)
                 .map(
                         rs -> {
