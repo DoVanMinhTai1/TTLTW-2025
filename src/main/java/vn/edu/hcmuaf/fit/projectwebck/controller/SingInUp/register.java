@@ -23,6 +23,25 @@ public class register extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String token = request.getParameter("token");
+        String email = request.getParameter("email");
+        EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
+
+        // Kiểm tra token và email
+        boolean isVerified = emailVerificationTokenServices.verifyToken(email, token);
+
+        if (isVerified) {
+            // Đánh dấu token là đã sử dụng
+            emailVerificationTokenServices.markAsUsed(email, token);
+
+            // Thiết lập thông báo thành công
+            request.setAttribute("message", "Bạn đã xác nhận tài khoản thành công!");
+        } else {
+            request.setAttribute("message", "Xác nhận tài khoản không thành công. Vui lòng kiểm tra lại.");
+        }
+
+        // Chuyển hướng đến trang login (showLogin)
+        request.getRequestDispatcher("showLogin").forward(request, response);
     }
 
     @Override
@@ -65,8 +84,8 @@ public class register extends HttpServlet {
             emailVerificationTokenServices.insertToken(verificationToken);
 
             // Tạo link xác nhận
-            String verificationLink = "http://localhost:8080/verify?token=" + token + "&email=" + email;
-
+            String contextPath = request.getContextPath();
+            String verificationLink = "http://localhost:8080" + contextPath + "/register?token=" + token + "&email=" + email;
             // Gửi email
             sendEmail(email, verificationLink);
 
