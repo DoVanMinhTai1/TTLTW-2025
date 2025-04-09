@@ -218,7 +218,7 @@
                 <form action="searchProduct" method="get">
                     <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
                 </form>
-                <button type="submit" onclick="addProduct()">Thêm sản phẩm</button>
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm sản phẩm</button>
             </div>
             <ul class="Product_Item" id="ProductItem">
                 <li class="title_Item">
@@ -249,36 +249,63 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="ProductWindow" id="ProductWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin sản phẩm</span><br>
-                    <form action="addProduct" method="post" enctype="multipart/form-data">
-                        <input type="hidden" id="idp" name="idp">
-                        <label for="productImage">Ảnh:</label><br>
-                        <input type="file" id="productImage" name="image" required><br>
-                        <span><img src="" alt="" id="image" style="width: 50px; display: none"><br></span>
-                        <label for="productName">Tên:</label><br>
-                        <input type="text" id="productName" name="name" placeholder="Vui lòng nhập tên ..."
-                               required><br>
-                        <label for="productPrice">Giá:</label><br>
-                        <input type="text" id="productPrice" name="price" placeholder="Vui lòng nhập giá ..."
-                               required><br>
-                        <label for="productDescribe">Mô tả:</label><br>
-                        <textarea id="productDescribe" name="describe" placeholder="Vui lòng mô tả" required></textarea><br>
-                        <label for="productMass">Khối lượng:</label><br>
-                        <input type="text" id="productMass" name="mass"
-                               placeholder="Vui lòng nhập số lượng ..." required><br>
-                        <label for="productCategory">Loại:</label><br>
-                        <select name="category" id="productCategory" required>
-                            <option value="1" selected>Rau</option>
-                            <option value="2">Củ</option>
-                            <option value="3">Quả</option>
-                        </select><br>
-                        <button type="submit" class="ButtonProduct1">Lưu</button>
-                        <button type="button" class="ButtonProduct2" onclick="closeProduct()">Hủy</button>
-                    </form>
+            <!-- Modal -->
+            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addProduct" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="idp" name="idp">
+
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Ảnh:</label>
+                                    <input type="file" class="form-control" id="productImage" name="image" required>
+                                    <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Tên:</label>
+                                    <input type="text" class="form-control" id="productName" name="name" placeholder="Vui lòng nhập tên ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Giá:</label>
+                                    <input type="text" class="form-control" id="productPrice" name="price" placeholder="Vui lòng nhập giá ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productDescribe" class="form-label">Mô tả:</label>
+                                    <textarea class="form-control" id="productDescribe" name="describe" placeholder="Vui lòng mô tả" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productMass" class="form-label">Khối lượng:</label>
+                                    <input type="text" class="form-control" id="productMass" name="mass" placeholder="Vui lòng nhập số lượng ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Loại:</label>
+                                    <select class="form-select" name="category" id="productCategory" required>
+                                        <option value="1" selected>Rau</option>
+                                        <option value="2">Củ</option>
+                                        <option value="3">Quả</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeProduct()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
         <%--        Nguoi dung--%>
         <div class="AdminListUser select">
@@ -287,7 +314,7 @@
                 <form action="searchUser" method="get">
                     <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
                 </form>
-                <button type="submit" onclick="addUser()">Thêm tài khoản</button>
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài khoản</button>
             </div>
             <ul class="User_Item" id="UserItem">
                 <li class="title_Item">
@@ -321,36 +348,65 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="UserWindow" id="UserWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin tài khoản</span><br>
-                    <form action="addUser" method="post">
-                        <input type="hidden" id="uid" name="uid">
-                        <label for="UserName">Tên đăng nhập:</label><br>
-                        <input type="text" id="UserName" name="UserName" placeholder="Vui lòng nhập tên đăng nhập..."
-                               required><br>
-                        <label for="UserPassword">Mật khẩu:</label><br>
-                        <input type="password" id="UserPassword" name="Password" placeholder="Vui lòng nhập mật khẩu..."
-                               required><br>
-                        <label for="Role">Phân quyền:</label><br>
-                        <select name="Role" id="Role" required>
-                            <option value="Quản trị viên">Quản trị viên</option>
-                            <option value="Người dùng">Người dùng</option>
-                        </select><br>
-                        <label for="FullName">Họ tên:</label><br>
-                        <input type="text" id="FullName" name="FullName" placeholder="Vui lòng nhập họ tên..." required><br>
-                        <label for="Phone">Số điện thoại:</label><br>
-                        <input type="text" id="Phone" name="Phone" placeholder="Vui lòng nhập số điện thoại..."
-                               required><br>
-                        <label for="Birthday">Ngày sinh:</label><br>
-                        <input type="date" id="Birthday" name="Birthday" required><br>
-                        <label for="Email">Email:</label><br>
-                        <input type="email" id="Email" name="Email" placeholder="Vui lòng nhập email..." required><br>
-                        <button type="submit" class="ButtonUser1">Lưu</button>
-                        <button type="button" class="ButtonUser2" onclick="closeUser()">Hủy</button>
-                    </form>
+            <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addUser" method="post">
+                                <input type="hidden" id="uid" name="uid">
+
+                                <div class="mb-3">
+                                    <label for="UserName" class="form-label">Tên đăng nhập:</label>
+                                    <input type="text" id="UserName" name="UserName" class="form-control" placeholder="Vui lòng nhập tên đăng nhập..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="UserPassword" class="form-label">Mật khẩu:</label>
+                                    <input type="password" id="UserPassword" name="Password" class="form-control" placeholder="Vui lòng nhập mật khẩu..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Role" class="form-label">Phân quyền:</label>
+                                    <select name="Role" id="Role" class="form-select" required>
+                                        <option value="Quản trị viên">Quản trị viên</option>
+                                        <option value="Người dùng">Người dùng</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="FullName" class="form-label">Họ tên:</label>
+                                    <input type="text" id="FullName" name="FullName" class="form-control" placeholder="Vui lòng nhập họ tên..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Phone" class="form-label">Số điện thoại:</label>
+                                    <input type="text" id="Phone" name="Phone" class="form-control" placeholder="Vui lòng nhập số điện thoại..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Birthday" class="form-label">Ngày sinh:</label>
+                                    <input type="date" id="Birthday" name="Birthday" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">Email:</label>
+                                    <input type="email" id="Email" name="Email" class="form-control" placeholder="Vui lòng nhập email..." required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
+                                    <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal" onclick="closeUser()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <%--Don hang--%>
@@ -409,7 +465,7 @@
                 <form action="searchPromotion" method="get">
                     <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
                 </form>
-                <button type="submit" onclick="addPromotion()">Thêm khuyến mãi</button>
+                <button type="submit"  data-bs-toggle="modal" data-bs-target="#PromotionWindow"  onclick="addPromotion()">Thêm khuyến mãi</button>
             </div>
             <ul class="Promotion_Item" id="PromotionItem">
                 <li class="title_Item">
@@ -438,26 +494,47 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="PromotionWindow" id="PromotionWindow">
-                <div class="modal-content">
-                    <span>Nhập thông tin khuyến mãi</span><br>
-                    <form action="addPromotion" method="post">
-                        <input type="hidden" id="poid" name="poid">
-                        <label for="PromotionName">Tên khuyến mãi:</label><br>
-                        <input type="text" id="PromotionName" name="PromotionName"
-                               placeholder="Vui lòng nhập tên khuyến mãi..." required><br>
-                        <label for="StartDate">Ngày bắt đầu:</label><br>
-                        <input type="date" id="StartDate" name="StartDate" required><br>
-                        <label for="EndDate">Ngày kết thúc:</label><br>
-                        <input type="date" id="EndDate" name="EndDate" required><br>
-                        <label for="Value">Giá trị (%):</label><br>
-                        <input type="number" id="Value" name="Value" placeholder="Nhập giá trị khuyến mãi (%)..."
-                               required><br>
-                        <button type="submit" class="ButtonPromotion1">Lưu</button>
-                        <button type="button" class="ButtonPromotion2" onclick="closePromotion()">Hủy</button>
-                    </form>
+            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addPromotion" method="post">
+                                <input type="hidden" id="poid" name="poid">
+
+                                <div class="mb-3">
+                                    <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
+                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control" placeholder="Vui lòng nhập tên khuyến mãi..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
+                                    <input type="date" id="StartDate" name="StartDate" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="EndDate" class="form-label">Ngày kết thúc:</label>
+                                    <input type="date" id="EndDate" name="EndDate" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Value" class="form-label">Giá trị (%):</label>
+                                    <input type="number" id="Value" name="Value" class="form-control" placeholder="Nhập giá trị khuyến mãi (%)..." required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
+                                    <button type="button" class="btn btn-secondary ButtonPromotion2" data-bs-dismiss="modal" onclick="closePromotion()">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div class="AdminListProductDiscount select container mt-4">
@@ -477,6 +554,7 @@
                     <th>Gía sau khi giảm</th>
                     <th>Ngày bắt đầu</th>
                     <th>Ngày kết thúc</th>
+                    <th></th>
                 </tr>
 
                 </thead>
@@ -491,7 +569,14 @@
                         <td>abc</td>
                         <td>${productDiscount.startDate}</td>
                         <td>${productDiscount.endDate}</td>
-
+                        <td>
+                            <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
+                            </button>
+                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cật
+                                nhật sản phẩm giảm giá
+                            </button>
+                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -551,6 +636,60 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="updateProductDiscount" tabindex="-1" aria-labelledby="addPromotionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProductDiscountModalLabel">Cật nhật Sản phẩm giảm giá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateProductDiscountForm" >
+                    <input type="hidden" id="idProductWithDiscount" />
+                    <div class="mb-3">
+                        <label for="productSelect" class="form-label">Chọn sản phẩm</label>
+                        <select class="form-control" id="updateProductSelect"
+                                required>
+                            <option value="">-- Tìm sản phẩm --</option>
+                            <!-- Các option sẽ được load bằng Ajax -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountType" class="form-label">Loại giảm giá</label>
+                        <select class="form-control" id="updateDiscountType">
+                            <option value="percentage">Phần trăm</option>
+                            <option value="fixed">Giảm giá cố định</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPercent" class="form-label">Phần trăm giảm giá (%)</label>
+                        <input type="number" class="form-control" id="updateDiscountPercent" min="0" max="100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDiscountPrice" class="form-label">Gỉam giá cố định</label>
+                        <input type="number" class="form-control" id="updateProductDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountPrice" class="form-label">Giá sau giảm (VND)</label>
+                        <input type="number" class="form-control" id="updateDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                        <input type="datetime-local" class="form-control" id="updateStartDateDiscountPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">Ngày kết thúc</label>
+                        <input type="datetime-local" class="form-control" id="updateEndDateDiscountPrice" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Cật nhật</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
@@ -597,16 +736,14 @@
                 defaultOption.textContent = "-- Tìm sản phẩm --";
                 productSelect.appendChild(defaultOption); // Thêm option mặc định
 
-                console.log("🚀 Data nhận được:", data);
 
-                data.forEach(product => {
+                data.products.forEach(product => {
                     let option = document.createElement("option");
                     option.value = product.id;
                     option.textContent = product.name + " - " + product.price + " VND";
                     productSelect.append(option);
                 });
 
-                console.log("✅ HTML sau khi cập nhật:", productSelect.innerHTML);
             },
             error: function () {
                 alert("Không thể tải danh sách sản phẩm!");
@@ -615,10 +752,10 @@
     }
 
     $(document).ready(function () {
-        $('#discountType').change( function () {
+        $('#discountType').change(function () {
             let discountType = $(this).val();
 
-            if(discountType === 'percentage') {
+            if (discountType === 'percentage') {
                 $('discountPrice').prop("disabled", true).val("");
                 $('productDiscountPrice').prop("disabled", false);
 
@@ -647,7 +784,7 @@
             let hoursDifference = timeDifference / (1000 * 60 * 60);
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
-            let DiscountType = daysDifference >=1 ? "HOURLY" : "DAILY";
+            let DiscountType = daysDifference < 24 ? "HOURLY" : "DAILY";
             let formData = {
                 productId: productId,
                 discount_type: DiscountType,
@@ -660,17 +797,173 @@
 
             fetch("/web/AddProductDiscount", {
                 method: "POST",
-                headers: { "Content-Type": "application/json"},
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
             })
                 .then(response => reponse.text())
-                .then(data =>  {
+                .then(data => {
                     alert(data);
                     location.reload();
+                    $('addProductDiscount').modal('hide')
                 })
                 .catch(error => console.error(error))
         })
     })
+
+    function deleteProductDiscount(id) {
+        console.log('test', id)
+        const idnew = id;
+        $.ajax({
+            url: `/web/deleteProductDiscount`,
+            type: 'DELETE',
+            data: JSON.stringify({id: idnew}),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success()) {
+                    alert("delete Product success")
+                    location.reload();
+                } else {
+                    alert('Failed to delete product discount.');
+                }
+            }
+        })
+
+    }
+    let isUpdateProductLoaded = false;
+    // $(document).ready(function () {
+    //     loadUpdateProduct(); // Chỉ gọi 1 lần khi trang tải xong
+    // });
+
+
+    function loadUpdateProduct(callback) {
+        let productSelect = document.getElementById("updateProductSelect"); // Chuyển về DOM element
+        if (isUpdateProductLoaded) {
+            return; // Nếu đã load rồi thì không load lại nữa
+        }
+        isUpdateProductLoaded = true;
+        $.ajax({
+            url: "/web/productDiscount", // Gọi API lấy danh sách sản phẩm
+            type: "GET",
+            headers: {"discount": "discount"},
+            dataType: "json",
+            success: function (data) {
+                productSelect.innerHTML = ""; // Xóa option cũ
+                let defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "-- Tìm sản phẩm --";
+                productSelect.appendChild(defaultOption); // Thêm option mặc định
+
+
+                data.products.forEach(product => {
+                    let option = document.createElement("option");
+                    option.value = product.id;
+                    option.textContent = product.name + " - " + product.price + " VND";
+                    productSelect.append(option);
+                });
+                if(callback) {
+                    callback(data);
+                }
+
+
+            },
+            error: function () {
+                alert("Không thể tải danh sách sản phẩm!");
+            }
+        });
+    }
+
+
+    //     update product discount
+    function getProductById(productId) {
+
+        $.ajax({
+            url: `/web/getProductById?productId=` + productId, // 👈 Pass productId as a query param
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                let modal = new bootstrap.Modal(document.getElementById('updateProductDiscount'));
+                modal.show();
+                // let select = document.getElementById('updateProductSelect option');
+                // select.value = data.id;
+                document.getElementById('idProductWithDiscount').value = data.id
+                loadUpdateProduct(function () {
+                    let select = document.querySelector("#updateProductSelect");
+                    let options = document.querySelectorAll("#updateProductSelect option");
+                    options.forEach((item) => {
+                        if(item.value.toString() === data.prouctId.toString()) {
+                            item.selected = true;
+                        }
+                    })
+                });
+
+                if(data.discountPercentage > 0) {
+
+                    document.getElementById('updateDiscountType').value = "percentage";
+                } else {
+                    document.getElementById('updateDiscountType').value = "fixed";
+
+                }
+
+                document.getElementById('updateDiscountPercent').value = data.discountPercentage;
+
+
+                document.getElementById('updateProductDiscountPrice').value = data.price;
+                document.getElementById('updateStartDateDiscountPrice').value = data.startDate;
+                document.getElementById('updateEndDateDiscountPrice').value = data.endDate;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching product by ID:', error);
+            }
+        });
+    }
+
+
+    document.getElementById('updateProductDiscountForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+
+
+        let startDate = new Date(document.getElementById("updateStartDateDiscountPrice").value);
+        let endDate = new Date(document.getElementById("updateEndDateDiscountPrice").value);
+        let timeDifference = endDate - startDate;
+        let hoursDifference = timeDifference / (1000 * 60 * 60);
+        let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+        let DiscountType = daysDifference < 24 ? "HOURLY" : "DAILY";
+        let formData = {
+            idProductWithDiscount: document.getElementById('idProductWithDiscount').value,
+            productId: document.getElementById('updateProductSelect').value,
+            discountType: DiscountType,
+            discountPercent: document.getElementById('updateDiscountPercent').value,
+            discountPrice: document.getElementById('updateProductDiscountPrice').value,
+            discountFinalPrice: document.getElementById('updateDiscountPrice').value,
+            startDate: document.getElementById('updateStartDateDiscountPrice').value,
+            endDate: document.getElementById('updateEndDateDiscountPrice').value
+        };
+
+        // Send data via AJAX for updating
+        $.ajax({
+            url: '/web/updateProductDiscount', // Your API endpoint for updating product discount
+            type: 'POST', // Use POST to submit form data
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                console.log(response)
+                if (response.success) {
+                    alert('Cập nhật sản phẩm giảm giá thành công');
+                    location.reload(); // Reload page or update UI as needed
+                } else {
+                    alert('Lỗi khi cập nhật sản phẩm giảm giá');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating product discount:', error);
+                alert('Có lỗi xảy ra khi cập nhật');
+            }
+        });
+    });
+
+
+
 </script>
 </body>
 </html>

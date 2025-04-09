@@ -59,7 +59,7 @@ async function order(userId, addressId, total) {
     console.log(userId.toString());
     console.log(addressId);
     console.log(total);
-    const response = await fetch(`/addOrder`, {
+    const response = await fetch(`/web/addOrder`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

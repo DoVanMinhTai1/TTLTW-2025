@@ -13,8 +13,10 @@ function navigationbarClick(select) {
     switch (select) {
         case "option1":
             const AccountInformation = document.querySelector(".AccountInformation");
-            if (AccountInformation) {
+            const AccountListPromotion = document.querySelector(".AccountListPromotion");
+            if (AccountInformation && AccountListPromotion) {
                 AccountInformation.classList.add("active1");
+                AccountListPromotion.classList.add("active1");
             }
             break;
         case "option2":

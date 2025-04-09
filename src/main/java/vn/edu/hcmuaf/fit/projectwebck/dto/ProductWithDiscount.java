@@ -13,11 +13,24 @@ public class ProductWithDiscount {
     private double price;
     private DiscoutType discoutType;
     private Double discountPercentage;
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String nameProduct;
     private List<ProductImage> productImageList;
     public ProductWithDiscount() {
+    }
+
+    public ProductWithDiscount(int prouctId, double price, DiscoutType discoutType, Double discountPercentage, LocalDateTime endDate, LocalDateTime startDate) {
+        this.prouctId = prouctId;
+        this.price = price;
+        this.discoutType = discoutType;
+        this.discountPercentage = discountPercentage;
+        this.endDate = endDate;
+        this.startDate = startDate;
+    }
+
+    public ProductWithDiscount(int productId, DiscoutType discountType, Double discountPercent, Integer discountPrice, LocalDateTime startDateTime, LocalDateTime endDateTime) {
     }
 
     @Override

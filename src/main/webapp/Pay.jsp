@@ -91,33 +91,73 @@
             </div>
             <div class="PayRightContentTitleProductList">
                 <ul id="cartItems" class="PayRightContent_List_item">
-                    <c:forEach items="${sessionScope.cart.list}" var="p">
-                        <div class="PayRightContent_item" data-id="${p.id}" data-quantity="${p.quantity}" data-price="${p.price}">
-                            <div class="PayRightContent_item_imgnotice">
-                                <img src="${p.img}" alt="Product Image" class="PayRightContent_img_item">
-                                <span class="PayRightContent_item_notice">${p.quantity}</span>
-                            </div>
-                            <div class="PayRightContent_item_info">
-                                <div class="PayRightContent_item_header">
-                                    <div class="PayRightContent_item_name">${p.name}</div>
-                                    <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.price}"
-                                                                                              type="number"
-                                                                                              maxFractionDigits="0"/>đ</div>
+                    <c:choose>
+                        <c:when test="${not empty cartList}">
+                            <c:forEach items="${cartList}" var="p">
+                                <div class="PayRightContent_item" data-id="${p.id}" data-quantity="${p.quantity}"
+                                     data-price="${p.price}">
+                                    <div class="PayRightContent_item_imgnotice">
+                                        <img src="${p.img}" alt="Product Image" class="PayRightContent_img_item">
+                                        <span class="PayRightContent_item_notice">${p.quantity}</span>
+                                    </div>
+                                    <div class="PayRightContent_item_info">
+                                        <div class="PayRightContent_item_header">
+                                            <div class="PayRightContent_item_name">${p.name}</div>
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.price}"
+                                                                                                      type="number"
+                                                                                                      maxFractionDigits="0"/>đ
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </c:forEach>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:if test="${not empty product}">
+                                <div class="PayRightContent_item" data-id="${product.id}" data-quantity="1"
+                                     data-price="${product.price}">
+                                    <div class="PayRightContent_item_imgnotice">
+                                        <img src="${product.image}" alt="Product Image" class="PayRightContent_img_item">
+                                        <span class="PayRightContent_item_notice">1</span>
+                                    </div>
+                                    <div class="PayRightContent_item_info">
+                                        <div class="PayRightContent_item_header">
+                                            <div class="PayRightContent_item_name">${product.name}</div>
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber
+                                                    value="${product.price}"
+                                                    type="number"
+                                                    maxFractionDigits="0"/>đ
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
+
                 </ul>
                 <div class="PayRightContentTitleProductListDiscountCode">
                     <input type="text" name="DiscountCode" id="DiscountCode" placeholder="Mã giảm giá" class="form">
-                    <button type="button" onclick="discount(${sessionScope.total},${sessionScope.user.id})">Áp dụng</button>
+                    <button type="button" onclick="discount(${sessionScope.total},${sessionScope.user.id})">Áp dụng
+                    </button>
 
                 </div>
                 <div class="PayRightContentTitleProductListSum">
                     <div class="text1">
                         <span class="t1">Tạm tính</span>
-                        <span id="provisional"><fmt:formatNumber value="${sessionScope.total}" type="number"
-                                                                 maxFractionDigits="0"/>đ</span>
+                        <span id="provisional">
+                            <c:choose>
+                                <c:when test="${not empty cartList}">
+                                    <fmt:formatNumber value="${sessionScope.total}" type="number" maxFractionDigits="0"/>đ
+                                </c:when>
+                                <c:when test="${not empty product}">
+                                    ${product.price}đ
+                                </c:when>
+                                <c:otherwise>
+                                    0đ
+                                </c:otherwise>
+                            </c:choose>
+                        </span>
                     </div>
                     <div class="text2">
                         <span class="t1">Phí vận chuyển</span>

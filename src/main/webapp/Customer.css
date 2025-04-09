@@ -66,10 +66,12 @@ html, body {
     margin-top: 30px;
     color: #7cc652;
 }
-.shoppingtext a{
+
+.shoppingtext a {
     text-decoration: none;
     color: #7cc652;
 }
+
 .pathline {
     width: 100%;
     border: solid 1px gray;
@@ -126,18 +128,22 @@ html, body {
     position: relative;
 
 }
-a{
+
+a {
     text-decoration: none;
     color: black;
 }
+
 .select.active1 {
     display: inline-block;
     margin-left: 30px;
 }
+
 /*Thong tin tai khoan*/
-.AccountInformation{
+.AccountInformation {
     display: none;
 }
+
 .AccountInformationTitle {
     font-size: 20px;
     margin-bottom: 10px;
@@ -151,40 +157,92 @@ a{
 .AccountInformationContent span {
     font-weight: normal;
 }
-.AccountInformation button{
+
+.AccountInformation button {
     background-color: #7cc652;
     border: none;
     padding: 10px 15px;
     border-radius: 10px;
     color: white;
 }
-.AccountInformation button:hover{
+
+.AccountInformation button:hover {
     background-color: #00845c;
 }
-#nameInput{
+
+#nameInput {
     width: 250px;
     margin-left: 27px;
     border: 1px solid #888888;
     border-radius: 5px;
     padding: 3px;
 }
-#emailInput{
+
+#emailInput {
     width: 250px;
     margin-left: 34px;
     border: 1px solid #888888;
     border-radius: 5px;
     padding: 3px;
 }
-#phoneInput{
+
+#phoneInput {
     width: 250px;
     border: 1px solid #888888;
     border-radius: 5px;
     padding: 3px;
 }
-/*Don hang cua ban*/
-.YourOrder{
+
+.ListPromotionTitle {
+    font-size: 20px;
+    margin: 10px 0 15px 0;
+}
+
+.AccountListPromotion {
+    margin-left: 30px;
     display: none;
 }
+
+.CustomerPageConttenNavigationbarContent .AccountListPromotion table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+.TablePromotion th:nth-child(1), .TablePromotion td:nth-child(1), .TablePromotion th:nth-child(2), .TablePromotion td:nth-child(2), .TablePromotion th:nth-child(3), .TablePromotion td:nth-child(3), .TablePromotion th:nth-child(4), .TablePromotion td:nth-child(4) {
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.TablePromotion th:nth-child(5), .TablePromotion td:nth-child(5) {
+    width: 280px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.TablePromotion td .ListPromotionDescribe {
+    display: inline-block;
+    width: 230px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.TablePromotion td .ListPromotionDescribe:hover {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    z-index: 1;
+}
+
+/*Don hang cua ban*/
+.YourOrder {
+    display: none;
+}
+
 .YourOrderTitle {
     font-size: 20px;
     margin-bottom: 20px;
@@ -243,9 +301,10 @@ td .Detail .fa-solid {
 }
 
 /*Doi mat khau*/
-.ChangePassword{
+.ChangePassword {
     display: none;
 }
+
 .ChangePasswordTitle {
     font-size: 20px;
     margin-bottom: 20px;
@@ -341,10 +400,12 @@ input:focus {
 .AddressBookDetailAphal span {
     font-weight: normal;
 }
-.ptext{
+
+.ptext {
     color: #7cc652;
     font-size: 14px;
 }
+
 .fa-circle-check {
     color: #7cc652;
     margin-left: 10px;
@@ -477,11 +538,13 @@ input:focus {
 .AddnewaddressContent .b2:hover {
     background-color: #00845c;
 }
-.fa-truck-fast{
+
+.fa-truck-fast {
     color: #7cc652;
 }
+
 /*OderWindow */
-.OderWindow{
+.OderWindow {
     position: fixed; /* Đặt ở giữa màn hình */
     top: 50%;
     left: 50%;
@@ -495,25 +558,29 @@ input:focus {
     z-index: 1001;
     display: none;
 }
+
 .Product_List_item .Product_item {
     display: flex;
     padding: 5px 0;
 }
-.iconClose{
+
+.iconClose {
     float: right;
     color: #00845c;
 }
-.iconClose:hover{
+
+.iconClose:hover {
     cursor: pointer;
     color: #7cc652;
 }
 
-.OderWindowTitle{
+.OderWindowTitle {
     font-size: 20px;
     font-weight: 600;
     text-align: center;
     margin-top: 10px;
 }
+
 .Product_List_item {
     padding: 15px 0 0;
     list-style: none;
@@ -560,10 +627,12 @@ input:focus {
 .Product_item_price {
     display: inline-block;
 }
-.TotalAmount{
+
+.TotalAmount {
     margin-top: 20px;
     margin-left: 5px;
 }
+
 .text {
     display: inline-block;
     width: 175px;
@@ -575,6 +644,7 @@ input:focus {
 .total {
     font-size: 16px;
 }
+
 .DeliveryAddress {
     max-width: 100%; /* Đảm bảo không vượt quá phần tử cha */
     margin-left: 5px;
@@ -594,6 +664,7 @@ input:focus {
     word-break: break-word; /* Đảm bảo chuỗi dài không tràn ra ngoài */
     color: black;
 }
+
 .DeliveryAddress .deliveryDate {
     color: black;
 }
