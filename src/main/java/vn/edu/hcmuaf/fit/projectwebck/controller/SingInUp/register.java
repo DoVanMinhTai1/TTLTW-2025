@@ -20,20 +20,19 @@ import java.util.Properties;
 
 @WebServlet(name = "register", value = "/register")
 public class register extends HttpServlet {
-
+    UserServices us = new UserServices();
+    EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
         String email = request.getParameter("email");
-        EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
-
         // Kiểm tra token và email
         boolean isVerified = emailVerificationTokenServices.verifyToken(email, token);
 
         if (isVerified) {
             // Đánh dấu token là đã sử dụng
             emailVerificationTokenServices.markAsUsed(email, token);
-
+            us.activateUser(email);
             // Thiết lập thông báo thành công
             request.setAttribute("message", "Bạn đã xác nhận tài khoản thành công!");
         } else {
@@ -46,9 +45,6 @@ public class register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserServices us = new UserServices();
-        EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
