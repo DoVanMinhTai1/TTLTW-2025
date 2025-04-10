@@ -287,7 +287,7 @@ function viewOrderClose() {
 // Phan Khuyen Mai
 //  Hiển thị form thêm khuyến mãi
 function addPromotion() {
-    // windowPromotion();
+    // windowPromotion();   
 
     // Reset all fields in the form
     document.getElementById('poid').value = "";

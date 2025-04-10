@@ -1,41 +1,43 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Cart;
 
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.projectwebck.dao.cart.Cart;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.CartItem;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.CartItemService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet(name = "Remove", value = "/del-cart")
-public class Remove extends HttpServlet {
+@WebServlet(name = "getCartItem", value = "/getCartItem")
+public class GetCartItem extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         int id = user.getId();
         CartItemService cartItemService = new CartItemService();
+        List<CartItem> cartItemList;
         try {
-            boolean success = cartItemService.deleteCartItem(id,productId);
-            if(success) {
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+            cartItemList = cartItemService.getCartItems(id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        String json = new Gson().toJson(cartItemList);
+        response.getWriter().write(json);
     }
 
     @Override
