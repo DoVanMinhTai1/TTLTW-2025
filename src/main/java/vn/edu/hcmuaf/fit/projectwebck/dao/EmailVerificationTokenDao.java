@@ -15,7 +15,16 @@ public class EmailVerificationTokenDao {
         );
     }
 
-    ;
+    public boolean verifyToken(String email, String token) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM emailverificationtokens WHERE email = :email AND token = :token AND isUsed = false")
+                        .bind("email", email)
+                        .bind("token", token)
+                        .mapTo(Long.class)
+                        .one() > 0
+        );
+    }
 
     public EmailVerificationToken findToken(String token) {
         Jdbi jdbi = JDBIConect.get();
@@ -28,12 +37,11 @@ public class EmailVerificationTokenDao {
         );
     }
 
-    ;
-
-    public void markAsUsed(String token) {
+    public void markAsUsed(String email, String token) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useTransaction(handle ->
-                handle.createUpdate("UPDATE email_verification_tokens SET is_used = true WHERE token = :token")
+                handle.createUpdate("UPDATE emailverificationtokens SET isUsed = true WHERE token = :token")
+                        .bind("email", email)
                         .bind("token", token)
                         .execute()
         );

@@ -10,6 +10,7 @@ public class User {
     private String dateOfBirth;
     private String phone;
     private String thirty_party_id;
+    private boolean isActive;
 
     public User(int id, String username, String password, int role, String fullName, String email, String dateOfBirth, String phone
     , String thirty_party_id) {

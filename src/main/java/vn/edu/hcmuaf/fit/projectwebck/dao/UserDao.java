@@ -26,8 +26,8 @@ public class UserDao {
     // Thêm một người dùng mới
     public void insertUser(User user) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone) " +
-                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone, isActive) " +
+                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone, false)")
                 .bind("username", user.getUsername())
                 .bind("password", user.getPassword())
                 .bind("decentralization", user.getRole())
@@ -140,6 +140,15 @@ public class UserDao {
                 .execute());
 
     }
+    //kich hoat tai khoan nguoi dung
+    public void activateUser(String email) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE users SET isActive = true WHERE email = :email")
+                        .bind("email", email)
+                        .execute()
+        );
+    }
 
 
     public String checkPhoneInDatabase(String phone) {
@@ -168,4 +177,5 @@ public class UserDao {
                 .mapToBean(User.class)
                 .findOne().orElse(null));
     }
+
 }

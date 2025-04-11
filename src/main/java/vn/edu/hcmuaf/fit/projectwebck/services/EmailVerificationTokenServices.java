@@ -12,5 +12,6 @@ public class EmailVerificationTokenServices {
 
     public void insertToken(EmailVerificationToken token){emailVerificationTokenDao.insertToken(token);}
     public EmailVerificationToken findToken(String token){return emailVerificationTokenDao.findToken(token);}
-    public void markAsUsed(String token) {emailVerificationTokenDao.markAsUsed(token);}
+    public void markAsUsed(String email, String token) {emailVerificationTokenDao.markAsUsed(email,token);}
+    public boolean verifyToken(String email, String token) {return emailVerificationTokenDao.verifyToken(email, token);}
 }
