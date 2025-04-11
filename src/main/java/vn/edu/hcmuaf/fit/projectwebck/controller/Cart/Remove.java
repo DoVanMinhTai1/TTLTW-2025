@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Cart;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.cart.Cart;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.CartItemService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -18,10 +21,22 @@ public class Remove extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
+        BufferedReader reader = request.getReader();
+        String line;
+        StringBuilder json = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            json.append(line);
+        }
+        JsonObject jsonObject = new JsonParser().parse(json.toString()).getAsJsonObject();
+        int productId = jsonObject.get("productId").getAsInt();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         int id = user.getId();
@@ -36,9 +51,5 @@ public class Remove extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 }

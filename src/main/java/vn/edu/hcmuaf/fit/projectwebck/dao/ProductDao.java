@@ -3,11 +3,17 @@ package vn.edu.hcmuaf.fit.projectwebck.dao;
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static vn.edu.hcmuaf.fit.projectwebck.dao.db.PreConnect.getConnection;
 
 public class ProductDao {
     static Map<Integer, Product> data = new HashMap<>();
@@ -46,7 +52,7 @@ public class ProductDao {
                             product.setDescription(rs.getColumn("description", String.class));
                             product.setImage(rs.getColumn("image", String.class));
                             product.setCategory(rs.getColumn("category", Integer.class));
-                            product.setExtraDay(rs.getColumn("extraDay", String.class));
+//                            product.setExtraDay(rs.getColumn("extraDay", String.class));
                             return product;
                         })
                 .findOne().orElse(null));
@@ -384,4 +390,32 @@ public class ProductDao {
         return productWithDiscountCons;
     }
 
+    public List<Product> getByIds(List<Integer> ids) throws SQLException {
+        StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE id IN (");
+        for (int i =0; i < ids.size(); i++) {
+            sql.append("?");
+            if(i < ids.size() - 1) sql.append(",");
+        }
+        sql.append(")");
+
+        try(Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql.toString())
+        ) {
+            for (int i =0; i < ids.size(); i++) {
+                ps.setInt(i+1, ids.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            List<Product> products = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setName(rs.getString("name"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getDouble("price"));
+                products.add(product);
+            }
+            return products;
+        }
+    }
 }

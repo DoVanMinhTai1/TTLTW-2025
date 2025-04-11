@@ -5,11 +5,9 @@ import java.time.LocalDateTime;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 @WebServlet(name = "getProductById", value = "/getProductById")

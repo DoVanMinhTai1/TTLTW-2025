@@ -1,5 +1,8 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Cart;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +14,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.CartItemService;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -53,8 +57,8 @@ public class UpdateCart extends HttpServlet {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         CartItemService cartItemService = new CartItemService();
         try {
-            boolean success =    cartItemService.updateCartItem(userId,productId,quantity);
-            if(success){
+            boolean success = cartItemService.updateCartItem(userId, productId, quantity);
+            if (success) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"success\": true, \"message\": \"Updated cart item successfully\"}");
             } else {
@@ -67,5 +71,32 @@ public class UpdateCart extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        BufferedReader reader = request.getReader();
+        String line;
+        StringBuilder output = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            output.append(line);
+        }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int userId = user.getId();
+        JsonObject jsonObject = new JsonParser().parse(output.toString()).getAsJsonObject();
+        int productId = jsonObject.get("productId").getAsInt();
+        int quantity = jsonObject.get("quantity").getAsInt();
+        CartItemService cartItemService = new CartItemService();
+        try {
+            boolean success = cartItemService.updateCartItem(userId, productId, quantity);
+            if (success) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"success\": true, \"message\": \"Updated cart item successfully\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

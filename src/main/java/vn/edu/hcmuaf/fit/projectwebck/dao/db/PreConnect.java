@@ -9,6 +9,7 @@ public class PreConnect {
     private static final String PASSWORD = DBProperties.password();
 
     public static Connection getConnection() throws SQLException {
+        DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 

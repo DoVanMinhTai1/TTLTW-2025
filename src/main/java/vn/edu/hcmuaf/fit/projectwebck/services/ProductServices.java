@@ -5,8 +5,9 @@ package vn.edu.hcmuaf.fit.projectwebck.services;
 import vn.edu.hcmuaf.fit.projectwebck.dao.ProductDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductDiscount;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductServices {
@@ -95,5 +96,8 @@ public class ProductServices {
 
     public ProductWithDiscount updateProductWithDiscount(int id, ProductWithDiscount productWithDiscountCons) {
         return productDao.updateProductWithDiscount(id,productWithDiscountCons);
+    }
+    public List<Product> getByIds(List<Integer> ids) throws SQLException {
+        return productDao.getByIds(ids);
     }
 }

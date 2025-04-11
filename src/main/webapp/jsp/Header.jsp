@@ -43,7 +43,8 @@
                                     ${not empty currentUser.username ? currentUser.username : currentUser.given_name}
                             </div>
                         </a>
-                        <div class="line"></div>
+                        <div class="line d-flex align-items-center justify-content-center"
+                             style="border: solid 1px gray;  height: 16px; margin-left: 3px; margin-right: 3px"></div>
                         <a href="logout" style="text-decoration: none">
                             <div class="headercontendangki">Đăng Xuất</div>
                         </a>
@@ -65,7 +66,8 @@
         </div>
         <!--        gio hang-->
         <div class="col-lg-2 d-flex align-items-center justify-content-center">
-            <a href="ShowCart">
+
+            <a href="/web/cartItem">
                 <div class="d-flex align-items-center justify-content-center gap-3">
                     <div class="shopping_cart">
                         <div class="shopping_cart_swap">
