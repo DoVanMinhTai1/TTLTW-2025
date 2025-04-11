@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CartItemService {
-    private  CartItemDao cartItemDao;
+    private  CartItemDao cartItemDao = new CartItemDao();
 
     public CartItemService() {
     }

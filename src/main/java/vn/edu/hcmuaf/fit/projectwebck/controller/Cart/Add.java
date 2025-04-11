@@ -24,8 +24,7 @@ public class Add extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
+
         //        ProductServices ps = new ProductServices();
 //        Product pid = ps.getDetail(request.getParameter("pid"));
 //        if (pid == null) {
@@ -39,26 +38,29 @@ public class Add extends HttpServlet {
 //
 //        session.setAttribute("total", cart.getTotal());
 //        response.sendRedirect("showDetail?addCart=ok&id="+pid.getId());
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         BufferedReader reader = request.getReader();
-        String line = reader.readLine();
+        String line;
         StringBuilder sb = new StringBuilder();
-        while (line != null) {
+        while ((line  = reader.readLine()) != null) {
             sb.append(line);
         }
         String json = sb.toString();
         CartItem cartItem = new Gson().fromJson(json, CartItem.class);
         CartItemService cartItemService = new CartItemService();
         try {
-            cartItemService.addCartItem(cartItem.getUserId(),cartItem.getQuantity(),cartItem.getProductId());
+            cartItemService.addCartItem(cartItem.getUserId(),1,cartItem.getProductId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         out.println(gson.toJson(cartItem));
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 }

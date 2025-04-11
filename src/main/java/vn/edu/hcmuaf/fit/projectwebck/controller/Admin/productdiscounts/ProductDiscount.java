@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 @WebServlet(name = "productDiscount", value = "/productDiscount")
