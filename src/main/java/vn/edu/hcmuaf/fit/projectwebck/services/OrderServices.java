@@ -28,6 +28,10 @@ public class OrderServices {
     public void removeOrder(int orderId) {
         orderDao.removeOrder(orderId);
     }
+    public Order getOrderById(int orderId) {
+       return orderDao.getOrderById(orderId);
+    }
+
     public List<Order> searchById(int id) {
         return orderDao.searchById(id);
     }

@@ -60,6 +60,17 @@ public class OrderDao {
                 .bind("orderId", orderId)
                 .execute());
     }
+    public Order getOrderById(int orderId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM orders WHERE id = :orderId")
+                        .bind("orderId", orderId)
+                        .mapToBean(Order.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
     public List<Order> searchById(int id) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT o.id, o.userId, o.dateOfBooking, o.status, o.money, o.addressId, u.fullName FROM orders o INNER JOIN users u ON o.userId = u.id WHERE o.id LIKE :id")

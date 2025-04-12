@@ -30,6 +30,8 @@ public class ShowOption extends HttpServlet {
 
         OrderDetailServices orderDetailServices = new OrderDetailServices();
         List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
+        LogsServices logsServices = new LogsServices();
+        List<Log> listLog = logsServices.getAllLogs();
 //        request.setAttribute("listordetail", listOrD);
 
 //        double sum = 0;
@@ -55,31 +57,37 @@ public class ShowOption extends HttpServlet {
                 request.setAttribute("listuser", listUser);
                 request.setAttribute("listlatestorders", listLatestOrders);
                 request.setAttribute("listCustomer", buyCustomer);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
                 break;
             case "option2":
                  productService = new ProductServices();
                  products = productService.getAll();
                 request.setAttribute("listproduct",products);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request,response);
                 break;
             case "option3":
                 request.setAttribute("listuser",listUser);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
                 break;
             case "option4":
                 request.setAttribute("listorder", listOrder);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option4").forward(request,response);
                 break;
             case "option5":
                 PromotionServices promotionServices = new PromotionServices();
                 List<Promotion> listPromotion = promotionServices.getAllPromotion();
                 request.setAttribute("listpromotion", listPromotion);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
                 break;
             case "option6":
                 List<ProductWithDiscount> product = productService.getProductsWithDiscount();
                 request.setAttribute("productWithDiscount", product);
+                request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
             default:

@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 
 
@@ -71,6 +72,17 @@ public class PromotionDao {
                 .bind("promotionId", promotionId)
                 .execute());
     }
+    // Lấy chương trình khuyến mãi theo ID
+    public Promotion getPromotionById(int promotionId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM promotions WHERE id = :promotionId")
+                        .bind("promotionId", promotionId)
+                        .mapTo(Promotion.class)  // Giả sử Promotion là một class chứa thông tin của chương trình khuyến mãi
+                        .findOnly()  // Trả về một kết quả duy nhất
+        );
+    }
+
 //    / Cập nhật thông tin chương trình khuyến mãi
     public void updatePromotion(Promotion promotion) {
         Jdbi jdbi = JDBIConect.get();
