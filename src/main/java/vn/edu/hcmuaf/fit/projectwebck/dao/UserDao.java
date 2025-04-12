@@ -26,8 +26,8 @@ public class UserDao {
     // Thêm một người dùng mới
     public void insertUser(User user) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone) " +
-                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone, isActive) " +
+                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone, false)")
                 .bind("username", user.getUsername())
                 .bind("password", user.getPassword())
                 .bind("decentralization", user.getRole())
@@ -115,6 +115,16 @@ public class UserDao {
                 .findOne().orElse(null));
     }
 
+    public boolean isUsernameTaken(String username) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM users WHERE username = :username")
+                        .bind("username", username)
+                        .mapTo(Long.class)
+                        .findOne()
+                        .orElse(0L) > 0);
+    }
+
 
     public int register(User user) {
         Jdbi jdbi = JDBIConect.get();
@@ -129,6 +139,15 @@ public class UserDao {
                 .bind("phone", user.getPhone())
                 .execute());
 
+    }
+    //kich hoat tai khoan nguoi dung
+    public void activateUser(String email) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE users SET isActive = true WHERE email = :email")
+                        .bind("email", email)
+                        .execute()
+        );
     }
 
 
@@ -158,4 +177,5 @@ public class UserDao {
                 .mapToBean(User.class)
                 .findOne().orElse(null));
     }
+
 }

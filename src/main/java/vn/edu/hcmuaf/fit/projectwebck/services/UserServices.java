@@ -58,6 +58,14 @@ public class UserServices {
         return userDao.findUserByUsername(username);
     }
 
+    public boolean isUsernameTaken(String username) {
+        return userDao.isUsernameTaken(username);
+    }
+
+    public void activateUser(String email) {
+        userDao.activateUser(email);
+    }
+
     public String checkPhoneInDatabase(String phone) {
         return userDao.checkPhoneInDatabase(phone);
     }

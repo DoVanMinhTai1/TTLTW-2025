@@ -20,6 +20,14 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/signInUp.css">
 </head>
 <body>
+<%
+  String message = (String) request.getAttribute("message");
+  if (message != null) {
+%>
+<div style="color: green;">
+  <%= message %>
+</div>
+<% } %>
 <h2>Chào Mừng Đến Với Nông Lâm Food</h2>
 <div class="container" id="container">
   <div class="form-container sign-up-container">

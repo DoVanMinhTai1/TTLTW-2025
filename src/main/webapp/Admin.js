@@ -93,7 +93,7 @@ function closeNotification() {
 
 // Js cho button them san pham
 function addProduct() {
-    windowProduct()
+    // windowProduct()
 
     document.getElementById('idp').value = "";
     document.getElementById('image').src = "";
@@ -103,8 +103,8 @@ function addProduct() {
     document.getElementById('productMass').value = "";
     document.getElementById('productCategory').value = "Rau";
 
-    const saveButton = document.querySelector(".ButtonProduct1");
-    saveButton.textContent = "Lưu";
+    // const saveButton = document.querySelector(".ButtonProduct1");
+    // saveButton.textContent = "Lưu";
 
     const action = document.querySelector(".ProductWindow form");
     action.action = "addProduct";
@@ -145,26 +145,35 @@ function closeProduct() {
 }
 
 function UpdateProduct(id, name, price, mass, description, image, category) {
-    windowProduct(); // Hiển thị modal
-    // Điền thông tin sản phẩm vào form
+    // Gán dữ liệu vào form
     document.getElementById('idp').value = id;
-    document.getElementById('image').src = image;
     document.getElementById('productName').value = name;
     document.getElementById('productPrice').value = price;
     document.getElementById('productDescribe').value = description;
     document.getElementById('productMass').value = mass;
-
     document.getElementById('productCategory').value = category;
-    const saveButton = document.querySelector(".ButtonProduct1");
-    saveButton.textContent = "Cập nhật";
-    const action = document.querySelector(".ProductWindow form");
-    action.action = "updateProduct";
 
+    // Hiển thị ảnh cũ
+    const imageElement = document.getElementById('image');
+    imageElement.src = image;
+    imageElement.style.display = "block";
+
+    // Thay đổi action của form thành cập nhật
+    const form = document.querySelector("#ProductWindow form");
+    form.action = "updateProduct";
+
+    // Thay đổi nút lưu
+    const saveButton = form.querySelector(".btn-success");
+    saveButton.textContent = "Cập nhật";
+
+    // Hiển thị modal bằng Bootstrap 5
+    const modal = new bootstrap.Modal(document.getElementById('ProductWindow'));
+    modal.show();
 }
 
 // Phan User
 function addUser() {
-    windowUser();
+    // windowUser();
 
     // Reset all fields in the form
     document.getElementById('uid').value = "";
@@ -181,8 +190,12 @@ function addUser() {
     saveButton.textContent = "Lưu";
 
     // Update form action to "addUser"
-    const action = document.querySelector(".UserWindow form");
-    action.action = "addUser";
+    const userForm = document.querySelector("#UserWindow form");
+    if (userForm) {
+        userForm.action = "addUser";
+    } else {
+        console.error("Không tìm thấy form trong #UserWindow");
+    }
 }
 
 function windowUser() {
@@ -217,30 +230,32 @@ function closeUser() {
 }
 
 function UpdateUser(id, username, password, role, fullName, email, dateOfBirth, phone) {
-    windowUser(); // Display the modal
-    // Populate the form with user details
+    // Mở modal bằng Bootstrap 5
+    const userModal = new bootstrap.Modal(document.getElementById('UserWindow'));
+    userModal.show();
+
+    // Gán dữ liệu vào form
     document.getElementById('uid').value = id;
     document.getElementById('UserName').value = username;
     document.getElementById('UserPassword').value = password;
-    if (role === "1") {
-        role = "Quản trị viên";
-    } else {
-        role = "Người dùng";
-    }
-    document.getElementById('Role').value = role;
+
+    document.getElementById('Role').value = (role === "1") ? "Quản trị viên" : "Người dùng";
     document.getElementById('FullName').value = fullName;
     document.getElementById('Email').value = email;
     document.getElementById('Birthday').value = dateOfBirth;
     document.getElementById('Phone').value = phone;
 
-    // Set button text to "Cập nhật"
+    // Đổi nút lưu thành "Cập nhật"
     const saveButton = document.querySelector('.ButtonUser1');
     saveButton.textContent = "Cập nhật";
 
-    // Update form action to "updateUser"
-    const action = document.querySelector(".UserWindow form");
-    action.action = "updateUser";
+    // Đổi action form thành updateUser
+    const form = document.querySelector("#UserWindow form");
+    if (form) {
+        form.action = "updateUser";
+    }
 }
+
 
 
 // Phan Don hang
@@ -303,7 +318,7 @@ function viewOrderClose() {
 // Phan Khuyen Mai
 //  Hiển thị form thêm khuyến mãi
 function addPromotion() {
-    windowPromotion();
+    // windowPromotion();
 
     // Reset all fields in the form
     document.getElementById('poid').value = "";
@@ -318,7 +333,10 @@ function addPromotion() {
 
     // Update form action to "addPromotion"
     const action = document.querySelector(".PromotionWindow form");
-    action.action = "addPromotion";
+    if(action) {
+
+        action.action = "addPromotion";
+    }
 }
 
 function windowPromotion() {
@@ -349,7 +367,6 @@ function closePromotion() {
 }
 
 function UpdatePromotion(id, name, startDate, endDate, value) {
-    windowPromotion(); // Display the modal
     // Populate the form with promotion details
     document.getElementById('poid').value = id;
     document.getElementById('PromotionName').value = name;
@@ -363,5 +380,12 @@ function UpdatePromotion(id, name, startDate, endDate, value) {
 
     // Update form action to "updatePromotion"
     const action = document.querySelector(".PromotionWindow form");
-    action.action = "updatePromotion";
+    if(action) {
+
+        action.action = "updatePromotion";
+    }
+
+    // Show the modal using Bootstrap Modal API
+    const promotionModal = new bootstrap.Modal(document.getElementById('PromotionWindow'));
+    promotionModal.show();
 }
