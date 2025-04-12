@@ -1,10 +1,9 @@
-package vn.edu.hcmuaf.fit.projectwebck.dto;
+package vn.edu.hcmuaf.fit.projectwebck.dto.product;
 
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.DiscoutType;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class ProductWithDiscount {

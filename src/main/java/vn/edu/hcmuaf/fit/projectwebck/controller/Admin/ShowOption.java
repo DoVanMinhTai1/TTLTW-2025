@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.*;
 
 import java.io.IOException;

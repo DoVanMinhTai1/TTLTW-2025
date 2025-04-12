@@ -13,6 +13,9 @@
 <head>
   <title>ShoppingCart</title>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ShoppingCart.css">
@@ -89,24 +92,60 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${sessionScope.cart.list}" var="p">
+<%--        <c:forEach items="${sessionScope.cart.list}" var="p">--%>
+<%--        <tr>--%>
+<%--          <td><img src="${p.img}" alt="" class="Shopping_Cartlist_Content_ImgRauCuQua"></td>--%>
+<%--          <td>${p.name}</td>--%>
+<%--          <td><fmt:formatNumber value="${p.price}" type="number" maxFractionDigits="0" />đ</td>--%>
+<%--          <td>--%>
+<%--            <table>--%>
+<%--              <tr>--%>
+<%--                <td><a href="UpdateCart?pid=${p.id}&quantity=${p.quantity}&expression=plus" style="text-decoration: none; color: black;">+</a></td>--%>
+<%--                <td><span id="quantity-${p.id}">${p.quantity}</span></td>--%>
+<%--                <td><a href="UpdateCart?pid=${p.id}&quantity=${p.quantity}&expression=minus" style="text-decoration: none; color: black;">-</a></td>--%>
+<%--              </tr>--%>
+<%--            </table>--%>
+<%--          </td>--%>
+<%--          <td id="total-${p.id}"><fmt:formatNumber value="${p.price*p.quantity}" type="number" maxFractionDigits="0" />đ</td>--%>
+<%--          <td>   <a href="del-cart?pid=${p.id}"><i class="fa-solid fa-trash-can" ></i> </a></td>--%>
+<%--        </tr>--%>
+<%--        </c:forEach>--%>
+<c:forEach items="${cartItemWithProduct}" var="cartItem">
+  <tr id="row-${cartItem.productId}">
+    <td><img src="${cartItem.image}" alt="" class="Shopping_Cartlist_Content_ImgRauCuQua"></td>
+    <td>${cartItem.name}</td>
+    <td id="price-${cartItem.productId}"><fmt:formatNumber value="${cartItem.price}" type="number" maxFractionDigits="0" />đ</td>
+    <td>
+      <table>
         <tr>
-          <td><img src="${p.img}" alt="" class="Shopping_Cartlist_Content_ImgRauCuQua"></td>
-          <td>${p.name}</td>
-          <td><fmt:formatNumber value="${p.price}" type="number" maxFractionDigits="0" />đ</td>
           <td>
-            <table>
-              <tr>
-                <td><a href="UpdateCart?pid=${p.id}&quantity=${p.quantity}&expression=plus" style="text-decoration: none; color: black;">+</a></td>
-                <td><span id="quantity-${p.id}">${p.quantity}</span></td>
-                <td><a href="UpdateCart?pid=${p.id}&quantity=${p.quantity}&expression=minus" style="text-decoration: none; color: black;">-</a></td>
-              </tr>
-            </table>
+<%--            <a --%>
+<%--                    href=--%>
+<%--  "UpdateCart?pid=${cartItem.id}&quantity=${cartItem.quantity}&expression=plus"--%>
+<%--                    style="text-decoration: none; color: black;">+</a>--%>
+
+
+            <button
+                       onclick="handleIncreaseCartItem(${cartItem.productId},${cartItem.quantity})"
+                        style="text-decoration: none; color: black;">+</button>
+
           </td>
-          <td id="total-${p.id}"><fmt:formatNumber value="${p.price*p.quantity}" type="number" maxFractionDigits="0" />đ</td>
-          <td>   <a href="del-cart?pid=${p.id}"><i class="fa-solid fa-trash-can" ></i> </a></td>
+          <td><span id="cartItemQuantity-${cartItem.productId}">${cartItem.quantity}</span></td>
+<%--          <td><a href="UpdateCart?pid=${cartItem.id}&quantity=${cartItem.quantity}&expression=minus" style="text-decoration: none; color: black;">-</a></td>--%>
+          <button
+                  onclick="handleDecreaseCartItem(${cartItem.productId},${cartItem.quantity})"
+                  style="text-decoration: none; color: black;">-</button>
+
+
         </tr>
-        </c:forEach>
+      </table>
+    </td>
+    <td id="total-${cartItem.productId}"><fmt:formatNumber value="${cartItem.price*cartItem.quantity}" type="number" maxFractionDigits="0" />đ</td>
+    <td>
+<%--      <a href="del-cart?pid=${cartItem.id}"><i class="fa-solid fa-trash-can" ></i> </a></td>--%>
+      <button onclick="handleDeleteCartItem(${cartItem.productId})"><i class="fa-solid fa-trash-can" ></i> </button>
+  </tr>
+</c:forEach>
         <tr>
           <th colspan="6">
             <div class="Totalpayment">
@@ -125,4 +164,119 @@
   <button type="submit" class="ContinueButton" id="ContinueButton"><a href="showPay?uId=${sessionScope.user.id}">Thanh toán ngay</a></button>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script>
+  function handleIncreaseCartItem(productId, quantity) {
+    const quantitySpan = document.getElementById('cartItemQuantity-' + productId);
+    let currentQuantity = parseInt(quantitySpan.textContent);
+
+    const newQuantity = currentQuantity + 1;
+    $.ajax({
+      url: "/web/UpdateCart",
+      type: "POST",
+      data: JSON.stringify({
+        productId: productId,
+        quantity: newQuantity
+      }),
+      success: function () {
+        const cartItemQuantity = document.getElementById('cartItemQuantity-' + productId);
+        console.log('Found element:', cartItemQuantity);
+        if(cartItemQuantity) {
+
+          cartItemQuantity.textContent = newQuantity;
+        }
+
+        updateQuantityWithPrice(productId);
+        console.log('cat nhat thành công');
+      },
+      error: function () {
+        console.log('Đã có lỗi xảy ra khi cat nhat');
+      }
+    })
+  }
+  function handleDecreaseCartItem(productId,quantity) {
+    const quantitySpan = document.getElementById('cartItemQuantity-' + productId);
+    let currentQuantity = parseInt(quantitySpan.textContent);
+
+    const newQuantity2 = currentQuantity - 1;
+    if(newQuantity2 < 1) {
+      $.ajax({
+        url: "/web/del-cart",
+        type: "POST",
+        data: JSON.stringify({
+          productId: productId
+        }),
+        success: function () {
+          const row = document.getElementById('row-' + productId);
+          if(row) row.remove();
+          console.log('Xoá thành công');
+        },
+        error: function () {
+          console.log('Đã có lỗi xảy ra khi xoá');
+        }
+      })
+    } else {
+
+    $.ajax({
+      url: "/web/UpdateCart",
+      type: "POST",
+      data: JSON.stringify({
+        productId: productId,
+        quantity: newQuantity2
+      }),
+      success: function () {
+        const cartItemQuantity = document.getElementById('cartItemQuantity-' + productId);
+        console.log('Found element:', cartItemQuantity);
+        if(cartItemQuantity) {
+
+          cartItemQuantity.textContent = newQuantity2;
+        }
+        updateQuantityWithPrice(productId);
+        console.log('cat nhat thành công');
+      },
+      error: function () {
+        console.log('Đã có lỗi xảy ra khi cat nhat');
+      }
+    })
+
+    }
+
+  }
+
+  function updateQuantityWithPrice(productId) {
+    const price = document.getElementById('price-' + productId).textContent;
+    const quantity = document.getElementById('cartItemQuantity-' + productId).textContent;
+    console.log('price',price);
+    console.log('quantity',quantity);
+    const cleanNumber = parseInt(price.replace(/\./g, '').replace(/[^\d]/g, ''));
+
+    let totalPriceAndQuantity = cleanNumber * quantity
+    console.log('totalPriceQuantity',totalPriceAndQuantity);
+    const formatted = new Intl.NumberFormat('vi-VN').format(totalPriceAndQuantity) + 'đ';
+
+    document.getElementById('total-' + productId).textContent = formatted;
+  }
+
+  function  handleDeleteCartItem(productId) {
+    $.ajax({
+      url: "/web/del-cart",
+      type: "POST",
+      data: JSON.stringify({
+        productId: productId
+      }),
+      success: function () {
+        const row = document.getElementById('row-' + productId);
+        if(row) row.remove();
+        console.log('Xoá thành công');
+      },
+      error: function () {
+        console.log('Đã có lỗi xảy ra khi xoá');
+      }
+    })
+  }
+</script>
 </html>

@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.DiscoutType;
-import vn.edu.hcmuaf.fit.projectwebck.dto.ProductWithDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 @WebServlet(name = "updateProductDiscount", value = "/updateProductDiscount")
