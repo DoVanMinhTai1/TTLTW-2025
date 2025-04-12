@@ -5,7 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.LogsServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 
@@ -48,6 +50,16 @@ public class AddUser extends HttpServlet {
         UserServices userServices = new UserServices();
         userServices.insertUser(user);
         List<User> listUser = userServices.getAllUsers();
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            UserServices userService = new UserServices();
+            User users = (User) session.getAttribute("user"); ;
+            if (users != null) {
+                // Gọi LogService để ghi log
+                LogsServices logService = new LogsServices();
+                logService.alert(user.getUsername()+" đã thêm một tài khoản",user.getId(),"Thêm tài khoản","",users.toString());
+            }
+        }
         request.setAttribute("listuser",listUser);
         request.setAttribute("message", "Thêm user thành công");
         request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);

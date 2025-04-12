@@ -58,7 +58,38 @@ function navigationbarClick(select) {
             break;
     }
 }
+async function viewNotification(logId) {
+    const response = await fetch(`/web/GetLogByID?logId=${logId}`);
+    const logDetails = await response.json();
+    const viewNotification = document.getElementById("NotificationWindow");
+    // Thêm một lớp overlay để làm tối nền
+    const overlay = document.createElement('div');
+    overlay.className = "overlay";
+    overlay.id = "overlay";
+    document.body.appendChild(overlay);
+    viewNotification.innerHTML = ""; // Xóa dữ liệu cũ
+    viewNotification.innerHTML=`
+         <h2>Chi tiết Log</h2>
+        <i class="fa-solid fa-xmark" onclick="closeNotification()"></i>
+        <div><label>ID:</label> ${logDetails.logId}</div>
+        <div><label>Label:</label> ${logDetails.label}</div>
+        <div><label>User ID:</label> ${logDetails.userId}</div>
+        <div><label>Time:</label> ${logDetails.time}</div>
+        <div><label>Location:</label> ${logDetails.location}</div>
+        <div><label>Dữ liệu trước:</label><br><pre>${logDetails.beforeData}</pre></div>
+        <div><label>Dữ liệu sau:</label><br><pre>${logDetails.afterData}</pre></div>`;
+    // Hiển thị form
+    viewNotification.style.display = "block";
+}
+function closeNotification() {
+    const overlay = document.getElementById("overlay");
+    const viewNotification = document.getElementById("NotificationWindow");
 
+    viewNotification.style.display = "none";
+    if (overlay) {
+        overlay.remove();
+    }
+}
 
 // Js cho button them san pham
 function addProduct() {

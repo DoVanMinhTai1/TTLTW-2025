@@ -98,7 +98,42 @@
                         </li>
                     </ul>
                 </div>
+                <div class="NotificationBell">
+                    <i class="fa-solid fa-bell"></i>
+                    <div class="Notification" id="Notification">
+                        <div class="NotificationTitle">Thông Báo</div>
+                        <ul id="NotificationList" class="Notification_List_item">
+                            <c:forEach var="log" items="${listlog}">
+                                <li class="Notification_item">
+                                    <div class="Notification_Eye">
+                                        <i class="fa-solid fa-exclamation"></i>
+                                    </div>
+                                    <div class="Notification_item_info">
+                                        <div class="Notification_Describe">${log.label}
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-eye" onclick="viewNotification(${log.logId})"></i>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="NotificationWindow" id="NotificationWindow">
+        <h2>Chi tiết Log</h2>
+        <i class="fa-solid fa-xmark" onclick="closeNotification()"></i>
+        <div><label>ID:</label> 1</div>
+        <div><label>Label:</label> Cập nhật người dùng</div>
+        <div><label>User ID:</label> 123</div>
+        <div><label>Time:</label> 2025-04-07 10:30:00</div>
+        <div><label>Location:</label> /user/update</div>
+        <div><label>Dữ liệu trước:</label><br>
+            <pre></pre>
+        </div>
+        <div><label>Dữ liệu sau:</label><br>
+            <pre></pre>
         </div>
     </div>
     <div class="content">

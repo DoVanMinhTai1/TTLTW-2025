@@ -5,14 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
-import vn.edu.hcmuaf.fit.projectwebck.services.OrderDetailServices;
-import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
-import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
-import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
+import vn.edu.hcmuaf.fit.projectwebck.services.*;
 
 
 import java.io.IOException;
@@ -36,6 +30,9 @@ public class Show extends HttpServlet {
         OrderDetailServices orderDetailServices = new OrderDetailServices();
         List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
         request.setAttribute("listordetail", listOrD);
+        LogsServices logsServices = new LogsServices();
+        List<Log> listLog = logsServices.getAllLogs();
+        request.setAttribute("listlog", listLog);
 
         //show order
 //        List<Order> listLatestOrders = orderServices.getLatestOrders();

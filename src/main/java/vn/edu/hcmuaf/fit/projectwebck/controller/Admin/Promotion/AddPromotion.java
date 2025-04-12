@@ -5,8 +5,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.LogsServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.PromotionServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 
 import java.io.IOException;
@@ -42,6 +46,16 @@ public class AddPromotion extends HttpServlet {
 
         // Retrieve the updated list of promotions
         List<Promotion> listPromotion = promotionServices.getAllPromotion();
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            UserServices userService = new UserServices();
+            User user = (User) session.getAttribute("user"); ;
+            if (user != null) {
+                // Gọi LogService để ghi log
+                LogsServices logService = new LogsServices();
+                logService.alert(user.getUsername()+" đã thêm một khuyến mãi",user.getId(),"Thêm khuyến mãi","",promotion.toString());
+            }
+        }
         request.setAttribute("listpromotion", listPromotion);
         request.setAttribute("message", "Thêm khuyến mãi thành công");
         // Forward to the Admin page with the appropriate script to load

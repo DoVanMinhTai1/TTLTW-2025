@@ -34,6 +34,10 @@ public class PromotionServices {
     public void removePromotion(int promotionId) {
         promotionDao.removePromotion(promotionId);
     }
+    // Lấy chương trình khuyến mãi theo ID
+    public Promotion getPromotionById(int promotionId) {
+      return promotionDao.getPromotionById(promotionId);
+    }
 
     public void updatePromotion(Promotion promotion) {
         promotionDao.updatePromotion(promotion);

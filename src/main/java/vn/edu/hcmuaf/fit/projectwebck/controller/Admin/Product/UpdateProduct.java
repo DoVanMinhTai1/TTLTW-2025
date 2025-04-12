@@ -3,12 +3,12 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
+import vn.edu.hcmuaf.fit.projectwebck.services.LogsServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 
 import java.io.File;
@@ -74,6 +74,16 @@ public class UpdateProduct extends HttpServlet {
             // Gọi service để lưu sản phẩm vào cơ sở dữ liệu
             service.updateProduct(productUpdate);
             List<Product> products = service.getAll();
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                UserServices userService = new UserServices();
+                User user = (User) session.getAttribute("user"); ;
+                if (user != null) {
+                    // Gọi LogService để ghi log
+                    LogsServices logService = new LogsServices();
+                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",product.toString(),productUpdate.toString());
+                }
+            }
             request.setAttribute("listproduct", products);
             request.setAttribute("message", "Cập nhật sản phẩm thành công");
             request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
