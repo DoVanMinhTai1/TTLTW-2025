@@ -17,9 +17,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+       <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
 </head>
 <body>
 
@@ -135,14 +134,14 @@
             <div class="pro-cat"><h6>Sản Phẩm</h6></div>
         </div>
         <div class="right">
-            <button id="option">
+            <button class="newOption" id="optionNewOption">
                 <h6>
                     <span id="selected-option">Mặc định</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h6>
             </button>
-            <div class="drop-menu">
-                <ul class="dropdown-menu">
+            <div class="newOption drop-menu">
+                <ul class="newOption dropdown-menu123">
                     <li data-value="Mặc định" data-link="allProduct.html">Mặc định</li>
                     <li data-value="Giá giảm dần" data-link="allProduct-desc.html">Giá giảm dần</li>
                     <li data-value="Giá tăng dần">Giá tăng dần</li>
@@ -228,23 +227,23 @@
     <i class="fa-solid fa-arrow-up"></i>
 </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+<%--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="--%>
+<%--        crossorigin="anonymous"></script>--%>
 <script>
-    $(document).ready(function () {
-        $(window).scroll(function () {
-            if ($(this).scrollTop()) {
-                $('#backtop').fadeIn();
-            } else {
-                $('#backtop').fadeOut();
-            }
-        })
-        $('#backtop').click(function () {
-            $('html, body').animate({scrollTop: 0}, 300);
-        });
-    })
+    // $(document).ready(function () {
+    //     $(window).scroll(function () {
+    //         if ($(this).scrollTop()) {
+    //             $('#backtop').fadeIn();
+    //         } else {
+    //             $('#backtop').fadeOut();
+    //         }
+    //     })
+    //     $('#backtop').click(function () {
+    //         $('html, body').animate({scrollTop: 0}, 300);
+    //     });
+    // })
 
-    document.querySelectorAll(".dropdown-menu li").forEach(item => {
+    document.querySelectorAll(".newOption.dropdown-menu123 li").forEach(item => {
         item.addEventListener("click", function () {
             // Lấy giá trị của mục được chọn
             const selectedValue = this.getAttribute("data-value");
@@ -260,15 +259,15 @@
             document.querySelector(".drop-menu").classList.remove("show");
         });
     });
-    const menu = document.querySelector(".drop-menu");
-    const option = document.getElementById("option");
-    document.getElementById("option").addEventListener("click", function (e) {
+    const menu = document.querySelector(".drop-menu.newOption");
+    const option = document.getElementById("optionNewOption");
+    document.getElementById("optionNewOption").addEventListener("click", function (e) {
         e.stopPropagation(); // Ngăn chặn sự kiện nổi lên
-        document.querySelector(".drop-menu").classList.toggle("show");
+        document.querySelector(".drop-menu.newOption").classList.toggle("show");
     });
 
     // Đóng menu nếu người dùng nhấp ra ngoài
-    document.addEventListener("click", function (event) {
+    document.addEventListener("click", function  (event) {
         if (!option.contains(event.target) && !menu.contains(event.target)) {
             menu.classList.remove("show");
         }
