@@ -438,7 +438,7 @@ ul.products li .product-top .product-thumb img{
 ul.products li:hover .product-top .product-thumb img {
     filter: opacity(80%);
 }
-ul.products li .product-top a.add-to-cart{
+ul.products li .product-top button.add-to-cart{
     text-transform: uppercase;
     text-decoration: none;
     display: block;
@@ -454,7 +454,7 @@ ul.products li .product-top a.add-to-cart{
     border-right: 2px solid black;
     z-index: 1;
 }
-ul.products li:hover a.add-to-cart{
+ul.products li:hover button.add-to-cart{
     bottom: 0;
 }
 ul.products li .product-top a.buy-now{

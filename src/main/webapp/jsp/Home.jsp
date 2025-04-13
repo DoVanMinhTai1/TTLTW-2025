@@ -170,6 +170,7 @@
                             </c:choose>
 
                             <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
+
                             <fmt:parseDate value="${p.extraDay}" pattern="yyyy-MM-dd" var="dateAdded"/>
                             <c:set var="now" value="<%= new java.util.Date() %>"/>
                             <c:set var="diff" value="${now.time - dateAdded.time}"/>
