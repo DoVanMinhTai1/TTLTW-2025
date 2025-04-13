@@ -23,6 +23,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
         this.thirty_party_id = thirty_party_id;
+        this.isActive = false;
     }
     public User(){};
     public int getId() {
@@ -96,6 +97,9 @@ public class User {
     public void setThirty_party_id(String thirty_party_id) {
         this.thirty_party_id = thirty_party_id;
     }
+
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 
     @Override
     public String toString() {
