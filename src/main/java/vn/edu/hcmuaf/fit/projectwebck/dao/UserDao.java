@@ -27,7 +27,7 @@ public class UserDao {
     public void insertUser(User user) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO users (username, password, role, fullName, email, dateOfBirth, phone, isActive) " +
-                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone, false)")
+                        "VALUES (:username, :password, :decentralization, :fullName, :email, :dateOfBirth, :phone, 0)")
                 .bind("username", user.getUsername())
                 .bind("password", user.getPassword())
                 .bind("decentralization", user.getRole())
