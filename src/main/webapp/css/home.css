@@ -5,9 +5,7 @@ html, body {
     color: black;
     font-family: sans-serif, Tahoma;
 }
-body{
-    padding-top:90px;
-}
+
 h4, p{
     margin:0;
 }

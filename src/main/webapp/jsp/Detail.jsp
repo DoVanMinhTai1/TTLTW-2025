@@ -89,17 +89,17 @@
                     </ul>
                 </div>
                 <div class="bounder">
-                    <ul class="img-describe">
-                        <li>
-                            <img src="${p.image}">
-                        </li>
-                        <li>
-                            <img src="${p.image}">
-                        </li>
-                        <li>
-                            <img src="${p.image}">
-                        </li>
-                    </ul>
+<%--                    <ul class="img-describe">--%>
+<%--                        <li>--%>
+<%--                            <img src="${p.image}">--%>
+<%--                        </li>--%>
+<%--                        <li>--%>
+<%--                            <img src="${p.image}">--%>
+<%--                        </li>--%>
+<%--                        <li>--%>
+<%--                            <img src="${p.image}">--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
                     <ul class="img-describe">
                         <c:forEach var="img" items="${p.productImages}">
                             <li>
@@ -107,67 +107,167 @@
                             </li>
                         </c:forEach>
                     </ul>
-                    <ul class="img-describe">
-                        <c:forEach var="size" items="${p.productVariants}">
-                            <button class="size-btn"
-                                    data-price="${size.price}"
-                                    onclick="updatePrice(this)"
-                            >
-                                    ${size.massUnits}
-                                    ${size.massValue}
 
-                            </button>
-                        </c:forEach>
-                    </ul>
 
 
                 </div>
             </div>
         </div>
-        <div class="detail-right">
+<%--        <div class="detail-right">--%>
+<%--            <div class="detail-headline">--%>
+<%--                <h3>${p.name}</h3>--%>
+<%--            </div>--%>
+<%--            <div class="detail-price">--%>
+<%--                <h4 id="product-price"><f:formatNumber value="${p.price}"/>đ</h4>--%>
+<%--            </div>--%>
+<%--            <div class="summary-detail-describeContent">--%>
+<%--                <c:if test="${not empty sentences}">--%>
+<%--                    <c:forEach var="sentence" items="${sentences}">--%>
+<%--                        <h6>--%>
+<%--                            <i class="fa-solid fa-clover"></i>--%>
+<%--                            <c:out value="${sentence}"/>--%>
+<%--                        </h6>--%>
+<%--                    </c:forEach>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${empty sentences}">--%>
+<%--                    <h6>--%>
+<%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
+<%--                    </h6>--%>
+<%--                </c:if>--%>
+<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
+<%--            </div>--%>
+<%--            <div class="main-bottom">--%>
+<%--                <ul class="img-describe">--%>
+<%--                    <c:forEach var="size" items="${p.productVariants}">--%>
+<%--                        <button class="size-btn"--%>
+<%--                                data-price="${size.price}"--%>
+<%--                                onclick="updatePrice(this)"--%>
+<%--                        >--%>
+<%--                                ${size.massUnits}--%>
+<%--                                ${size.massValue}--%>
+
+<%--                        </button>--%>
+<%--                    </c:forEach>--%>
+<%--                </ul>--%>
+<%--                <div class="btn-bounder">--%>
+<%--                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>--%>
+<%--                    </button>--%>
+<%--                    <button class="buy"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}">Mua ngay</a></button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+        <div class="detail-right p-3">
             <div class="detail-headline">
+
                 <h3>${p.name}</h3>
             </div>
-            <div class="detail-price">
-                <h4 id="product-price"><f:formatNumber value="${p.price}"/>đ</h4>
+
+<%--            <div class="summary-detail-describeContent">--%>
+<%--                <c:if test="${not empty sentences}">--%>
+<%--                    <c:forEach var="sentence" items="${sentences}">--%>
+<%--                        <h6>--%>
+<%--                            <i class="fa-solid fa-clover"></i>--%>
+<%--                            <c:out value="${sentence}"/>--%>
+<%--                        </h6>--%>
+<%--                    </c:forEach>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${empty sentences}">--%>
+<%--                    <h6>--%>
+<%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
+<%--                    </h6>--%>
+<%--                </c:if>--%>
+<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
+<%--            </div>--%>
+            <div class="product-info-extra">
+                <p><strong>Loại rau củ</strong><c:choose>
+                    <c:when test="${p.category == 1}">Rau</c:when>
+                    <c:when test="${p.category == 2}">Củ</c:when>
+                    <c:when test="${p.category == 3}">Qủa</c:when>
+
+                </c:choose></p>
+                <p><strong>Xuất xứ:</strong> Đà lạt</p>
+                <p><strong>Ngày thu hoạch:</strong> 15/4/2025</p>
+                <p><strong>Hạn sử dụng:</strong> 20/4/2025</p>
+                <p><strong>Bảo quản:</strong> Nhiệt độ lạnh từ 3 độ - 5 độ</p>
+                <p><strong>Đặc tính dinh dưỡng:</strong> Giàu vitamin C, hỗ trợ tiêu hóa</p>
+                <p><strong>Trạng thái:</strong> Còn hàng</p>
             </div>
-            <div class="summary-detail-describeContent">
-                <c:if test="${not empty sentences}">
-                    <c:forEach var="sentence" items="${sentences}">
-                        <h6>
-                            <i class="fa-solid fa-clover"></i>
-                            <c:out value="${sentence}"/>
-                        </h6>
+
+            <div class="">
+                <p><strong>Kích thước:</strong>
+                <div class="img-describe">
+                    <c:forEach var="size" items="${p.productVariants}">
+                        <button
+                                style="
+                   border-radius: 50px;
+                   border: 2px solid #4CAF50;
+                   background-color: white;
+                   color: #4CAF50;
+                   font-weight: bold;
+                   cursor: pointer;
+                   transition: all 0.3s ease;
+                   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                                data-price="${size.price}"
+                                onclick="updatePrice(this)">
+                                ${size.massUnits} ${size.massValue}
+                        </button>
                     </c:forEach>
-                </c:if>
-                <c:if test="${empty sentences}">
-                    <h6>
-                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.
-                    </h6>
-                </c:if>
-                <%--                <h6>--%>
-                <%--                    <i class="fa-solid fa-clover"></i>--%>
-                <%--                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>--%>
-                <%--                <h6>--%>
-                <%--                    <i class="fa-solid fa-clover"></i>--%>
-                <%--                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>--%>
-            </div>
-            <div class="main-bottom">
-                <div class="size-bounder">
-                    <div class="option">
-                        <span>Khối Lượng</span>
-                        <div class="btn-choose">
-                            <%--                            <button>500g</button>--%>
-                            <button>1 kg</button>
-                        </div>
-                    </div>
                 </div>
-                <div class="btn-bounder">
-                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>
+
+                </p>
+            </div>
+            <div class="d-flex gap-3" style="color: #7cc652;">
+                <p><strong>Giá</strong>
+                <h4 id="product-price" style="color: #7cc652;"><f:formatNumber value="${p.price}"/>đ</h4>
+
+
+                </p>
+            </div>
+            <div class="" style="margin: 10px auto 10px 10px;
+    display: flex
+;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: end;">
+
+                <div class="" style="    width: 50%;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    border: none;">
+                    <button class="add-later" id="add-later" style="    margin: 5px;
+    height: 35px;
+    align-items: center;
+    background: #7cc652;
+    border-radius: 5px;
+    font-size: 17px;
+    color: white;
+    border: none;"><a href="add-cart?pid=${p.id}" style="text-decoration: none;
+    color: white;">Thêm vào giỏ hàng</a>
                     </button>
-                    <button class="buy"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}">Mua ngay</a></button>
+                    <button class="buy" style="    margin: 5px;
+    height: 35px;
+    align-items: center;
+    background: #7cc652;
+    border-radius: 5px;
+    font-size: 17px;
+    color: white;
+    border: none;"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}" style="text-decoration: none;
+    color: white;">Mua ngay</a></button>
                 </div>
             </div>
+
         </div>
     </div>
     <!--  <div class="detail-bottom">-->
@@ -209,8 +309,23 @@
 
                             </a>
                             <!--xem ngay-->
-                            <a href="addRelativePr?id=${p.id}&pid=${pr.id}" class = "add-to-cart">Them</a>
-                            <a href="showDetail?id=${pr.id}" class="buy-now">Xem ngay</a>
+                            <!--xem ngay-->
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user}">
+                                    <button class="add-to-cart"
+                                            onclick="handleAddToCart(${sessionScope.user.id},${p.id})">Thêm
+                                    </button>
+
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="add-to-cart"
+                                            onclick="handleAddToCart(null,${p.id})">Thêm
+                                    </button>
+                                </c:otherwise>
+
+                            </c:choose>
+
+                            <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
                         </div>
                         <div class="product-info">
                             <c:set var="categoryHref">
