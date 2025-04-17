@@ -28,6 +28,7 @@
                       style="display: flex; justify-content: center; align-items: center; height: 100%">
                     <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?" style="width: 80%; ">
                 </form>
+                <div id="suggestions" class="suggestions" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000;"></div>
             </div>
             <div class="d-flex flex-grow-1" style="align-items: center; justify-content: center;">
                 <i class="fas fa-phone"></i>
@@ -84,4 +85,37 @@
 </header>
 
 </body>
+<script>
+    document.getElementById("search").addEventListener("input", function() {
+        const query = this.value;
+        const suggestionsBox = document.getElementById("suggestions");
+
+        if (query.length > 0) {
+            fetch(`/search?search=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsBox.innerHTML = ""; // Xóa gợi ý cũ
+                    if (data.length > 0) {
+                        suggestionsBox.style.display = "block"; // Hiển thị gợi ý
+                        data.forEach(item => {
+                            const suggestionItem = document.createElement("div");
+                            suggestionItem.textContent = item.name; // Giả sử `name` là trường bạn muốn hiển thị
+                            suggestionItem.classList.add("suggestion-item");
+                            suggestionItem.addEventListener("click", function() {
+                                document.getElementById("search").value = item.name; // Cập nhật ô tìm kiếm
+                                suggestionsBox.innerHTML = ""; // Xóa gợi ý
+                                suggestionsBox.style.display = "none"; // Ẩn gợi ý
+                            });
+                            suggestionsBox.appendChild(suggestionItem);
+                        });
+                    } else {
+                        suggestionsBox.style.display = "none"; // Ẩn gợi ý nếu không có kết quả
+                    }
+                })
+                .catch(error => console.error('Error fetching suggestions:', error));
+        } else {
+            suggestionsBox.style.display = "none"; // Ẩn gợi ý nếu ô tìm kiếm trống
+        }
+    });
+</script>
 </html>
