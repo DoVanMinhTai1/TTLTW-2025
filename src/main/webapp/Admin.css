@@ -403,6 +403,10 @@ th, td {
 .Notification_Eye{
     padding: 10px 15px 10px 25px;
 }
+.fa-trash{
+    margin:10px 0 0 5px;
+    color: #f41717;
+}
 .fa-exclamation{
     color: #00845c;
     font-size: 22px;

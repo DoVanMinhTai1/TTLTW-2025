@@ -11,7 +11,7 @@
         response.sendRedirect("showLogin");
         return;
     }
-    if(user.getRole() !=1 ){
+    if(user.getRole() !=1 && user.getRole() != 2){
         response.sendRedirect("showHome");
         return;
     }
@@ -113,6 +113,9 @@
                                         </div>
                                     </div>
                                     <i class="fa-solid fa-eye" onclick="viewNotification(${log.logId})"></i>
+                                    <c:if test="${sessionScope.user.role == 2}">
+                                       <a href="DeleteLog?logId=${log.logId}"><i class="fa-solid fa-trash"></i></a>
+                                    </c:if>
                                 </li>
                             </c:forEach>
                         </ul>
