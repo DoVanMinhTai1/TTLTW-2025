@@ -101,14 +101,15 @@ public class ProductDao {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> {
             // Cập nhật câu lệnh SQL để lưu tất cả các thông tin của sản phẩm
-            handle.createUpdate("INSERT INTO products (name, price, mass, description, category, image) " +
-                            "VALUES (:name, :price, :mass, :describe, :category, :image)")
+            handle.createUpdate("INSERT INTO products (name, price, mass, description, category, image, extraDay) " +
+                            "VALUES (:name, :price, :mass, :describe, :category, :image, :extraDay)")
                     .bind("name", product.getName())
                     .bind("price", product.getPrice())
                     .bind("mass", product.getMass())
                     .bind("describe", product.getDescription())
                     .bind("category", product.getCategory())
                     .bind("image", product.getImage()) // Lưu đường dẫn ảnh
+                    .bind("extraDay", product.getExtraDay())
                     .execute();
         });
     }

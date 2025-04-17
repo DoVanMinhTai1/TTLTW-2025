@@ -13,29 +13,37 @@ import java.util.List;
 public class LogsServices {
     LogsDao logsDao = new LogsDao();
 
-    public void alert(String label,Integer userID, String location, String beforeData, String afterData) {
-      Log log = new Log("(Alert) "+label, userID,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
-      logsDao.insertLog(log);
-    }
-
-    public void infor(String label,Integer userID, String location, String beforeData, String afterData) {
-        Log log = new Log("(Infor) "+label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
+    public void alert(String label, Integer userID, String location, String beforeData, String afterData) {
+        Log log = new Log("(Alert) " + label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
         logsDao.insertLog(log);
     }
 
-    public void warning(String label,Integer userID, String location, String beforeData, String afterData) {
-        Log log = new Log("(Warning) "+label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
+    public void infor(String label, Integer userID, String location, String beforeData, String afterData) {
+        Log log = new Log("(Infor) " + label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
         logsDao.insertLog(log);
     }
 
-    public void danger(String label,Integer userID, String location, String beforeData, String afterData) {
-        Log log = new Log("(Danger) "+label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
+    public void warning(String label, Integer userID, String location, String beforeData, String afterData) {
+        Log log = new Log("(Warning) " + label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
         logsDao.insertLog(log);
     }
+
+    public void danger(String label, Integer userID, String location, String beforeData, String afterData) {
+        Log log = new Log("(Danger) " + label, userID, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), location, beforeData, afterData);
+        logsDao.insertLog(log);
+    }
+
     public List<Log> getAllLogs() {
-      return logsDao.getAllLogs();
+        return logsDao.getAllLogs();
     }
+
     public Log getByLogId(int logId) {
-       return logsDao.getByLogId(logId);
+        return logsDao.getByLogId(logId);
     }
+
+    public boolean deleteByLogId(int logId) {
+        return logsDao.deleteByLogId(logId);
+    }
+
+
 }
