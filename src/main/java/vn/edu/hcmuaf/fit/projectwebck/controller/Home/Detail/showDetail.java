@@ -18,7 +18,7 @@ public class showDetail extends  HttpServlet{
         ProductServices productService= new ProductServices();
         Product detail = productService.getDetail(id);
         request.setAttribute("p",detail);
-
+        System.out.println("product in detail" + detail);
         // Lấy mô tả sản phẩm
         List<String> descriptions = productService.getDescription(id);
         List<String> sentences = new ArrayList<>();

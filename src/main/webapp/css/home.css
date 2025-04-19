@@ -5,9 +5,7 @@ html, body {
     color: black;
     font-family: sans-serif, Tahoma;
 }
-body{
-    padding-top:90px;
-}
+
 h4, p{
     margin:0;
 }
@@ -703,7 +701,7 @@ ul.products li img{
     font-weight: 600;
     font-size: 15px;
 }
-.filter .right #option{
+.filter .right .newOption#optionNewOption{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -711,29 +709,29 @@ ul.products li img{
     font-size: 22px;
     background: #E0E5DC;
 }
-.filter .right #option>h6>span{
+.filter .right .newOption#optionNewOption>h6>span{
     padding: 0 10px;
     font-size: 15px;
 }
-.drop-menu {
+.newOption.drop-menu {
     display: none;
     position: absolute;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 100;
 }
-.drop-menu ul.dropdown-menu{
+.newOption.dropdown-menu ul.dropdown-menu123{
     list-style: none;
     padding: 0;
     margin: 0;
 }
-.drop-menu ul.dropdown-menu li{
+.newOption.drop-menu ul.dropdown-menu123 li{
     display: block;
     padding: 5px;
     margin-bottom: 5px;
     border-right: #7cc652 solid 1px;
 }
-.drop-menu.show {
+.newOption.drop-menu.show {
     display:block;
 }
 /*tat ca san pham*/
