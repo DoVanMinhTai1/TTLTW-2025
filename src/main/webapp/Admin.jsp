@@ -7,11 +7,11 @@
     String runScript = request.getParameter("runScript");
     User user = (User) session.getAttribute("user");
 
-    if(user == null){
+    if (user == null) {
         response.sendRedirect("showLogin");
         return;
     }
-    if(user.getRole() !=1 && user.getRole() != 2){
+    if (user.getRole() != 1 && user.getRole() != 2) {
         response.sendRedirect("showHome");
         return;
     }
@@ -90,10 +90,10 @@
                     <ul>
                         <li>
                             <a href="logout">
-                            <img src="Img/power.png" alt="" class="admin-avatar">
-<%--                            <div class="dropdown-menu">--%>
-<%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
-<%--                            </div>--%>
+                                <img src="Img/power.png" alt="" class="admin-avatar">
+                                <%--                            <div class="dropdown-menu">--%>
+                                <%--                                <button class="logout-btn" onclick="logout()">Đăng Xuất</button>--%>
+                                <%--                            </div>--%>
                             </a>
                         </li>
                     </ul>
@@ -114,7 +114,7 @@
                                     </div>
                                     <i class="fa-solid fa-eye" onclick="viewNotification(${log.logId})"></i>
                                     <c:if test="${sessionScope.user.role == 2}">
-                                       <a href="DeleteLog?logId=${log.logId}"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="DeleteLog?logId=${log.logId}"><i class="fa-solid fa-trash"></i></a>
                                     </c:if>
                                 </li>
                             </c:forEach>
@@ -253,12 +253,12 @@
         <div class="AdminListProduct select">
             <div class="AdminListProductHeader">
                 <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
-                <form action="searchProduct" method="get">
-                    <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
-                </form>
-                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm sản phẩm</button>
+                <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
+                    sản phẩm
+                </button>
             </div>
-            <ul class="Product_Item" id="ProductItem">
+            <ul class="Product_Item" id="list-searchProduct">
                 <li class="title_Item">
                     <div>ID</div>
                     <div>Ảnh</div>
@@ -288,7 +288,8 @@
                 </c:forEach>
             </ul>
             <!-- Modal -->
-            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel" aria-hidden="true">
+            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -307,22 +308,26 @@
 
                                 <div class="mb-3">
                                     <label for="productName" class="form-label">Tên:</label>
-                                    <input type="text" class="form-control" id="productName" name="name" placeholder="Vui lòng nhập tên ..." required>
+                                    <input type="text" class="form-control" id="productName" name="name"
+                                           placeholder="Vui lòng nhập tên ..." required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="productPrice" class="form-label">Giá:</label>
-                                    <input type="text" class="form-control" id="productPrice" name="price" placeholder="Vui lòng nhập giá ..." required>
+                                    <input type="text" class="form-control" id="productPrice" name="price"
+                                           placeholder="Vui lòng nhập giá ..." required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="productDescribe" class="form-label">Mô tả:</label>
-                                    <textarea class="form-control" id="productDescribe" name="describe" placeholder="Vui lòng mô tả" required></textarea>
+                                    <textarea class="form-control" id="productDescribe" name="describe"
+                                              placeholder="Vui lòng mô tả" required></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="productMass" class="form-label">Khối lượng:</label>
-                                    <input type="text" class="form-control" id="productMass" name="mass" placeholder="Vui lòng nhập số lượng ..." required>
+                                    <input type="text" class="form-control" id="productMass" name="mass"
+                                           placeholder="Vui lòng nhập số lượng ..." required>
                                 </div>
 
                                 <div class="mb-3">
@@ -336,7 +341,9 @@
 
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success">Lưu</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeProduct()">Hủy</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            onclick="closeProduct()">Hủy
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -349,12 +356,12 @@
         <div class="AdminListUser select">
             <div class="AdminListUserHeader">
                 <div>Tài khoản(<span>${listuser.size()}</span>)</div>
-                <form action="searchUser" method="get">
-                    <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
-                </form>
-                <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài khoản</button>
+                <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài
+                    khoản
+                </button>
             </div>
-            <ul class="User_Item" id="UserItem">
+            <ul class="User_Item" id="list-searchUser">
                 <li class="title_Item">
                     <div>ID</div>
                     <div>Tên</div>
@@ -399,12 +406,14 @@
 
                                 <div class="mb-3">
                                     <label for="UserName" class="form-label">Tên đăng nhập:</label>
-                                    <input type="text" id="UserName" name="UserName" class="form-control" placeholder="Vui lòng nhập tên đăng nhập..." required>
+                                    <input type="text" id="UserName" name="UserName" class="form-control"
+                                           placeholder="Vui lòng nhập tên đăng nhập..." required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="UserPassword" class="form-label">Mật khẩu:</label>
-                                    <input type="password" id="UserPassword" name="Password" class="form-control" placeholder="Vui lòng nhập mật khẩu..." required>
+                                    <input type="password" id="UserPassword" name="Password" class="form-control"
+                                           placeholder="Vui lòng nhập mật khẩu..." required>
                                 </div>
 
                                 <div class="mb-3">
@@ -417,12 +426,14 @@
 
                                 <div class="mb-3">
                                     <label for="FullName" class="form-label">Họ tên:</label>
-                                    <input type="text" id="FullName" name="FullName" class="form-control" placeholder="Vui lòng nhập họ tên..." required>
+                                    <input type="text" id="FullName" name="FullName" class="form-control"
+                                           placeholder="Vui lòng nhập họ tên..." required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="Phone" class="form-label">Số điện thoại:</label>
-                                    <input type="text" id="Phone" name="Phone" class="form-control" placeholder="Vui lòng nhập số điện thoại..." required>
+                                    <input type="text" id="Phone" name="Phone" class="form-control"
+                                           placeholder="Vui lòng nhập số điện thoại..." required>
                                 </div>
 
                                 <div class="mb-3">
@@ -432,12 +443,15 @@
 
                                 <div class="mb-3">
                                     <label for="Email" class="form-label">Email:</label>
-                                    <input type="email" id="Email" name="Email" class="form-control" placeholder="Vui lòng nhập email..." required>
+                                    <input type="email" id="Email" name="Email" class="form-control"
+                                           placeholder="Vui lòng nhập email..." required>
                                 </div>
 
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
-                                    <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal" onclick="closeUser()">Hủy</button>
+                                    <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal"
+                                            onclick="closeUser()">Hủy
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -451,11 +465,9 @@
         <div class="AdminListOrder select">
             <div class="AdminListOrderHeader">
                 <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
-                <form action="searchOrder" method="get">
-                    <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
-                </form>
+                <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
             </div>
-            <ul class="Order_Item">
+            <ul class="Order_Item" id="list-searchOrder">
                 <li class="title_Item">
                     <div>Mã vận đơn</div>
                     <div>Khách hàng</div>
@@ -500,12 +512,12 @@
         <div class="AdminListPromotion select">
             <div class="AdminListPromotionHeader">
                 <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
-                <form action="searchPromotion" method="get">
-                    <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
-                </form>
-                <button type="submit"  data-bs-toggle="modal" data-bs-target="#PromotionWindow"  onclick="addPromotion()">Thêm khuyến mãi</button>
+                <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
+                    Thêm khuyến mãi
+                </button>
             </div>
-            <ul class="Promotion_Item" id="PromotionItem">
+            <ul class="Promotion_Item" id="list-searchPromotion">
                 <li class="title_Item">
                     <div>Mã khuyến mãi</div>
                     <div>Ngày bắt đầu</div>
@@ -532,7 +544,8 @@
                     </li>
                 </c:forEach>
             </ul>
-            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel" aria-hidden="true">
+            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -545,7 +558,8 @@
 
                                 <div class="mb-3">
                                     <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
-                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control" placeholder="Vui lòng nhập tên khuyến mãi..." required>
+                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control"
+                                           placeholder="Vui lòng nhập tên khuyến mãi..." required>
                                 </div>
 
                                 <div class="mb-3">
@@ -560,12 +574,15 @@
 
                                 <div class="mb-3">
                                     <label for="Value" class="form-label">Giá trị (%):</label>
-                                    <input type="number" id="Value" name="Value" class="form-control" placeholder="Nhập giá trị khuyến mãi (%)..." required>
+                                    <input type="number" id="Value" name="Value" class="form-control"
+                                           placeholder="Nhập giá trị khuyến mãi (%)..." required>
                                 </div>
 
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
-                                    <button type="button" class="btn btn-secondary ButtonPromotion2" data-bs-dismiss="modal" onclick="closePromotion()">Hủy</button>
+                                    <button type="button" class="btn btn-secondary ButtonPromotion2"
+                                            data-bs-dismiss="modal" onclick="closePromotion()">Hủy
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -685,8 +702,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateProductDiscountForm" >
-                    <input type="hidden" id="idProductWithDiscount" />
+                <form id="updateProductDiscountForm">
+                    <input type="hidden" id="idProductWithDiscount"/>
                     <div class="mb-3">
                         <label for="productSelect" class="form-label">Chọn sản phẩm</label>
                         <select class="form-control" id="updateProductSelect"
@@ -867,6 +884,7 @@
         })
 
     }
+
     let isUpdateProductLoaded = false;
     // $(document).ready(function () {
     //     loadUpdateProduct(); // Chỉ gọi 1 lần khi trang tải xong
@@ -898,7 +916,7 @@
                     option.textContent = product.name + " - " + product.price + " VND";
                     productSelect.append(option);
                 });
-                if(callback) {
+                if (callback) {
                     callback(data);
                 }
 
@@ -928,13 +946,13 @@
                     let select = document.querySelector("#updateProductSelect");
                     let options = document.querySelectorAll("#updateProductSelect option");
                     options.forEach((item) => {
-                        if(item.value.toString() === data.prouctId.toString()) {
+                        if (item.value.toString() === data.prouctId.toString()) {
                             item.selected = true;
                         }
                     })
                 });
 
-                if(data.discountPercentage > 0) {
+                if (data.discountPercentage > 0) {
 
                     document.getElementById('updateDiscountType').value = "percentage";
                 } else {
@@ -999,7 +1017,6 @@
             }
         });
     });
-
 
 
 </script>
