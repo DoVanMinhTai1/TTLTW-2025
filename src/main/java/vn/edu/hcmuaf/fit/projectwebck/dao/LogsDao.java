@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Log;
 import java.util.List;
 
 public class LogsDao {
+    //ham lay ta cac log
     public List<Log> getAllLogs() {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM logs")
@@ -14,6 +15,7 @@ public class LogsDao {
                 .list());
     }
 
+    //ham lay mot log theo id Log
     public Log getByLogId(int logId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM logs WHERE logId = :logId")
@@ -22,6 +24,20 @@ public class LogsDao {
                 .findOne()
                 .orElse(null));
     }
+
+    //ham xoa mot log theo id
+    public boolean deleteByLogId(int logId) {
+        Jdbi jdbi = JDBIConect.get();
+        int rowsAffected = jdbi.withHandle(handle ->
+                handle.createUpdate("DELETE FROM logs WHERE logId = :logId")
+                        .bind("logId", logId)
+                        .execute()
+        );
+        return rowsAffected > 0; // nếu có ít nhất 1 dòng bị xóa => true
+    }
+
+
+    //ham them 1 log
     public void insertLog(Log log) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO logs (label, userId, time, location, beforeData, afterData) " +
@@ -34,7 +50,6 @@ public class LogsDao {
                 .bind("afterData", log.getAfterData())
                 .execute());
     }
-
 
 
 }

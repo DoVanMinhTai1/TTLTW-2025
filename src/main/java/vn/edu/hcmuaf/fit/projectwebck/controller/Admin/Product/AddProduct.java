@@ -14,6 +14,8 @@ import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @MultipartConfig(
@@ -59,7 +61,7 @@ public class AddProduct extends HttpServlet {
             double price = Double.parseDouble(priceStr);
             double mass = Double.parseDouble(massStr);
             int categoryId = Integer.parseInt(category);
-
+            String extraDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             // Lưu ảnh vào thư mục Img
             String imagePath = saveProductImage(request, productImagePart);
             System.out.println("Image: " + imagePath);
@@ -72,6 +74,7 @@ public class AddProduct extends HttpServlet {
             product.setDescription(description);
             product.setCategory(categoryId);
             product.setImage(imagePath);
+            product.setExtraDay(extraDay);
 
             // Gọi service để lưu sản phẩm vào cơ sở dữ liệu
             ProductServices service = new ProductServices();

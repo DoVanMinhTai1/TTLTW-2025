@@ -114,8 +114,8 @@
                     <li data-value="Giá tăng dần" data-link="allProduct-asc.html">Giá tăng dần</li>
                 </ul>
             </div>
-            <form id="sortForm" action="sortV" method="GET" style="display:none;">
-                <input type="hidden" name="sortProduct" value="" id="sortProductInput">
+            <form id="sortForm" action="showVegetables" method="GET" style="display:none;">
+                <input type="hidden" name="sortProduct" value="Mặc định" id="sortProductInput">
             </form>
         </div>
     </div>
@@ -181,7 +181,7 @@
         <ul class="more-product">
             <c:forEach begin ="1" end = "${endPage}" var="i">
                 <li>
-                    <button class="btn-1" type="button" onclick="location.href='showVegetables?index=${i}'">${i}</button>
+                    <button class="btn-1" type="button" onclick="location.href='showVegetables?index=${i}&sortProduct=${sortProduct}'">${i}</button>
                 </li>
             </c:forEach>
 
@@ -259,40 +259,40 @@
             $('html, body').animate({scrollTop:0}, 300);
         });
     })
-
-    document.querySelectorAll(".dropdown-menu li").forEach(item => {
-        item.addEventListener("click", function () {
-            // Lấy giá trị của mục được chọn
-            const selectedValue = this.getAttribute("data-value");
-            // Thay đổi nội dung trong nút
-            document.getElementById("selected-option").textContent = selectedValue;
-
-            // Gán giá trị vào trường ẩn
-            document.getElementById("sortProductInput").value = selectedValue;
-
-            // Gửi form tới servlet
-            document.getElementById("sortForm").submit();
-            // Ẩn menu thả xuống sau khi chọn
-            document.querySelector(".drop-menu").classList.remove("show");
-        });
-    });
-    const menu = document.querySelector(".drop-menu");
-    const option = document.getElementById("option");
-    document.getElementById("option").addEventListener("click", function (e) {
-        e.stopPropagation(); // Ngăn chặn sự kiện nổi lên
-        document.querySelector(".drop-menu").classList.toggle("show");
-    });
-
-    // Đóng menu nếu người dùng nhấp ra ngoài
-    document.addEventListener("click", function (event) {
-        if (!option.contains(event.target) && !menu.contains(event.target)) {
-            menu.classList.remove("show");
-        }
-    });
     document.addEventListener("DOMContentLoaded", function() {
+        const menu = document.querySelector(".drop-menu");
+        const option = document.getElementById("option");
+        const selectedOption = document.getElementById("selected-option");
+        const sortProductInput = document.getElementById("sortProductInput");
+
+        // Cập nhật giá trị ban đầu
         const selectedValue = "${param.sortProduct != null ? param.sortProduct : 'Mặc định'}";
-        document.getElementById("selected-option").textContent = selectedValue;
-        document.getElementById("sortProductInput").value = selectedValue; // Cập nhật giá trị input
+        selectedOption.textContent = selectedValue;
+        sortProductInput.value = selectedValue;
+
+        // Mở/đóng menu
+        option.addEventListener("click", function (e) {
+            e.stopPropagation(); // Ngăn chặn sự kiện nổi lên
+            menu.classList.toggle("show");
+        });
+
+        // Đóng menu nếu người dùng nhấp ra ngoài
+        document.addEventListener("click", function (event) {
+            if (!option.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.remove("show");
+            }
+        });
+
+        // Lắng nghe sự kiện click trên các mục trong menu
+        menu.querySelectorAll("li").forEach(item => {
+            item.addEventListener("click", function() {
+                const value = this.getAttribute("data-value");
+                selectedOption.textContent = value;
+                sortProductInput.value = value;
+                // Gửi form
+                document.getElementById("sortForm").submit();
+            });
+        });
     });
 </script>
 </html>

@@ -147,8 +147,8 @@
                     <li data-value="Giá tăng dần">Giá tăng dần</li>
                 </ul>
             </div>
-            <form id="sortForm" action="sort" method="GET" style="display:none;">
-                <input type="hidden" name="sortProduct" value="" id="sortProductInput">
+            <form id="sortForm" action="showAll" method="GET" style="display:none;">
+                <input type="hidden" name="sortProduct" value="Mặc định" id="sortProductInput">
             </form>
         </div>
     </div>
@@ -229,7 +229,7 @@
         <ul class="more-product">
             <c:forEach begin="1" end="${endPage}" var="i">
                 <li>
-                    <button class="btn-1" type="button" onclick="location.href='showAll?index=${i}'">${i}</button>
+                    <button class="btn-1" type="button" onclick="location.href='showAll?index=${i}&sortProduct=${sortProduct}'">${i}</button>
                 </li>
             </c:forEach>
 
@@ -294,5 +294,11 @@
     });
 
     console.log('check',${item})
+    menu.querySelectorAll("li").forEach(item => {
+        item.addEventListener("click", function () {
+            console.log("Clicked:", this.getAttribute("data-value")); // Log giá trị được chọn
+            // Các dòng còn lại...
+        });
+    });
 </script>
 </html>

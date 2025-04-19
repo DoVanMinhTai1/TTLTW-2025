@@ -39,7 +39,7 @@ public class login extends HttpServlet {
             String hashedPassword = hashPassword(password);
             if (hashedPassword.equals(user.getPassword())) {
                 session.setAttribute("user", user);
-                if (user.getRole() == 1) {
+                if (user.getRole() == 1 || user.getRole() == 2) {
                     response.sendRedirect("showAdmin");
                 } else {
                     response.sendRedirect("showHome");

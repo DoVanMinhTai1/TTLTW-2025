@@ -35,10 +35,11 @@ public class sortV extends HttpServlet {
                     return Double.compare(p1.getPrice(), p2.getPrice());
                 }
             });
-        } else {
-            // Sắp xếp mặc định
-
         }
+//        else {
+//            // Sắp xếp mặc định
+//
+//        }
         request.setAttribute("listPaging", products);
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
