@@ -10,6 +10,7 @@ import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "SearchOrder", value = "/searchOrder")
@@ -17,16 +18,29 @@ public class SearchOrder extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int keyword = Integer.parseInt(request.getParameter("searchOrder")) ; // Lấy từ khóa tìm kiếm từ request
+        String keyword = request.getParameter("keyword") ; // Lấy từ khóa tìm kiếm từ request
         OrderServices service = new OrderServices();
 
-        // Tìm kiếm sản phẩm theo tên
-        List<Order> orders=service.searchById(keyword);
+        List<Order> orders;
+        if (keyword != null && !keyword.isEmpty()) {
+            try {
+                int id = Integer.parseInt(keyword);
+                orders = service.searchById(id);
+            } catch (NumberFormatException e) {
+                orders = new ArrayList<>(); // keyword không hợp lệ -> rỗng
+            }
+        } else {
+            orders = service.getAllOrders();
+        }
 
-        // Đặt danh sách vào request và chuyển đến trang JSP
-        request.setAttribute("listorder", orders);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        request.getRequestDispatcher("Admin.jsp?runScript=option4").forward(request, response);
+        com.google.gson.Gson gson = new com.google.gson.GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+        response.getWriter().write(gson.toJson(orders));
+
     }
 
     @Override
