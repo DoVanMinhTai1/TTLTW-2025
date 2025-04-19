@@ -58,6 +58,7 @@ function navigationbarClick(select) {
             break;
     }
 }
+
 async function viewNotification(logId) {
     const response = await fetch(`/web/GetLogByID?logId=${logId}`);
     const logDetails = await response.json();
@@ -68,7 +69,7 @@ async function viewNotification(logId) {
     overlay.id = "overlay";
     document.body.appendChild(overlay);
     viewNotification.innerHTML = ""; // Xóa dữ liệu cũ
-    viewNotification.innerHTML=`
+    viewNotification.innerHTML = `
          <h2>Chi tiết Log</h2>
         <i class="fa-solid fa-xmark" onclick="closeNotification()"></i>
         <div><label>ID:</label> ${logDetails.logId}</div>
@@ -81,6 +82,7 @@ async function viewNotification(logId) {
     // Hiển thị form
     viewNotification.style.display = "block";
 }
+
 function closeNotification() {
     const overlay = document.getElementById("overlay");
     const viewNotification = document.getElementById("NotificationWindow");
@@ -171,6 +173,190 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     modal.show();
 }
 
+//Tìm kiếm sản phẩm
+window.addEventListener("DOMContentLoaded", function () {
+    const searchInputs = [
+        {id: "searchProduct", url: "/web/searchProduct", placeholder: "Nhập tên sản phẩm"},
+        {id: "searchUser", url: "/web/searchUser", placeholder: "Nhập tên khách hàng"},
+        {id: "searchOrder", url: "/web/searchOrder", placeholder: "Nhập mã đơn hàng"},
+        {id: "searchPromotion", url: "/web/searchPromotion", placeholder: "Nhập mã khuyến mãi"}
+    ];
+
+    searchInputs.forEach(inputData => {
+        const searchInput = document.getElementById(inputData.id);
+        if (!searchInput) return; // Tránh lỗi nếu chưa có thẻ input
+
+        searchInput.addEventListener("input", function () {
+            const keyword = this.value.trim();
+
+            if (keyword === "") {
+                fetch(`${inputData.url}?keyword=`)
+                    .then(response => response.json())
+                    .then(data => renderData(inputData.id, data));
+                return;
+            }
+
+            fetch(`${inputData.url}?keyword=${encodeURIComponent(keyword)}`)
+                .then(response => response.json())
+                .then(data => renderData(inputData.id, data))
+                .catch(error => console.error(`Lỗi khi tìm kiếm ${inputData.placeholder}:`, error));
+        });
+    });
+    function renderTitle(inputId) {
+        switch (inputId) {
+            case "searchProduct":
+                return `
+                <li class="title_Item">
+                    <div>ID</div>
+                    <div>Ảnh</div>
+                    <div>Tên</div>
+                    <div>Giá</div>
+                    <div>Khối lượng</div>
+                </li>`;
+            case "searchUser":
+                return `
+                <li class="title_Item">
+                    <div>ID</div>
+                    <div>Tên</div>
+                    <div>Số điện thoại</div>
+                    <div>Phân quyền</div>
+                </li>`;
+            case "searchOrder":
+                return `
+                <li class="title_Item">
+                    <div>Mã vận đơn</div>
+                    <div>Khách hàng</div>
+                    <div>Ngày đặt</div>
+                    <div>Thành tiền</div>
+                    <div>Trạng thái</div>
+                </li>`;
+            case "searchPromotion":
+                return `
+                <li class="title_Item">
+                    <div>Mã khuyến mãi</div>
+                    <div>Ngày bắt đầu</div>
+                    <div>Ngày kết thúc</div>
+                    <div>Giá trị</div>
+                </li>`;
+            default:
+                return '';
+        }
+    }
+
+    function renderData(inputId, data) {
+        const listId = `list-${inputId}`;
+        const list = document.getElementById(listId);
+        if (!list) return;
+
+        list.innerHTML = renderTitle(inputId);
+
+        if (data.length === 0) {
+            list.innerHTML += `<li><div style="padding: 10px">Không tìm thấy kết quả nào.</div></li>`;
+            return;
+        }
+
+        data.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML = renderItemHTML(inputId, item);
+            list.appendChild(li);
+        });
+    }
+
+    function renderItemHTML(inputId, item) {
+        switch (inputId) {
+            case "searchProduct":
+                return `
+                  <div>${item.id}</div>
+                  <div><img src="${item.image}" alt="" style="width: 50px"></div>
+                  <div>${item.name}</div>
+                  <div>${formatCurrency(item.price)}</div>
+                  <div>${item.mass}Kg</div>
+                  <div class="menu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="ellipsis">
+                       <div onclick="UpdateProduct('${item.id}','${escapeQuote(item.name)}','${item.price}','${item.mass}','${escapeQuote(item.description)}','${item.image}','${item.category}')">
+                         Sửa
+                       </div>
+                       <a href="removeProduct?pid=${item.id}">
+                        <div>Xóa</div>
+                       </a>
+                     </div>
+                   </div>
+                          `;
+            case "searchUser":
+                return `
+                <div>${item.id}</div>
+                <div>${item.fullName}</div>
+                <div>${item.phone}</div>
+                <div>${item.role == '1' ? 'Quản trị viên' : 'Người dùng'}</div>
+                <div class="menu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="ellipsis">
+                        <div onclick="UpdateUser('${item.id}', '${item.username}', '${item.password}', '${item.role}', '${escapeQuote(item.fullName)}', '${item.email}', '${item.dateOfBirth}', '${item.phone}')">
+                            Sửa
+                        </div>
+                        <a href="removeUser?uid=${item.id}">
+                            <div>Xóa</div>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            case "searchOrder":
+                return `
+                <div>${item.id}</div>
+                <div class="name">${item.fullName}</div>
+                <div>${item.dateOfBooking}</div>
+                <div>${formatCurrency(item.money)}</div>
+                <div class="${item.status == '1' ? 'statusT' : 'statusF'}">
+                    ${item.status == '1' ? 'Đã thanh toán' : 'Chờ thanh toán'}
+                </div>
+                <div class="menu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="ellipsis">
+                        <div onclick="viewOrder(${item.id})">Chi tiết đơn hàng</div>
+                        <a href="removeOder?oid=${item.id}">
+                            <div>Xóa</div>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            case "searchPromotion":
+                return `
+                <div>${item.id}</div>
+                <div>${item.startDate}</div>
+                <div>${item.endDate}</div>
+                <div>${item.value}%</div>
+                <div class="menu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="ellipsis">
+                        <div onclick="UpdatePromotion('${item.id}', '${escapeQuote(item.name)}', '${item.startDate}', '${item.endDate}', '${item.value}')">
+                            Sửa
+                        </div>
+                        <a href="removePromotion?poid=${item.id}">
+                            <div>Xóa</div>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            default:
+                return '';
+        }
+    }
+
+
+    function formatCurrency(number) {
+        return Number(number).toLocaleString("vi-VN") + " VND";
+    }
+    function escapeQuote(str) {
+        return typeof str === 'string' ? str.replace(/'/g, "\\'") : str;
+    }
+
+});
+
+
 // Phan User
 function addUser() {
     // windowUser();
@@ -257,7 +443,6 @@ function UpdateUser(id, username, password, role, fullName, email, dateOfBirth, 
 }
 
 
-
 // Phan Don hang
 // hien form chi tiet don hang
 async function viewOrder(orderId) {
@@ -277,7 +462,7 @@ async function viewOrder(orderId) {
     detailTotalAmount.innerHTML = ""; // Xóa dữ liệu cũ
     let totalAmount = 0;
     orderDetails.forEach(detail => {
-       totalAmount += detail.price * detail.quantity;
+        totalAmount += detail.price * detail.quantity;
         const itemHTML = `
             <div class="Product_item">
                             <div class="Product_item_imgnotice">
@@ -333,7 +518,7 @@ function addPromotion() {
 
     // Update form action to "addPromotion"
     const action = document.querySelector(".PromotionWindow form");
-    if(action) {
+    if (action) {
 
         action.action = "addPromotion";
     }
@@ -380,7 +565,7 @@ function UpdatePromotion(id, name, startDate, endDate, value) {
 
     // Update form action to "updatePromotion"
     const action = document.querySelector(".PromotionWindow form");
-    if(action) {
+    if (action) {
 
         action.action = "updatePromotion";
     }

@@ -17,16 +17,24 @@ public class SearchUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("searchUser"); // Lấy từ khóa tìm kiếm từ request
+        String keyword = request.getParameter("keyword"); // Lấy từ khóa tìm kiếm từ request
         UserServices us = new UserServices();
 
-        // Tìm kiếm sản phẩm theo tên
-        List<User> users = us.searchByName(keyword);
+        List<User> users;
+        if (keyword != null && !keyword.isEmpty()) {
+            users = us.searchByName(keyword);
+        } else {
+            users = us.getAllUsers();
+        }
 
-        // Đặt danh sách vào request và chuyển đến trang JSP
-        request.setAttribute("listuser", users);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request, response);
+        com.google.gson.Gson gson = new com.google.gson.GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+        String json = gson.toJson(users);
+        response.getWriter().write(json);
 
     }
 

@@ -9,6 +9,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.services.PromotionServices;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "SearchPromotion", value = "/searchPromotion")
@@ -16,14 +17,28 @@ public class SearchPromotion extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int keyword = Integer.parseInt(request.getParameter("searchPromotion")); // Lấy từ khóa tìm kiếm từ request
-        PromotionServices promotionServices = new PromotionServices();
-        // Tìm kiếm sản phẩm theo id
-        List<Promotion> promotion = promotionServices.searchById(keyword);
-        // Đặt danh sách vào request và chuyển đến trang JSP
-        request.setAttribute("listpromotion", promotion);
+        String keyword = request.getParameter("keyword"); // Lấy từ khóa tìm kiếm từ request
+        PromotionServices services = new PromotionServices();
+        List<Promotion> promotions;
+        if (keyword != null && !keyword.isEmpty()) {
+            try {
+                int id = Integer.parseInt(keyword);
+                promotions = services.searchById(id);
+            } catch (NumberFormatException e) {
+                promotions = new ArrayList<>();
+            }
+        } else {
+            promotions = services.getAllPromotion();
+        }
 
-        request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request, response);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        com.google.gson.Gson gson = new com.google.gson.GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+        response.getWriter().write(gson.toJson(promotions));
+
     }
 
     @Override
