@@ -9,6 +9,7 @@ import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "search", value = "/search")
@@ -32,21 +33,24 @@ public class search extends HttpServlet {
     private void doAjaxSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String keyword = request.getParameter("search");
         ProductServices productServices = new ProductServices();
-
-        List<Product> searchedProducts = productServices.searchByName(keyword);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResponse = objectMapper.writeValueAsString(searchedProducts);
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.print(jsonResponse);
-        out.flush();
 
-        if (searchedProducts.isEmpty()) {
-            jsonResponse = "[]"; // Trả về mảng rỗng nếu không có kết quả
-        } else {
-            jsonResponse = objectMapper.writeValueAsString(searchedProducts);
+        try {
+            List<Product> results;
+            if (keyword == null || keyword.trim().isEmpty()) {
+                results = Collections.emptyList();
+            } else {
+                // Thêm logic bảo vệ chống SQL injection
+                String safeKeyword = keyword.replace("%", "\\%")
+                        .replace("_", "\\_");
+                results = productServices.searchByName(safeKeyword);
+            }
+
+            new ObjectMapper().writeValue(response.getWriter(), results);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("[]");
         }
     }
 

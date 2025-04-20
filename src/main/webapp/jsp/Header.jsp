@@ -68,7 +68,7 @@
         <!--        gio hang-->
         <div class="col-lg-2 d-flex align-items-center justify-content-center">
 
-            <a href="/web/cartItem">
+            <a href="cartItem">
                 <div class="d-flex align-items-center justify-content-center gap-3">
                     <div class="shopping_cart">
                         <div class="shopping_cart_swap">
@@ -86,36 +86,73 @@
 
 </body>
 <script>
-    document.getElementById("search").addEventListener("input", function() {
-        const query = this.value;
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("search");
         const suggestionsBox = document.getElementById("suggestions");
+        const searchForm = document.getElementById("search-box10");
 
-        if (query.length > 0) {
-            fetch(`/search?search=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    suggestionsBox.innerHTML = ""; // Xóa gợi ý cũ
-                    if (data.length > 0) {
-                        suggestionsBox.style.display = "block"; // Hiển thị gợi ý
-                        data.forEach(item => {
-                            const suggestionItem = document.createElement("div");
-                            suggestionItem.textContent = item.name; // Giả sử `name` là trường bạn muốn hiển thị
-                            suggestionItem.classList.add("suggestion-item");
-                            suggestionItem.addEventListener("click", function() {
-                                document.getElementById("search").value = item.name; // Cập nhật ô tìm kiếm
-                                suggestionsBox.innerHTML = ""; // Xóa gợi ý
-                                suggestionsBox.style.display = "none"; // Ẩn gợi ý
-                            });
-                            suggestionsBox.appendChild(suggestionItem);
-                        });
-                    } else {
-                        suggestionsBox.style.display = "none"; // Ẩn gợi ý nếu không có kết quả
-                    }
+        // Ngăn form submit khi nhấn Enter
+        searchForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            // Chủ động submit form nếu cần
+            if (searchInput.value.trim()) {
+                this.submit();
+            }
+        });
+
+        searchInput.addEventListener("input", function() {
+            const query = this.value.trim();
+
+            if (!query) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            // Tạo URL an toàn không cần encode
+            const url = `${pageContext.request.contextPath}/search?ajax=true&search=${query}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Lỗi kết nối');
+                    return response.json();
                 })
-                .catch(error => console.error('Error fetching suggestions:', error));
-        } else {
-            suggestionsBox.style.display = "none"; // Ẩn gợi ý nếu ô tìm kiếm trống
+                .then(data => {
+                    renderSuggestions(data);
+                })
+                .catch(error => {
+                    console.error("Lỗi tìm kiếm:", error);
+                    suggestionsBox.style.display = "none";
+                });
+        });
+
+        function renderSuggestions(items) {
+            suggestionsBox.innerHTML = "";
+
+            if (!items || items.length === 0) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            suggestionsBox.style.display = "block";
+            items.forEach(item => {
+                const div = document.createElement("div");
+                div.textContent = item.name;
+                div.className = "suggestion-item";
+                div.onclick = () => {
+                    searchInput.value = item.name;
+                    suggestionsBox.style.display = "none";
+                    searchForm.submit();
+                };
+                suggestionsBox.appendChild(div);
+            });
         }
+
+        // Ẩn suggestions khi click ra ngoài
+        document.addEventListener("click", function(e) {
+            if (!searchForm.contains(e.target)) {
+                suggestionsBox.style.display = "none";
+            }
+        });
     });
 </script>
 </html>
