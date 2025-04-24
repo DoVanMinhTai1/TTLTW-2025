@@ -302,7 +302,7 @@
 
                                 <div class="mb-3">
                                     <label for="productImage" class="form-label">Ảnh:</label>
-                                    <input type="file" class="form-control" id="productImage" name="image" required>
+                                    <input type="file" class="form-control" id="productImage" name="images" multiple>
                                     <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
                                 </div>
 

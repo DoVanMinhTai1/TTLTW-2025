@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @MultipartConfig(
@@ -39,7 +40,7 @@ public class AddProduct extends HttpServlet {
         String description = request.getParameter("describe");
         String category = request.getParameter("category");
         System.out.println(category);
-        Part productImagePart = request.getPart("image");
+
         // Kiểm tra dữ liệu đầu vào
         if (name == null || name.trim().isEmpty() ||
                 priceStr == null || priceStr.trim().isEmpty() ||
@@ -50,11 +51,7 @@ public class AddProduct extends HttpServlet {
             return;
         }
 
-        if (productImagePart == null || productImagePart.getSize() == 0) {
-            request.setAttribute("error", "Image file is required.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
+
 
         try {
             // Chuyển đổi giá trị đầu vào
@@ -63,8 +60,8 @@ public class AddProduct extends HttpServlet {
             int categoryId = Integer.parseInt(category);
             String extraDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             // Lưu ảnh vào thư mục Img
-            String imagePath = saveProductImage(request, productImagePart);
-            System.out.println("Image: " + imagePath);
+            List<String> imagePaths = saveMultipleImages(request);
+            System.out.println("Image: " + imagePaths);
 
             // Tạo đối tượng Product
             Product product = new Product();
@@ -73,12 +70,14 @@ public class AddProduct extends HttpServlet {
             product.setMass(mass);
             product.setDescription(description);
             product.setCategory(categoryId);
-            product.setImage(imagePath);
+            product.setImage(imagePaths.get(0));
             product.setExtraDay(extraDay);
 
             // Gọi service để lưu sản phẩm vào cơ sở dữ liệu
             ProductServices service = new ProductServices();
-            service.insert(product);
+            int productId = service.insert(product); // trả về id
+            imagePaths.remove(0);
+            service.insertProductImages(imagePaths, productId); // lưu danh sách ảnh phụ
             List<Product> products = service.getAll();
             HttpSession session = request.getSession(false);
             if (session != null) {
@@ -100,26 +99,23 @@ public class AddProduct extends HttpServlet {
         }
     }
 
-    private String saveProductImage(HttpServletRequest request, Part productImagePart) throws IOException {
-        // Lấy tên file
-        String fileName = System.currentTimeMillis() + "_" + productImagePart.getSubmittedFileName();
-
-        // Đường dẫn tuyệt đối tới thư mục Img trong webapp
+    private List<String> saveMultipleImages(HttpServletRequest request) throws IOException, ServletException {
+        List<String> imagePaths = new ArrayList<>();
         String uploadPath = getServletContext().getRealPath("/Img");
 
-        // Tạo thư mục nếu chưa tồn tại
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        if (!uploadDir.exists()) uploadDir.mkdirs();
+
+        for (Part part : request.getParts()) {
+            if ("images".equals(part.getName()) && part.getSize() > 0) {
+                String fileName = System.currentTimeMillis() + "_" + part.getSubmittedFileName();
+                String filePath = uploadPath + File.separator + fileName;
+
+                part.write(filePath);
+                imagePaths.add("Img/" + fileName); // đường dẫn tương đối
+            }
         }
 
-
-        // Lưu file ảnh vào thư mục
-        String filePath = uploadPath + File.separator + fileName;
-        System.out.println("Image saved at: " + filePath);
-        productImagePart.write(filePath);
-
-        // Trả về đường dẫn tương đối để lưu vào database
-        return "Img/" + fileName;
+        return imagePaths;
     }
 }
