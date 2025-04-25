@@ -45,7 +45,8 @@ async function order(userId, addressId, total) {
     const userId1 = userId;
     // Tạo object để lưu productId, quantity, và price
     const cartMap = {};
-
+    const rawTotal = document.getElementById('total').innerText;
+    const numericTotal = parseInt(rawTotal.replace(/[^\d]/g, ''));
     // Duyệt qua từng sản phẩm và thêm vào cartMap
     items.forEach(item => {
         const productId = parseInt(item.getAttribute('data-id'));
@@ -68,7 +69,7 @@ async function order(userId, addressId, total) {
             userId: userId1,
             addressId: addressId,
             cartMap: cartMap,
-            total: total
+            total: numericTotal
         })
     });
 
