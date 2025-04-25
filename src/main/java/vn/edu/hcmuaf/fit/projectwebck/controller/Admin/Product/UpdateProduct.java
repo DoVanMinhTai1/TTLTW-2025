@@ -1,9 +1,12 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.Product;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import vn.edu.hcmuaf.fit.projectwebck.controller.Admin.productdiscounts.LocalDateTimeAdapter;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.LogsServices;
@@ -13,6 +16,7 @@ import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @MultipartConfig(
@@ -30,6 +34,9 @@ public class UpdateProduct extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
         int id = Integer.parseInt(request.getParameter("idp"));
         String name = request.getParameter("name");
         String priceStr = request.getParameter("price");
@@ -75,13 +82,16 @@ public class UpdateProduct extends HttpServlet {
             service.updateProduct(productUpdate);
             List<Product> products = service.getAll();
             HttpSession session = request.getSession(false);
+
             if (session != null) {
                 UserServices userService = new UserServices();
                 User user = (User) session.getAttribute("user"); ;
                 if (user != null) {
                     // Gọi LogService để ghi log
                     LogsServices logService = new LogsServices();
-                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",product.toString(),productUpdate.toString());
+                    String beforedataJson = gson.toJson(product);
+                    String afterdataJson = gson.toJson(productUpdate);
+                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",beforedataJson,afterdataJson);
                 }
             }
             request.setAttribute("listproduct", products);
