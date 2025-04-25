@@ -160,6 +160,11 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     imageElement.src = image;
     imageElement.style.display = "block";
 
+    if(id) {
+        getListImageByProductId(id);
+        console.log('test' + id)
+    }
+
     // Thay đổi action của form thành cập nhật
     const form = document.querySelector("#ProductWindow form");
     form.action = "updateProduct";
@@ -171,6 +176,49 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     // Hiển thị modal bằng Bootstrap 5
     const modal = new bootstrap.Modal(document.getElementById('ProductWindow'));
     modal.show();
+}
+
+function getListImageByProductId(id) {
+    const listProductImage = document.getElementById('showImageList');
+    $.ajax({
+        url: '/web/GetProductImageByProductId',
+        type: 'GET',
+        data: {id: id},
+        success: function (data) {
+            listProductImage.innerHTML = '';
+
+            data.forEach(imageUrl => {
+                console.log('test object' + imageUrl)
+
+                const img = document.createElement('img');
+                img.src = imageUrl.url;
+                img.alt = 'Image Product';
+                img.style.width ='50px';
+                img.style.marginTop = '2px'
+
+                const button = document.createElement('button')
+                button.textContent = "X";
+                button.type = 'button';
+                button.onclick = () =>  deleteProductImageById(imageUrl.productId,imageUrl.id,img,button);
+                listProductImage.append((img));
+                listProductImage.append((button));
+
+            })
+        }
+
+    })
+}
+function deleteProductImageById(productId,id,imgElement,button) {
+    $.ajax({
+        url: '/web/deleteProductImageById',
+        type: 'DELETE',
+        data: JSON.stringify({productId: productId, id: id}),
+        success: function (data) {
+            imgElement.remove();
+            button.remove();
+            console.log("Xóa ảnh thành công");
+        }
+    })
 }
 
 //Tìm kiếm sản phẩm
