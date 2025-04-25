@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
@@ -41,21 +42,21 @@ public class ProductDao {
                 handle.createQuery("  select p.id,p.name,p.price,p.mass,p.description,p.image, p.category" +
                                 " from products p " +
                                 "where p.id = :id")
-                .bind("id", id)
-                .map(
-                        rs -> {
-                            Product product = new Product();
-                            product.setId(rs.getColumn("id", Integer.class));
-                            product.setName(rs.getColumn("name", String.class));
-                            product.setPrice(rs.getColumn("price", Double.class));
-                            product.setMass(rs.getColumn("mass", Double.class));
-                            product.setDescription(rs.getColumn("description", String.class));
-                            product.setImage(rs.getColumn("image", String.class));
-                            product.setCategory(rs.getColumn("category", Integer.class));
+                        .bind("id", id)
+                        .map(
+                                rs -> {
+                                    Product product = new Product();
+                                    product.setId(rs.getColumn("id", Integer.class));
+                                    product.setName(rs.getColumn("name", String.class));
+                                    product.setPrice(rs.getColumn("price", Double.class));
+                                    product.setMass(rs.getColumn("mass", Double.class));
+                                    product.setDescription(rs.getColumn("description", String.class));
+                                    product.setImage(rs.getColumn("image", String.class));
+                                    product.setCategory(rs.getColumn("category", Integer.class));
 //                            product.setExtraDay(rs.getColumn("extraDay", String.class));
-                            return product;
-                        })
-                .findOne().orElse(null));
+                                    return product;
+                                })
+                        .findOne().orElse(null));
         products.setProductImages(getProductImagesByProductId(products.getId()));
         products.setProductVariants(getSizeByProductId(products.getId()));
         return products;
@@ -97,22 +98,40 @@ public class ProductDao {
     }
 
 
-    public void insertProduct(Product product) {
+    public int insertProduct(Product product) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> {
-            // Cập nhật câu lệnh SQL để lưu tất cả các thông tin của sản phẩm
-            handle.createUpdate("INSERT INTO products (name, price, mass, description, category, image, extraDay) " +
+        return jdbi.withHandle(handle -> {
+            // Insert và lấy id vừa tạo
+            return handle.createUpdate("INSERT INTO products (name, price, mass, description, category, image, extraDay) " +
                             "VALUES (:name, :price, :mass, :describe, :category, :image, :extraDay)")
                     .bind("name", product.getName())
                     .bind("price", product.getPrice())
                     .bind("mass", product.getMass())
                     .bind("describe", product.getDescription())
                     .bind("category", product.getCategory())
-                    .bind("image", product.getImage()) // Lưu đường dẫn ảnh
+                    .bind("image", product.getImage())
                     .bind("extraDay", product.getExtraDay())
-                    .execute();
+                    .executeAndReturnGeneratedKeys("id") // Trả về id vừa tạo
+                    .mapTo(Integer.class)
+                    .one();
         });
     }
+
+    //Hàm insert nhiều ảnh
+    public void insertProductImages(List<String> urls, int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            // Chuẩn bị batch insert
+            PreparedBatch batch = handle.prepareBatch("INSERT INTO productimages (url, productId) VALUES (:url, :productId)");
+            for (String url : urls) {
+                batch.bind("url", url)
+                        .bind("productId", productId)
+                        .add();
+            }
+            batch.execute();
+        });
+    }
+
 
     public void removeProduct(int productId) {
         Jdbi jdbi = JDBIConect.get();
@@ -337,14 +356,14 @@ public class ProductDao {
 
     public ProductWithDiscount getProductsWithDiscountById(int productId) {
         Jdbi jdbi = JDBIConect.get();
-        String sql =   "  SELECT pd.id, pd.product_id, pd.discount_price, pd.discoun_type, \n" +
-                        "           pd.percentage_discount, pd.startdatetime, pd.enddatetime, p.name\n" +
-                        "    FROM products p\n" +
-                        "    INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
-                        "    WHERE pd.is_active = TRUE \n" +
-                        "      AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
-                        "      AND pd.product_id = :productId\n" +
-                        "    ORDER BY pd.id ASC";
+        String sql = "  SELECT pd.id, pd.product_id, pd.discount_price, pd.discoun_type, \n" +
+                "           pd.percentage_discount, pd.startdatetime, pd.enddatetime, p.name\n" +
+                "    FROM products p\n" +
+                "    INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
+                "    WHERE pd.is_active = TRUE \n" +
+                "      AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
+                "      AND pd.product_id = :productId\n" +
+                "    ORDER BY pd.id ASC";
         return jdbi.withHandle(handle -> {
             return handle.createQuery(sql)
                     .bind("productId", productId)
@@ -393,17 +412,17 @@ public class ProductDao {
 
     public List<Product> getByIds(List<Integer> ids) throws SQLException {
         StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE id IN (");
-        for (int i =0; i < ids.size(); i++) {
+        for (int i = 0; i < ids.size(); i++) {
             sql.append("?");
-            if(i < ids.size() - 1) sql.append(",");
+            if (i < ids.size() - 1) sql.append(",");
         }
         sql.append(")");
 
-        try(Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql.toString())
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())
         ) {
-            for (int i =0; i < ids.size(); i++) {
-                ps.setInt(i+1, ids.get(i));
+            for (int i = 0; i < ids.size(); i++) {
+                ps.setInt(i + 1, ids.get(i));
             }
 
             ResultSet rs = ps.executeQuery();
@@ -418,5 +437,16 @@ public class ProductDao {
             }
             return products;
         }
+    }
+
+    public void deleteProductImages(int productId, int id) {
+        String sql = "DELETE FROM productimages WHERE productId = :productId and id = :id";
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            handle.createUpdate(sql)
+                    .bind("productId", productId)
+                    .bind("id", id)
+                    .execute();
+        });
     }
 }
