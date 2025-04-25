@@ -43,6 +43,7 @@ public class UpdateProduct extends HttpServlet {
         String massStr = request.getParameter("mass");
         String description = request.getParameter("describe");
         String category = request.getParameter("category");
+
         Part productImagePart = request.getPart("image");
         // Kiểm tra dữ liệu đầu vào
         if (name == null || name.trim().isEmpty() ||
@@ -91,7 +92,7 @@ public class UpdateProduct extends HttpServlet {
                     LogsServices logService = new LogsServices();
                     String beforedataJson = gson.toJson(product);
                     String afterdataJson = gson.toJson(productUpdate);
-                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",beforedataJson,afterdataJson);
+                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",product.toString(),productUpdate.toString());
                 }
             }
             request.setAttribute("listproduct", products);
