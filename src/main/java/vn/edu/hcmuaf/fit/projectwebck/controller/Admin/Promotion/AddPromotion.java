@@ -29,7 +29,8 @@ public class AddPromotion extends HttpServlet {
         String startDate = request.getParameter("StartDate");
         String endDate = request.getParameter("EndDate");
         String valueStr = request.getParameter("Value");
-
+        int Quantity= Integer.parseInt(request.getParameter("Quantity"));
+        String Describe=request.getParameter("Describe");
         // Convert value to integer
         int value = Integer.parseInt(valueStr);
 
@@ -39,6 +40,8 @@ public class AddPromotion extends HttpServlet {
         promotion.setStartDate(startDate);
         promotion.setEndDate(endDate);
         promotion.setValue(value);
+        promotion.setQuantity(Quantity);
+        promotion.setDescription(Describe);
 
         // Call the service to insert the promotion
         PromotionServices promotionServices = new PromotionServices();

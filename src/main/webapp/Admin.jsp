@@ -577,7 +577,16 @@
                                     <input type="number" id="Value" name="Value" class="form-control"
                                            placeholder="Nhập giá trị khuyến mãi (%)..." required>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label for="Quantity" class="form-label">Số lượng:</label>
+                                    <input type="number" id="Quantity" name="Quantity" class="form-control"
+                                           placeholder="Nhập Số lượng..." required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Describe" class="form-label">Mô tả:</label>
+                                    <input type="text" id="Describe" name="Describe" class="form-control"
+                                           placeholder="Nhập Mô tả ..." required>
+                                </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
                                     <button type="button" class="btn btn-secondary ButtonPromotion2"
