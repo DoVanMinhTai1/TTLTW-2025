@@ -41,7 +41,8 @@
         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
-      <input type="text" placeholder="Phone" name ="phone"/>
+      <input type="text" placeholder="Email" name ="email"/>
+      <input type="text" placeholder="Username" name ="username"/>
       <a href="showLogin">Hủy</a>
       <button type="submit">Gửi</button>
     </form>

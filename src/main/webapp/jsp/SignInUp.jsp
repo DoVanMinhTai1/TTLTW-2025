@@ -65,7 +65,7 @@
       <input type="password" placeholder="Mật khẩu" name ="password" />
       <input type="text" placeholder="Captcha" name ="captcha" />
       <img src="CaptchaServlet" alt="CAPTCHA Image">
-      <a href="jsp/PasswordBack.jsp">Quên mật khẩu?</a>
+      <a href="sendPassword">Quên mật khẩu?</a>
       <button type="submit" >Đăng nhập</button>
       <% if (request.getAttribute("errorMessage") != null) { %>
       <script>

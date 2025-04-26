@@ -12,6 +12,7 @@ public class sendPassword extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("jsp/PasswordBack.jsp").forward(request,response);
     }
 
     @Override
