@@ -12,9 +12,12 @@ public class PromotionDao {
     // Lấy tất cả các chương trình khuyến mãi
     public List<Promotion> getAllPromotions() {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM promotions")
-                .mapToBean(Promotion.class)
-                .list());
+        //Trả về danh sách các khuyến mãi còn hạn
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM promotions WHERE CURRENT_DATE BETWEEN startDate AND endDate")
+                        .mapToBean(Promotion.class)
+                        .list()
+        );
     }
     // Lấy danh sách các mã giảm giá của user theo userId
     public List<Promotion> getPromotionsByUserId(int userId) {
@@ -23,7 +26,7 @@ public class PromotionDao {
                         "SELECT p.id, p.name, p.startdate, p.enddate, p.description " +
                                 "FROM promotionuser pu " +
                                 "INNER JOIN promotions p ON pu.promotionId = p.id " +
-                                "WHERE pu.userId = :userId")
+                                "WHERE pu.userId = :userId AND CURRENT_DATE BETWEEN p.startDate AND p.endDate")
                 .bind("userId", userId)
                 .mapToBean(Promotion.class)
                 .list());
@@ -35,7 +38,7 @@ public class PromotionDao {
     public Integer getPromotionByUser(int userId, int proId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery(
-                        "SELECT p.value FROM promotionuser pu INNER JOIN promotions p ON pu.promotionId = p.id WHERE pu.userId = :userId AND pu.promotionId = :proId")
+                        "SELECT p.value FROM promotionuser pu INNER JOIN promotions p ON pu.promotionId = p.id WHERE pu.userId = :userId AND pu.promotionId = :proId AND p.quantity > 0 AND CURRENT_DATE BETWEEN p.startDate AND p.endDate")
                 .bind("userId", userId)
                 .bind("proId", proId)
                 .mapTo(Integer.class)
@@ -56,12 +59,13 @@ public class PromotionDao {
 
     public void insertPromotion(Promotion promotion) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value,description) " +
-                        "VALUES (:name, :startDate, :endDate, :value,:description)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value,quantity,description) " +
+                        "VALUES (:name, :startDate, :endDate, :value, :quantity, :description)")
                 .bind("name", promotion.getName())
                 .bind("startDate", promotion.getStartDate())
                 .bind("endDate", promotion.getEndDate())
                 .bind("value", promotion.getValue())
+                .bind("quantity", promotion.getQuantity())
                 .bind("description", promotion.getDescription())
                 .execute());
     }

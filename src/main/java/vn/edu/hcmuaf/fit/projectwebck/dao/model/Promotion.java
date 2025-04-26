@@ -6,18 +6,28 @@ public class Promotion {
     private String startDate;
     private String endDate;
     private int value;
+    private int quantity;
     private String description;
 
-    public Promotion(int id, String name, String startDate, String endDate, int value, String description) {
+    public Promotion(int id, String name, String startDate, String endDate, int quantity, int value, String description) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.quantity = quantity;
         this.value = value;
         this.description = description;
     }
 
     public Promotion(){}
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getDescription() {
         return description;
