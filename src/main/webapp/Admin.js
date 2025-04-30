@@ -104,7 +104,10 @@ function addProduct() {
     document.getElementById('productDescribe').value = "";
     document.getElementById('productMass').value = "";
     document.getElementById('productCategory').value = "Rau";
+    document.getElementById('productImageList').value="";
 
+    const previewContainer = document.getElementById('showImageList');
+    previewContainer.innerHTML = "";
     // const saveButton = document.querySelector(".ButtonProduct1");
     // saveButton.textContent = "Lưu";
 
