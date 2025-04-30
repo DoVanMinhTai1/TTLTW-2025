@@ -140,7 +140,6 @@
                     <input type="text" name="DiscountCode" id="DiscountCode" placeholder="Mã giảm giá" class="form">
                     <button type="button" onclick="discount(${sessionScope.total},${sessionScope.user.id})">Áp dụng
                     </button>
-
                 </div>
                 <div class="PayRightContentTitleProductListSum">
                     <div class="text1">
