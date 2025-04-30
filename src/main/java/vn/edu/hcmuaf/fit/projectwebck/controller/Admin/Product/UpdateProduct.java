@@ -49,8 +49,9 @@ public class UpdateProduct extends HttpServlet {
         String category = request.getParameter("category");
 
 
-        Collection<Part> listPart = request.getParts().stream().filter(item -> item.getName().equals("images") && item.getSize() > 0).collect(Collectors.toList());
-        List<String> listPath = saveProductImageList(listPart);
+        Collection<Part> listPart = request.getParts().stream().filter(item -> item.getName().equals("imagesList[]") && item.getSize() > 0).collect(Collectors.toList());
+        System.out.println("listPart: " + listPart.size());
+       List<String> listPath = saveProductImageList(listPart);
         ProductServices productServices = new ProductServices();
         productServices.insertProductImages(listPath,id);
 

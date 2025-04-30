@@ -160,7 +160,7 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     imageElement.src = image;
     imageElement.style.display = "block";
 
-    if(id) {
+    if (id) {
         getListImageByProductId(id);
         console.log('test' + id)
     }
@@ -178,39 +178,56 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     modal.show();
 }
 
-    document.getElementById('productImageList').addEventListener('change', function (e) {
-        const container = document.getElementById('showImageList');
-        // container.innerHTML = ''; // clear trước
-        Array.from(e.target.files).forEach((file, index) => {
-            const reader = new FileReader();
+document.getElementById('productImageList').addEventListener('change', function (e) {
+    const container = document.getElementById('showImageList');
+    // container.innerHTML = ''; // clear trước
 
-            reader.onload = function (event) {
-                const imageUrl = event.target.result;
-                // Tạo khung ảnh preview + input ẩn (nếu cần)
-                // const div = document.createElement('div');
-                // div.style.marginTop = "10px";
-    
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.style.width = "100px";
-                img.style.marginRight = "10px";
-    
-                const button = document.createElement('button')
-                button.style.marginLeft = '0px'
-                button.textContent = "X";
-                button.type = 'button';
-                button.onclick = () =>  deleteProductImageNewAdd(button,img);
-                container.appendChild(img);
-                container.appendChild(button);
-            };
-    
-            reader.readAsDataURL(file);
-        });
-    });
-    
-    function deleteProductImageNewAdd(button,img) {
+
+    const files = e.target.files;
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imageUrl = event.target.result;
+            const newInput = document.createElement('input');
+            newInput.type = 'file';
+            newInput.name = 'imagesList[]';
+            newInput.files = dt.files;
+            newInput.style.display = 'none';
+
+            // Create image element
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.style.width = "100px";
+            img.style.marginRight = "10px";
+
+            // Create delete button
+            const button = document.createElement('button');
+            button.textContent = "X";
+            button.type = 'button';
+            button.style.marginLeft = '10px';
+            button.onclick = () => deleteProductImageNewAdd(button, img, newInput);
+
+            // Append image and button to the container
+            container.appendChild(newInput)
+            container.appendChild(img);
+            container.appendChild(button);
+
+        };
+        reader.readAsDataURL(files[i]);
+
+    }
+
+});
+
+function deleteProductImageNewAdd(button, img,newInput) {
     button.remove();
     img.remove();
+    newInput.remove();
 }
 
 function getListImageByProductId(id) {
@@ -228,14 +245,14 @@ function getListImageByProductId(id) {
                 const img = document.createElement('img');
                 img.src = imageUrl.url;
                 img.alt = 'Image Product';
-                img.style.width ='50px';
+                img.style.width = '50px';
                 img.style.marginTop = '2px'
 
                 const button = document.createElement('button')
                 button.style.marginLeft = '0px'
                 button.textContent = "X";
                 button.type = 'button';
-                button.onclick = () =>  deleteProductImageById(imageUrl.productId,imageUrl.id,img,button);
+                button.onclick = () => deleteProductImageById(imageUrl.productId, imageUrl.id, img, button);
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = 'imageId';
@@ -249,7 +266,8 @@ function getListImageByProductId(id) {
 
     })
 }
-function deleteProductImageById(productId,id,imgElement,button) {
+
+function deleteProductImageById(productId, id, imgElement, button) {
     $.ajax({
         url: '/web/deleteProductImageById',
         type: 'DELETE',
@@ -291,6 +309,7 @@ window.addEventListener("DOMContentLoaded", function () {
                 .catch(error => console.error(`Lỗi khi tìm kiếm ${inputData.placeholder}:`, error));
         });
     });
+
     function renderTitle(inputId) {
         switch (inputId) {
             case "searchProduct":
@@ -439,6 +458,7 @@ window.addEventListener("DOMContentLoaded", function () {
     function formatCurrency(number) {
         return Number(number).toLocaleString("vi-VN") + " VND";
     }
+
     function escapeQuote(str) {
         return typeof str === 'string' ? str.replace(/'/g, "\\'") : str;
     }
