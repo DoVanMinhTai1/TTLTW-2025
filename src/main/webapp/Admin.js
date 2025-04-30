@@ -177,49 +177,40 @@ function UpdateProduct(id, name, price, mass, description, image, category) {
     const modal = new bootstrap.Modal(document.getElementById('ProductWindow'));
     modal.show();
 }
-document.getElementById('productImageList').addEventListener('change', function (e) {
-    const container = document.getElementById('showImageList');
-    // container.innerHTML = ''; // clear trước
 
-    Array.from(e.target.files).forEach((file, index) => {
-        const reader = new FileReader();
+    document.getElementById('productImageList').addEventListener('change', function (e) {
+        const container = document.getElementById('showImageList');
+        // container.innerHTML = ''; // clear trước
+        Array.from(e.target.files).forEach((file, index) => {
+            const reader = new FileReader();
 
-        reader.onload = function (event) {
-            const imageUrl = event.target.result;
-
-            // Tạo khung ảnh preview + input ẩn (nếu cần)
-            // const div = document.createElement('div');
-            // div.style.marginTop = "10px";
-
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.style.width = "100px";
-            img.style.marginRight = "10px";
-
-            // Nếu bạn cần gửi URL base64 hoặc tên ảnh => input hidden
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'previewImages';
-            hiddenInput.value = file.name;
-
-            const button = document.createElement('button')
-            button.style.marginLeft = '0px'
-            button.textContent = "X";
-            button.type = 'button';
-            button.onclick = () =>  deleteProductImageNewAdd(button,img,hiddenInput);
-            container.appendChild(img);
-            container.appendChild(hiddenInput);
-            container.appendChild(button);
-        };
-
-        reader.readAsDataURL(file);
+            reader.onload = function (event) {
+                const imageUrl = event.target.result;
+                // Tạo khung ảnh preview + input ẩn (nếu cần)
+                // const div = document.createElement('div');
+                // div.style.marginTop = "10px";
+    
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.style.width = "100px";
+                img.style.marginRight = "10px";
+    
+                const button = document.createElement('button')
+                button.style.marginLeft = '0px'
+                button.textContent = "X";
+                button.type = 'button';
+                button.onclick = () =>  deleteProductImageNewAdd(button,img);
+                container.appendChild(img);
+                container.appendChild(button);
+            };
+    
+            reader.readAsDataURL(file);
+        });
     });
-});
-
-function deleteProductImageNewAdd(button,img,hiddenInput) {
+    
+    function deleteProductImageNewAdd(button,img) {
     button.remove();
     img.remove();
-    hiddenInput.remove();
 }
 
 function getListImageByProductId(id) {
@@ -247,8 +238,8 @@ function getListImageByProductId(id) {
                 button.onclick = () =>  deleteProductImageById(imageUrl.productId,imageUrl.id,img,button);
                 const input = document.createElement('input');
                 input.type = 'hidden';
-                input.name = 'imageUrls';
-                input.value = imageUrl.url
+                input.name = 'imageId';
+                input.value = imageUrl.id
                 listProductImage.append((input))
                 listProductImage.append((img));
                 listProductImage.append((button));

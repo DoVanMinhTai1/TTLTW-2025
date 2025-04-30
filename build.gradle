@@ -76,7 +76,7 @@ remotes {
     host {
         host = '192.168.1.40'
         user = 'root'
-        password = '…’
+        password = 'centos'
     }
 }
 ssh.settings {
