@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "Remove", value = "/del-cart")
+@WebServlet(name = "del-cart", value = "/del-cart")
 public class Remove extends HttpServlet {
 
     @Override
@@ -42,12 +42,12 @@ public class Remove extends HttpServlet {
         int id = user.getId();
         CartItemService cartItemService = new CartItemService();
         try {
-            boolean success = cartItemService.deleteCartItem(id,productId);
-            if(success) {
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+           cartItemService.deleteCartItem(id,productId);
+//            if(success) {
+//                response.setStatus(HttpServletResponse.SC_OK);
+//            } else {
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

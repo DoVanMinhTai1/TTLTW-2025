@@ -41,8 +41,8 @@ public class CartItemDao {
             } else {
                 try(PreparedStatement stmt2=conn.prepareStatement(insertQuery)) {
                     stmt2.setInt(1,userId);
-                    stmt2.setInt(2,productId);
-                    stmt2.setInt(3,1);
+                    stmt2.setInt(2,1);
+                    stmt2.setInt(3,productId);
                     stmt2.executeUpdate();
                     CartItem cartItem = new CartItem();
                     cartItem.setUserId(userId);
