@@ -2,7 +2,9 @@ package vn.edu.hcmuaf.fit.projectwebck.services;
 
 
 
+import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.OrderDao;
+import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
 
@@ -19,6 +21,11 @@ public class OrderServices {
     public List<Map<String, Object>> getLatestOrders() {return orderDao.getLatestOrders();}
     //Admin, lấy người dùng mua nhiều nhất trong tháng
     public List<Map<String, Object>> getCustomer() {return orderDao.getCustomer();}
+    //Lay danh sach tai khoan sap xep theo thu tu giam dan cua tong tien
+    public List<Map<String, Object>> getListOfAccounts() {
+        return orderDao.getListOfAccounts();
+    }
+
     // Lấy đơn hàng theo ID
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         return orderDao.getOrderDetailsByOrderId(orderId);

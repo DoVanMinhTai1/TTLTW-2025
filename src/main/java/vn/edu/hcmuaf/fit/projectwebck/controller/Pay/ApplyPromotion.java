@@ -28,7 +28,7 @@ public class ApplyPromotion extends HttpServlet {
             result.put("status", "error");
             result.put("message", "Mã khuyến mãi không tồn tại");
         } else {
-            promotionServices.updatePromotionByUser(userId,code,value--);
+            promotionServices.updatePromotionByUser(code,value--);
             double discountValue = value / 100.0;
             double totalAmount = total - (total * discountValue);
             result.put("status", "success");

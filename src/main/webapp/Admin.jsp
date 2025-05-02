@@ -307,10 +307,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
-                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]" multiple>
+                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
+                                           multiple>
                                     <div id="showImageList">
 
-                                        <img src="" alt=""  style="width: 50px; display: none" class="mt-2">
+                                        <img src="" alt="" style="width: 50px; display: none" class="mt-2">
 
                                     </div>
                                 </div>
@@ -558,21 +559,23 @@
             </ul>
             <div class="GeneratePromoCode" id="GeneratePromoCode">
                 <h2>Phát mã khuyến mãi</h2>
-                <form action="PhatKhuyenMaiServlet" method="POST">
+                <form action="GeneratePromoCode" method="POST">
                     <label for="maKM">Chọn mã khuyến mãi:</label>
                     <select id="maKM" name="maKM" required>
                         <!-- Dữ liệu từ backend -->
-                        <option value="KM10">KM10 - Giảm 10%</option>
-                        <option value="FREESHIP">FREESHIP - Miễn phí vận chuyển</option>
-                        <option value="VIP50">VIP50 - Giảm 50% cho VIP</option>
+                        <c:forEach var="po" items="${listpromotion}">
+                            <option value="${po.id}">${po.id} - ${po.description}</option>
+                        </c:forEach>
                     </select>
 
-                    <label for="dsTaiKhoan">Chọn tài khoản được nhận mã:</label>
-                    <select id="dsTaiKhoan" name="taiKhoan[]" multiple required>
-                        <option value="user1">user1@gmail.com - Tổng: 1.500.000đ</option>
-                        <option value="user2">user2@gmail.com - Tổng: 500.000đ</option>
-                        <option value="user3">user3@gmail.com - Tổng: 2.000.000đ</option>
-                        <option value="user4">user4@gmail.com - Tổng: 0đ</option>
+                    <label for="listAccount">Chọn tài khoản được nhận mã:</label>
+                    <select id="listAccount" name="listAccount" multiple required>
+                        <c:forEach var="account" items="${listAccount}">
+                            <option value="${account.id}">
+                                    ${account.username} - Tổng: ${account.tong}đ
+
+                            </option>
+                        </c:forEach>
                     </select>
                     <br>
                     <button type="submit">Phát mã</button>
