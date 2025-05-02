@@ -75,17 +75,20 @@ public class ShowPay extends HttpServlet {
             request.setAttribute("province", province);
             request.setAttribute("email", email);
 
-            HttpSession session = request.getSession();
-            if (pIdParam == null) {
-                Cart cart = (Cart) session.getAttribute("cart");
-                if (cart != null) {
-                    request.setAttribute("cartList", cart.getList());
-                }
-            } else {
-                ProductServices productServices = new ProductServices();
-                Product p = productServices.getById(Integer.parseInt(pIdParam));
-                request.setAttribute("product", p);
-            }
+//            HttpSession session = request.getSession();
+//            if (pIdParam == null) {
+//                Cart cart = (Cart) session.getAttribute("cart");
+//                if (cart != null) {
+//                    request.setAttribute("cartList", cart.getList());
+//                }
+//            } else {
+//                ProductServices productServices = new ProductServices();
+//                Product p = productServices.getById(Integer.parseInt(pIdParam));
+//                request.setAttribute("product", p);
+//            }
+            ProductServices productServices = new ProductServices();
+            Product p = productServices.getById(Integer.parseInt(pIdParam));
+            request.setAttribute("product", p);
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
 
 

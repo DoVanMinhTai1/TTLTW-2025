@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.stock;
+package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.Stock;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

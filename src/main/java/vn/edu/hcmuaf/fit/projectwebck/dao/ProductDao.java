@@ -438,4 +438,15 @@ public class ProductDao {
             return products;
         }
     }
+
+    public void deleteProductImages(int productId, int id) {
+        String sql = "DELETE FROM productimages WHERE productId = :productId and id = :id";
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            handle.createUpdate(sql)
+                    .bind("productId", productId)
+                    .bind("id", id)
+                    .execute();
+        });
+    }
 }

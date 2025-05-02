@@ -301,9 +301,18 @@
                                 <input type="hidden" id="idp" name="idp">
 
                                 <div class="mb-3">
-                                    <label for="productImage" class="form-label">Ảnh:</label>
+                                    <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
                                     <input type="file" class="form-control" id="productImage" name="images" multiple>
                                     <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
+                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]" multiple>
+                                    <div id="showImageList">
+
+                                        <img src="" alt=""  style="width: 50px; display: none" class="mt-2">
+
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">

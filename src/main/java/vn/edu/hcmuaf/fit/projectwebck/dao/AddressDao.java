@@ -25,7 +25,7 @@ public class AddressDao {
                 .bind("userId", userId)
                 .bind("origin", 1)
                 .mapToBean(Address.class)
-                .findOne() // Tìm một đối tượng duy nhất
+                .findFirst() // Tìm một đối tượng duy nhất
                 .orElse(null)); // Trả về null nếu không tìm thấy
     }
     public void insertAddress(Address address) {

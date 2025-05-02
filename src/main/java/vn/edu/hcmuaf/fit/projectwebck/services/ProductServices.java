@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.ProductDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductDiscount;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
 import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 
 import java.sql.SQLException;
@@ -127,5 +128,13 @@ public class ProductServices {
 
     public List<Product> getByIds(List<Integer> ids) throws SQLException {
         return productDao.getByIds(ids);
+    }
+
+    public List<ProductImage> getProductImageByProductId(int id) {
+        return productDao.getProductImagesByProductId(id);
+    }
+
+    public void deleteProductImages(int productId, int id) {
+        productDao.deleteProductImages(productId,id);
     }
 }

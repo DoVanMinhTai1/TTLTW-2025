@@ -145,6 +145,8 @@
 <%--      <a href="del-cart?pid=${cartItem.id}"><i class="fa-solid fa-trash-can" ></i> </a></td>--%>
       <button onclick="handleDeleteCartItem(${cartItem.productId})"><i class="fa-solid fa-trash-can" ></i> </button>
   </tr>
+  <c:set var="firstProductId" value="${cartItem.productId}" />
+
 </c:forEach>
         <tr>
           <th colspan="6">
@@ -161,14 +163,15 @@
 </div>
 <div class="d">
   <button type="submit" class=""><a href="showHome">Tiếp tục mua hàng</a></button>
-  <button type="submit" class="ContinueButton" id="ContinueButton"><a href="showPay?uId=${sessionScope.user.id}">Thanh toán ngay</a></button>
+  <button type="submit" class="ContinueButton" id="ContinueButton"><a href="showPay?uId=${sessionScope.user.id}&productId=${firstProductId}">Thanh toán ngay</a></button>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+
 <script>
   function handleIncreaseCartItem(productId, quantity) {
     const quantitySpan = document.getElementById('cartItemQuantity-' + productId);
