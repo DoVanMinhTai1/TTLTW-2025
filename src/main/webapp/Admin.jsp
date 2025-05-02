@@ -513,6 +513,9 @@
             <div class="AdminListPromotionHeader">
                 <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
                 <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                <button type="button" onclick="generatePromoCode()">
+                    Phát mã khuyến mãi
+                </button>
                 <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
                     Thêm khuyến mãi
                 </button>
@@ -544,6 +547,29 @@
                     </li>
                 </c:forEach>
             </ul>
+            <div class="GeneratePromoCode" id="GeneratePromoCode">
+                <h2>Phát mã khuyến mãi</h2>
+                <form action="PhatKhuyenMaiServlet" method="POST">
+                    <label for="maKM">Chọn mã khuyến mãi:</label>
+                    <select id="maKM" name="maKM" required>
+                        <!-- Dữ liệu từ backend -->
+                        <option value="KM10">KM10 - Giảm 10%</option>
+                        <option value="FREESHIP">FREESHIP - Miễn phí vận chuyển</option>
+                        <option value="VIP50">VIP50 - Giảm 50% cho VIP</option>
+                    </select>
+
+                    <label for="dsTaiKhoan">Chọn tài khoản được nhận mã:</label>
+                    <select id="dsTaiKhoan" name="taiKhoan[]" multiple required>
+                        <option value="user1">user1@gmail.com - Tổng: 1.500.000đ</option>
+                        <option value="user2">user2@gmail.com - Tổng: 500.000đ</option>
+                        <option value="user3">user3@gmail.com - Tổng: 2.000.000đ</option>
+                        <option value="user4">user4@gmail.com - Tổng: 0đ</option>
+                    </select>
+                    <br>
+                    <button type="submit">Phát mã</button>
+                    <button onclick="closeGeneratePromoCode()">Đóng</button>
+                </form>
+            </div>
             <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -598,9 +624,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         <div class="AdminListProductDiscount select container mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Quản lý sản phẩm giảm giá</h2>

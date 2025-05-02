@@ -523,7 +523,37 @@ function addPromotion() {
         action.action = "addPromotion";
     }
 }
+function generatePromoCode() {
+    const newPromotion = document.getElementById("GeneratePromoCode");
+    // Add an overlay to dim the background
+    const overlay = document.createElement('div');
+    overlay.className = "overlay";
+    overlay.id = "overlay";
+    document.body.appendChild(overlay);
+    // Display the promotion form
+    newPromotion.style.display = "block";
+}
+function closeGeneratePromoCode() {
+    const overlay = document.getElementById("overlay");
+    const newPromotion = document.getElementById("GeneratePromoCode");
 
+    // Hide the form and remove the overlay
+    newPromotion.style.display = "none";
+    if (overlay) {
+        overlay.remove();
+    }
+    // Reset all fields in the form
+    const inputs = newPromotion.querySelectorAll("input, select"); // Chọn cả input và select
+    inputs.forEach(input => {
+        input.value = ""; // Xóa giá trị các trường
+        if (input.type === "select-multiple") {
+            // Đặt lại các lựa chọn cho select multiple
+            Array.from(input.selectedOptions).forEach(option => {
+                option.selected = false;
+            });
+        }
+    });
+}
 function windowPromotion() {
     const newPromotion = document.getElementById("PromotionWindow");
     // Add an overlay to dim the background
