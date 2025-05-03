@@ -28,6 +28,7 @@
                       style="display: flex; justify-content: center; align-items: center; height: 100%">
                     <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?" style="width: 80%; ">
                 </form>
+                <div id="suggestions" class="suggestions" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000;"></div>
             </div>
             <div class="d-flex flex-grow-1" style="align-items: center; justify-content: center;">
                 <i class="fas fa-phone"></i>
@@ -67,7 +68,7 @@
         <!--        gio hang-->
         <div class="col-lg-2 d-flex align-items-center justify-content-center">
 
-            <a href="/web/cartItem">
+            <a href="cartItem">
                 <div class="d-flex align-items-center justify-content-center gap-3">
                     <div class="shopping_cart">
                         <div class="shopping_cart_swap">
@@ -84,4 +85,74 @@
 </header>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("search");
+        const suggestionsBox = document.getElementById("suggestions");
+        const searchForm = document.getElementById("search-box10");
+
+        // Ngăn form submit khi nhấn Enter
+        searchForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            // Chủ động submit form nếu cần
+            if (searchInput.value.trim()) {
+                this.submit();
+            }
+        });
+
+        searchInput.addEventListener("input", function() {
+            const query = this.value.trim();
+
+            if (!query) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            // Tạo URL an toàn không cần encode
+            const url = `${pageContext.request.contextPath}/search?ajax=true&search=${query}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Lỗi kết nối');
+                    return response.json();
+                })
+                .then(data => {
+                    renderSuggestions(data);
+                })
+                .catch(error => {
+                    console.error("Lỗi tìm kiếm:", error);
+                    suggestionsBox.style.display = "none";
+                });
+        });
+
+        function renderSuggestions(items) {
+            suggestionsBox.innerHTML = "";
+
+            if (!items || items.length === 0) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            suggestionsBox.style.display = "block";
+            items.forEach(item => {
+                const div = document.createElement("div");
+                div.textContent = item.name;
+                div.className = "suggestion-item";
+                div.onclick = () => {
+                    searchInput.value = item.name;
+                    suggestionsBox.style.display = "none";
+                    searchForm.submit();
+                };
+                suggestionsBox.appendChild(div);
+            });
+        }
+
+        // Ẩn suggestions khi click ra ngoài
+        document.addEventListener("click", function(e) {
+            if (!searchForm.contains(e.target)) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+    });
+</script>
 </html>

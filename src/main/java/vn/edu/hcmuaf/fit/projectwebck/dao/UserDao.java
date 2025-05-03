@@ -150,6 +150,17 @@ public class UserDao {
         );
     }
 
+    public User findUserByEmailAndUsername(String email, String username){
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM users WHERE email = :email AND username = :username")
+                        .bind("email", email)
+                        .bind("username", username)
+                        .mapToBean(User.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
     public String checkPhoneInDatabase(String phone) {
         String dbMessage = null;
