@@ -101,20 +101,20 @@
             <div class="pro-cat"><h6>Rau</h6></div>
         </div>
         <div class="right">
-            <button id="option">
+            <button class="newOption" id="optionNewOption">
                 <h6>
-                    <span  id="selected-option">Mặc định</span>
+                    <span id="selected-option">Mặc định</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h6>
             </button>
-            <div class="drop-menu">
-                <ul class="dropdown-menu">
-                    <li data-value="Mặc định" data-link="allProduct.html"  >Mặc định</li>
+            <div class="newOption drop-menu">
+                <ul class="newOption dropdown-menu123">
+                    <li data-value="Mặc định" data-link="allProduct.html">Mặc định</li>
                     <li data-value="Giá giảm dần" data-link="allProduct-desc.html">Giá giảm dần</li>
-                    <li data-value="Giá tăng dần" data-link="allProduct-asc.html">Giá tăng dần</li>
+                    <li data-value="Giá tăng dần">Giá tăng dần</li>
                 </ul>
             </div>
-            <form id="sortForm" action="showVegetables" method="GET" style="display:none;">
+            <form id="sortForm" action="showAll" method="GET" style="display:none;">
                 <input type="hidden" name="sortProduct" value="Mặc định" id="sortProductInput">
             </form>
         </div>

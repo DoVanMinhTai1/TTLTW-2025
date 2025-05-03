@@ -92,18 +92,18 @@
             <div class="PayRightContentTitleProductList">
                 <ul id="cartItems" class="PayRightContent_List_item">
                     <c:choose>
-                        <c:when test="${not empty cartList}">
-                            <c:forEach items="${cartList}" var="p">
-                                <div class="PayRightContent_item" data-id="${p.id}" data-quantity="${p.quantity}"
-                                     data-price="${p.price}">
+                        <c:when test="${not empty productList}">
+                            <c:forEach items="${productList}" var="p">
+                                <div class="PayRightContent_item" data-id="${p.product.id}" data-quantity="${p.quantity}"
+                                     data-price="${p.product.price}">
                                     <div class="PayRightContent_item_imgnotice">
-                                        <img src="${p.img}" alt="Product Image" class="PayRightContent_img_item">
+                                        <img src="${p.product.image}" alt="Product Image" class="PayRightContent_img_item">
                                         <span class="PayRightContent_item_notice">${p.quantity}</span>
                                     </div>
                                     <div class="PayRightContent_item_info">
                                         <div class="PayRightContent_item_header">
-                                            <div class="PayRightContent_item_name">${p.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.price}"
+                                            <div class="PayRightContent_item_name">${p.product.name}</div>
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.product.price}"
                                                                                                       type="number"
                                                                                                       maxFractionDigits="0"/>đ
                                             </div>
@@ -112,27 +112,27 @@
                                 </div>
                             </c:forEach>
                         </c:when>
-                        <c:otherwise>
-                            <c:if test="${not empty product}">
-                                <div class="PayRightContent_item" data-id="${product.id}" data-quantity="1"
-                                     data-price="${product.price}">
-                                    <div class="PayRightContent_item_imgnotice">
-                                        <img src="${product.image}" alt="Product Image" class="PayRightContent_img_item">
-                                        <span class="PayRightContent_item_notice">1</span>
-                                    </div>
-                                    <div class="PayRightContent_item_info">
-                                        <div class="PayRightContent_item_header">
-                                            <div class="PayRightContent_item_name">${product.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber
-                                                    value="${product.price}"
-                                                    type="number"
-                                                    maxFractionDigits="0"/>đ
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:if>
-                        </c:otherwise>
+<%--                        <c:otherwise>--%>
+<%--                            <c:if test="${not empty productList}">--%>
+<%--                                <div class="PayRightContent_item" data-id="${product.id}" data-quantity="1"--%>
+<%--                                     data-price="${product.price}">--%>
+<%--                                    <div class="PayRightContent_item_imgnotice">--%>
+<%--                                        <img src="${product.image}" alt="Product Image" class="PayRightContent_img_item">--%>
+<%--                                        <span class="PayRightContent_item_notice">1</span>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="PayRightContent_item_info">--%>
+<%--                                        <div class="PayRightContent_item_header">--%>
+<%--                                            <div class="PayRightContent_item_name">${product.name}</div>--%>
+<%--                                            <div class="PayRightContent_item_price"><fmt:formatNumber--%>
+<%--                                                    value="${product.price}"--%>
+<%--                                                    type="number"--%>
+<%--                                                    maxFractionDigits="0"/>đ--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </c:if>--%>
+<%--                        </c:otherwise>--%>
                     </c:choose>
 
                 </ul>
