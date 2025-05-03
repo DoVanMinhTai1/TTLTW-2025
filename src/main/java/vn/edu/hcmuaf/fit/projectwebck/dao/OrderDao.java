@@ -42,8 +42,24 @@ public class OrderDao {
                         .list()
         );
     }
+    //Lay danh sach tai khoan sap xep theo thu tu giam dan cua tong tien
+    public List<Map<String, Object>> getListOfAccounts() {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery(
+                        "SELECT u.id , u.username, " +
+                                "COALESCE(SUM(o.money), 0) AS tong " +
+                                "FROM users u " +
+                                "LEFT JOIN orders o ON u.id = o.userId " +
+                                "GROUP BY u.id, u.username " +
+                                "ORDER BY tong DESC"
+                ).mapToMap().list()
+        );
+    }
 
-//     Lấy đơn hàng theo ID
+
+
+    //     Lấy đơn hàng theo ID
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle ->

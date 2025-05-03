@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.services;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 import vn.edu.hcmuaf.fit.projectwebck.dao.PromotionDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
@@ -23,8 +24,14 @@ public class PromotionServices {
         return promotionDao.getPromotionByUser(userId, proId);
     }
 
-    public void updatePromotionByUser(int userId, int proId, int num) {
-        promotionDao.updatePromotionByUser(userId, proId, num);
+    public void updatePromotionByUser(int proId, int num) {
+        promotionDao.updatePromotionByUser(proId, num);
+    }
+    public void insertPromotionUserList(int promotionId, List<Integer> userIds) {
+        promotionDao.insertPromotionUserList(promotionId, userIds);
+    }
+    public boolean isValidPromotionUserCount(int promotionId, int newUserCount) {
+        return promotionDao.isValidPromotionUserCount(promotionId, newUserCount);
     }
 
     public void insertPromotion(Promotion promotion) {
