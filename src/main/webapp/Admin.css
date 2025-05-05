@@ -213,8 +213,8 @@ th, td {
 }
 
 .container .header .nav .search button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
     display: flex;
     align-items: center;
@@ -526,7 +526,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListOrderHeader input {
@@ -567,7 +567,7 @@ th, td {
 }
 
 .AdminListOrder .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 60px;
     width: 20px;
     padding-left: 10px;
@@ -576,7 +576,7 @@ th, td {
 .AdminListOrder .statusT {
     height: 28px;
     padding: 5px 25px;
-    background-color: #7cc652;
+    background-color: #00845c;
     border-radius: 5px;
     color: white;
     font-weight: 600;
@@ -651,7 +651,7 @@ th, td {
 }
 
 .AdminListUserHeader button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
     border-radius: 5px;
     margin-left: 440px;
@@ -670,7 +670,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListUserHeader input {
@@ -693,7 +693,7 @@ th, td {
 }
 
 .AdminListUser .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 20px;
 }
 
@@ -780,13 +780,15 @@ th, td {
 }
 
 .AdminListProduct button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
     border-radius: 5px;
-    margin-left: 430px;
     color: white;
     cursor: pointer;
     padding: 0 10px;
+}
+.AdminListProductHeader button{
+    margin-left: 430px;
 }
 
 .AdminListProduct button:hover {
@@ -798,7 +800,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListProductHeader input {
@@ -840,7 +842,7 @@ th, td {
 }
 
 .AdminListProduct .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     position: absolute;
     top: -13px;
     right: -13px;
@@ -901,10 +903,11 @@ th, td {
 }
 
 .AdminListPromotionHeader button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
+    width: 200px;
+    margin-left: 5px;
     border-radius: 5px;
-    margin-left: 420px;
     color: white;
     cursor: pointer;
     padding: 0 10px;
@@ -920,11 +923,12 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListPromotionHeader input {
-    margin-left: 100px;
+    margin-left: 50px;
+    margin-right: 200px;
     padding: 5px;
     width: 280px;
     border: 1px solid gainsboro;
@@ -943,7 +947,7 @@ th, td {
 }
 
 .AdminListPromotion .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 20px;
 }
 
@@ -1129,8 +1133,68 @@ th, td {
     width: 250px;
     padding: 5px;
 }
+/*Cửa sổ phát mã khuyến mãi*/
+.GeneratePromoCode {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    display: none;
+}
+.GeneratePromoCode h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+.GeneratePromoCode label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
 
+.GeneratePromoCode select{
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: #00845c solid 1px;
+    border-radius: 5px;
+}
+.GeneratePromoCode button{
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: 8px;
+    border: #00845c solid 1px;
+    border-radius: 5px;
+    text-align: center;
+}
+.GeneratePromoCode select[multiple] {
+    height: 150px;
+
+}
+
+.GeneratePromoCode option {
+    border:1px solid #00845c;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.GeneratePromoCode button {
+    background-color: #00845c;
+    color: white;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.GeneratePromoCode button:hover {
+    background-color: #49bc99;
+}
 /*Cua so nhap lieu khuyen mai*/
 
 .PromotionWindow {

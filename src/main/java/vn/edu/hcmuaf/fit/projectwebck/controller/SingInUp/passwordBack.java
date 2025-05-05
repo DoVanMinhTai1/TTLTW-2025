@@ -12,68 +12,37 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Properties;
 
-@WebServlet(name = "register", value = "/register")
-public class register extends HttpServlet {
+@WebServlet(name = "PasswordBackServlet", value = "/passwordBack")
+public class passwordBack extends HttpServlet {
     UserServices us = new UserServices();
     EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String token = request.getParameter("token");
-        String email = request.getParameter("email");
-        // Kiểm tra token và email
-        boolean isVerified = emailVerificationTokenServices.verifyToken(email, token);
-
-        if (isVerified) {
-            // Đánh dấu token là đã sử dụng
-            emailVerificationTokenServices.markAsUsed(email, token);
-            us.activateUser(email);
-            // Thiết lập thông báo thành công
-            request.setAttribute("message", "Bạn đã xác nhận tài khoản thành công!");
-        } else {
-            request.setAttribute("message", "Xác nhận tài khoản không thành công. Vui lòng kiểm tra lại.");
-        }
-
-        // Chuyển hướng đến trang login (showLogin)
-        request.getRequestDispatcher("showLogin").forward(request, response);
+        request.getRequestDispatcher("jsp/PasswordBack.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-
-        if(username== null || password==null || phone==null || email==null){
+        String username = request.getParameter("username");
+        if(username== null ||  email==null){
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
-            request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
-            return;
-        }
-        if (us.isUsernameTaken(username)) {
-            request.setAttribute("errorMessage", "Tên người dùng đã tồn tại.");
-            request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
+            request.getRequestDispatcher("jsp/PasswordBack.jsp").forward(request, response);
             return;
         }
 
-        String hashedPassword = hashPassword(password);
-        
-        User user = new User();
-        user.setUsername(username);
-        user.setFullName(username);
-        user.setPassword(hashedPassword);
-        user.setPhone(phone);
-        user.setEmail(email);
+        UserServices us = new UserServices();
 
-        int num = us.register(user);
-        if(num>0){
-            String token = generateToken(16);
+        User user = us.findUserByEmailAndUsername(email, username);
 
+        if (user != null) {
+            // Gửi email đổi mật khẩu
+            String token = generateToken(16); // random token
             EmailVerificationToken verificationToken = new EmailVerificationToken(email, token);
             System.out.println("Email: " + verificationToken.getEmail());
             System.out.println("Token: " + verificationToken.getToken());
@@ -85,29 +54,10 @@ public class register extends HttpServlet {
             // Gửi email
             sendEmail(email, verificationLink);
 
-            response.getWriter().write("Email xác nhận tài khoản đã được gửi tới email của bạn.");
+            response.getWriter().write("Email thay doi mat khau tai khoan da duoc gui toi email cua ban.");
             response.sendRedirect("showLogin");
         } else {
-            response.getWriter().write("Đăng ký không thành công. Vui lòng thử lại!");
-        }
-    }
-
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            byte[] digest = md.digest();
-
-            // Chuyển đổi mảng byte thành chuỗi hex
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : digest) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            response.getWriter().write("Khong thanh cong vui long thu lai!");
         }
     }
 
@@ -120,7 +70,7 @@ public class register extends HttpServlet {
 
     private void sendEmail(String email, String verificationLink) {
         String from = "22130180@st.hcmuaf.edu.vn";
-        String password = "ccry xzoc ghup attf";
+        String password = "mlir vshn tbhc wpml";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -138,12 +88,47 @@ public class register extends HttpServlet {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Xác Nhận Địa Chỉ Email");
-            message.setText("Vui lòng nhấp vào liên kết sau để xác nhận địa chỉ email của bạn:\n" + verificationLink);
+            message.setSubject("Thay Đổi Mật Khẩu");
+            message.setText("Vui lòng nhấp vào liên kết sau để thay đổi mật khẩu tài khoản của bạn:\n" + verificationLink);
 
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
+
+        // Xác thực số điện thoại
+//        if (phone == null || phone.isEmpty()) {
+//            setMessageAndForward(request, response, "Số điện thoại không hợp lệ.");
+//            return;
+//        }
+//
+//        String dbMessage = us.checkPhoneInDatabase(phone.trim());
+//        if (dbMessage != null) {
+//            setMessageAndForward(request, response, dbMessage);
+//            return;
+//        }
+//
+//        String message = sendPasswordViaSMS(phone.trim());
+//        // Logic gửi mật khẩu qua SMS (giả lập ở đây)
+////        String message = "Mật khẩu đã được gửi đến số điện thoại " + phone;
+//
+//        // Gửi thông báo tới trang JSP
+//        request.setAttribute("message", message);
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/PasswordBack.jsp");
+//        dispatcher.forward(request, response);
+//    }
+//
+//    private void setMessageAndForward(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+//        request.setAttribute("message", message);
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/PasswordBack.jsp");
+//        dispatcher.forward(request, response);
+//    }
+//
+//    private String sendPasswordViaSMS(String phone) {
+//        // Giả lập gửi mật khẩu. Thực tế, bạn nên sử dụng một dịch vụ SMS.
+//        // Gửi mật khẩu và trả về thông báo thông báo
+//        // Ví dụ: "Mật khẩu đã được gửi đến số điện thoại +84123456789"
+//        return "Mật khẩu đã được gửi đến số điện thoại " + phone;
+//    }
 }

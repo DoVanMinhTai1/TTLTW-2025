@@ -307,10 +307,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
-                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]" multiple>
+                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
+                                           multiple>
                                     <div id="showImageList">
 
-                                        <img src="" alt=""  style="width: 50px; display: none" class="mt-2">
+                                        <img src="" alt="" style="width: 50px; display: none" class="mt-2">
 
                                     </div>
                                 </div>
@@ -522,6 +523,9 @@
             <div class="AdminListPromotionHeader">
                 <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
                 <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                <button type="button" onclick="generatePromoCode()">
+                    Phát mã khuyến mãi
+                </button>
                 <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
                     Thêm khuyến mãi
                 </button>
@@ -553,6 +557,31 @@
                     </li>
                 </c:forEach>
             </ul>
+            <div class="GeneratePromoCode" id="GeneratePromoCode">
+                <h2>Phát mã khuyến mãi</h2>
+                <form action="GeneratePromoCode" method="POST">
+                    <label for="maKM">Chọn mã khuyến mãi:</label>
+                    <select id="maKM" name="maKM" required>
+                        <!-- Dữ liệu từ backend -->
+                        <c:forEach var="po" items="${listpromotion}">
+                            <option value="${po.id}">${po.id} - ${po.description}</option>
+                        </c:forEach>
+                    </select>
+
+                    <label for="listAccount">Chọn tài khoản được nhận mã:</label>
+                    <select id="listAccount" name="listAccount" multiple required>
+                        <c:forEach var="account" items="${listAccount}">
+                            <option value="${account.id}">
+                                    ${account.username} - Tổng: ${account.tong}đ
+
+                            </option>
+                        </c:forEach>
+                    </select>
+                    <br>
+                    <button type="submit">Phát mã</button>
+                    <button onclick="closeGeneratePromoCode()">Đóng</button>
+                </form>
+            </div>
             <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -607,9 +636,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         <div class="AdminListProductDiscount select container mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Quản lý sản phẩm giảm giá</h2>

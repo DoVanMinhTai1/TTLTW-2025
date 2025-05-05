@@ -34,24 +34,19 @@
 %>
 <div class="container" id="container">
   <div class="form-container resetPassword-container">
-    <form action="${pageContext.request.contextPath}/passwordBack" method="post" id="resetPasswordForm">
-      <h1>Quên Mật Khẩu?</h1>
-      <div class="social-container">
-        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-      <input type="text" placeholder="Email" name ="email" required/>
-      <input type="text" placeholder="Username" name ="username" required/>
-      <a href="showLogin">Hủy</a>
-      <button type="submit">Gửi</button>
+    <form action="${pageContext.request.contextPath}/sendPassword" method="post" id="resetPasswordForm">
+      <h1>Đặt Lại Mật Khẩu</h1>
+      <input type="password" placeholder="Mật khẩu mới" name ="newPassword" required/>
+      <input type="password" placeholder="Nhập lại mật khẩu mới" name ="confirmPassword" required/>
+      <a href="showLogin">Quay Lại Đăng Nhập</a>
+      <button type="submit">Cập Nhật</button>
     </form>
   </div>
   <div class="overlay-container">
     <div class="overlay">
       <div class="overlay-panel overlay-right">
-        <h1>Chào Mừng Đến Với Nông Lâm Food!</h1>
-        <p>Chúng tôi sẽ gửi cho bạn một email để kích hoạt việc đặt lại mật khẩu</p>
+        <h1>Chào Mừng Trở Lại</h1>
+        <p>Hãy đặt lại mật khẩu mới để tiếp tục sử dụng dịch vụ</p>
       </div>
     </div>
   </div>

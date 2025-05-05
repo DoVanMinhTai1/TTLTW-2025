@@ -80,7 +80,9 @@ public class ShowOption extends HttpServlet {
             case "option5":
                 PromotionServices promotionServices = new PromotionServices();
                 List<Promotion> listPromotion = promotionServices.getAllPromotion();
+                List<Map<String, Object>> listAccount = orderServices.getListOfAccounts();
                 request.setAttribute("listpromotion", listPromotion);
+                request.setAttribute("listAccount", listAccount);
                 request.setAttribute("listlog", listLog);
                 request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
                 break;

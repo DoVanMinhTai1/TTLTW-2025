@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
@@ -45,16 +46,56 @@ public class PromotionDao {
                 .findOne()
                 .orElse(0));  // Trả về 0 nếu không tìm thấy
     }
-    public void updatePromotionByUser(int userId, int proId, int num) {
+    public void updatePromotionByUser(int proId, int quantity) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle ->
-                handle.createUpdate("UPDATE promotionuser SET num = :num WHERE userId = :userId AND promotionId = :proId")
-                        .bind("num", num)
-                        .bind("userId", userId)
+                handle.createUpdate("UPDATE promotions SET quantity = :quantity WHERE  id = :proId")
+                        .bind("num", quantity)
                         .bind("proId", proId)
                         .execute()
         );
     }
+    //
+    public void insertPromotionUserList(int promotionId, List<Integer> userIds) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            // Chuẩn bị lệnh insert
+            PreparedBatch batch = handle.prepareBatch(
+                    "INSERT INTO promotionuser (userId, promotionId) VALUES (:userId, :promotionId)"
+            );
+
+            for (Integer userId : userIds) {
+                batch
+                        .bind("userId", userId)
+                        .bind("promotionId", promotionId)
+                        .add();
+            }
+
+            batch.execute(); // Thực hiện insert hàng loạt
+        });
+    }
+    //Kiem tra so luong ma phat co lon hơn so luong nguoi duoc phat ma khong
+    public boolean isValidPromotionUserCount(int promotionId, int newUserCount) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> {
+            // Lấy tổng số mã cho phép
+            int max = handle.createQuery("SELECT quantity FROM promotions WHERE id = :id")
+                    .bind("id", promotionId)
+                    .mapTo(int.class)
+                    .findOne()
+                    .orElse(0);
+
+            // Đếm số user hiện tại đã được nhận mã
+            int current = handle.createQuery("SELECT COUNT(*) FROM promotionuser WHERE promotionId = :id")
+                    .bind("id", promotionId)
+                    .mapTo(int.class)
+                    .one();
+
+            return (current + newUserCount) <= max;
+        });
+    }
+
+
 
 
     public void insertPromotion(Promotion promotion) {

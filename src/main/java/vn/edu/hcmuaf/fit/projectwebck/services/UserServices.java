@@ -73,4 +73,7 @@ public class UserServices {
     public User getUserByThirtyPartyId(String uId) {
         return userDao.getUserByThirtyPartyId(uId);
     }
+
+    public User findUserByEmailAndUsername(String email, String username) {return userDao.findUserByEmailAndUsername(email, username);}
+
 }
