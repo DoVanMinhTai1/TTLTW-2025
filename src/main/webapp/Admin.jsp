@@ -73,7 +73,13 @@
         <a href="showOption?option=option6">
             <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
                     src="Img/discount-admin.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá test</span>
+                    style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá</span>
+            </li>
+        </a>
+        <a href="showOption?option=option7">
+            <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
             </li>
         </a>
     </ul>
@@ -637,14 +643,61 @@
                 </div>
             </div>
         </div>
-        <div class="AdminListProductDiscount select container mt-4">
+
+        <div class="AdminListProductDiscount select mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Quản lý sản phẩm giảm giá</h2>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
                     phẩm giảm giá
                 </button>
             </div>
-            <table id="productTable " class="table table-striped">
+            <table id="productTable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Loại giảm giá</th>
+                    <th>Phần trăm giảm giá</th>
+                    <th>Giảm giá theo tiền tệ</th>
+                    <th>Gía sau khi giảm</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th></th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+                <c:forEach var="productDiscount" items="${productWithDiscount}">
+                    <tr>
+                        <td>${productDiscount.nameProduct}</td>
+                        <td>${productDiscount.discoutType}</td>
+                        <td>${productDiscount.discountPercentage}</td>
+                        <td>${productDiscount.price}</td>
+                        <td>abc</td>
+                        <td>${productDiscount.startDate}</td>
+                        <td>${productDiscount.endDate}</td>
+                        <td>
+                            <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
+                            </button>
+                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cật
+                                nhật sản phẩm giảm giá
+                            </button>
+                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="AdminListStock select mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Quản lý kho hàng</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
+                    phẩm vào kho hàng
+                </button>
+            </div>
+            <table id="stockTable" class="table table-striped">
                 <thead>
                 <tr>
                     <th>Tên sản phẩm</th>
@@ -790,6 +843,8 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
@@ -802,13 +857,13 @@
 
 <%--them san pham khuyen mai--%>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script>
 
     let isProductLoaded = false;
