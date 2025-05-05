@@ -22,7 +22,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<jsp:include page="Header.jsp" />
+<jsp:include page="Header.jsp"/>
 
 <div class="container-fluid " style="padding-top: 20px; padding-bottom: 20px; background-color: #e0e5dc;">
     <div class="row" style="">
@@ -89,17 +89,17 @@
                     </ul>
                 </div>
                 <div class="bounder">
-<%--                    <ul class="img-describe">--%>
-<%--                        <li>--%>
-<%--                            <img src="${p.image}">--%>
-<%--                        </li>--%>
-<%--                        <li>--%>
-<%--                            <img src="${p.image}">--%>
-<%--                        </li>--%>
-<%--                        <li>--%>
-<%--                            <img src="${p.image}">--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
+                    <%--                    <ul class="img-describe">--%>
+                    <%--                        <li>--%>
+                    <%--                            <img src="${p.image}">--%>
+                    <%--                        </li>--%>
+                    <%--                        <li>--%>
+                    <%--                            <img src="${p.image}">--%>
+                    <%--                        </li>--%>
+                    <%--                        <li>--%>
+                    <%--                            <img src="${p.image}">--%>
+                    <%--                        </li>--%>
+                    <%--                    </ul>--%>
                     <ul class="img-describe">
                         <c:forEach var="img" items="${p.productImages}">
                             <li>
@@ -109,85 +109,84 @@
                     </ul>
 
 
-
                 </div>
             </div>
         </div>
-<%--        <div class="detail-right">--%>
-<%--            <div class="detail-headline">--%>
-<%--                <h3>${p.name}</h3>--%>
-<%--            </div>--%>
-<%--            <div class="detail-price">--%>
-<%--                <h4 id="product-price"><f:formatNumber value="${p.price}"/>đ</h4>--%>
-<%--            </div>--%>
-<%--            <div class="summary-detail-describeContent">--%>
-<%--                <c:if test="${not empty sentences}">--%>
-<%--                    <c:forEach var="sentence" items="${sentences}">--%>
-<%--                        <h6>--%>
-<%--                            <i class="fa-solid fa-clover"></i>--%>
-<%--                            <c:out value="${sentence}"/>--%>
-<%--                        </h6>--%>
-<%--                    </c:forEach>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${empty sentences}">--%>
-<%--                    <h6>--%>
-<%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
-<%--                    </h6>--%>
-<%--                </c:if>--%>
-<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
-<%--            </div>--%>
-<%--            <div class="main-bottom">--%>
-<%--                <ul class="img-describe">--%>
-<%--                    <c:forEach var="size" items="${p.productVariants}">--%>
-<%--                        <button class="size-btn"--%>
-<%--                                data-price="${size.price}"--%>
-<%--                                onclick="updatePrice(this)"--%>
-<%--                        >--%>
-<%--                                ${size.massUnits}--%>
-<%--                                ${size.massValue}--%>
+        <%--        <div class="detail-right">--%>
+        <%--            <div class="detail-headline">--%>
+        <%--                <h3>${p.name}</h3>--%>
+        <%--            </div>--%>
+        <%--            <div class="detail-price">--%>
+        <%--                <h4 id="product-price"><f:formatNumber value="${p.price}"/>đ</h4>--%>
+        <%--            </div>--%>
+        <%--            <div class="summary-detail-describeContent">--%>
+        <%--                <c:if test="${not empty sentences}">--%>
+        <%--                    <c:forEach var="sentence" items="${sentences}">--%>
+        <%--                        <h6>--%>
+        <%--                            <i class="fa-solid fa-clover"></i>--%>
+        <%--                            <c:out value="${sentence}"/>--%>
+        <%--                        </h6>--%>
+        <%--                    </c:forEach>--%>
+        <%--                </c:if>--%>
+        <%--                <c:if test="${empty sentences}">--%>
+        <%--                    <h6>--%>
+        <%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
+        <%--                    </h6>--%>
+        <%--                </c:if>--%>
+        <%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+        <%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+        <%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
+        <%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+        <%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+        <%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
+        <%--            </div>--%>
+        <%--            <div class="main-bottom">--%>
+        <%--                <ul class="img-describe">--%>
+        <%--                    <c:forEach var="size" items="${p.productVariants}">--%>
+        <%--                        <button class="size-btn"--%>
+        <%--                                data-price="${size.price}"--%>
+        <%--                                onclick="updatePrice(this)"--%>
+        <%--                        >--%>
+        <%--                                ${size.massUnits}--%>
+        <%--                                ${size.massValue}--%>
 
-<%--                        </button>--%>
-<%--                    </c:forEach>--%>
-<%--                </ul>--%>
-<%--                <div class="btn-bounder">--%>
-<%--                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>--%>
-<%--                    </button>--%>
-<%--                    <button class="buy"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}">Mua ngay</a></button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <%--                        </button>--%>
+        <%--                    </c:forEach>--%>
+        <%--                </ul>--%>
+        <%--                <div class="btn-bounder">--%>
+        <%--                    <button class="add-later" id="add-later"><a href="add-cart?pid=${p.id}">Thêm vào giỏ hàng</a>--%>
+        <%--                    </button>--%>
+        <%--                    <button class="buy"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}">Mua ngay</a></button>--%>
+        <%--                </div>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
         <div class="detail-right p-3">
             <div class="detail-headline">
 
                 <h3>${p.name}</h3>
             </div>
 
-<%--            <div class="summary-detail-describeContent">--%>
-<%--                <c:if test="${not empty sentences}">--%>
-<%--                    <c:forEach var="sentence" items="${sentences}">--%>
-<%--                        <h6>--%>
-<%--                            <i class="fa-solid fa-clover"></i>--%>
-<%--                            <c:out value="${sentence}"/>--%>
-<%--                        </h6>--%>
-<%--                    </c:forEach>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${empty sentences}">--%>
-<%--                    <h6>--%>
-<%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
-<%--                    </h6>--%>
-<%--                </c:if>--%>
-<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
-<%--            </div>--%>
+            <%--            <div class="summary-detail-describeContent">--%>
+            <%--                <c:if test="${not empty sentences}">--%>
+            <%--                    <c:forEach var="sentence" items="${sentences}">--%>
+            <%--                        <h6>--%>
+            <%--                            <i class="fa-solid fa-clover"></i>--%>
+            <%--                            <c:out value="${sentence}"/>--%>
+            <%--                        </h6>--%>
+            <%--                    </c:forEach>--%>
+            <%--                </c:if>--%>
+            <%--                <c:if test="${empty sentences}">--%>
+            <%--                    <h6>--%>
+            <%--                        <i class="fa-solid fa-clover"></i>Không có mô tả nào.--%>
+            <%--                    </h6>--%>
+            <%--                </c:if>--%>
+            <%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+            <%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+            <%--                &lt;%&ndash;                    Góp phần tăng cường hệ miễn dịch nhờ việc cung cấp hơn 19% nhu cầu vitamin C hàng ngày cho cơ thể trong một khẩu phần ăn</h6>&ndash;%&gt;--%>
+            <%--                &lt;%&ndash;                <h6>&ndash;%&gt;--%>
+            <%--                &lt;%&ndash;                    <i class="fa-solid fa-clover"></i>&ndash;%&gt;--%>
+            <%--                &lt;%&ndash;                    Nguồn vitamin C lớn từ quả bí đao thúc đẩy sự phát triển của xương nên cũng góp phần kích thích tăng chiều cao cho bạn</h6>&ndash;%&gt;--%>
+            <%--            </div>--%>
             <div class="product-info-extra">
                 <p><strong>Loại rau củ</strong><c:choose>
                     <c:when test="${p.category == 1}">Rau</c:when>
@@ -295,6 +294,42 @@
     <!--      <p>Bí đao thích hợp bảo quản ở nhiệt độ 10-13 độ C, mát hơn nhiệt độ phòng mà không lạnh như tủ lạnh.</p>-->
     <!--    </div>-->
     <!--  </div>-->
+    <div class="Evaluate">
+        <div class="comment-section">
+            <h2>Bình luận sản phẩm</h2>
+
+            <div class="comment-form">
+                <textarea placeholder="Viết bình luận của bạn..."></textarea>
+                <br>
+                <button>Gửi bình luận</button>
+            </div>
+
+            <div class="comment-list">
+                <div class="comment">
+                    <img src="https://i.pravatar.cc/40" alt="User">
+                    <div class="comment-body">
+                        <div class="name">Nguyễn Văn A</div>
+                        <div class="date">03/05/2025</div>
+                        <div class="text">Sản phẩm rất tốt, giao hàng nhanh!</div>
+                        <div class="correction"><i class="fa-solid fa-trash"></i><i
+                                class="fa-solid fa-pen-to-square"></i></div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="https://i.pravatar.cc/41" alt="User">
+                    <div class="comment-body">
+                        <div class="name">Trần Thị B</div>
+                        <div class="date">02/05/2025</div>
+                        <div class="text">Đóng gói kỹ, đúng mô tả. Sẽ ủng hộ tiếp!</div>
+                        <div class="correction"><i class="fa-solid fa-trash"></i><i
+                                class="fa-solid fa-pen-to-square"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="ralated-product">
         <div class="headline-related">
             <h3>Sản Phẩm Liên Quan</h3>
@@ -360,7 +395,7 @@
         </ul>
     </div>
 </main>
-<jsp:include page="Footer.jsp" />
+<jsp:include page="Footer.jsp"/>
 <div id="backtop">
     <i class="fa-solid fa-arrow-up"></i>
 </div>
