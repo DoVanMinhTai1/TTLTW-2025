@@ -78,7 +78,7 @@
         <span class="navigationBar/">/</span>
         <span class="navigationBarType">${p.name}</span>
     </div>
-    <div class="detail-product">
+    <div class="container d-flex">
         <div class="detail-left">
             <div class="image-product">
                 <div class="main-image">
@@ -245,16 +245,44 @@
     justify-content: center;
     align-items: center;
     border: none;">
-                    <button class="add-later" id="add-later" style="    margin: 5px;
+<%--                    <button class="add-later" id="add-later" style="    margin: 5px;--%>
+<%--    height: 35px;--%>
+<%--    align-items: center;--%>
+<%--    background: #7cc652;--%>
+<%--    border-radius: 5px;--%>
+<%--    font-size: 17px;--%>
+<%--    color: white;--%>
+<%--    border: none;"><a href="add-cart?pid=${p.id}" style="text-decoration: none;--%>
+<%--    color: white;">Thêm vào giỏ hàng</a>--%>
+<%--                    </button>--%>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <button class="add-later" id="add-later" style="    margin: 5px;
     height: 35px;
     align-items: center;
     background: #7cc652;
     border-radius: 5px;
     font-size: 17px;
     color: white;
-    border: none;"><a href="add-cart?pid=${p.id}" style="text-decoration: none;
-    color: white;">Thêm vào giỏ hàng</a>
-                    </button>
+    border: none;"
+                                    onclick="handleAddToCart(${sessionScope.user.id},${p.id})">Thêm Vào Giỏ Hàng
+                            </button>
+
+                        </c:when>
+                        <c:otherwise>
+                            <button class="add-later" id="add-later" style="    margin: 5px;
+    height: 35px;
+    align-items: center;
+    background: #7cc652;
+    border-radius: 5px;
+    font-size: 17px;
+    color: white;
+    border: none;"
+                                    onclick="handleAddToCart(null,${p.id})">Thêm Vào Giỏ Hàng
+                            </button>
+                        </c:otherwise>
+
+                    </c:choose>
                     <button class="buy" style="    margin: 5px;
     height: 35px;
     align-items: center;
@@ -343,8 +371,7 @@
                                 <img src="${pageContext.request.contextPath}/${pr.image}">
 
                             </a>
-                            <!--xem ngay-->
-                            <!--xem ngay-->
+
                             <c:choose>
                                 <c:when test="${not empty sessionScope.user}">
                                     <button class="add-to-cart"
@@ -399,28 +426,85 @@
 <div id="backtop">
     <i class="fa-solid fa-arrow-up"></i>
 </div>
+<div class="modal fade" id="addToCartModalAlert" tabindex="-1" aria-labelledby="loginAlertModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginAlertModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body">
+                Bạn cần đăng nhập để thêm vào giỏ hàng!
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-<%--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="--%>
-<%--        crossorigin="anonymous"></script>--%>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $(window).scroll(function () {--%>
-<%--            if ($(this).scrollTop()) {--%>
-<%--                $('#backtop').fadeIn();--%>
-<%--            } else {--%>
-<%--                $('#backtop').fadeOut();--%>
-<%--            }--%>
-<%--        })--%>
-<%--        $('#backtop').click(function () {--%>
-<%--            $('html, body').animate({scrollTop: 0}, 300);--%>
-<%--        });--%>
-<%--    })--%>
-<%--    $('#more').click(function () {--%>
-<%--        window.location.href = "allProduct.html";--%>
-<%--    });--%>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop()) {
+                $('#backtop').fadeIn();
+            } else {
+                $('#backtop').fadeOut();
+            }
+        })
+        $('#backtop').click(function () {
+            $('html, body').animate({scrollTop: 0}, 300);
+        });
+    })
+    $('#more').click(function () {
+        window.location.href = "allProduct.html";
+    });
 
 
-<%--</script>--%>
+    function handleAddToCart(Id, productId) {
+        if (Id === null) {
+            const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+            loginModal.show();
+
+            setTimeout(() => {
+                loginModal.hide();
+            }, 3000);
+        } else {
+            $.ajax({
+                url: "/web/add-cart",
+                method: 'POST',
+                data: JSON.stringify(
+                    {
+                        userId: Id,
+                        productId: productId
+                    }
+                ),
+                success: function (reponse) {
+                    document.querySelector("#addToCartModalAlert .modal-body").textContent = "Thêm vào giỏ hàng thành công"
+                    const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+
+                    loginModal.show();
+
+                    setTimeout(() => {
+                        loginModal.hide();
+                    }, 3000);
+                    $.ajax({
+                        url: "/web/TotalQuantity",
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (data) {
+                            let totalQuantity = document.getElementById("totalQuantityCartItem");
+                            totalQuantity.textContent = data;
+                        }
+                    });
+                }
+            })
+        }
+    }
+
+
+
+</script>
 <script>
     function updatePrice(element) {
         console.log('click123')

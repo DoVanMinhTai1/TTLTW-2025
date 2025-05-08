@@ -51,7 +51,12 @@ function navigationbarClick(select) {
                 productDiscount.classList.add("active1");
             }
             break;
-
+        case "option7":
+            const stockManage = document.querySelector(".AdminListStock")
+            if (stockManage) {
+                stockManage.classList.add("active1");
+            }
+            break;
 
         default:
             console.warn(`No content found for select: ${select}`);
@@ -104,7 +109,7 @@ function addProduct() {
     document.getElementById('productDescribe').value = "";
     document.getElementById('productMass').value = "";
     document.getElementById('productCategory').value = "Rau";
-    document.getElementById('productImageList').value="";
+    document.getElementById('productImageList').value = "";
 
     const previewContainer = document.getElementById('showImageList');
     previewContainer.innerHTML = "";
@@ -227,7 +232,7 @@ document.getElementById('productImageList').addEventListener('change', function 
 
 });
 
-function deleteProductImageNewAdd(button, img,newInput) {
+function deleteProductImageNewAdd(button, img, newInput) {
     button.remove();
     img.remove();
     newInput.remove();
@@ -635,6 +640,7 @@ function addPromotion() {
         action.action = "addPromotion";
     }
 }
+
 function generatePromoCode() {
     const newPromotion = document.getElementById("GeneratePromoCode");
     // Add an overlay to dim the background
@@ -645,6 +651,7 @@ function generatePromoCode() {
     // Display the promotion form
     newPromotion.style.display = "block";
 }
+
 function closeGeneratePromoCode() {
     const overlay = document.getElementById("overlay");
     const newPromotion = document.getElementById("GeneratePromoCode");
@@ -666,6 +673,7 @@ function closeGeneratePromoCode() {
         }
     });
 }
+
 function windowPromotion() {
     const newPromotion = document.getElementById("PromotionWindow");
     // Add an overlay to dim the background

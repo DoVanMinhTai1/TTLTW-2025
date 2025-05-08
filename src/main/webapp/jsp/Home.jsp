@@ -289,10 +289,21 @@
                     setTimeout(() => {
                         loginModal.hide();
                     }, 3000);
+                    $.ajax({
+                        url: "/web/TotalQuantity",
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (data) {
+                            let totalQuantity = document.getElementById("totalQuantityCartItem");
+                            totalQuantity.textContent = data;
+                        }
+                    });
                 }
             })
         }
     }
+
+
 
 
 </script>

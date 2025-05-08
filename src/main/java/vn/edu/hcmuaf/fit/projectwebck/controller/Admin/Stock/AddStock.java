@@ -4,42 +4,77 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Stock;
 import vn.edu.hcmuaf.fit.projectwebck.services.StockService;
 
-@WebServlet(name = "AddStock", value = "/AddStock")
+@WebServlet(name = "uploadStock", value = "/UploadStock")
+@MultipartConfig
 public class AddStock extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        BufferedReader reader = request.getReader();
-        Gson gson = new GsonBuilder().create();
-        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//        Steps:
+        /*
+            1.Get file from request
+            2.Read Excel Data Using apache POI
+            3.Loop through Each Row
+            4.Extract Product Info
+            5.Save Product
+         */
+        Part filePart = request.getPart("fileExcel");
+        InputStream inputStream = filePart.getInputStream();
 
-        // Lấy dữ liệu từ JSON
-        int productId = jsonObject.get("productId").getAsInt();
-        int quantity = jsonObject.get("quantity").getAsInt();
-        String name = jsonObject.get("name").getAsString();
-        String addressLine = jsonObject.get("addressLine").getAsString();
-        String district = jsonObject.get("district").getAsString();
-        String stateOrProvince = jsonObject.get("stateOrProvince").getAsString();
-        String country = jsonObject.get("country").getAsString();
+        try (XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            List<Stock> stocks = new ArrayList<>();
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+                int productId = (int) row.getCell(0).getNumericCellValue();
+                int quantity = (int) row.getCell(1).getNumericCellValue();
+                String name = row.getCell(2).getStringCellValue();
+                String addressLine = row.getCell(3).getStringCellValue();
+                String district = row.getCell(4).getStringCellValue();
+                String state = row.getCell(5).getStringCellValue();
+                String country = row.getCell(6).getStringCellValue();
 
-        // Tạo đối tượng Stock
-        Stock stock = new Stock(0, productId, quantity, name, addressLine, district, stateOrProvince, country);
+                Stock stock = new Stock();
+                stock.setProductId(productId);
+                stock.setQuantity(quantity);
+                stock.setName(name);
+                stock.setAddressLine(addressLine);
+                stock.setDistrict(district);
+                stock.setStateOrProvince(state);
+                stock.setCountry(country);
 
-        // Lưu vào cơ sở dữ liệu
-        StockService stockService = new StockService();
-        stockService.addStock(stock);
+                stocks.add(stock);
 
-        // Trả kết quả JSON
-        response.setContentType("application/json");
-        response.getWriter().write("{\"status\": \"success\"}");
+
+            }
+            StockService stockService = new StockService();
+            stockService.addStock(stocks);
+
+            response.setContentType("text/plain");
+            response.getWriter().println("Stock uploaded and saved successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

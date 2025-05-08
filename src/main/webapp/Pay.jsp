@@ -86,24 +86,24 @@
         </div>
         <!--        tong ket thanh toan-->
         <div class="PayRightContent">
-            <div class="PayRightContentTitle">Đơn hàng (${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0} sản
+            <div class="PayRightContentTitle">Đơn hàng (${totalQuantity} sản
                 phẩm)
             </div>
             <div class="PayRightContentTitleProductList">
                 <ul id="cartItems" class="PayRightContent_List_item">
                     <c:choose>
-                        <c:when test="${not empty cartList}">
-                            <c:forEach items="${cartList}" var="p">
-                                <div class="PayRightContent_item" data-id="${p.id}" data-quantity="${p.quantity}"
-                                     data-price="${p.price}">
+                        <c:when test="${not empty productList}">
+                            <c:forEach items="${productList}" var="p">
+                                <div class="PayRightContent_item" data-id="${p.product.id}" data-quantity="${p.quantity}"
+                                     data-price="${p.product.price}">
                                     <div class="PayRightContent_item_imgnotice">
-                                        <img src="${p.img}" alt="Product Image" class="PayRightContent_img_item">
+                                        <img src="${p.product.image}" alt="Product Image" class="PayRightContent_img_item">
                                         <span class="PayRightContent_item_notice">${p.quantity}</span>
                                     </div>
                                     <div class="PayRightContent_item_info">
                                         <div class="PayRightContent_item_header">
-                                            <div class="PayRightContent_item_name">${p.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.price}"
+                                            <div class="PayRightContent_item_name">${p.product.name}</div>
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.product.price}"
                                                                                                       type="number"
                                                                                                       maxFractionDigits="0"/>đ
                                             </div>
@@ -112,27 +112,27 @@
                                 </div>
                             </c:forEach>
                         </c:when>
-                        <c:otherwise>
-                            <c:if test="${not empty product}">
-                                <div class="PayRightContent_item" data-id="${product.id}" data-quantity="1"
-                                     data-price="${product.price}">
-                                    <div class="PayRightContent_item_imgnotice">
-                                        <img src="${product.image}" alt="Product Image" class="PayRightContent_img_item">
-                                        <span class="PayRightContent_item_notice">1</span>
-                                    </div>
-                                    <div class="PayRightContent_item_info">
-                                        <div class="PayRightContent_item_header">
-                                            <div class="PayRightContent_item_name">${product.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber
-                                                    value="${product.price}"
-                                                    type="number"
-                                                    maxFractionDigits="0"/>đ
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:if>
-                        </c:otherwise>
+                        <%--                        <c:otherwise>--%>
+                        <%--                            <c:if test="${not empty productList}">--%>
+                        <%--                                <div class="PayRightContent_item" data-id="${product.id}" data-quantity="1"--%>
+                        <%--                                     data-price="${product.price}">--%>
+                        <%--                                    <div class="PayRightContent_item_imgnotice">--%>
+                        <%--                                        <img src="${product.image}" alt="Product Image" class="PayRightContent_img_item">--%>
+                        <%--                                        <span class="PayRightContent_item_notice">1</span>--%>
+                        <%--                                    </div>--%>
+                        <%--                                    <div class="PayRightContent_item_info">--%>
+                        <%--                                        <div class="PayRightContent_item_header">--%>
+                        <%--                                            <div class="PayRightContent_item_name">${product.name}</div>--%>
+                        <%--                                            <div class="PayRightContent_item_price"><fmt:formatNumber--%>
+                        <%--                                                    value="${product.price}"--%>
+                        <%--                                                    type="number"--%>
+                        <%--                                                    maxFractionDigits="0"/>đ--%>
+                        <%--                                            </div>--%>
+                        <%--                                        </div>--%>
+                        <%--                                    </div>--%>
+                        <%--                                </div>--%>
+                        <%--                            </c:if>--%>
+                        <%--                        </c:otherwise>--%>
                     </c:choose>
 
                 </ul>
@@ -145,17 +145,7 @@
                     <div class="text1">
                         <span class="t1">Tạm tính</span>
                         <span id="provisional">
-                            <c:choose>
-                                <c:when test="${not empty cartList}">
-                                    <fmt:formatNumber value="${sessionScope.total}" type="number" maxFractionDigits="0"/>đ
-                                </c:when>
-                                <c:when test="${not empty product}">
-                                    ${product.price}đ
-                                </c:when>
-                                <c:otherwise>
-                                    0đ
-                                </c:otherwise>
-                            </c:choose>
+                          ${totalPrice}
                         </span>
                     </div>
                     <div class="text2">
@@ -174,7 +164,7 @@
                             class="Back" target="myTab">
                     < Quay về giỏ hàng</a></span>
                     <span class="total"><button type="submit" id="ConfirmAddressButton"
-                                                onclick="order(${sessionScope.user.id}, '${address.id}', '${sessionScope.total}')">Đặt Hàng</button></span>
+                                                onclick="order(${sessionScope.user.id}, '${address.id}', '${fromCart}')">Đặt Hàng</button></span>
                     <%--                    1 la userId cua tai khoan dang dn--%>
                 </div>
             </div>
@@ -199,6 +189,8 @@
         VỀ TRANG CHỦ
     </a></button>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/PayMoney.js"></script>
 <script type="text/javascript">
     var userId = "${sessionScope.user.id}";

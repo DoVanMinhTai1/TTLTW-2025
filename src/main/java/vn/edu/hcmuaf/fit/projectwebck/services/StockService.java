@@ -8,7 +8,7 @@ import java.util.List;
 public class StockService {
     private StockDao stockDao;
 
-    public void addStock(Stock stock) {
+    public void addStock(List<Stock> stock) {
         stockDao.insertStock(stock);
     }
 

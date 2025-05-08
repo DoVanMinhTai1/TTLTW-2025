@@ -24,5 +24,13 @@ public class CartItemService {
     public boolean deleteCartItem(int userId, int productId) throws SQLException {
        return cartItemDao.deleteCartItem(userId, productId);
     }
+
+    public int getTotalQuantityByUserId(int idUser) {
+        return cartItemDao.getTotalQuantityByUserId(idUser);
+    }
+
+    public boolean deleteCartItem(int idUser, List<Integer> productIds) {
+        return cartItemDao.deleteCartItem(idUser,productIds);
+    }
 }
 

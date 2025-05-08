@@ -241,22 +241,77 @@
 <div id="backtop">
     <i class="fa-solid fa-arrow-up"></i>
 </div>
+<div class="modal fade" id="addToCartModalAlert" tabindex="-1" aria-labelledby="loginAlertModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginAlertModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body">
+                Bạn cần đăng nhập để thêm vào giỏ hàng!
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-<%--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="--%>
-<%--        crossorigin="anonymous"></script>--%>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
-    // $(document).ready(function () {
-    //     $(window).scroll(function () {
-    //         if ($(this).scrollTop()) {
-    //             $('#backtop').fadeIn();
-    //         } else {
-    //             $('#backtop').fadeOut();
-    //         }
-    //     })
-    //     $('#backtop').click(function () {
-    //         $('html, body').animate({scrollTop: 0}, 300);
-    //     });
-    // })
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop()) {
+                $('#backtop').fadeIn();
+            } else {
+                $('#backtop').fadeOut();
+            }
+        })
+        $('#backtop').click(function () {
+            $('html, body').animate({scrollTop: 0}, 300);
+        });
+    })
+
+    function handleAddToCart(Id, productId) {
+        if (Id === null) {
+            const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+            loginModal.show();
+
+            setTimeout(() => {
+                loginModal.hide();
+            }, 3000);
+        } else {
+            $.ajax({
+                url: "/web/add-cart",
+                method: 'POST',
+                data: JSON.stringify(
+                    {
+                        userId: Id,
+                        productId: productId
+                    }
+                ),
+                success: function (reponse) {
+                    document.querySelector("#addToCartModalAlert .modal-body").textContent = "Thêm vào giỏ hàng thành công"
+                    const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+
+                    loginModal.show();
+
+                    setTimeout(() => {
+                        loginModal.hide();
+                    }, 3000);
+                    $.ajax({
+                        url: "/web/TotalQuantity",
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (data) {
+                            let totalQuantity = document.getElementById("totalQuantityCartItem");
+                            totalQuantity.textContent = data;
+                        }
+                    });
+                }
+            })
+        }
+    }
 
     document.querySelectorAll(".newOption.dropdown-menu123 li").forEach(item => {
         item.addEventListener("click", function () {
