@@ -32,7 +32,7 @@ public class passwordBack extends HttpServlet {
         String username = request.getParameter("username");
         if(username== null ||  email==null){
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
-            request.getRequestDispatcher("jsp/PasswordBack.jsp").forward(request, response);
+            request.getRequestDispatcher("passwordBack").forward(request, response);
             return;
         }
 
@@ -50,7 +50,7 @@ public class passwordBack extends HttpServlet {
 
             // Tạo link xác nhận
             String contextPath = request.getContextPath();
-            String verificationLink = "http://localhost:8080" + contextPath + "/register?token=" + token + "&email=" + email;
+            String verificationLink = "http://localhost:8080" + contextPath + "/sendPassword?token=" + token + "&email=" + email;
             // Gửi email
             sendEmail(email, verificationLink);
 
@@ -70,7 +70,7 @@ public class passwordBack extends HttpServlet {
 
     private void sendEmail(String email, String verificationLink) {
         String from = "22130180@st.hcmuaf.edu.vn";
-        String password = "mlir vshn tbhc wpml";
+        String password = "ccry xzoc ghup attf";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -88,8 +88,8 @@ public class passwordBack extends HttpServlet {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Thay Đổi Mật Khẩu");
-            message.setText("Vui lòng nhấp vào liên kết sau để thay đổi mật khẩu tài khoản của bạn:\n" + verificationLink);
+            message.setSubject("Đổi Mật Khẩu Tài Khoản");
+            message.setText("Vui lòng nhấp vào liên kết sau để đổi mật khẩu tài khoản:\n" + verificationLink);
 
             Transport.send(message);
         } catch (MessagingException e) {
