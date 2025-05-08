@@ -28,9 +28,9 @@ public class CartItemDao {
             if (rs.next()) {
                 try (PreparedStatement stmt2 = conn.prepareStatement(updateQuery)) {
                     int currentQuantity = rs.getInt("quantity");
-                    stmt2.setInt(1, userId);
+                    stmt2.setInt(1, 1);
                     stmt2.setInt(2, productId);
-                    stmt2.setInt(3, currentQuantity + quantity);
+                    stmt2.setInt(3, userId);
                     stmt2.executeUpdate();
                     CartItem cartItem = new CartItem();
                     cartItem.setUserId(userId);

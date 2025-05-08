@@ -323,6 +323,41 @@
     <!--      <p>Bí đao thích hợp bảo quản ở nhiệt độ 10-13 độ C, mát hơn nhiệt độ phòng mà không lạnh như tủ lạnh.</p>-->
     <!--    </div>-->
     <!--  </div>-->
+    <div class="Evaluate">
+        <div class="comment-section">
+            <h2>Bình luận sản phẩm</h2>
+
+            <div class="comment-form">
+                <textarea placeholder="Viết bình luận của bạn..."></textarea>
+                <br>
+                <button>Gửi bình luận</button>
+            </div>
+
+            <div class="comment-list">
+                <div class="comment">
+                    <img src="https://i.pravatar.cc/40" alt="User">
+                    <div class="comment-body">
+                        <div class="name">Nguyễn Văn A</div>
+                        <div class="date">03/05/2025</div>
+                        <div class="text">Sản phẩm rất tốt, giao hàng nhanh!</div>
+                        <div class="correction"><i class="fa-solid fa-trash"></i><i
+                                class="fa-solid fa-pen-to-square"></i></div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="https://i.pravatar.cc/41" alt="User">
+                    <div class="comment-body">
+                        <div class="name">Trần Thị B</div>
+                        <div class="date">02/05/2025</div>
+                        <div class="text">Đóng gói kỹ, đúng mô tả. Sẽ ủng hộ tiếp!</div>
+                        <div class="correction"><i class="fa-solid fa-trash"></i><i
+                                class="fa-solid fa-pen-to-square"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="ralated-product">
         <div class="headline-related">
             <h3>Sản Phẩm Liên Quan</h3>
