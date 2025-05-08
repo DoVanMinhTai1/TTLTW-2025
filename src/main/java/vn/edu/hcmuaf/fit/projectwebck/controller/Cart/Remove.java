@@ -26,7 +26,7 @@ public class Remove extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
+//        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         BufferedReader reader = request.getReader();
@@ -42,12 +42,12 @@ public class Remove extends HttpServlet {
         int id = user.getId();
         CartItemService cartItemService = new CartItemService();
         try {
-           cartItemService.deleteCartItem(id,productId);
-//            if(success) {
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            } else {
-//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            }
+         boolean success =   cartItemService.deleteCartItem(id,productId);
+            if(success) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

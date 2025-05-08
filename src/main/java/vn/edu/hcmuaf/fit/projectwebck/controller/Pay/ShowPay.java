@@ -53,7 +53,8 @@ public class ShowPay extends HttpServlet {
             cartItem.setUserId(Integer.parseInt(uIdParam));
             cartItemsList.add(cartItem);
         }
-        System.out.println("cartItemsList: " + cartItemsList);
+
+        boolean fromCart = !cartItemsList.isEmpty();
 
 
         BigInteger uIdLong = new BigInteger(uIdParam);
@@ -61,11 +62,14 @@ public class ShowPay extends HttpServlet {
 
         int uId = 0;
         if (uIdLong.longValue() > 10000) {
+//            String uIdParam = request.getParameter("uId")
             Address address = addressServices.getByThirtyPartyId(uIdParam);
             UserServices us = new UserServices();
             String email = us.getUserByThirtyPartyId(uIdParam).getEmail();
             request.setAttribute("address", address);
+
             String[] parts = address.getAddress().split(",");
+
             String number = parts.length > 0 ? parts[0].trim() : "";
             String ward = parts.length > 1 ? parts[1].trim() : "";
             String district = parts.length > 2 ? parts[2].trim() : "";
@@ -100,13 +104,17 @@ public class ShowPay extends HttpServlet {
 
             ProductServices productServices = new ProductServices();
             List<ProductWithQuantity> productList = new ArrayList<>();
+            int totalPrice = 0;
             for (CartItem cartItem : cartItemsList) {
                 Product product = productServices.getById(cartItem.getProductId());
                 ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
+                totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
                 productList.add(productWithQuantity);
             }
-            System.out.println("productList: " + productList);
+            request.setAttribute("totalQuantity", cartItemsList.size());
+            request.setAttribute("totalPrice", totalPrice);
             request.setAttribute("productList", productList);
+            request.setAttribute("fromCart", fromCart);
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
 
 
