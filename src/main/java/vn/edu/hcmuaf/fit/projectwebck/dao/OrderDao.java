@@ -12,10 +12,15 @@ public class OrderDao {
     // Lấy tất cả các đơn hàng
     public List<Order> getAllOrders() {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT o.id, o.userId, o.dateOfBooking, o.status, o.money, o.addressId, u.fullName FROM orders o INNER JOIN users u ON o.userId = u.id")
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT o.id, o.userId, o.dateOfBooking, o.status, o.money, o.addressId, " +
+                        "u.fullName,u.phone, a.address " +
+                        "FROM orders o " +
+                        "INNER JOIN users u ON o.userId = u.id " +
+                        "INNER JOIN address a ON o.addressId = a.id")
                 .mapToBean(Order.class)
                 .list());
     }
+
     //Lấy đơn hàng gần nhất
     public List<Map<String, Object>> getLatestOrders() {
         Jdbi jdbi = JDBIConect.get();
@@ -42,6 +47,7 @@ public class OrderDao {
                         .list()
         );
     }
+
     //Lay danh sach tai khoan sap xep theo thu tu giam dan cua tong tien
     public List<Map<String, Object>> getListOfAccounts() {
         Jdbi jdbi = JDBIConect.get();
@@ -58,7 +64,6 @@ public class OrderDao {
     }
 
 
-
     //     Lấy đơn hàng theo ID
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         Jdbi jdbi = JDBIConect.get();
@@ -69,6 +74,7 @@ public class OrderDao {
                         .list()
         );
     }
+
     // Xóa một đơn hàng theo ID
     public void removeOrder(int orderId) {
         Jdbi jdbi = JDBIConect.get();
@@ -76,6 +82,7 @@ public class OrderDao {
                 .bind("orderId", orderId)
                 .execute());
     }
+
     public Order getOrderById(int orderId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle ->
@@ -94,6 +101,7 @@ public class OrderDao {
                 .mapToBean(Order.class)
                 .list());
     }
+
     //    Lấy tất cả đơn hàng của một userId
     public List<Order> getOrderByUserId(int userId) {
         Jdbi jdbi = JDBIConect.get();
@@ -104,6 +112,7 @@ public class OrderDao {
                         .list()
         );
     }
+
     public long insertOrderByUser(Order order, Map<Integer, Map<String, Double>> cartMap) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> {
@@ -150,5 +159,18 @@ public class OrderDao {
             return orderId;
         });
     }
+    public boolean updateOrderStatus(int orderId, int status) {
+        Jdbi jdbi = JDBIConect.get();
+        int rowsAffected = jdbi.withHandle(handle -> handle.createUpdate("UPDATE orders SET status = :status WHERE id = :orderId")
+                .bind("status", status)
+                .bind("orderId", orderId)
+                .execute());
+
+        // Kiểm tra nếu có ít nhất một bản ghi bị ảnh hưởng
+        return rowsAffected > 0;
+    }
+
+
+
 
 }

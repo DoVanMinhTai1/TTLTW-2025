@@ -48,4 +48,8 @@ public class OrderServices {
     public long insertOrderByUser(Order order, Map<Integer, Map<String, Double>> cartMap) {
         return orderDao.insertOrderByUser(order, cartMap);
     }
+    public boolean updateOrderStatus(int orderId, int status) {
+        return orderDao.updateOrderStatus(orderId, status);
+    }
+
 }

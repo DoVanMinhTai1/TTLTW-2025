@@ -8,21 +8,32 @@ public class Order {
     private double money;
     private int addressId;
     private String fullName;
+    private String phone;
     private String address;
     private String thirty_party_id;
-    public Order(int id, int userId, String dateOfBooking, int status,
-                 double money, int addressId, String fullName,String thirty_party_id) {
+
+    public Order(int id, int userId, String dateOfBooking, double money, int status, int addressId, String fullName, String phone, String address, String thirty_party_id) {
         this.id = id;
         this.userId = userId;
         this.dateOfBooking = dateOfBooking;
-        this.status = status;
         this.money = money;
+        this.status = status;
         this.addressId = addressId;
         this.fullName = fullName;
+        this.phone = phone;
+        this.address = address;
         this.thirty_party_id = thirty_party_id;
     }
 
     public Order() {
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAddress() {

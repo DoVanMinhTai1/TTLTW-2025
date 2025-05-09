@@ -485,25 +485,47 @@
             </div>
             <ul class="Order_Item" id="list-searchOrder">
                 <li class="title_Item">
-                    <div>Mã vận đơn</div>
-                    <div>Khách hàng</div>
-                    <div>Ngày đặt</div>
-                    <div>Thành tiền</div>
-                    <div>Trạng thái</div>
+                    <div class="orderItemId">Mã đơn</div>
+                    <div class="orderItemName">Khách hàng</div>
+                    <div class="orderItemDate">Ngày đặt</div>
+                    <div class="orderItemTotal">Thành tiền</div>
+                    <div class="orderItemStatus">Trạng thái</div>
+                    <div class="act">Hành động</div>
                 </li>
                 <c:forEach var="order" items="${listorder}">
                     <li>
-                        <div>${order.id}</div>
-                        <div class="name">${order.fullName}</div>
-                        <div>${order.dateOfBooking}</div>
-                        <div><f:formatNumber value="${order.money}" type="number" pattern="#,##0VND"/></div>
-                        <div class="${order.status == '1' ? 'statusT' : 'statusF'}">
-                                ${order.status == '1' ? 'Đã thanh toán' : 'Chờ thanh toán'}
+                        <div class="orderItemId">${order.id}</div>
+                        <div class="orderItemName">${order.fullName}</div>
+                        <div class="orderItemDate">${order.dateOfBooking}</div>
+                        <div class="orderItemTotal"><f:formatNumber value="${order.money}" type="number"
+                                                                    pattern="#,##0VND"/></div>
+                        <div class="orderItemStatus "><span class="orderItemS status-${order.status}" id="orderItemS-${order.id}"> <c:choose>
+                            <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
+                            <c:when test="${order.status == 1}">Đã xác nhận</c:when>
+                            <c:when test="${order.status == 2}">Đang đóng gói</c:when>
+                            <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
+                            <c:when test="${order.status == 4}">Hoàn tất</c:when>
+                            <c:when test="${order.status == 5}">Đã hủy</c:when>
+                            <c:otherwise>Không xác định</c:otherwise>
+                        </c:choose></span>
+
+                        </div>
+                        <div class="act">
+                            <select class="status-update">
+                                <option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ xác nhận</option>
+                                <option value="1" ${order.status == 1 ? 'selected' : ''}>Đã xác nhận</option>
+                                <option value="2" ${order.status == 2 ? 'selected' : ''}>Đang đóng gói</option>
+                                <option value="3" ${order.status == 3 ? 'selected' : ''}>Đang vận chuyển</option>
+                                <option value="4" ${order.status == 4 ? 'selected' : ''}>Hoàn tất</option>
+                                <option value="5" ${order.status == 5 ? 'selected' : ''}>Hủy đơn</option>
+                            </select>
                         </div>
                         <div class="menu">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                             <div class="ellipsis">
-                                <div onclick="viewOrder(${order.id})">Chi tiết đơn hàng</div>
+                                <div onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.fullName}','${order.phone}')">
+                                    Chi tiết đơn hàng
+                                </div>
                                 <a href="removeOder?oid=${order.id}">
                                     <div>Xóa</div>
                                 </a>
@@ -521,6 +543,17 @@
                 <div class="TotalAmount">
                     <span class="text">Tổng cộng</span>
                     <span class="total" id="total">${totalAmount}đ</span>
+                </div>
+                <div class="DeliveryAddress">
+                    <span class="text">Địa chỉ nhận hàng:</span>
+                    <span class="delivery"></span>
+                </div>
+                <div class="UserBuy">
+                    <span class="text">Tên khách hàng & SĐT:</span>
+                    <span class="userInf"></span>
+                </div>
+                <div class="DeliveryAddress">
+                    <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                 </div>
             </div>
         </div>
@@ -679,7 +712,7 @@
                         <td>
                             <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
                             </button>
-                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cật
+                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cập
                                 nhật sản phẩm giảm giá
                             </button>
                                 <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
