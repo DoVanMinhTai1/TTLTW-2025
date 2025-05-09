@@ -340,11 +340,12 @@ window.addEventListener("DOMContentLoaded", function () {
             case "searchOrder":
                 return `
                 <li class="title_Item">
-                    <div>Mã vận đơn</div>
-                    <div>Khách hàng</div>
-                    <div>Ngày đặt</div>
-                    <div>Thành tiền</div>
-                    <div>Trạng thái</div>
+                     <div class="orderItemId">Mã đơn</div>
+                    <div class="orderItemName">Khách hàng</div>
+                    <div class="orderItemDate">Ngày đặt</div>
+                    <div class="orderItemTotal">Thành tiền</div>
+                    <div class="orderItemStatus">Trạng thái</div>
+                    <div class="act">Hành động</div>
                 </li>`;
             case "searchPromotion":
                 return `
@@ -419,23 +420,38 @@ window.addEventListener("DOMContentLoaded", function () {
             `;
 
             case "searchOrder":
+                console.log("status"+ item.status)
                 return `
-                <div>${item.id}</div>
-                <div class="name">${item.fullName}</div>
-                <div>${item.dateOfBooking}</div>
-                <div>${formatCurrency(item.money)}</div>
-                <div class="${item.status == '1' ? 'statusT' : 'statusF'}">
-                    ${item.status == '1' ? 'Đã thanh toán' : 'Chờ thanh toán'}
-                </div>
-                <div class="menu">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="ellipsis">
-                        <div onclick="viewOrder(${item.id})">Chi tiết đơn hàng</div>
-                        <a href="removeOder?oid=${item.id}">
-                            <div>Xóa</div>
-                        </a>
+            <div class="orderItemId">${item.id}</div>
+            <div class="orderItemName">${item.fullName}</div>
+            <div class="orderItemDate">${item.dateOfBooking}</div>
+            <div class="orderItemTotal">${formatCurrency(item.money)}</div>
+            <div class="orderItemStatus">
+            <span class="orderItemS status-${item.status}">
+                ${mapStatusText(item.status)}
+            </span>
+            </div>
+             <div class="act">
+                <select class="status-update">
+                    <option value="0" ${item.status === 0 ? 'selected' : ''}>Chờ xác nhận</option>
+                    <option value="1" ${item.status === 1 ? 'selected' : ''}>Đã xác nhận</option>
+                    <option value="2" ${item.status === 2 ? 'selected' : ''}>Đang đóng gói</option>
+                    <option value="3" ${item.status === 3 ? 'selected' : ''}>Đang vận chuyển</option>
+                    <option value="4" ${item.status === 4 ? 'selected' : ''}>Hoàn tất</option>
+                    <option value="5" ${item.status === 5 ? 'selected' : ''}>Hủy đơn</option>
+                </select>
+            </div>
+            <div class="menu">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="ellipsis">
+                    <div onclick="viewOrder('${item.id}','${item.address}','${item.dateOfBooking}','${item.fullName}','${item.phone}')">
+                        Chi tiết đơn hàng
                     </div>
+                    <a href="removeOder?oid=${item.id}">
+                        <div>Xóa</div>
+                    </a>
                 </div>
+            </div>
             `;
 
             case "searchPromotion":
@@ -472,8 +488,59 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+function mapStatusText(status) {
+    switch (status) {
+        case 0: return 'Chờ xác nhận';
+        case 1: return 'Đã xác nhận';
+        case 2: return 'Đang đóng gói';
+        case 3: return 'Đang vận chuyển';
+        case 4: return 'Hoàn tất';
+        case 5: return 'Hủy đơn';
+        default: return 'Không xác định';
+    }
+}
+$(document).ready(function () {
+    $('.status-update').change(function () {
+        const newStatus = $(this).val();
+        console.log("status"+ newStatus)
+        const orderId = $(this).closest('li').find('.orderItemId').text().trim();
+        console.log("id"+orderId)
 
+        $.ajax({
+            url: '/web/UpdateStatus', // servlet URL
+            type: 'POST',
+            data: {
+                orderId: orderId,
+                status: newStatus
+            },
+            success: function (response) {
+                alert('Cập nhật trạng thái thành công!');
 
+                const statusText = getStatusText(newStatus);
+
+                // Truy cập span theo ID động
+                const $statusSpan = $('#orderItemS-' + orderId);
+                $statusSpan.text(statusText);
+                $statusSpan.attr('class', 'orderItemS status-' + newStatus);
+            },
+            error: function () {
+                alert('Cập nhật thất bại!');
+            }
+        });
+    });
+});
+// Hàm chuyển trạng thái số thành text
+function getStatusText(status) {
+    switch (status) {
+        case '0': return 'Chờ xác nhận';
+        case '1': return 'Đã xác nhận';
+        case '2': return 'Đang đóng gói';
+        case '3': return 'Đang vận chuyển';
+        case '4': return 'Hoàn tất';
+        case '5': return 'Đã hủy';
+        default: return 'Không xác định';
+    }
+}
 // Phan User
 function addUser() {
     // windowUser();
@@ -562,8 +629,9 @@ function UpdateUser(id, username, password, role, fullName, email, dateOfBirth, 
 
 // Phan Don hang
 // hien form chi tiet don hang
-async function viewOrder(orderId) {
-
+async function viewOrder(orderId,address,dateOfBooking,fullName,phone) {
+    console.log("Address"+address);
+    console.log("dateOfBooking"+dateOfBooking);
     const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
@@ -575,9 +643,8 @@ async function viewOrder(orderId) {
 
     const detailContainer = viewOrder.querySelector(".Product_List_item");
     detailContainer.innerHTML = ""; // Xóa dữ liệu cũ
-    const detailTotalAmount = viewOrder.querySelector(".TotalAmount");
-    detailTotalAmount.innerHTML = ""; // Xóa dữ liệu cũ
     let totalAmount = 0;
+
     orderDetails.forEach(detail => {
         totalAmount += detail.price * detail.quantity;
         const itemHTML = `
@@ -597,11 +664,10 @@ async function viewOrder(orderId) {
         `;
         detailContainer.innerHTML += itemHTML;
     });
-    const itemHTMLTotalAmount = `
-        <span class="text">Tổng cộng</span>
-        <span class="total" id="total">${totalAmount}VND</span>
-    `;
-    detailTotalAmount.innerHTML = itemHTMLTotalAmount;
+    viewOrder.querySelector(".total").innerText = totalAmount+'VND';
+    viewOrder.querySelector(".delivery").innerText = address;
+    viewOrder.querySelector(".deliveryDate").innerText = dateOfBooking;
+    viewOrder.querySelector(".userInf").innerText = fullName+" / "+phone;
     //
     viewOrder.style.display = "block";
 

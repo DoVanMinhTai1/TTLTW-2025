@@ -151,13 +151,14 @@
                                 <td><span class="Order_Id">${order.id}</span></td>
                                 <td><span class="OrderAddress">${order.address}</span></td>
                                 <td><span class="Order_DateBooked">${order.dateOfBooking}</span></td>
-                                <td><span class="Order_DeliveryDate"> <c:choose>
-                                    <c:when test="${order.status == 1}">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="fa-solid fa-truck-fast"></i>
-                                    </c:otherwise>
+                                <td><span class="Order_DeliveryDate status-${order.status}">  <c:choose>
+                                    <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
+                                    <c:when test="${order.status == 1}">Đã xác nhận</c:when>
+                                    <c:when test="${order.status == 2}">Đang đóng gói</c:when>
+                                    <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
+                                    <c:when test="${order.status == 4}">Hoàn tất</c:when>
+                                    <c:when test="${order.status == 5}">Đã hủy</c:when>
+                                    <c:otherwise>Không xác định</c:otherwise>
                                 </c:choose></span></td>
                                 <td><span class="Order_Money">${order.money}đ</span></td>
                                 <td>
@@ -186,6 +187,7 @@
                             <div class="DeliveryAddress">
                                 <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                             </div>
+                            <button>Đã nhận hàng</button>
                         </div>
                     </table>
                 </div>
