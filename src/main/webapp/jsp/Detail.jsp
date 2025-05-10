@@ -327,33 +327,31 @@
             <h2>Bình luận sản phẩm</h2>
 
             <div class="comment-form">
-                <textarea placeholder="Viết bình luận của bạn..."></textarea>
-                <br>
-                <button>Gửi bình luận</button>
+                <form method="post" action="addComment">
+                    <textarea name="content" placeholder="Viết bình luận của bạn..." required></textarea>
+                    <input type="hidden" name="productId" value="${p.id}" />
+                    <input type="hidden" name="userId" value="${sessionScope.user.id}" />
+                    <input type="hidden" name="userName" value="${sessionScope.user.username}" />
+                    <br>
+                    <button type="submit" name="action" value="add">Gửi bình luận</button>
+                </form>
             </div>
 
             <div class="comment-list">
-                <div class="comment">
-                    <img src="https://i.pravatar.cc/40" alt="User">
-                    <div class="comment-body">
-                        <div class="name">Nguyễn Văn A</div>
-                        <div class="date">03/05/2025</div>
-                        <div class="text">Sản phẩm rất tốt, giao hàng nhanh!</div>
-                        <div class="correction"><i class="fa-solid fa-trash"></i><i
-                                class="fa-solid fa-pen-to-square"></i></div>
+                <c:forEach var="comment" items="${commentList}">
+                    <div class="comment">
+                        <img src="<%= request.getContextPath() %>/Img/avatarUser.jpg" alt="">
+                        <div class="comment-body">
+                            <div class="name">${comment.userName}</div>
+                            <div class="date">${comment.createdAt}</div>
+                            <div class="text">${comment.content}</div>
+                            <c:if test="${sessionScope.user.id == comment.userId}">
+                                <div class="correction"><i class="fa-solid fa-trash"></i><i
+                                        class="fa-solid fa-pen-to-square"></i></div>
+                            </c:if>
+                        </div>
                     </div>
-                </div>
-
-                <div class="comment">
-                    <img src="https://i.pravatar.cc/41" alt="User">
-                    <div class="comment-body">
-                        <div class="name">Trần Thị B</div>
-                        <div class="date">02/05/2025</div>
-                        <div class="text">Đóng gói kỹ, đúng mô tả. Sẽ ủng hộ tiếp!</div>
-                        <div class="correction"><i class="fa-solid fa-trash"></i><i
-                                class="fa-solid fa-pen-to-square"></i></div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
     </div>
