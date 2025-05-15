@@ -2,7 +2,9 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.Home.Detail;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Comment;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.services.CommentServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 
 import java.io.IOException;
@@ -19,6 +21,10 @@ public class showDetail extends  HttpServlet{
         Product detail = productService.getDetail(id);
         request.setAttribute("p",detail);
         System.out.println("product in detail" + detail);
+        CommentServices commentService= new CommentServices();
+        List<Comment> commentList= commentService.getCommentsByProductId(id);
+        request.setAttribute("commentList",commentList);
+
         // Lấy mô tả sản phẩm
         List<String> descriptions = productService.getDescription(id);
         List<String> sentences = new ArrayList<>();
