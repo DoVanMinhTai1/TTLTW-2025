@@ -1156,6 +1156,48 @@ ul.products li img{
     font-size: 14px;
     margin: 5px 10px 0 0;
 }
+.comment-body .fa-pen-to-square:hover {
+ cursor: pointer;
+}
+.modalComment {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 250px;
+    border: 1px solid gainsboro;
+    margin: 30px 50px;
+    padding: 10px 20px;
+    background-color: white;
+    z-index: 1001;
+    border-radius: 5px;
+    display: none;
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+.modal-content h3{
+    background-color: white;
+}
+.modal-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.modal-buttons button {
+    margin-left: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00845c;
+}
+.modal-buttons button:hover {
+  cursor: pointer;
+}
+
 
 /*html, body {*/
 /*    padding: 0;*/

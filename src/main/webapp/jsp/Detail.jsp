@@ -245,16 +245,16 @@
     justify-content: center;
     align-items: center;
     border: none;">
-<%--                    <button class="add-later" id="add-later" style="    margin: 5px;--%>
-<%--    height: 35px;--%>
-<%--    align-items: center;--%>
-<%--    background: #7cc652;--%>
-<%--    border-radius: 5px;--%>
-<%--    font-size: 17px;--%>
-<%--    color: white;--%>
-<%--    border: none;"><a href="add-cart?pid=${p.id}" style="text-decoration: none;--%>
-<%--    color: white;">Thêm vào giỏ hàng</a>--%>
-<%--                    </button>--%>
+                    <%--                    <button class="add-later" id="add-later" style="    margin: 5px;--%>
+                    <%--    height: 35px;--%>
+                    <%--    align-items: center;--%>
+                    <%--    background: #7cc652;--%>
+                    <%--    border-radius: 5px;--%>
+                    <%--    font-size: 17px;--%>
+                    <%--    color: white;--%>
+                    <%--    border: none;"><a href="add-cart?pid=${p.id}" style="text-decoration: none;--%>
+                    <%--    color: white;">Thêm vào giỏ hàng</a>--%>
+                    <%--                    </button>--%>
                     <c:choose>
                         <c:when test="${not empty sessionScope.user}">
                             <button class="add-later" id="add-later" style="    margin: 5px;
@@ -329,9 +329,9 @@
             <div class="comment-form">
                 <form method="post" action="addComment">
                     <textarea name="content" placeholder="Viết bình luận của bạn..." required></textarea>
-                    <input type="hidden" name="productId" value="${p.id}" />
-                    <input type="hidden" name="userId" value="${sessionScope.user.id}" />
-                    <input type="hidden" name="userName" value="${sessionScope.user.username}" />
+                    <input type="hidden" name="productId" value="${p.id}"/>
+                    <input type="hidden" name="userId" value="${sessionScope.user.id}"/>
+                    <input type="hidden" name="userName" value="${sessionScope.user.username}"/>
                     <br>
                     <button type="submit" name="action" value="add">Gửi bình luận</button>
                 </form>
@@ -344,10 +344,14 @@
                         <div class="comment-body">
                             <div class="name">${comment.userName}</div>
                             <div class="date">${comment.createdAt}</div>
-                            <div class="text">${comment.content}</div>
+                            <div class="text" id="commentContent-${comment.id}">${comment.content}</div>
                             <c:if test="${sessionScope.user.id == comment.userId}">
-                                <div class="correction"><i class="fa-solid fa-trash"></i><i
-                                        class="fa-solid fa-pen-to-square"></i></div>
+                                <div class="correction">
+                                    <a href="removeComment?id=${comment.id}&pid=${p.id}"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                    <i class="fa-solid fa-pen-to-square"
+                                       onclick="updateComment(${comment.id},'${comment.content}',${p.id})"></i>
+                                </div>
                             </c:if>
                         </div>
                     </div>
@@ -437,11 +441,26 @@
         </div>
     </div>
 </div>
+<!-- Modal chỉnh sửa -->
+<div class="modalComment" id="editModal">
+    <div class="modal-content">
+        <h3>Chỉnh sửa bình luận</h3>
+        <textarea id="editTextarea" rows="4" cols="50"></textarea>
+        <div class="modal-buttons">
+            <button onclick="submitEdit()">Lưu</button>
+            <button onclick="closeEditModal()">Hủy</button>
+        </div>
+    </div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous">
+</script>
 <script>
+
     $(document).ready(function () {
         $(window).scroll(function () {
             if ($(this).scrollTop()) {
@@ -457,6 +476,52 @@
     $('#more').click(function () {
         window.location.href = "allProduct.html";
     });
+
+    let currentEditingId = null;
+    let pId = null;
+
+    function updateComment(commentId, currentText, prId) {
+        document.getElementById('editTextarea').value = currentText;
+        document.getElementById('editModal').style.display = 'flex';
+        currentEditingId = commentId;
+        pId = prId;
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+        currentEditingId = null;
+    }
+
+    function submitEdit() {
+        const newContent = document.getElementById('editTextarea').value;
+        console.log(currentEditingId);
+
+        fetch("/web/updateComment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: currentEditingId,
+                content: newContent,
+                pid: pId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Ẩn modal sau khi cập nhật thành công
+                    closeEditModal();
+
+                    // Reload lại trang để hiển thị comment đã sửa
+                    location.reload();
+                } else {
+                    alert("Lỗi: " + data.message);
+                }
+            })
+            .catch(err => {
+                console.error("Lỗi khi gửi dữ liệu:", err);
+            });
+    }
+
 
 
     function handleAddToCart(Id, productId) {
@@ -499,8 +564,6 @@
             })
         }
     }
-
-
 
 </script>
 <script>
