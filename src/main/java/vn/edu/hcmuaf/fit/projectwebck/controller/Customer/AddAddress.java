@@ -35,7 +35,6 @@ public class AddAddress extends HttpServlet {
         String userIdString = request.getParameter("userId");
         BigInteger userIdbig = new BigInteger(userIdString);
         if (userIdbig.longValue() > 10000) {
-
             String addresss = address + "," + wardAndCommune + "," + district + "," + province + "," + nation;
             // Kiểm tra trạng thái của nút "Đặt địa chỉ làm mặc định"
             // Tạo đối tượng Address và gán giá trị
@@ -68,7 +67,7 @@ public class AddAddress extends HttpServlet {
             newAddress.setUserId(userId);
             AddressServices addressServices = new AddressServices();
             addressServices.insertAddress(newAddress);
-            List<Address> listAddress = addressServices.getAllById(1);
+            List<Address> listAddress = addressServices.getAllById(userId);
             request.setAttribute("listAddress", listAddress);
 
             // Forward về trang quản lý địa chỉ
