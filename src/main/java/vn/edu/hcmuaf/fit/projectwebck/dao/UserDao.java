@@ -88,6 +88,17 @@ public class UserDao {
                 .bind("id", user.getId())
                 .execute());
     }
+
+    public void updatePasswordWithSalt(User user) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> handle.createUpdate(
+                        "UPDATE users SET password = :password, salt = :salt WHERE id = :id")
+                .bind("password", user.getPassword())
+                .bind("salt", user.getSalt())
+                .bind("id", user.getId())
+                .execute());
+    }
+
     public List<User> searchByName(String name) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM users WHERE fullName LIKE :name")
@@ -160,6 +171,25 @@ public class UserDao {
                         .findOne()
                         .orElse(null)
         );
+    }
+
+    public User findUserByEmailAndId(String email, String userIdStr) {
+        Jdbi jdbi = JDBIConect.get();
+        try {
+            int userId = Integer.parseInt(userIdStr);
+            return jdbi.withHandle(handle ->
+                    handle.createQuery("SELECT * FROM users WHERE email = :email AND id = :id")
+                            .bind("email", email)
+                            .bind("id", userId)
+                            .mapToBean(User.class)
+                            .findOne()
+                            .orElse(null)
+            );
+        } catch (NumberFormatException e) {
+            // Xử lý khi userIdStr không phải là số hợp lệ
+            System.err.println("ID người dùng không hợp lệ: " + userIdStr);
+            return null;
+        }
     }
 
     public String checkPhoneInDatabase(String phone) {
