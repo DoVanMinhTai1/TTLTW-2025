@@ -15,8 +15,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--%>
+<%--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js" defer></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Customer.css">
 </head>
@@ -248,6 +253,7 @@
                                     <a href="removeAddress?addressId=${address.id}">
                                         <span class="Delete">Xóa</span>
                                     </a>
+                                    <button onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa chỉ mặc định</button>
                                 </c:if>
                             </div>
                         </div>
@@ -303,6 +309,25 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="setOriginAddressModal" tabindex="-1" aria-labelledby="setOriginAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setOriginAddressModalLabel">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="setOriginAddressModalBody">
+                <!-- message inserted dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
@@ -311,6 +336,35 @@
         navigationbarClick('<%= runScript %>');
         <% } %>
     };
+    function updateAddressOrigin(id,userId) {
+            $.ajax({
+                url: "updateAddressOrigin",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    id: id,
+                    userId: userId
+                }),
+                success: function () {
+                    document.getElementById('setOriginAddressModalBody').textContent = 'Đã đặt địa chỉ mặc định thành công!';
+                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                    modal.show();
+
+                    // Optionally reload page after a short delay
+                    setTimeout(() => {
+                        modal.hide();
+                        location.reload();
+                    }, 2500);
+
+                },
+                error: function () {
+                    // Show error message
+                    document.getElementById('setOriginAddressModalBody').textContent = 'Có lỗi xảy ra khi cập nhật địa chỉ mặc định!';
+                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                    modal.show();                }
+            })
+    }
+
 </script>
 
 </body>
