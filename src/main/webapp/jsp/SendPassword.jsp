@@ -36,6 +36,10 @@
   <div class="form-container resetPassword-container">
     <form action="${pageContext.request.contextPath}/sendPassword" method="post" id="resetPasswordForm">
       <h1>Đặt Lại Mật Khẩu</h1>
+      <input type="hidden" name="userId" value="${userId}">
+      <input type="hidden" name="email" value="${email}">
+      <input type="hidden" name="token" value="${token}">
+
       <input type="password" placeholder="Mật khẩu mới" name ="newPassword" required/>
       <input type="password" placeholder="Nhập lại mật khẩu mới" name ="confirmPassword" required/>
       <a href="showLogin">Quay Lại Đăng Nhập</a>
