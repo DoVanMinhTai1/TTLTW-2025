@@ -6,9 +6,13 @@ import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
 
 @WebServlet(name = "login", value = "/login")
 public class login extends HttpServlet {
@@ -36,7 +40,14 @@ public class login extends HttpServlet {
         UserServices userService = new UserServices();
         User user = userService.findUserByUsername(username);
         if (user != null) {
-            String hashedPassword = hashPassword(password);
+            String saltBase64 = user.getSalt();
+            String hashedPassword;
+            if (saltBase64 == null || saltBase64.isEmpty()) {
+                hashedPassword = hashPassword(password);
+            } else {
+                byte[] salt = Base64.getDecoder().decode(saltBase64);
+                hashedPassword = hashPBKDF2(password, salt);
+            }
             if (hashedPassword.equals(user.getPassword())) {
                 session.setAttribute("user", user);
                 if (user.getRole() == 1 || user.getRole() == 2) {
@@ -71,6 +82,16 @@ public class login extends HttpServlet {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        }
+    }
+    private String hashPBKDF2(String password, byte[] salt) {
+        try {
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi hash PBKDF2", e);
         }
     }
 }
