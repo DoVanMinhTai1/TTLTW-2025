@@ -193,6 +193,7 @@ function UpdateAddress(id,name,address,phone,origin,company) {
 
 }
 
+
 function closeAddress() {
     const overlay = document.getElementById("overlay");
     const newAddress = document.getElementById("Addnewaddress");

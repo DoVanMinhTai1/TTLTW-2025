@@ -5,6 +5,7 @@ import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Stock;
+import vn.edu.hcmuaf.fit.projectwebck.dto.stock.StockKey;
 
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class StockDao {
         );
         return rowsAffected > 0;
     }
-
 
     public void insertStock(List<Stock> stocks) {
         Jdbi jdbi = JDBIConect.get();
@@ -63,5 +63,34 @@ public class StockDao {
         return rowsAffected > 0;
     }
 
+    public Stock findById(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM stocks WHERE productId = :productId")
+                        .bind("productId", productId)
+                        .mapToBean(Stock.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    public Stock findBy(StockKey key) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM stocks WHERE productId = :productId " +
+                                "AND addressLine = :addressLine " +
+                                "AND district = :district " +
+                                "AND stateOrProvince = :stateOrProvince " +
+                                "AND Country = :country")
+                        .bind("productId", key.getProductId())
+                        .bind("addressLine", key.getAddressLine())
+                        .bind("district", key.getDistrict())
+                        .bind("stateOrProvince", key.getStateOrProvince())
+                        .bind("country", key.getCountry())
+                        .mapToBean(Stock.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
 }

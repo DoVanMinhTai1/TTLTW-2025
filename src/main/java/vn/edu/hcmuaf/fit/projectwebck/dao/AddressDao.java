@@ -86,6 +86,25 @@ public class AddressDao {
                 .execute());
     }
 
+    public boolean updateAddressOrigin(int id, int userId) {
+        String sql = "UPDATE address SET origin = 0 WHERE userId = :userId AND origin = 1";
+        Jdbi jdbi = JDBIConect.get();
+        try {
+            jdbi.useHandle(handle -> {
+                handle.createUpdate(sql)
+                        .bind("userId", userId)
+                        .execute();
+                handle.createUpdate("UPDATE address SET origin = 1 WHERE id = :id AND userId = :userId")
+                        .bind("id", id)
+                        .bind("userId", userId)
+                        .execute();
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 //    public Address getByIdThirtyOrigin(String userId) {
 //        return null;
 //    }

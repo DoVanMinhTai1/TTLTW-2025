@@ -39,4 +39,8 @@ public class AddressServices {
     public Address getByIdThirtyOrigin(String userId) {
         return addressDao.getByThirtyPartyId(userId);
     }
+
+    public boolean updateAddressOrigin(int id, int userId) {
+        return addressDao.updateAddressOrigin(id,userId);
+    }
 }
