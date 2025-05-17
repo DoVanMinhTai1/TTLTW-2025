@@ -499,7 +499,8 @@
                         <div class="orderItemDate">${order.dateOfBooking}</div>
                         <div class="orderItemTotal"><f:formatNumber value="${order.money}" type="number"
                                                                     pattern="#,##0VND"/></div>
-                        <div class="orderItemStatus "><span class="orderItemS status-${order.status}" id="orderItemS-${order.id}"> <c:choose>
+                        <div class="orderItemStatus "><span class="orderItemS status-${order.status}"
+                                                            id="orderItemS-${order.id}"> <c:choose>
                             <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
                             <c:when test="${order.status == 1}">Đã xác nhận</c:when>
                             <c:when test="${order.status == 2}">Đang đóng gói</c:when>
@@ -726,40 +727,40 @@
         <div class="AdminListStock select mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Quản lý kho hàng</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStock">Thêm sản
                     phẩm vào kho hàng
                 </button>
+                <input type="file" id="input-excel" />
+    <button onclick="addStock()">Test</button>
             </div>
             <table id="stockTable" class="table table-striped">
                 <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Tên sản phẩm</th>
-                    <th>Loại giảm giá</th>
-                    <th>Phần trăm giảm giá</th>
-                    <th>Giảm giá theo tiền tệ</th>
-                    <th>Gía sau khi giảm</th>
-                    <th>Ngày bắt đầu</th>
-                    <th>Ngày kết thúc</th>
+                    <th>Số lượng</th>
+                    <th>Tên Kho hàng</th>
+                    <th>Địa chỉ</th>
+                    <th>Quận</th>
                     <th></th>
                 </tr>
 
                 </thead>
 
                 <tbody>
-                <c:forEach var="productDiscount" items="${productWithDiscount}">
+                <c:forEach var="stock" items="${stocks}">
                     <tr>
-                        <td>${productDiscount.nameProduct}</td>
-                        <td>${productDiscount.discoutType}</td>
-                        <td>${productDiscount.discountPercentage}</td>
-                        <td>${productDiscount.price}</td>
-                        <td>abc</td>
-                        <td>${productDiscount.startDate}</td>
-                        <td>${productDiscount.endDate}</td>
+                        <td>${stock.id}</td>
+                        <td>${stock.productId}</td>
+                        <td>${stock.quantity}</td>
+                        <td>${stock.name}</td>
+                        <td>${stock.addressLine }</td>
+                        <td>${stock.district}</td>
                         <td>
-                            <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
+                            <button onclick="deleteStock(${stock.id})">Xóa sản phẩm kho hàng
                             </button>
-                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cật
-                                nhật sản phẩm giảm giá
+                            <button class="btn btn-primary" onclick="getStockById(${stock.prouctId})">Cật
+                                nhật kho hàng
                             </button>
                                 <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
                         </td>
@@ -767,6 +768,45 @@
                 </c:forEach>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addStock" tabindex="-1" aria-labelledby="addStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStockModalLabel">Thêm kho hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="stockForm">
+                    <div class="mb-3">
+                        <label for="productSelect" class="form-label">Tên sản phẩm</label>
+                        <select class="form-control" id="productStockSelect" required>
+                            <option value="">-- Chọn sản phẩm --</option>
+                            <!-- Load option bằng Ajax -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="quantityProductStock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="warehouseName" class="form-label">Tên kho hàng</label>
+                        <input type="text" class="form-control" id="warehouseName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="warehouseAddress" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="warehouseAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="district" class="form-label">Quận</label>
+                        <input type="text" class="form-control" id="district" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -896,8 +936,87 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script>
+    let extractData = []
+        document.getElementById("input-excel").addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (env) {
+                const data = env.target.result;
+                const workbook = XLSX.read(data, { type: 'binary' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const extractedData = XLSX.utils.sheet_to_json(worksheet);
+                extractData = extractedData;
+                console.log("Extracted:", extractedData); // ✅ Should appear
+            };
+
+            reader.readAsBinaryString(file); // ✅ Required
+        });
+
+    function addStock() {
+        $.ajax({
+            url: "UploadStock",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({stocks : extractData}),
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+
+    // document.getElementById('excelFile').addEventListener('change', function (e) {
+    //     const file = e.target.files[0];
+    //     const reader = new FileReader();
+    //
+    //     reader.onload = function (event) {
+    //         const data = new Uint8Array(event.target.result);
+    //         const workbook = XLSX.read(data, { type: 'array' });
+    //
+    //         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    //         const products = XLSX.utils.sheet_to_json(firstSheet);
+    //
+    //         console.log(products); // Each row in Excel becomes one object
+    //         // You can now send this data to the server via AJAX
+    //         // or display a preview
+    //     };
+    //
+    //     reader.readAsArrayBuffer(file);
+    // });
+
+    // let extractData = []
+    // document.getElementById('input-excel').addEventListener('change', function (e) {
+    //     const file = e.target.files[0];
+    //
+    //     const reader = new FileReader();
+    //     reader.onLoad = function (event) {
+    //         const content = event.target.result;
+    //
+    //         const data = new Uint8Array(content);
+    //
+    //         const workbook = XLSX.read(data, { type: 'binary' });
+    //
+    //         const firstSheet = workbook.Sheets[workbook.SheetsName[0]];
+    //         const product = XLSX.utils.sheet_to_json(firstSheet);
+    //         console.log("✅ Extracted data:", product);
+    //
+    //         extractData.push(product);
+    //         console.log(product);
+    //
+    //     }
+    //         reader.readAsArrayBuffer(file);
+    //
+    // })
 
     let isProductLoaded = false;
 
