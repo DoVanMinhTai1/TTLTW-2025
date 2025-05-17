@@ -31,7 +31,7 @@ public class EmailVerificationTokenDao {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM emailverificationtokens WHERE token = :token AND isUsed = false AND expiresAt > NOW()")
                         .bind("token", token)
-                        .mapTo(EmailVerificationToken.class)
+                        .mapToBean(EmailVerificationToken.class)
                         .findOne()
                         .orElse(null)
         );
@@ -40,7 +40,7 @@ public class EmailVerificationTokenDao {
     public void markAsUsed(String email, String token) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useTransaction(handle ->
-                handle.createUpdate("UPDATE emailverificationtokens SET isUsed = true WHERE token = :token")
+                handle.createUpdate("UPDATE emailverificationtokens SET isUsed = true WHERE token = :token AND email = :email")
                         .bind("email", email)
                         .bind("token", token)
                         .execute()
