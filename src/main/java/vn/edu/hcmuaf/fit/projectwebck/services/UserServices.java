@@ -37,9 +37,12 @@ public class UserServices {
         return userDao.updateUserCustomer(id, name, email, phone);
     }
 
-
     public void updatePassword(User user) {
         userDao.updatePassword(user);
+    }
+
+    public void updatePasswordWithSalt(User user) {
+        userDao.updatePasswordWithSalt(user);
     }
 
     public List<User> searchByName(String name) {
@@ -75,5 +78,6 @@ public class UserServices {
     }
 
     public User findUserByEmailAndUsername(String email, String username) {return userDao.findUserByEmailAndUsername(email, username);}
+    public User findUserByEmailAndId(String email, String userIdStr) {return userDao.findUserByEmailAndId(email, userIdStr);}
 
 }

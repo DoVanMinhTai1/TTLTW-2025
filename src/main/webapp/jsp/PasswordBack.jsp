@@ -23,13 +23,14 @@
 <h2>Chào Mừng Đến Với Nông Lâm Food</h2>
 <%-- Hiển thị thông báo nếu có --%>
 <%
-  String message = (String) request.getAttribute("message");
+  String message = (String) session.getAttribute("message");
   if (message != null) {
 %>
 <div class="alert">
   <p><%= message %></p>
 </div>
 <%
+    session.removeAttribute("message");
   }
 %>
 <div class="container" id="container">

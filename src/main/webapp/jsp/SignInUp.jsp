@@ -21,13 +21,13 @@
 </head>
 <body>
 <%
-  String message = (String) request.getAttribute("message");
+  String message = (String) session.getAttribute("message");
   if (message != null) {
 %>
 <div style="color: green;">
   <%= message %>
 </div>
-<% } %>
+<% session.removeAttribute("message"); } %>
 <h2>Chào Mừng Đến Với Nông Lâm Food</h2>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
@@ -39,10 +39,10 @@
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>hoặc sử dụng số điện thoại của bạn để đăng ký</span>
-      <input type="text" placeholder="Tên người dùng" name="username"/>
-      <input type="text" placeholder="Email" name="email"/>
-      <input type="text" placeholder="Số điện thoại" name="phone"/>
-      <input type="password" placeholder="Mật khẩu" name="password"/>
+      <input type="text" placeholder="Tên người dùng" name="username" required/>
+      <input type="text" placeholder="Email" name="email" required/>
+      <input type="text" placeholder="Số điện thoại" name="phone" required/>
+      <input type="password" placeholder="Mật khẩu" name="password" required/>
       <button type="submit" >Đăng Kí</button>
     </form>
   </div>
@@ -61,8 +61,8 @@
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>hoặc sử dụng tài khoản của bạn</span>
-      <input type="text" placeholder="Tên người dùng" name = "username" />
-      <input type="password" placeholder="Mật khẩu" name ="password" />
+      <input type="text" placeholder="Tên người dùng" name = "username" required/>
+      <input type="password" placeholder="Mật khẩu" name ="password" required/>
       <input type="text" placeholder="Captcha" name ="captcha" />
       <img src="CaptchaServlet" alt="CAPTCHA Image">
       <a href="passwordBack">Quên mật khẩu?</a>

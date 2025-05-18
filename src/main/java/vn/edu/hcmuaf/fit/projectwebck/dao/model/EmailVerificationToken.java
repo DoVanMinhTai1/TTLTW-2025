@@ -13,6 +13,8 @@ public class EmailVerificationToken {
         this.email = email;
         this.token = token;
     }
+    public EmailVerificationToken() {
+    }
 
     public int getId() {
         return id;
