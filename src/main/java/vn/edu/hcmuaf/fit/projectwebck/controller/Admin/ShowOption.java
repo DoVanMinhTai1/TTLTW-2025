@@ -88,8 +88,8 @@ public class ShowOption extends HttpServlet {
                 request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
             case "option7":
-                List<Stock> allStocks = stockService.getAllStocks();
-                request.setAttribute("stocks", allStocks);
+//                List<Stock> allStocks = stockService.getAllStocks();
+//                request.setAttribute("stocks", allStocks);
                 request.getRequestDispatcher("Admin.jsp?runScript=option7").forward(request,response);
                 break;
 

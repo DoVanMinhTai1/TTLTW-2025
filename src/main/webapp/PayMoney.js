@@ -39,6 +39,8 @@ async function submitForm() {
         maximumFractionDigits: 0
     }).replace(/\./g, ',')+"đ";
 }
+let currentOrderId = null;
+
 async function order(userId, addressId,fromCart) {
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
@@ -101,10 +103,46 @@ async function order(userId, addressId,fromCart) {
                 })
             })
         }
+        currentOrderId = result;
     } else {
         const errorResponse = await response.json();
         console.error("Lỗi từ server:", errorResponse);
         alert(`Đặt hàng thất bại: ${errorResponse.message || "Lỗi không xác định."}`);
     }
 
+
+}
+function exportPdf() {
+    if (!currentOrderId) {
+        alert("Cannot export PDF without an order ID.");
+        return;
+    }
+
+    fetch('/web/exportPdf', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderId: currentOrderId })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to generate PDF');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'order.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Export failed');
+        });
 }
