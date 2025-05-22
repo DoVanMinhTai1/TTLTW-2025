@@ -295,12 +295,14 @@ td .OrderAddress {
     cursor: pointer;
 
 }
-td .OrderAddress:hover{
+
+td .OrderAddress:hover {
     white-space: normal;
     overflow: visible;
     text-overflow: unset;
     z-index: 1;
 }
+
 .Detail:hover i,
 .Detail:hover span {
     cursor: pointer;
@@ -321,7 +323,11 @@ td .Detail .fa-solid {
     color: white;
     border-radius: 10px;
     border: none;
+    cursor: pointer;
+}
 
+.OderWindow button:hover {
+    background-color: #4CAF50;
 }
 
 .status-0 {

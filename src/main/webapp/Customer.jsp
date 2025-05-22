@@ -168,7 +168,7 @@
                                 <td><span class="Order_Money">${order.money}đ</span></td>
                                 <td>
                                     <div class="Detail"
-                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}')">
+                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.status}','${sessionScope.user.id}')">
                                         <i class="fa-regular fa-eye"></i><span>Xem</span>
                                     </div>
                                 </td>
@@ -192,7 +192,8 @@
                             <div class="DeliveryAddress">
                                 <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                             </div>
-                            <button>Đã nhận hàng</button>
+                            <button class="confirm" ></button>
+                            <button class="cancelOrder"></button>
                         </div>
                     </table>
                 </div>
@@ -305,20 +306,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="setOriginAddressModal" tabindex="-1" aria-labelledby="setOriginAddressModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="setOriginAddressModalLabel">Thông báo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="setOriginAddressModalBody">
-                <!-- message inserted dynamically -->
             </div>
         </div>
     </div>
