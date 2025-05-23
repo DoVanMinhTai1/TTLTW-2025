@@ -4,6 +4,8 @@ import java.io.*;
 
 import com.google.gson.JsonObject;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.ServletException;
@@ -39,37 +41,59 @@ public class ExportOrderPdf extends HttpServlet {
             PdfWriter.getInstance(document, response.getOutputStream());
             document.open();
 
-            Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-            document.add(new Paragraph("Đơn Hàng", titleFont));
+            String fontPath = getServletContext().getRealPath("/arial-font/arial.ttf"); // ensure this exists
+            BaseFont baseFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font titleFont = new Font(baseFont, 18, Font.BOLD);
+            Font cellFont = new Font(baseFont, 10);
+
+            // Add centered title using table
+            PdfPTable titleTable = new PdfPTable(1);
+            titleTable.setWidthPercentage(100f);
+            PdfPCell titleCell = new PdfPCell(new Phrase("Đơn Hàng", titleFont));
+            titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            titleCell.setBorder(Rectangle.NO_BORDER);
+            titleCell.setPaddingBottom(10f);
+            titleTable.addCell(titleCell);
+            document.add(titleTable);
+
             document.add(Chunk.NEWLINE);
 
-            PdfPTable table = new PdfPTable(10);
+            PdfPTable table = new PdfPTable(2);
             table.setWidthPercentage(100);
             table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+            table.setWidths(new float[]{2f, 5f}); // wider value column
 
-            // Header row
-            table.addCell("Order ID");
-            table.addCell("User ID");
-            table.addCell("Booking Date");
-            table.addCell("Money");
-            table.addCell("Status");
-            table.addCell("Address ID");
-            table.addCell("Full Name");
-            table.addCell("Phone");
-            table.addCell("Address");
-            table.addCell("Third Party ID");
+            // Add order details
+            table.addCell(new Phrase("Order ID"));
+            table.addCell(new Phrase(String.valueOf(order.getId())));
 
-            table.addCell(String.valueOf(order.getId()));
-            table.addCell(String.valueOf(order.getUserId()));
-            table.addCell(order.getDateOfBooking());
-            table.addCell(String.valueOf(order.getMoney()));
-            table.addCell(String.valueOf(order.getStatus()));
-            table.addCell(String.valueOf(order.getAddressId()));
-            table.addCell(order.getFullName());
-            table.addCell(order.getPhone());
-            table.addCell(order.getAddress());
-            table.addCell(order.getThirty_party_id());
+            table.addCell(new Phrase("User ID"));
+            table.addCell(new Phrase(String.valueOf(order.getUserId())));
 
+            table.addCell(new Phrase("Booking Date"));
+            table.addCell(new Phrase(order.getDateOfBooking()));
+
+            table.addCell(new Phrase("Money"));
+            table.addCell(new Phrase(String.valueOf(order.getMoney())));
+
+            table.addCell(new Phrase("Status"));
+            table.addCell(new Phrase(String.valueOf(order.getStatus())));
+
+            table.addCell(new Phrase("Address ID"));
+            table.addCell(new Phrase(String.valueOf(order.getAddressId())));
+
+            table.addCell(new Phrase("Full Name"));
+            table.addCell(new Phrase(order.getFullName()));
+
+            table.addCell(new Phrase("Phone"));
+            table.addCell(new Phrase(order.getPhone()));
+
+            table.addCell(new Phrase("Address"));
+            table.addCell(new Phrase(order.getAddress()));
+
+            table.addCell(new Phrase("Third Party ID"));
+            table.addCell(new Phrase(order.getThirty_party_id()));
             document.add(table);
 
         } catch (DocumentException e) {
