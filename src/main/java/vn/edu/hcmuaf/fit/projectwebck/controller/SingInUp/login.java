@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Role;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
@@ -50,11 +51,20 @@ public class login extends HttpServlet {
             }
             if (hashedPassword.equals(user.getPassword())) {
                 session.setAttribute("user", user);
-                if (user.getRole() == 1 || user.getRole() == 2) {
-                    response.sendRedirect("showAdmin");
-                } else {
-                    response.sendRedirect("showHome");
-                }
+               int role = user.getRole();
+               switch (role){
+                   case Role.USER:
+                       response.sendRedirect("showHome");
+                       break;
+                   case Role.ADMIN:
+                   case Role.MOD_VEGETABLES:
+                   case Role.MOD_USERS:
+                   case Role.MOD_ORDERS:
+                   case Role.MOD_PROMOTIONS:
+                   case Role.MOD_PRODUCT_PROMOTION:
+                       response.sendRedirect("showAdmin");
+                       break;
+               }
             }
             else {
                 request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
