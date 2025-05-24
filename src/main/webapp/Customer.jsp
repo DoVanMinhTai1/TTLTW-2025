@@ -148,6 +148,7 @@
                             <th>Trạng thái</th>
                             <th>Tổng Thanh Toán</th>
                             <th>Chi Tiết</th>
+                            <th>Xuất pdf</th>
                         </tr>
                         </thead>
                         <tbody id="OrderTableBody">
@@ -172,6 +173,12 @@
                                         <i class="fa-regular fa-eye"></i><span>Xem</span>
                                     </div>
                                 </td>
+                                <td>
+                                    <button class="ExportBtn" onclick="exportPdf(${order.id})">
+                                        <i class="fa-solid fa-file-pdf"></i> PDF
+                                    </button>
+                                </td>
+
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -351,7 +358,40 @@
                     modal.show();                }
             })
     }
+    function exportPdf(orderId) {
+        if (!orderId) {
+            alert("Cannot export PDF without an order ID.");
+            return;
+        }
 
+        fetch('/web/exportPdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderId: orderId })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to generate PDF');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'order.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Export failed');
+            });
+    }
 </script>
 
 </body>
