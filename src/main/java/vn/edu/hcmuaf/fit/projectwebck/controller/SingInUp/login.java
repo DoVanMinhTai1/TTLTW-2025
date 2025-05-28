@@ -26,14 +26,22 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            session = request.getSession();
+            System.out.println("Login: Created new session ID = " + session.getId());
+        } else {
+            System.out.println("Login: Using session ID = " + session.getId());
+        }
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String userCaptcha = request.getParameter("captcha");
+        String userCaptcha = request.getParameter("captcha")!= null ? request.getParameter("captcha").trim() : "";;
 //        User user = userService.login(username, password);
         String captchaSession = (String) session.getAttribute("captcha");
         // Kiểm tra CAPTCHA trước khi xử lý đăng nhập
-        if (captchaSession == null || !captchaSession.equals(userCaptcha)) {
+        System.out.println("Login: Session CAPTCHA = " + captchaSession + ", User CAPTCHA = " + userCaptcha);
+        if (captchaSession == null || !captchaSession.equalsIgnoreCase(userCaptcha)) {
             request.setAttribute("errorMessage", "CAPTCHA không chính xác.");
             request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
             return; // Dừng xử lý nếu CAPTCHA sai
@@ -51,17 +59,17 @@ public class login extends HttpServlet {
             }
             if (hashedPassword.equals(user.getPassword())) {
                 session.setAttribute("user", user);
-               int role = user.getRole();
+               Role role = Role.fromId(user.getRole());
                switch (role){
-                   case Role.USER:
+                   case USER:
                        response.sendRedirect("showHome");
                        break;
-                   case Role.ADMIN:
-                   case Role.MOD_VEGETABLES:
-                   case Role.MOD_USERS:
-                   case Role.MOD_ORDERS:
-                   case Role.MOD_PROMOTIONS:
-                   case Role.MOD_PRODUCT_PROMOTION:
+                   case ADMIN:
+                   case MOD_VEGETABLES:
+                   case MOD_USERS:
+                   case MOD_ORDERS:
+                   case MOD_PROMOTIONS:
+                   case MOD_PRODUCT_PROMOTION:
                        response.sendRedirect("showAdmin");
                        break;
                }
