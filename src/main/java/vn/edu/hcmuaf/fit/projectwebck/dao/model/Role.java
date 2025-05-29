@@ -15,7 +15,8 @@ public enum Role {
     MOD_ORDERS(4, "Quản lý đơn hàng", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_ORDERS"))),
     MOD_PROMOTIONS(5, "Quản lý khuyến mãi", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_PROMOTIONS"))),
     MOD_PRODUCT_PROMOTION(6, "Quản lý sản phẩm giảm giá", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_PRODUCT_PROMOTION"))),
-    GUEST(7, "Khách", new HashSet<>(Arrays.asList("VIEW_HOME")));
+    MOD_STOCK(7, "Quản lý kho", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_STOCK"))),
+    GUEST(8, "Khách", new HashSet<>(Arrays.asList("VIEW_HOME")));
 
     private final int id;
     private final String name;
