@@ -10,7 +10,7 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "getPermissions", value = "/lab4/getPermissions")
+@WebServlet(name = "getPermissions", value = "/getPermissions")
 public class GetPermissions extends HttpServlet {
 
     @Override
