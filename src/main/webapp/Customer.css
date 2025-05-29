@@ -122,7 +122,7 @@ html, body {
 }
 
 .CustomerPageConttenNavigationbarContent {
-    overflow: hidden;
+    /*overflow: hidden;*/
     width: 76%;
     float: right;
     position: relative;
@@ -262,8 +262,14 @@ th {
     background-color: #7cc652;
 }
 
-th:nth-child(1), td:nth-child(1), th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) {
+th:nth-child(1), td:nth-child(1), th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5) {
     width: 120px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 130px;
     text-align: center;
     font-size: 14px;
 }
@@ -290,6 +296,13 @@ td .OrderAddress {
 
 }
 
+td .OrderAddress:hover {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    z-index: 1;
+}
+
 .Detail:hover i,
 .Detail:hover span {
     cursor: pointer;
@@ -300,6 +313,59 @@ td .Detail .fa-solid {
     margin: 0;
 }
 
+.Order_DeliveryDate {
+    border-radius: 5px;
+}
+
+.OderWindow button {
+    padding: 5px;
+    background-color: #00845c;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.OderWindow button:hover {
+    background-color: #4CAF50;
+}
+
+.status-0 {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+/* Chờ xác nhận - vàng */
+.status-1 {
+    background-color: #5bc0de;
+    color: white;
+}
+
+/* Đã xác nhận - xanh dương nhạt */
+.status-2 {
+    background-color: #0275d8;
+    color: white;
+}
+
+/* Đang đóng gói - xanh đậm */
+.status-3 {
+    background-color: #00845c;
+    color: white;
+}
+
+/* Đang vận chuyển - xanh lá */
+.status-4 {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Hoàn tất - xanh lục */
+.status-5 {
+    background-color: #d9534f;
+    color: white;
+}
+
+/* Hủy đơn - đỏ */
 /*Doi mat khau*/
 .ChangePassword {
     display: none;
@@ -377,6 +443,7 @@ input:focus {
 }
 
 .AddressBookDetail {
+    margin-bottom: 20px;
     height: 100px;
     padding: 15px 0 15px 10px;
     border-bottom: solid 1px gainsboro;
@@ -388,9 +455,11 @@ input:focus {
 }
 
 .AddressBookDetailOmega {
-    width: 25%;
-    float: right;
+    /*width: 25%;*/
+    /*float: right;*/
+    width: auto;
 }
+
 
 .AddressBookDetailAphal {
     font-weight: 600;
@@ -416,9 +485,9 @@ input:focus {
     margin-bottom: 5px;
 }
 
-.AddressBookDetailOmega {
-    margin-top: 45px;
-}
+/*.AddressBookDetailOmega {*/
+/*    margin-top: 45px;*/
+/*}*/
 
 .AddressBookDetailOmega .Edit {
     margin: 0 15px;

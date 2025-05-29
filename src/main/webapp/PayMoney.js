@@ -39,26 +39,29 @@ async function submitForm() {
         maximumFractionDigits: 0
     }).replace(/\./g, ',')+"đ";
 }
-async function order(userId, addressId, total) {
+let currentOrderId = null;
+
+async function order(userId, addressId,fromCart) {
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
     const userId1 = userId;
     // Tạo object để lưu productId, quantity, và price
     const cartMap = {};
-
+    const rawTotal = document.getElementById('total').innerText;
+    const numericTotal = parseInt(rawTotal.replace(/[^\d]/g, ''));
     // Duyệt qua từng sản phẩm và thêm vào cartMap
+    const productList = [];
     items.forEach(item => {
         const productId = parseInt(item.getAttribute('data-id'));
         const quantity = parseInt(item.getAttribute('data-quantity'));
         const price = parseFloat(item.getAttribute('data-price')); // Lấy giá
 
         cartMap[productId] = { quantity: quantity, price: price };
+        productList.push({
+            productId: productId
+        })
     });
 
-    console.log("Dữ liệu gửi đi:", cartMap);
-    console.log(userId.toString());
-    console.log(addressId);
-    console.log(total);
     const response = await fetch(`/web/addOrder`, {
         method: "POST",
         headers: {
@@ -68,7 +71,7 @@ async function order(userId, addressId, total) {
             userId: userId1,
             addressId: addressId,
             cartMap: cartMap,
-            total: total
+            total: numericTotal
         })
     });
 
@@ -83,10 +86,63 @@ async function order(userId, addressId, total) {
         overlay.id = "overlay";
         document.body.appendChild(overlay);
         newAddress.style.display = "block";
+        if(fromCart === 'true') {
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/web/RemoveCartList',
+                    type: 'POST',
+                    data: JSON.stringify(
+                        productList
+                    ),
+                    success: function () {
 
+                    },
+                    error: function () {
+
+                    }
+                })
+            })
+        }
+        currentOrderId = result;
     } else {
         const errorResponse = await response.json();
         console.error("Lỗi từ server:", errorResponse);
         alert(`Đặt hàng thất bại: ${errorResponse.message || "Lỗi không xác định."}`);
     }
+
+
+}
+function exportPdf() {
+    if (!currentOrderId) {
+        alert("Cannot export PDF without an order ID.");
+        return;
+    }
+
+    fetch('/web/exportPdf', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderId: currentOrderId })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to generate PDF');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'order.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Export failed');
+        });
 }

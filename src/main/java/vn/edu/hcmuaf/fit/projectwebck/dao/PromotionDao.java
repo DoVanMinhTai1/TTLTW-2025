@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
@@ -12,9 +13,12 @@ public class PromotionDao {
     // Lấy tất cả các chương trình khuyến mãi
     public List<Promotion> getAllPromotions() {
         Jdbi jdbi = JDBIConect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM promotions")
-                .mapToBean(Promotion.class)
-                .list());
+        //Trả về danh sách các khuyến mãi còn hạn
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM promotions WHERE CURRENT_DATE BETWEEN startDate AND endDate")
+                        .mapToBean(Promotion.class)
+                        .list()
+        );
     }
     // Lấy danh sách các mã giảm giá của user theo userId
     public List<Promotion> getPromotionsByUserId(int userId) {
@@ -23,7 +27,7 @@ public class PromotionDao {
                         "SELECT p.id, p.name, p.startdate, p.enddate, p.description " +
                                 "FROM promotionuser pu " +
                                 "INNER JOIN promotions p ON pu.promotionId = p.id " +
-                                "WHERE pu.userId = :userId")
+                                "WHERE pu.userId = :userId AND CURRENT_DATE BETWEEN p.startDate AND p.endDate")
                 .bind("userId", userId)
                 .mapToBean(Promotion.class)
                 .list());
@@ -35,33 +39,74 @@ public class PromotionDao {
     public Integer getPromotionByUser(int userId, int proId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle -> handle.createQuery(
-                        "SELECT p.value FROM promotionuser pu INNER JOIN promotions p ON pu.promotionId = p.id WHERE pu.userId = :userId AND pu.promotionId = :proId")
+                        "SELECT p.value FROM promotionuser pu INNER JOIN promotions p ON pu.promotionId = p.id WHERE pu.userId = :userId AND pu.promotionId = :proId AND p.quantity > 0 AND CURRENT_DATE BETWEEN p.startDate AND p.endDate")
                 .bind("userId", userId)
                 .bind("proId", proId)
                 .mapTo(Integer.class)
                 .findOne()
                 .orElse(0));  // Trả về 0 nếu không tìm thấy
     }
-    public void updatePromotionByUser(int userId, int proId, int num) {
+    public void updatePromotionByUser(int proId, int quantity) {
         Jdbi jdbi = JDBIConect.get();
         jdbi.useHandle(handle ->
-                handle.createUpdate("UPDATE promotionuser SET num = :num WHERE userId = :userId AND promotionId = :proId")
-                        .bind("num", num)
-                        .bind("userId", userId)
+                handle.createUpdate("UPDATE promotions SET quantity = :quantity WHERE  id = :proId")
+                        .bind("num", quantity)
                         .bind("proId", proId)
                         .execute()
         );
     }
+    //
+    public void insertPromotionUserList(int promotionId, List<Integer> userIds) {
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            // Chuẩn bị lệnh insert
+            PreparedBatch batch = handle.prepareBatch(
+                    "INSERT INTO promotionuser (userId, promotionId) VALUES (:userId, :promotionId)"
+            );
+
+            for (Integer userId : userIds) {
+                batch
+                        .bind("userId", userId)
+                        .bind("promotionId", promotionId)
+                        .add();
+            }
+
+            batch.execute(); // Thực hiện insert hàng loạt
+        });
+    }
+    //Kiem tra so luong ma phat co lon hơn so luong nguoi duoc phat ma khong
+    public boolean isValidPromotionUserCount(int promotionId, int newUserCount) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle -> {
+            // Lấy tổng số mã cho phép
+            int max = handle.createQuery("SELECT quantity FROM promotions WHERE id = :id")
+                    .bind("id", promotionId)
+                    .mapTo(int.class)
+                    .findOne()
+                    .orElse(0);
+
+            // Đếm số user hiện tại đã được nhận mã
+            int current = handle.createQuery("SELECT COUNT(*) FROM promotionuser WHERE promotionId = :id")
+                    .bind("id", promotionId)
+                    .mapTo(int.class)
+                    .one();
+
+            return (current + newUserCount) <= max;
+        });
+    }
+
+
 
 
     public void insertPromotion(Promotion promotion) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value,description) " +
-                        "VALUES (:name, :startDate, :endDate, :value,:description)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO promotions (name, startDate, endDate, value,quantity,description) " +
+                        "VALUES (:name, :startDate, :endDate, :value, :quantity, :description)")
                 .bind("name", promotion.getName())
                 .bind("startDate", promotion.getStartDate())
                 .bind("endDate", promotion.getEndDate())
                 .bind("value", promotion.getValue())
+                .bind("quantity", promotion.getQuantity())
                 .bind("description", promotion.getDescription())
                 .execute());
     }

@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "Remove", value = "/del-cart")
+@WebServlet(name = "del-cart", value = "/del-cart")
 public class Remove extends HttpServlet {
 
     @Override
@@ -26,7 +26,7 @@ public class Remove extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
+//        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         BufferedReader reader = request.getReader();
@@ -42,7 +42,7 @@ public class Remove extends HttpServlet {
         int id = user.getId();
         CartItemService cartItemService = new CartItemService();
         try {
-            boolean success = cartItemService.deleteCartItem(id,productId);
+         boolean success =   cartItemService.deleteCartItem(id,productId);
             if(success) {
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {

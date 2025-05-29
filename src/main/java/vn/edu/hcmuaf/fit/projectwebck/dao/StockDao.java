@@ -5,6 +5,7 @@ import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Stock;
+import vn.edu.hcmuaf.fit.projectwebck.dto.stock.StockKey;
 
 import java.util.List;
 
@@ -33,19 +34,23 @@ public class StockDao {
         return rowsAffected > 0;
     }
 
-
-
-    public void insertStock(Stock stock) {
+    public void insertStock(List<Stock> stocks) {
         Jdbi jdbi = JDBIConect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("  INSERT INTO stocks (productId, quantity, name, addressLine, district, stateOrProvince, country)   VALUES (:productId, :quantity, :name, :addressLine, :district, :stateOrProvince, :country) "  )
-                .bind("productId", stock.getProductId())
-                .bind("quantity", stock.getQuantity())
-                .bind("name", stock.getName())
-                .bind("addressLine", stock.getAddressLine())
-                .bind("district", stock.getDistrict())
-                .bind("stateOrProvince", stock.getStateOrProvince())
-                .bind("country", stock.getCountry())
-                .execute());
+        String sql = " INSERT INTO stocks (productId, quantity, name, addressLine, district, stateOrProvince, country)   VALUES (:productId, :quantity, :name, :addressLine, :district, :stateOrProvince, :country)";
+        jdbi.useHandle(handle -> {
+                    for (Stock stock : stocks) {
+                        handle.createUpdate(sql)
+                                .bind("productId", stock.getProductId())
+                                .bind("quantity", stock.getQuantity())
+                                .bind("name", stock.getName())
+                                .bind("addressLine", stock.getAddressLine())
+                                .bind("district", stock.getDistrict())
+                                .bind("stateOrProvince", stock.getStateOrProvince())
+                                .bind("country", stock.getCountry())
+                                .execute();
+                    }
+                }
+        );
     }
 
     public boolean removeStock(int stockId) {
@@ -58,7 +63,34 @@ public class StockDao {
         return rowsAffected > 0;
     }
 
+    public Stock findById(int productId) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM stocks WHERE productId = :productId")
+                        .bind("productId", productId)
+                        .mapToBean(Stock.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-
+    public Stock findBy(StockKey key) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM stocks WHERE productId = :productId " +
+                                "AND addressLine = :addressLine " +
+                                "AND district = :district " +
+                                "AND stateOrProvince = :stateOrProvince " +
+                                "AND Country = :country")
+                        .bind("productId", key.getProductId())
+                        .bind("addressLine", key.getAddressLine())
+                        .bind("district", key.getDistrict())
+                        .bind("stateOrProvince", key.getStateOrProvince())
+                        .bind("country", key.getCountry())
+                        .mapToBean(Stock.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
 }

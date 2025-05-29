@@ -56,6 +56,7 @@
         <h1>NLU Food</h1>
     </div>
     <ul>
+
 <%--        <c:set var="user" value="${sessionScope.user}"/>--%>
 <%--        <c:if test="${not empty user}">--%>
 <%--            <%--%>
@@ -109,6 +110,14 @@
 <%--                </a>--%>
             </c:if>
 <%--        </c:if>--%>
+
+        <a href="showOption?option=option7">
+            <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
+            </li>
+        </a>
+
     </ul>
 </div>
 <div class="container">
@@ -287,106 +296,117 @@
         <%--        Rau cu--%>
         <c:if test="${role.hasPermission('MANAGE_VEGETABLES')}">
             <div class="AdminListProduct select">
-                <div class="AdminListProductHeader">
-                    <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
-                    <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
-                    <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
-                        sản phẩm
-                    </button>
-                </div>
-                <ul class="Product_Item" id="list-searchProduct">
-                    <li class="title_Item">
-                        <div>ID</div>
-                        <div>Ảnh</div>
-                        <div>Tên</div>
-                        <div>Giá</div>
-                        <div>Khối lượng</div>
-                    </li>
-                    <c:forEach var="p" items="${listproduct}">
-                        <li>
-                            <div>${p.id}</div>
-                            <div><img src="${p.image}" alt="" style="width: 50px"></div>
-                            <div>${p.name}</div>
-                            <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND"/></div>
-                            <div>${p.mass}Kg</div>
-                            <div class="menu">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                                <div class="ellipsis">
-                                    <div onclick="UpdateProduct('${p.id}','${p.name}','${p.price}','${p.mass}','${p.description}','${p.image}','${p.category}')">
-                                        Sửa
-                                    </div>
-                                    <a href="removeProduct?pid=${p.id}">
-                                        <div>Xóa</div>
-                                    </a>
+            <div class="AdminListProductHeader">
+                <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
+                <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
+                    sản phẩm
+                </button>
+            </div>
+            <ul class="Product_Item" id="list-searchProduct">
+                <li class="title_Item">
+                    <div>ID</div>
+                    <div>Ảnh</div>
+                    <div>Tên</div>
+                    <div>Giá</div>
+                    <div>Khối lượng</div>
+                </li>
+                <c:forEach var="p" items="${listproduct}">
+                    <li>
+                        <div>${p.id}</div>
+                        <div><img src="${p.image}" alt="" style="width: 50px"></div>
+                        <div>${p.name}</div>
+                        <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND"/></div>
+                        <div>${p.mass}Kg</div>
+                        <div class="menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <div class="ellipsis">
+                                <div onclick="UpdateProduct('${p.id}','${p.name}','${p.price}','${p.mass}','${p.description}','${p.image}','${p.category}')">
+                                    Sửa
                                 </div>
+                                <a href="removeProduct?pid=${p.id}">
+                                    <div>Xóa</div>
+                                </a>
                             </div>
-                        </li>
-                    </c:forEach>
-                </ul>
-                <!-- Modal -->
-                <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="addProduct" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" id="idp" name="idp">
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+            <!-- Modal -->
+            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addProduct" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="idp" name="idp">
 
-                                    <div class="mb-3">
-                                        <label for="productImage" class="form-label">Ảnh:</label>
-                                        <input type="file" class="form-control" id="productImage" name="image" required>
-                                        <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
+                                    <input type="file" class="form-control" id="productImage" name="images" multiple>
+                                    <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
+                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
+                                           multiple>
+                                    <div id="showImageList">
 
-                                    <div class="mb-3">
-                                        <label for="productName" class="form-label">Tên:</label>
-                                        <input type="text" class="form-control" id="productName" name="name"
-                                               placeholder="Vui lòng nhập tên ..." required>
-                                    </div>
+                                        <img src="" alt="" style="width: 50px; display: none" class="mt-2">
 
-                                    <div class="mb-3">
-                                        <label for="productPrice" class="form-label">Giá:</label>
-                                        <input type="text" class="form-control" id="productPrice" name="price"
-                                               placeholder="Vui lòng nhập giá ..." required>
                                     </div>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="productDescribe" class="form-label">Mô tả:</label>
-                                        <textarea class="form-control" id="productDescribe" name="describe"
-                                                  placeholder="Vui lòng mô tả" required></textarea>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Tên:</label>
+                                    <input type="text" class="form-control" id="productName" name="name"
+                                           placeholder="Vui lòng nhập tên ..." required>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="productMass" class="form-label">Khối lượng:</label>
-                                        <input type="text" class="form-control" id="productMass" name="mass"
-                                               placeholder="Vui lòng nhập số lượng ..." required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Giá:</label>
+                                    <input type="text" class="form-control" id="productPrice" name="price"
+                                           placeholder="Vui lòng nhập giá ..." required>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="productCategory" class="form-label">Loại:</label>
-                                        <select class="form-select" name="category" id="productCategory" required>
-                                            <option value="1" selected>Rau</option>
-                                            <option value="2">Củ</option>
-                                            <option value="3">Quả</option>
-                                        </select>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="productDescribe" class="form-label">Mô tả:</label>
+                                    <textarea class="form-control" id="productDescribe" name="describe"
+                                              placeholder="Vui lòng mô tả" required></textarea>
+                                </div>
 
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success">Lưu</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                onclick="closeProduct()">Hủy
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="productMass" class="form-label">Khối lượng:</label>
+                                    <input type="text" class="form-control" id="productMass" name="mass"
+                                           placeholder="Vui lòng nhập số lượng ..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Loại:</label>
+                                    <select class="form-select" name="category" id="productCategory" required>
+                                        <option value="1" selected>Rau</option>
+                                        <option value="2">Củ</option>
+                                        <option value="3">Quả</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            onclick="closeProduct()">Hủy
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+        </div>
         </c:if>
 
         <%--        Nguoi dung--%>
@@ -500,11 +520,72 @@
         </c:if>
 
         <%--Don hang--%>
+
         <c:if test="${role.hasPermission('MANAGE_ORDERS')}">
-            <div class="AdminListOrder select">
-                <div class="AdminListOrderHeader">
-                    <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
-                    <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
+
+        <div class="AdminListOrder select">
+            <div class="AdminListOrderHeader">
+                <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
+                <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
+            </div>
+            <ul class="Order_Item" id="list-searchOrder">
+                <li class="title_Item">
+                    <div class="orderItemId">Mã đơn</div>
+                    <div class="orderItemName">Khách hàng</div>
+                    <div class="orderItemDate">Ngày đặt</div>
+                    <div class="orderItemTotal">Thành tiền</div>
+                    <div class="orderItemStatus">Trạng thái</div>
+                    <div class="act">Hành động</div>
+                </li>
+                <c:forEach var="order" items="${listorder}">
+                    <li>
+                        <div class="orderItemId">${order.id}</div>
+                        <div class="orderItemName">${order.fullName}</div>
+                        <div class="orderItemDate">${order.dateOfBooking}</div>
+                        <div class="orderItemTotal"><f:formatNumber value="${order.money}" type="number"
+                                                                    pattern="#,##0VND"/></div>
+                        <div class="orderItemStatus "><span class="orderItemS status-${order.status}"
+                                                            id="orderItemS-${order.id}"> <c:choose>
+                            <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
+                            <c:when test="${order.status == 1}">Đã xác nhận</c:when>
+                            <c:when test="${order.status == 2}">Đang đóng gói</c:when>
+                            <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
+                            <c:when test="${order.status == 4}">Hoàn tất</c:when>
+                            <c:when test="${order.status == 5}">Đã hủy</c:when>
+                            <c:otherwise>Không xác định</c:otherwise>
+                        </c:choose></span>
+
+                        </div>
+                        <div class="act">
+                            <select class="status-update">
+                                <option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ xác nhận</option>
+                                <option value="1" ${order.status == 1 ? 'selected' : ''}>Đã xác nhận</option>
+                                <option value="2" ${order.status == 2 ? 'selected' : ''}>Đang đóng gói</option>
+                                <option value="3" ${order.status == 3 ? 'selected' : ''}>Đang vận chuyển</option>
+                                <option value="4" ${order.status == 4 ? 'selected' : ''}>Hoàn tất</option>
+                                <option value="5" ${order.status == 5 ? 'selected' : ''}>Hủy đơn</option>
+                            </select>
+                        </div>
+                        <div class="menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <div class="ellipsis">
+                                <div onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.fullName}','${order.phone}')">
+                                    Chi tiết đơn hàng
+                                </div>
+                                <a href="removeOder?oid=${order.id}">
+                                    <div>Xóa</div>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+            <div class="OderWindow" id="OderWindow">
+                <div class="iconClose" onclick="viewOrderClose()"><i class="fa-solid fa-xmark"></i></div>
+                <div class="OderWindowTitle">Danh sách sản phẩm</div>
+                <div id="ProductItems" class="Product_List_item">
+                    <%--                    Phan chi tiet don hang--%>
+
                 </div>
                 <ul class="Order_Item" id="list-searchOrder">
                     <li class="title_Item">
@@ -546,41 +627,103 @@
                         <span class="total" id="total">${totalAmount}đ</span>
                     </div>
                 </div>
+                <div class="DeliveryAddress">
+                    <span class="text">Địa chỉ nhận hàng:</span>
+                    <span class="delivery"></span>
+                </div>
+                <div class="UserBuy">
+                    <span class="text">Tên khách hàng & SĐT:</span>
+                    <span class="userInf"></span>
+                </div>
+                <div class="DeliveryAddress">
+                    <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
+                </div>
             </div>
         </c:if>
 
         <%--Khuyến mãi--%>
+
         <c:if test="${role.hasPermission('MANAGE_PROMOTIONS')}">
-            <div class="AdminListPromotion select">
-                <div class="AdminListPromotionHeader">
-                    <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
-                    <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
-                    <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
-                        Thêm khuyến mãi
-                    </button>
-                </div>
-                <ul class="Promotion_Item" id="list-searchPromotion">
-                    <li class="title_Item">
-                        <div>Mã khuyến mãi</div>
-                        <div>Ngày bắt đầu</div>
-                        <div>Ngày kết thúc</div>
-                        <div>Giá trị</div>
+        <div class="AdminListPromotion select">
+            <div class="AdminListPromotionHeader">
+                <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
+                <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                <button type="button" onclick="generatePromoCode()">
+                    Phát mã khuyến mãi
+                </button>
+                <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
+                    Thêm khuyến mãi
+                </button>
+            </div>
+            <ul class="Promotion_Item" id="list-searchPromotion">
+                <li class="title_Item">
+                    <div>Mã khuyến mãi</div>
+                    <div>Ngày bắt đầu</div>
+                    <div>Ngày kết thúc</div>
+                    <div>Giá trị</div>
+                </li>
+                <c:forEach var="po" items="${listpromotion}">
+                    <li>
+                        <div>${po.id}</div>
+                        <div>${po.startDate}</div>
+                        <div>${po.endDate}</div>
+                        <div>${po.value}%</div>
+                        <div class="menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <div class="ellipsis">
+                                <div onclick="UpdatePromotion('${po.id}', '${po.name}', '${po.startDate}', '${po.endDate}', '${po.value}')">
+                                    Sửa
+                                </div>
+                                <a href="removePromotion?poid=${po.id}">
+                                    <div>Xóa</div>
+                                </a>
+                            </div>
+                        </div>
                     </li>
-                    <c:forEach var="po" items="${listpromotion}">
-                        <li>
-                            <div>${po.id}</div>
-                            <div>${po.startDate}</div>
-                            <div>${po.endDate}</div>
-                            <div>${po.value}%</div>
-                            <div class="menu">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                                <div class="ellipsis">
-                                    <div onclick="UpdatePromotion('${po.id}', '${po.name}', '${po.startDate}', '${po.endDate}', '${po.value}')">
-                                        Sửa
-                                    </div>
-                                    <a href="removePromotion?poid=${po.id}">
-                                        <div>Xóa</div>
-                                    </a>
+                </c:forEach>
+            </ul>
+            <div class="GeneratePromoCode" id="GeneratePromoCode">
+                <h2>Phát mã khuyến mãi</h2>
+                <form action="GeneratePromoCode" method="POST">
+                    <label for="maKM">Chọn mã khuyến mãi:</label>
+                    <select id="maKM" name="maKM" required>
+                        <!-- Dữ liệu từ backend -->
+                        <c:forEach var="po" items="${listpromotion}">
+                            <option value="${po.id}">${po.id} - ${po.description}</option>
+                        </c:forEach>
+                    </select>
+
+                    <label for="listAccount">Chọn tài khoản được nhận mã:</label>
+                    <select id="listAccount" name="listAccount" multiple required>
+                        <c:forEach var="account" items="${listAccount}">
+                            <option value="${account.id}">
+                                    ${account.username} - Tổng: ${account.tong}đ
+
+                            </option>
+                        </c:forEach>
+                    </select>
+                    <br>
+                    <button type="submit">Phát mã</button>
+                    <button onclick="closeGeneratePromoCode()">Đóng</button>
+                </form>
+            </div>
+            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="addPromotion" method="post">
+                                <input type="hidden" id="poid" name="poid">
+
+                                <div class="mb-3">
+                                    <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
+                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control"
+                                           placeholder="Vui lòng nhập tên khuyến mãi..." required>
+
                                 </div>
                             </div>
                         </li>
@@ -614,20 +757,28 @@
                                         <input type="date" id="EndDate" name="EndDate" class="form-control" required>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="Value" class="form-label">Giá trị (%):</label>
-                                        <input type="number" id="Value" name="Value" class="form-control"
-                                               placeholder="Nhập giá trị khuyến mãi (%)..." required>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
-                                        <button type="button" class="btn btn-secondary ButtonPromotion2"
-                                                data-bs-dismiss="modal" onclick="closePromotion()">Hủy
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="Value" class="form-label">Giá trị (%):</label>
+                                    <input type="number" id="Value" name="Value" class="form-control"
+                                           placeholder="Nhập giá trị khuyến mãi (%)..." required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Quantity" class="form-label">Số lượng:</label>
+                                    <input type="number" id="Quantity" name="Quantity" class="form-control"
+                                           placeholder="Nhập Số lượng..." required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Describe" class="form-label">Mô tả:</label>
+                                    <input type="text" id="Describe" name="Describe" class="form-control"
+                                           placeholder="Nhập Mô tả ..." required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
+                                    <button type="button" class="btn btn-secondary ButtonPromotion2"
+                                            data-bs-dismiss="modal" onclick="closePromotion()">Hủy
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -682,6 +833,91 @@
                 </table>
             </div>
         </c:if>
+
+        <div class="AdminListStock select mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Quản lý kho hàng</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStock">Thêm sản
+                    phẩm vào kho hàng
+                </button>
+                <input type="file" id="input-excel" />
+    <button onclick="addStock()">Test</button>
+            </div>
+            <table id="stockTable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Tên Kho hàng</th>
+                    <th>Địa chỉ</th>
+                    <th>Quận</th>
+                    <th></th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+                <c:forEach var="stock" items="${stocks}">
+                    <tr>
+                        <td>${stock.id}</td>
+                        <td>${stock.productId}</td>
+                        <td>${stock.quantity}</td>
+                        <td>${stock.name}</td>
+                        <td>${stock.addressLine }</td>
+                        <td>${stock.district}</td>
+                        <td>
+                            <button onclick="deleteStock(${stock.id})">Xóa sản phẩm kho hàng
+                            </button>
+                            <button class="btn btn-primary" onclick="getStockById(${stock.prouctId})">Cật
+                                nhật kho hàng
+                            </button>
+                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addStock" tabindex="-1" aria-labelledby="addStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStockModalLabel">Thêm kho hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="stockForm">
+                    <div class="mb-3">
+                        <label for="productSelect" class="form-label">Tên sản phẩm</label>
+                        <select class="form-control" id="productStockSelect" required>
+                            <option value="">-- Chọn sản phẩm --</option>
+                            <!-- Load option bằng Ajax -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="quantityProductStock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="warehouseName" class="form-label">Tên kho hàng</label>
+                        <input type="text" class="form-control" id="warehouseName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="warehouseAddress" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="warehouseAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="district" class="form-label">Quận</label>
+                        <input type="text" class="form-control" id="district" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </form>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -791,6 +1027,8 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
     window.onload = function () {
         loadPermissions().then(() => {
@@ -827,14 +1065,93 @@
 
 <%--them san pham khuyen mai--%>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script>
+    let extractData = []
+        document.getElementById("input-excel").addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (env) {
+                const data = env.target.result;
+                const workbook = XLSX.read(data, { type: 'binary' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const extractedData = XLSX.utils.sheet_to_json(worksheet);
+                extractData = extractedData;
+                console.log("Extracted:", extractedData); // ✅ Should appear
+            };
+
+            reader.readAsBinaryString(file); // ✅ Required
+        });
+
+    function addStock() {
+        $.ajax({
+            url: "UploadStock",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({stocks : extractData}),
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+
+    // document.getElementById('excelFile').addEventListener('change', function (e) {
+    //     const file = e.target.files[0];
+    //     const reader = new FileReader();
+    //
+    //     reader.onload = function (event) {
+    //         const data = new Uint8Array(event.target.result);
+    //         const workbook = XLSX.read(data, { type: 'array' });
+    //
+    //         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    //         const products = XLSX.utils.sheet_to_json(firstSheet);
+    //
+    //         console.log(products); // Each row in Excel becomes one object
+    //         // You can now send this data to the server via AJAX
+    //         // or display a preview
+    //     };
+    //
+    //     reader.readAsArrayBuffer(file);
+    // });
+
+    // let extractData = []
+    // document.getElementById('input-excel').addEventListener('change', function (e) {
+    //     const file = e.target.files[0];
+    //
+    //     const reader = new FileReader();
+    //     reader.onLoad = function (event) {
+    //         const content = event.target.result;
+    //
+    //         const data = new Uint8Array(content);
+    //
+    //         const workbook = XLSX.read(data, { type: 'binary' });
+    //
+    //         const firstSheet = workbook.Sheets[workbook.SheetsName[0]];
+    //         const product = XLSX.utils.sheet_to_json(firstSheet);
+    //         console.log("✅ Extracted data:", product);
+    //
+    //         extractData.push(product);
+    //         console.log(product);
+    //
+    //     }
+    //         reader.readAsArrayBuffer(file);
+    //
+    // })
 
     let isProductLoaded = false;
 

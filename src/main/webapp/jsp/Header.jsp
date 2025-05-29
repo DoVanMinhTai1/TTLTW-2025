@@ -74,7 +74,7 @@
                         <div class="shopping_cart_swap">
                             <i class="fa-solid fa-basket-shopping"></i>
                             <span
-                                    class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
+                                    class="shopping_notice" id="totalQuantityCartItem">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
                         </div>
                     </div>
                     <div class="shoppingtext">Giỏ hàng</div>
@@ -85,6 +85,8 @@
 </header>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const searchInput = document.getElementById("search");
@@ -154,5 +156,18 @@
             }
         });
     });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/web/TotalQuantity",
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                let totalQuantity = document.getElementById("totalQuantityCartItem");
+                console.log("test type data", data);
+                totalQuantity.textContent = data;
+            }
+        })
+    })
 </script>
 </html>

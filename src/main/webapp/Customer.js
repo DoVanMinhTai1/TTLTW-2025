@@ -87,7 +87,7 @@ function editAccountInf(userId){
             .catch(error => console.error("Lỗi:", error));
     }
 }
-async function  viewOrder(orderId,address,dateOfBooking) {
+async function  viewOrder(orderId,address,dateOfBooking,status,uId) {
     const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
@@ -123,6 +123,18 @@ async function  viewOrder(orderId,address,dateOfBooking) {
     viewOrder.querySelector(".total").innerText = totalAmount+'VND';
     viewOrder.querySelector(".delivery").innerText = address;
     viewOrder.querySelector(".deliveryDate").innerText = dateOfBooking;
+    const confirm= viewOrder.querySelector(".confirm");
+    confirm.innerHTML="";
+    confirm.innerHTML = `<a href="confirmOrder?orderId=${orderId}&status=4&option=option2&uId=${uId}">Đã nhận hàng</a>`;
+    const cancelOrder=viewOrder.querySelector(".cancelOrder");
+    cancelOrder.innerHTML="";
+    cancelOrder.innerHTML = `<a href="cancelOrder?orderId=${orderId}&status=5&option=option2&uId=${uId}">Hủy đơn</a>`;
+    if (status > 3 && status < 6) {
+        confirm.style.display = "none";
+    }
+    if (status > 2 && status < 6) {
+        cancelOrder.style.display = "none";
+    }
     //
     viewOrder.style.display = "block";
 
@@ -192,6 +204,7 @@ function UpdateAddress(id,name,address,phone,origin,company) {
 
 
 }
+
 
 function closeAddress() {
     const overlay = document.getElementById("overlay");

@@ -15,8 +15,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--%>
+<%--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js" defer></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Customer.css">
 </head>
@@ -143,6 +148,7 @@
                             <th>Trạng thái</th>
                             <th>Tổng Thanh Toán</th>
                             <th>Chi Tiết</th>
+                            <th>Xuất pdf</th>
                         </tr>
                         </thead>
                         <tbody id="OrderTableBody">
@@ -151,21 +157,28 @@
                                 <td><span class="Order_Id">${order.id}</span></td>
                                 <td><span class="OrderAddress">${order.address}</span></td>
                                 <td><span class="Order_DateBooked">${order.dateOfBooking}</span></td>
-                                <td><span class="Order_DeliveryDate"> <c:choose>
-                                    <c:when test="${order.status == 1}">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="fa-solid fa-truck-fast"></i>
-                                    </c:otherwise>
+                                <td><span class="Order_DeliveryDate status-${order.status}">  <c:choose>
+                                    <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
+                                    <c:when test="${order.status == 1}">Đã xác nhận</c:when>
+                                    <c:when test="${order.status == 2}">Đang đóng gói</c:when>
+                                    <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
+                                    <c:when test="${order.status == 4}">Hoàn tất</c:when>
+                                    <c:when test="${order.status == 5}">Đã hủy</c:when>
+                                    <c:otherwise>Không xác định</c:otherwise>
                                 </c:choose></span></td>
                                 <td><span class="Order_Money">${order.money}đ</span></td>
                                 <td>
                                     <div class="Detail"
-                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}')">
+                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.status}','${sessionScope.user.id}')">
                                         <i class="fa-regular fa-eye"></i><span>Xem</span>
                                     </div>
                                 </td>
+                                <td>
+                                    <button class="ExportBtn" onclick="exportPdf(${order.id})">
+                                        <i class="fa-solid fa-file-pdf"></i> PDF
+                                    </button>
+                                </td>
+
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -186,6 +199,8 @@
                             <div class="DeliveryAddress">
                                 <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                             </div>
+                            <button class="confirm" ></button>
+                            <button class="cancelOrder"></button>
                         </div>
                     </table>
                 </div>
@@ -246,6 +261,7 @@
                                     <a href="removeAddress?addressId=${address.id}">
                                         <span class="Delete">Xóa</span>
                                     </a>
+                                    <button onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa chỉ mặc định</button>
                                 </c:if>
                             </div>
                         </div>
@@ -301,6 +317,11 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
@@ -309,6 +330,68 @@
         navigationbarClick('<%= runScript %>');
         <% } %>
     };
+    function updateAddressOrigin(id,userId) {
+            $.ajax({
+                url: "updateAddressOrigin",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    id: id,
+                    userId: userId
+                }),
+                success: function () {
+                    document.getElementById('setOriginAddressModalBody').textContent = 'Đã đặt địa chỉ mặc định thành công!';
+                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                    modal.show();
+
+                    // Optionally reload page after a short delay
+                    setTimeout(() => {
+                        modal.hide();
+                        location.reload();
+                    }, 2500);
+
+                },
+                error: function () {
+                    // Show error message
+                    document.getElementById('setOriginAddressModalBody').textContent = 'Có lỗi xảy ra khi cập nhật địa chỉ mặc định!';
+                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                    modal.show();                }
+            })
+    }
+    function exportPdf(orderId) {
+        if (!orderId) {
+            alert("Cannot export PDF without an order ID.");
+            return;
+        }
+
+        fetch('/web/exportPdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderId: orderId })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to generate PDF');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'order.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Export failed');
+            });
+    }
 </script>
 
 </body>

@@ -1,19 +1,27 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.Admin.Product;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import vn.edu.hcmuaf.fit.projectwebck.controller.Admin.productdiscounts.LocalDateTimeAdapter;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Product;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductImage;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.LogsServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -30,12 +38,24 @@ public class UpdateProduct extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
         int id = Integer.parseInt(request.getParameter("idp"));
         String name = request.getParameter("name");
         String priceStr = request.getParameter("price");
         String massStr = request.getParameter("mass");
         String description = request.getParameter("describe");
         String category = request.getParameter("category");
+
+
+        Collection<Part> listPart = request.getParts().stream().filter(item -> item.getName().equals("imagesList[]") && item.getSize() > 0).collect(Collectors.toList());
+        System.out.println("listPart: " + listPart.size());
+       List<String> listPath = saveProductImageList(listPart);
+        ProductServices productServices = new ProductServices();
+        productServices.insertProductImages(listPath,id);
+
+
         Part productImagePart = request.getPart("image");
         // Kiểm tra dữ liệu đầu vào
         if (name == null || name.trim().isEmpty() ||
@@ -46,6 +66,7 @@ public class UpdateProduct extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
+
         ProductServices service = new ProductServices();
         Product product = service.getById(id);
         String imagePath;
@@ -75,13 +96,17 @@ public class UpdateProduct extends HttpServlet {
             service.updateProduct(productUpdate);
             List<Product> products = service.getAll();
             HttpSession session = request.getSession(false);
+
             if (session != null) {
                 UserServices userService = new UserServices();
-                User user = (User) session.getAttribute("user"); ;
+                User user = (User) session.getAttribute("user");
+                ;
                 if (user != null) {
                     // Gọi LogService để ghi log
                     LogsServices logService = new LogsServices();
-                    logService.warning(user.getUsername()+" đã cập nhật 1 sản phẩm",user.getId(),"Cập nhật sản phẩm",product.toString(),productUpdate.toString());
+                    String beforedataJson = gson.toJson(product);
+                    String afterdataJson = gson.toJson(productUpdate);
+                    logService.warning(user.getUsername() + " đã cập nhật 1 sản phẩm", user.getId(), "Cập nhật sản phẩm", product.toString(), productUpdate.toString());
                 }
             }
             request.setAttribute("listproduct", products);
@@ -92,6 +117,27 @@ public class UpdateProduct extends HttpServlet {
             request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
         }
     }
+
+    private List<String> saveProductImageList(Collection<Part> listPart) {
+        String uploadPath = getServletContext().getRealPath("/Img");
+        List<String> listPathRes = new ArrayList<>();
+        File file = new File(uploadPath);
+
+        for (Part part : listPart) {
+            String fileName = System.currentTimeMillis() + "_" + part.getSubmittedFileName();
+            String filePath = uploadPath + File.separator + fileName;
+
+          try {
+              part.write(filePath);
+          } catch (IOException e) {
+              throw new RuntimeException(e);
+          }
+            listPathRes.add("Img/" + fileName);
+
+        }
+        return listPathRes;
+    }
+
 
     private String saveProductImage(HttpServletRequest request, Part productImagePart) throws IOException {
         String fileName = System.currentTimeMillis() + "_" + productImagePart.getSubmittedFileName();

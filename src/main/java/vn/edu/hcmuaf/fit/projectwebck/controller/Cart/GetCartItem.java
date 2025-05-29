@@ -76,8 +76,8 @@ public class GetCartItem extends HttpServlet {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-//        String json = new Gson().toJson(cartItemList);
-//        response.getWriter().write(json);
+
+
 
             request.setAttribute("cartItemWithProduct", cartItemWithProduct);
             request.getRequestDispatcher("/ShoppingCart.jsp").forward(request, response);

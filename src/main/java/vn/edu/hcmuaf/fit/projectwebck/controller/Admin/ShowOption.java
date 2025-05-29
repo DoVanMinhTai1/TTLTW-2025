@@ -44,13 +44,8 @@ public class ShowOption extends HttpServlet {
         List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
         LogsServices logsServices = new LogsServices();
         List<Log> listLog = logsServices.getAllLogs();
-//        request.setAttribute("listordetail", listOrD);
 
-//        double sum = 0;
-//        for (OrderDetail o : listOrD) {
-//            sum += o.getTotalAmount();
-//        }
-//        request.setAttribute("totalRevenue", sum);
+        StockService stockService = new StockService();
 
         switch (option) {
             case "option1":
@@ -93,7 +88,9 @@ public class ShowOption extends HttpServlet {
             case "option5":
                 PromotionServices promotionServices = new PromotionServices();
                 List<Promotion> listPromotion = promotionServices.getAllPromotion();
+                List<Map<String, Object>> listAccount = orderServices.getListOfAccounts();
                 request.setAttribute("listpromotion", listPromotion);
+                request.setAttribute("listAccount", listAccount);
                 request.setAttribute("listlog", listLog);
 //                request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
                 break;
@@ -103,6 +100,12 @@ public class ShowOption extends HttpServlet {
                 request.setAttribute("listlog", listLog);
 //                request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
+            case "option7":
+//                List<Stock> allStocks = stockService.getAllStocks();
+//                request.setAttribute("stocks", allStocks);
+                request.getRequestDispatcher("Admin.jsp?runScript=option7").forward(request,response);
+                break;
+
             default:
 
             break;

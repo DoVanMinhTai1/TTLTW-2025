@@ -1,4 +1,5 @@
-* {margin: 0;
+* {
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif, Tahoma;
@@ -112,7 +113,7 @@ th, td {
 
 .side-menu {
     position: fixed;
-    background:#00845c;
+    background: #00845c;
     width: 310px;
     min-height: 100vh;
     display: flex;
@@ -157,6 +158,7 @@ th, td {
     box-shadow: 35px 35px 0 10px white;
 
 }
+
 .side-menu li:hover::after {
     position: absolute;
     content: "";
@@ -213,8 +215,8 @@ th, td {
 }
 
 .container .header .nav .search button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
     display: flex;
     align-items: center;
@@ -311,10 +313,12 @@ th, td {
     justify-content: space-around;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
 }
+
 .container .content .cards .card:hover {
     background-color: #00845c;
     border-radius: 10px;
 }
+
 .container .content .content-2 {
     min-height: 60vh;
     display: flex;
@@ -347,18 +351,22 @@ th, td {
     height: 40px;
     width: 40px;
 }
+
 /*jdshfih*/
-.NotificationBell{
+.NotificationBell {
     position: relative;
 }
-.fa-bell:hover{
+
+.fa-bell:hover {
     color: white;
     cursor: pointer;
 }
-.NotificationBell:hover .Notification{
+
+.NotificationBell:hover .Notification {
     display: block;
 }
-.Notification{
+
+.Notification {
     position: absolute;
     top: 226px;
     left: -175px;
@@ -372,7 +380,8 @@ th, td {
     display: none;
     z-index: 1001;
 }
-.Notification::after{
+
+.Notification::after {
     content: "";
     position: absolute;
     right: 2px;
@@ -382,7 +391,8 @@ th, td {
     border-color: transparent transparent white transparent;
     cursor: pointer;
 }
-.NotificationTitle{
+
+.NotificationTitle {
     font-size: 20px;
     font-weight: 600;
     margin-left: 10px;
@@ -395,22 +405,27 @@ th, td {
     overflow-y: auto;
     padding-left: 0;
 }
+
 .Notification_item {
     display: flex;
     padding: 15px 0;
     border-bottom: 1px solid gainsboro;
 }
-.Notification_Eye{
+
+.Notification_Eye {
     padding: 10px 15px 10px 25px;
 }
-.fa-trash{
-    margin:10px 0 0 5px;
+
+.fa-trash {
+    margin: 10px 0 0 5px;
     color: #f41717;
 }
-.fa-exclamation{
+
+.fa-exclamation {
     color: #00845c;
     font-size: 22px;
 }
+
 .Notification_item_info {
     padding: 5px 0 0 10px;
 }
@@ -422,13 +437,15 @@ th, td {
     margin-right: 5px;
     overflow-wrap: break-word;
 }
-.fa-eye{
+
+.fa-eye {
     margin-top: 10px;
     margin-left: 5px;
     color: #00845c;
     cursor: pointer;
 }
-.NotificationWindow{
+
+.NotificationWindow {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -443,15 +460,28 @@ th, td {
     z-index: 1001;
     overflow: auto;
 }
-.NotificationWindow .fa-xmark{
+
+.NotificationWindow .fa-xmark {
     position: absolute;
     top: 12px;
     right: 12px;
     cursor: pointer;
 }
-.NotificationWindow label { font-weight: bold; }
-.NotificationWindow div { margin-bottom: 8px; }
-.NotificationWindow .pre { background-color: #f8f8f8; padding: 10px; border-radius: 5px; }
+
+.NotificationWindow label {
+    font-weight: bold;
+}
+
+.NotificationWindow div {
+    margin-bottom: 8px;
+}
+
+.NotificationWindow .pre {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 @media screen and (max-width: 1050px) {
     .side-menu li {
         font-size: 18px;
@@ -526,7 +556,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListOrderHeader input {
@@ -550,9 +580,8 @@ th, td {
 
 .AdminListOrder li div {
     font-size: 16px;
-    width: 190px;
-    padding-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-top: 15px;
 }
 
 .AdminListOrder li .menu {
@@ -567,37 +596,16 @@ th, td {
 }
 
 .AdminListOrder .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 60px;
     width: 20px;
     padding-left: 10px;
 }
 
-.AdminListOrder .statusT {
-    height: 28px;
-    padding: 5px 25px;
-    background-color: #7cc652;
-    border-radius: 5px;
-    color: white;
-    font-weight: 600;
-    margin-top: 5px;
-    width: 170px;
-}
-
-.AdminListOrder .statusF {
-    height: 28px;
-    padding: 5px 25px;
-    background-color: crimson;
-    border-radius: 5px;
-    color: white;
-    font-weight: 600;
-    margin-top: 5px;
-    width: 170px;
-}
-
 .AdminListOrder .menu {
     height: 1px;
     position: relative;
+    margin-top: 15px;
 }
 
 .AdminListOrder .ellipsis {
@@ -633,12 +641,89 @@ th, td {
     color: #00845c;
 }
 
-.AdminListOrder li .name {
+.AdminListOrder li .orderItemName {
+    width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.AdminListOrder li .orderItemId {
+    width: 80px;
+}
+
+.AdminListOrder li .orderItemDate {
+    width: 150px;
+}
+
+.AdminListOrder li .orderItemTotal {
+    width: 160px;
+}
+
+.AdminListOrder li .orderItemStatus {
+    width: 160px;
+}
+.AdminListOrder li .orderItemS {
+    max-width: 100%;
+    padding: 7px 8px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    margin: 10px 5px 10px 5px;
+}
+.AdminListOrder li .act {
+    width: 160px;
+    margin-top: 12px;
+}
+
+.Order_Item select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.status-update {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.status-0 {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+/* Chờ xác nhận - vàng */
+.status-1 {
+    background-color: #5bc0de;
+    color: white;
+}
+
+/* Đã xác nhận - xanh dương nhạt */
+.status-2 {
+    background-color: #0275d8;
+    color: white;
+}
+
+/* Đang đóng gói - xanh đậm */
+.status-3 {
+    background-color: #00845c;
+    color: white;
+}
+
+/* Đang vận chuyển - xanh lá */
+.status-4 {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Hoàn tất - xanh lục */
+.status-5 {
+    background-color: #d9534f;
+    color: white;
+}
+
+/* Hủy đơn - đỏ */
 /*Phan AdminListUser*/
 .AdminListUser {
     margin-top: 30px;
@@ -651,7 +736,7 @@ th, td {
 }
 
 .AdminListUserHeader button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
     border-radius: 5px;
     margin-left: 440px;
@@ -670,7 +755,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListUserHeader input {
@@ -693,7 +778,7 @@ th, td {
 }
 
 .AdminListUser .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 20px;
 }
 
@@ -757,11 +842,13 @@ th, td {
 .ellipsis a {
     color: #888888;
 }
+
 .AdminListUser .title_Item div {
     font-size: 18px;
     font-weight: 600;
     color: #00845c;
 }
+
 /*phan AdminProduct */
 .AdminListProduct {
     margin-top: 30px;
@@ -780,13 +867,16 @@ th, td {
 }
 
 .AdminListProduct button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
     border-radius: 5px;
-    margin-left: 430px;
     color: white;
     cursor: pointer;
     padding: 0 10px;
+}
+
+.AdminListProductHeader button {
+    margin-left: 430px;
 }
 
 .AdminListProduct button:hover {
@@ -798,7 +888,7 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListProductHeader input {
@@ -840,7 +930,7 @@ th, td {
 }
 
 .AdminListProduct .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     position: absolute;
     top: -13px;
     right: -13px;
@@ -901,10 +991,11 @@ th, td {
 }
 
 .AdminListPromotionHeader button {
-    background-color: #7cc652;
+    background-color: #00845c;
     border: none;
+    width: 200px;
+    margin-left: 5px;
     border-radius: 5px;
-    margin-left: 420px;
     color: white;
     cursor: pointer;
     padding: 0 10px;
@@ -920,11 +1011,12 @@ th, td {
     font-size: 22px;
     font-weight: 600;
     margin-top: 2px;
-    color: #7cc652;
+    color: #00845c;
 }
 
 .AdminListPromotionHeader input {
-    margin-left: 100px;
+    margin-left: 50px;
+    margin-right: 200px;
     padding: 5px;
     width: 280px;
     border: 1px solid gainsboro;
@@ -943,7 +1035,7 @@ th, td {
 }
 
 .AdminListPromotion .fa-ellipsis-vertical {
-    color: #7cc652;
+    color: #00845c;
     margin-left: 20px;
 }
 
@@ -996,6 +1088,7 @@ th, td {
     width: 5px;
     padding-bottom: 0;
 }
+
 .AdminListPromotion .title_Item div {
     font-size: 18px;
     font-weight: 600;
@@ -1004,6 +1097,17 @@ th, td {
 
 
 .AdminListProductDiscount {
+    margin-top: 30px;
+    height: 570px;
+    width: 1150px;
+    border: 1px solid gainsboro;
+    padding: 15px 0 15px 25px;
+    border-radius: 5px;
+    display: none;
+}
+
+/*Kho hàng*/
+.AdminListStock {
     margin-top: 30px;
     height: 570px;
     width: 1150px;
@@ -1130,6 +1234,71 @@ th, td {
     padding: 5px;
 }
 
+/*Cửa sổ phát mã khuyến mãi*/
+.GeneratePromoCode {
+    position: fixed; /* Đặt ở giữa màn hình */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    display: none;
+}
+
+.GeneratePromoCode h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.GeneratePromoCode label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+.GeneratePromoCode select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: #00845c solid 1px;
+    border-radius: 5px;
+}
+
+.GeneratePromoCode button {
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: 8px;
+    border: #00845c solid 1px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.GeneratePromoCode select[multiple] {
+    height: 150px;
+
+}
+
+.GeneratePromoCode option {
+    border: 1px solid #00845c;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.GeneratePromoCode button {
+    background-color: #00845c;
+    color: white;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.GeneratePromoCode button:hover {
+    background-color: #49bc99;
+}
 
 /*Cua so nhap lieu khuyen mai*/
 
@@ -1271,12 +1440,40 @@ th, td {
 
 .text {
     display: inline-block;
-    width: 220px;
     margin-bottom: 15px;
-    font-size: 20px;
+    font-size: 16px;
+    color: #00845c;
 }
 
 .total {
-    color: #7cc652;
-    font-size: 20px;
+    font-size: 16px;
+}
+
+.DeliveryAddress .UserBuy {
+    max-width: 100%;
+    margin-left: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.DeliveryAddress .text {
+    display: inline-block; /* Để "Địa chỉ nhận hàng:" không bị xuống dòng */
+    margin-bottom: 2px;
+}
+
+.UserBuy .text {
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.DeliveryAddress .delivery .userInf {
+    display: inline; /* Hiển thị trên cùng dòng nếu còn đủ chỗ */
+    white-space: normal; /* Xuống dòng tự nhiên nếu không đủ không gian */
+    word-break: break-word; /* Đảm bảo chuỗi dài không tràn ra ngoài */
+    color: black;
+}
+
+.DeliveryAddress .deliveryDate {
+    color: black;
 }

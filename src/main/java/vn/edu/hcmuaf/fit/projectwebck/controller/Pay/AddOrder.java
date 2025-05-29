@@ -119,9 +119,9 @@ public class AddOrder extends HttpServlet {
                 OrderServices service = new OrderServices();
                 long orderId = service.insertOrderByUser(order, cartMap);
                 HttpSession session = request.getSession(true);
-                Cart cart = (Cart) session.getAttribute("cart");
-                cart.removeAll();
-                session.setAttribute("cart", cart);
+//                Cart cart = (Cart) session.getAttribute("cart");
+//                cart.removeAll();
+//                session.setAttribute("cart", cart);
 // Phản hồi kết quả
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(orderId));
