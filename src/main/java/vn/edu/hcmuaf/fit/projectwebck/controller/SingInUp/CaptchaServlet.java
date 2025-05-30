@@ -15,10 +15,9 @@ public class CaptchaServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.setProperty("java.awt.headless", "true");
-        int width = 120;
-        int height = 40;
-        char[] chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789".toCharArray();
+        int width = 62;
+        int height = 20;
+        char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
         Random random = new Random();
 
         // Sinh mã CAPTCHA ngẫu nhiên
@@ -30,7 +29,6 @@ public class CaptchaServlet extends HttpServlet {
         // Lưu CAPTCHA vào session để kiểm tra sau này
         HttpSession session = request.getSession();
         session.setAttribute("captcha", captchaText.toString());
-        System.out.println("CaptchaServlet: Session ID = " + session.getId() + ", CAPTCHA = " + captchaText);
 
         // Tạo hình ảnh CAPTCHA
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -48,18 +46,7 @@ public class CaptchaServlet extends HttpServlet {
 
         // Gửi ảnh về client
         response.setContentType("image/png");
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "0");
-
-        try {
-            ImageIO.write(bufferedImage, "png", response.getOutputStream());
-            System.out.println("CaptchaServlet: Image sent successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("CaptchaServlet: Error generating CAPTCHA: " + e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error generating CAPTCHA");
-        }
+        ImageIO.write(bufferedImage, "png", response.getOutputStream());
     }
 
     @Override

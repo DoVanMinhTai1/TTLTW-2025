@@ -1,48 +1,3 @@
-let userPermissions = [];
-
-async function loadPermissions() {
-    try {
-        const response = await fetch('/getPermissions');
-        if (!response.ok) throw new Error('Lỗi tải quyền');
-        userPermissions = await response.json();
-        console.log('Quyền:', userPermissions); // Gỡ lỗi
-    } catch (error) {
-        console.error('Lỗi tải quyền:', error);
-        userPermissions = [];
-    }
-}
-window.onload = function () {
-    loadPermissions().then(() => {
-        const runScript = '<%= request.getParameter("runScript") %>';
-        console.log('runScript:', runScript); // Gỡ lỗi
-        if (runScript && runScript !== 'null' && runScript !== '') {
-            navigationbarClick(runScript);
-        } else {
-            console.warn("runScript không hợp lệ, thử quyền mặc định");
-            const defaultOptions = [
-                { option: "option1", permission: "VIEW_DASHBOARD" },
-                { option: "option2", permission: "MANAGE_VEGETABLES" },
-                { option: "option3", permission: "MANAGE_USERS" },
-                { option: "option4", permission: "MANAGE_ORDERS" },
-                { option: "option5", permission: "MANAGE_PROMOTIONS" },
-                { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" }
-            ];
-            const validOption = defaultOptions.find(opt => userPermissions.includes(opt.permission));
-            if (validOption) {
-                navigationbarClick(validOption.option);
-            } else {
-                alert("Bạn không có quyền truy cập bất kỳ mục nào!");
-                window.location.href = 'showHome';
-            }
-        }
-        toggleActionButtons();
-    }).catch(error => {
-        console.error("Lỗi tải trang:", error);
-        alert("Lỗi tải trang. Vui lòng đăng nhập lại!");
-        window.location.href = 'showLogin';
-    });
-};
-
 function navigationbarClick(select) {
     // Loại bỏ class 'active' khỏi tất cả các phần tử navigation
     const options = document.querySelectorAll(".NavigationbarSelect");
@@ -52,84 +7,50 @@ function navigationbarClick(select) {
     const selectedOption = document.getElementById(select);
     if (selectedOption) {
         selectedOption.classList.add("active");
-    }else {
-        console.warn(`Không tìm thấy navigation: ${select}`);
     }
 
     // Loại bỏ class 'active1' khỏi tất cả các phần tử nội dung
     const optionContent = document.querySelectorAll(".select");
     optionContent.forEach(option => option.classList.remove("active1"));
 
-    const permissionMap = {
-        "option1": "VIEW_DASHBOARD",
-        "option2": "MANAGE_VEGETABLES",
-        "option3": "MANAGE_USERS",
-        "option4": "MANAGE_ORDERS",
-        "option5": "MANAGE_PROMOTIONS",
-        "option6": "MANAGE_PRODUCT_PROMOTION"
-    };
-    const requiredPermission = permissionMap[select];
-    if (!requiredPermission) {
-        console.warn(`Không có quyền cho: ${select}`);
-        alert("Mục không hợp lệ!");
-        return;
-    }
-
-    if (!userPermissions.includes(requiredPermission)) {
-        alert("Bạn không có quyền truy cập mục này!");
-        if (userPermissions.includes("VIEW_DASHBOARD")) {
-            const dashboardContent = document.querySelector(".DashBoar");
-            if (dashboardContent) {
-                dashboardContent.classList.add("active1");
-                document.getElementById("option1")?.classList.add("active");
-            } else {
-                console.warn("Không tìm thấy .DashBoar");
-            }
-        } else {
-            console.warn("Không có quyền VIEW_DASHBOARD");
-        }
-        return;
-    }
     // Hiển thị nội dung dựa trên phần tử được chọn
-    let contentElement;
     switch (select) {
         case "option1":
             const dashboardContent = document.querySelector(".DashBoar");
-            // if (dashboardContent) {
-            //     dashboardContent.classList.add("active1");
-            // }
+            if (dashboardContent) {
+                dashboardContent.classList.add("active1");
+            }
             break;
         case "option2":
             const productContent = document.querySelector(".AdminListProduct");
-            // if (productContent) {
-            //     productContent.classList.add("active1");
-            // }
+            if (productContent) {
+                productContent.classList.add("active1");
+            }
             break;
         case "option3":
             const userContent = document.querySelector(".AdminListUser");
-            // if (userContent) {
-            //     userContent.classList.add("active1");
-            // }
+            if (userContent) {
+                userContent.classList.add("active1");
+            }
             break;
         case "option4":
             const orderContent = document.querySelector(".AdminListOrder");
-            // if (orderContent) {
-            //     orderContent.classList.add("active1");
-            // }
+            if (orderContent) {
+                orderContent.classList.add("active1");
+            }
             break;
         case "option5":
             const promotionContent = document.querySelector(".AdminListPromotion");
-            // if (promotionContent) {
-            //     promotionContent.classList.add("active1");
-            // }
+            if (promotionContent) {
+                promotionContent.classList.add("active1");
+            }
             break;
         case "option6":
             const productDiscount = document.querySelector(".AdminListProductDiscount");
-            // if (productDiscount) {
-            //     productDiscount.classList.add("active1");
-            // }
+            if (productDiscount) {
+                productDiscount.classList.add("active1");
+            }
             break;
-
         case "option7":
             const stockManage = document.querySelector(".AdminListStock")
             if (stockManage) {
@@ -138,14 +59,8 @@ function navigationbarClick(select) {
             break;
 
         default:
-            console.warn(`Không có nội dung cho: ${select}`);
-            return;
-    }
-    if (contentElement) {
-        contentElement.classList.add("active1");
-    } else {
-        console.warn(`Không tìm thấy nội dung cho: ${select}`);
-        alert("Không thể hiển thị nội dung!");
+            console.warn(`No content found for select: ${select}`);
+            break;
     }
 }
 
@@ -185,10 +100,6 @@ function closeNotification() {
 
 // Js cho button them san pham
 function addProduct() {
-    if (!userPermissions.includes("MANAGE_VEGETABLES")) {
-        alert("Bạn không có quyền thêm sản phẩm!");
-        return;
-    }
     // windowProduct()
 
     document.getElementById('idp').value = "";
@@ -244,10 +155,6 @@ function closeProduct() {
 }
 
 function UpdateProduct(id, name, price, mass, description, image, category) {
-    if (!userPermissions.includes("MANAGE_VEGETABLES")) {
-        alert("Bạn không có quyền sửa sản phẩm!");
-        return;
-    }
     // Gán dữ liệu vào form
     document.getElementById('idp').value = id;
     document.getElementById('productName').value = name;
@@ -636,10 +543,6 @@ function getStatusText(status) {
 }
 // Phan User
 function addUser() {
-    if (!userPermissions.includes("MANAGE_USERS")) {
-        alert("Bạn không có quyền thêm người dùng!");
-        return;
-    }
     // windowUser();
 
     // Reset all fields in the form
@@ -784,10 +687,7 @@ function viewOrderClose() {
 //  Hiển thị form thêm khuyến mãi
 function addPromotion() {
     // windowPromotion();   
-    if (!userPermissions.includes("MANAGE_PROMOTIONS")) {
-        alert("Bạn không có quyền thêm khuyến mãi!");
-        return;
-    }
+
     // Reset all fields in the form
     document.getElementById('poid').value = "";
     document.getElementById('PromotionName').value = "";
