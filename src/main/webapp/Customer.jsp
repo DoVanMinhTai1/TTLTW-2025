@@ -20,8 +20,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--%>
-<%--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
+    <%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--%>
+    <%--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js" defer></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Customer.css">
 </head>
@@ -106,10 +106,13 @@
             <div class="CustomerPageConttenNavigationbarContent" id="CustomerPageConttenNavigationbarContent">
                 <div class="AccountInformation select">
                     <div class="AccountInformationTitle">THÔNG TIN TÀI KHOẢN</div>
-                    <div class="AccountInformationContent">Họ tên: <span id="nameAccount">${currentUser.fullName}</span></div>
-                    <div class="AccountInformationContent">Email: <span id="emailAccount">${currentUser.email}</span></div>
-                    <div class="AccountInformationContent">Điện thoại: <span id="phoneAccount">${currentUser.phone}</span></div>
-                    <button id="editButton" onclick="editAccountInf(${currentUser.id})" >Chỉnh sửa</button>
+                    <div class="AccountInformationContent">Họ tên: <span id="nameAccount">${currentUser.fullName}</span>
+                    </div>
+                    <div class="AccountInformationContent">Email: <span id="emailAccount">${currentUser.email}</span>
+                    </div>
+                    <div class="AccountInformationContent">Điện thoại: <span
+                            id="phoneAccount">${currentUser.phone}</span></div>
+                    <button id="editButton" onclick="editAccountInf(${currentUser.id})">Chỉnh sửa</button>
                 </div>
                 <div class="AccountListPromotion select">
                     <div class="ListPromotionTitle">MÃ GIẢM GIÁ CỦA BẠN</div>
@@ -192,7 +195,7 @@
                             <div class="DeliveryAddress">
                                 <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
                             </div>
-                            <button class="confirm" ></button>
+                            <button class="confirm"></button>
                             <button class="cancelOrder"></button>
                         </div>
                     </table>
@@ -254,7 +257,9 @@
                                     <a href="removeAddress?addressId=${address.id}">
                                         <span class="Delete">Xóa</span>
                                     </a>
-                                    <button onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa chỉ mặc định</button>
+                                    <button onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa
+                                        chỉ mặc định
+                                    </button>
                                 </c:if>
                             </div>
                         </div>
@@ -270,29 +275,14 @@
                                 <input type="text" name="Company" id="Company" placeholder="Công ty" class="form"><br>
                                 <input type="text" name="Address" id="Address" placeholder="Địa chỉ" class="form"><br>
                                 <select name="Nation" id="Nation" style="width: 97%;height:44px;">
-                                    <option value="" selected>Quốc gia</option>
-                                    <option value="Việt Nam"> Việt Nam</option>
+                                    <option value="" disabled selected>Quốc gia</option>
+                                    <option value="Việt Nam">Việt Nam</option>
                                     <option value="Thái Lan">Thái Lan</option>
-                                    <option value="Campuchia">Campuchia</option>
                                 </select>
-                                <select name="Province" id="Province" style="width: 31.5%;height:44px;">
-                                    <option value="" disabled selected>Tỉnh thành</option>
-                                    <option value="Hồ Chí Minh"> Hồ Chí Minh</option>
-                                    <option value="Thái Bình">Thái Bình</option>
-                                    <option value="Hưng Yên">Hưng Yên</option>
-                                </select>
-                                <select name="District" id="District" style="width: 31.5%;height:44px;">
-                                    <option value="" disabled selected>Quận huyện</option>
-                                    <option value="Thủ Đức">Thủ Đức</option>
-                                    <option value="Quận 1">Quận 1</option>
-                                    <option value="Quận 2">Quận 2</option>
-                                </select>
-                                <select name="Wardandcommune" id="Wardandcommune" style="width: 31.5%;height:44px;">
-                                    <option value="" disabled selected>Phường xã</option>
-                                    <option value="Linh Trung">Linh Trung</option>
-                                    <option value="Linh Tây">Linh Tây</option>
-                                    <option value="Linh Xuân">Linh Xuân</option>
-                                </select>
+                                <select name="Province" id="Province" style="width: 31.5%;height:44px;"></select>
+                                <select name="District" id="District" style="width: 31.5%;height:44px;"></select>
+                                <select name="Wardandcommune" id="Wardandcommune"
+                                        style="width: 31.5%;height:44px;"></select>
                                 <div class="radiobutton" onclick="toggleRadioButton()" id="radiobutton"><i
                                         class="fa-solid fa-check" id="fa-check"></i></div>
                                 <span onclick="toggleRadioButton()"
@@ -323,33 +313,35 @@
         navigationbarClick('<%= runScript %>');
         <% } %>
     };
-    function updateAddressOrigin(id,userId) {
-            $.ajax({
-                url: "updateAddressOrigin",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    id: id,
-                    userId: userId
-                }),
-                success: function () {
-                    document.getElementById('setOriginAddressModalBody').textContent = 'Đã đặt địa chỉ mặc định thành công!';
-                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
-                    modal.show();
 
-                    // Optionally reload page after a short delay
-                    setTimeout(() => {
-                        modal.hide();
-                        location.reload();
-                    }, 2500);
+    function updateAddressOrigin(id, userId) {
+        $.ajax({
+            url: "updateAddressOrigin",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                id: id,
+                userId: userId
+            }),
+            success: function () {
+                document.getElementById('setOriginAddressModalBody').textContent = 'Đã đặt địa chỉ mặc định thành công!';
+                const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                modal.show();
 
-                },
-                error: function () {
-                    // Show error message
-                    document.getElementById('setOriginAddressModalBody').textContent = 'Có lỗi xảy ra khi cập nhật địa chỉ mặc định!';
-                    const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
-                    modal.show();                }
-            })
+                // Optionally reload page after a short delay
+                setTimeout(() => {
+                    modal.hide();
+                    location.reload();
+                }, 2500);
+
+            },
+            error: function () {
+                // Show error message
+                document.getElementById('setOriginAddressModalBody').textContent = 'Có lỗi xảy ra khi cập nhật địa chỉ mặc định!';
+                const modal = new bootstrap.Modal(document.getElementById('setOriginAddressModal'));
+                modal.show();
+            }
+        })
     }
 
 </script>
