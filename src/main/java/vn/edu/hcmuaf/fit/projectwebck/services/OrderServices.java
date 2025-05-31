@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.projectwebck.services;
 
 
-
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.OrderDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
@@ -17,10 +16,17 @@ public class OrderServices {
     public List<Order> getAllOrders() {
         return orderDao.getAllOrders();
     }
+
     //Admin, lấy đơn hàng gần đây
-    public List<Map<String, Object>> getLatestOrders() {return orderDao.getLatestOrders();}
+    public List<Map<String, Object>> getLatestOrders() {
+        return orderDao.getLatestOrders();
+    }
+
     //Admin, lấy người dùng mua nhiều nhất trong tháng
-    public List<Map<String, Object>> getCustomer() {return orderDao.getCustomer();}
+    public List<Map<String, Object>> getCustomer() {
+        return orderDao.getCustomer();
+    }
+
     //Lay danh sach tai khoan sap xep theo thu tu giam dan cua tong tien
     public List<Map<String, Object>> getListOfAccounts() {
         return orderDao.getListOfAccounts();
@@ -35,19 +41,23 @@ public class OrderServices {
     public void removeOrder(int orderId) {
         orderDao.removeOrder(orderId);
     }
+
     public Order getOrderById(int orderId) {
-       return orderDao.getOrderById(orderId);
+        return orderDao.getOrderById(orderId);
     }
 
     public List<Order> searchById(int id) {
         return orderDao.searchById(id);
     }
+
     public List<Order> getOrderByUserId(int userId) {
         return orderDao.getOrderByUserId(userId);
     }
+
     public long insertOrderByUser(Order order, Map<Integer, Map<String, Double>> cartMap) {
         return orderDao.insertOrderByUser(order, cartMap);
     }
+
     public boolean updateOrderStatus(int orderId, int status) {
         return orderDao.updateOrderStatus(orderId, status);
     }

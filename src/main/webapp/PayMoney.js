@@ -104,11 +104,8 @@ async function order(userId, addressId,fromCart) {
             })
         }
         currentOrderId = result;
-    } else {
-        const errorResponse = await response.json();
-        console.error("Lỗi từ server:", errorResponse);
-        alert(`Đặt hàng thất bại: ${errorResponse.message || "Lỗi không xác định."}`);
     }
+
 
 
 }

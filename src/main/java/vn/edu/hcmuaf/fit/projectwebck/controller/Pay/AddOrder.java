@@ -11,15 +11,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.cart.Cart;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.Address;
-import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.services.AddressServices;
 import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.ProductServices;
+import vn.edu.hcmuaf.fit.projectwebck.services.StockService;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "AddOrder", value = "/addOrder")
@@ -44,8 +49,8 @@ public class AddOrder extends HttpServlet {
         System.out.println(request);
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(sb.toString(), JsonObject.class);
-        JsonElement  userIdElement = jsonObject.get("userId");
-        if(userIdElement.isJsonPrimitive()) {
+        JsonElement userIdElement = jsonObject.get("userId");
+        if (userIdElement.isJsonPrimitive()) {
             String userId = jsonObject.get("userId").getAsString();
             BigInteger userIdBigInteger = new BigInteger(userId);
             if (userIdBigInteger.longValue() > 10000) {
@@ -109,6 +114,7 @@ public class AddOrder extends HttpServlet {
                 }.getType();
                 Map<Integer, Map<String, Double>> cartMap = gson.fromJson(jsonObject.get("cartMap"), cartType);
 
+
 // Tạo đối tượng Order
                 Order order = new Order();
                 order.setUserId(userIdInt);
@@ -117,17 +123,65 @@ public class AddOrder extends HttpServlet {
                 order.setStatus(0);
                 order.setMoney(total);
                 OrderServices service = new OrderServices();
-                long orderId = service.insertOrderByUser(order, cartMap);
-                HttpSession session = request.getSession(true);
-//                Cart cart = (Cart) session.getAttribute("cart");
-//                cart.removeAll();
-//                session.setAttribute("cart", cart);
+
+//  Issue 47: Xử lý số lượng sản phẩm khi đặt hàng
+                List<Integer> productIds = new ArrayList<>();
+                Map<Integer, Integer> requestedQuantities = new HashMap<>();
+
+                for (Map.Entry<Integer, Map<String, Double>> entry : cartMap.entrySet()) {
+                    Map<String, Double> productInfo = entry.getValue();
+
+                    int productId = entry.getKey();
+                    int quantity = productInfo.get("quantity") != null ? (int) Double.parseDouble(productInfo.get("quantity").toString()) : 0;
+
+                    productIds.add(productId);
+                    requestedQuantities.put(productId, quantity);
+                }
+
+                StockService stockService = new StockService();
+                List<Stock> listStockByProductIds = stockService.findAllByProductIds(productIds);
+
+                List<Integer> productIdsOutQuantity = new ArrayList<>();
+//  Tạo List Object chứa productId và quantity để trừ số lượng khi đặt hàng thành công
+                List<ProductReduceQuantity> productReduceQuantities = new ArrayList<>();
+
+                List<Product> products = new ArrayList<>();
+
+                for (Stock stock : listStockByProductIds) {
+                    Integer productId = stock.getProductId();
+                    Integer requested = requestedQuantities.getOrDefault(productId.intValue(), 0);
+
+                    if (requested <= 0 || requested > stock.getQuantity()) {
+//                Add product Id với số lượng không phù hợp vào List
+                        productIdsOutQuantity.add(stock.getProductId());
+                        ProductServices productServices = new ProductServices();
+
+                        try {
+                            products = productServices.getByIds(productIdsOutQuantity);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        productReduceQuantities.add(new ProductReduceQuantity(stock.getProductId(), requested));
+                    }
+                }
 // Phản hồi kết quả
+                if (!productIdsOutQuantity.isEmpty()) {
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(gson.toJson(products));
+                    return;
+                }
+
+                long orderId = service.insertOrderByUser(order, cartMap);
+//                    stockService.reduceQuantityByProductIds(productReduceQuantities);
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(orderId));
+
+
             }
         }
 
-        }
+    }
 
 }

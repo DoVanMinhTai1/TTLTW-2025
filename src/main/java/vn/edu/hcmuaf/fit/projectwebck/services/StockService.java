@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.projectwebck.services;
 
 import vn.edu.hcmuaf.fit.projectwebck.dao.StockDao;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductReduceQuantity;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Stock;
 import vn.edu.hcmuaf.fit.projectwebck.dto.stock.StockKey;
 
@@ -35,5 +36,13 @@ public class StockService {
 
     public Stock findStockByKey(StockKey key) {
         return stockDao.findBy(key);
+    }
+
+    public List<Stock> findAllByProductIds(List<Integer> productIds) {
+        return stockDao.findAllByProductIds(productIds);
+    }
+
+    public void reduceQuantityByProductIds(List<ProductReduceQuantity> productReduceQuantities) {
+         stockDao.reduceQuantityByProductIds(productReduceQuantities);
     }
 }
