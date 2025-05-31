@@ -1,3 +1,33 @@
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://provinces.open-api.vn/api/?depth=3")
+        .then(res => res.json())
+        .then(data => {
+            const provinceSelect = document.getElementById("Province");
+            provinceSelect.innerHTML = `<option disabled selected>Tỉnh thành</option>`;
+            data.forEach(p => {
+                provinceSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+            });
+
+            provinceSelect.addEventListener("change", function () {
+                const selectedProvince = data.find(p => p.name === this.value);
+                const districtSelect = document.getElementById("District");
+                districtSelect.innerHTML = `<option disabled selected>Quận huyện</option>`;
+                selectedProvince.districts.forEach(d => {
+                    districtSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
+                });
+
+                districtSelect.addEventListener("change", function () {
+                    const selectedDistrict = selectedProvince.districts.find(d => d.name === this.value);
+                    const wardSelect = document.getElementById("Wardandcommune");
+                    wardSelect.innerHTML = `<option disabled selected>Phường xã</option>`;
+                    selectedDistrict.wards.forEach(w => {
+                        wardSelect.innerHTML += `<option value="${w.name}">${w.name}</option>`;
+                    });
+                });
+            });
+        });
+});
+
 // js phan lua chon Navigationbar
 function navigationbarClick(select) {
     const options = document.querySelectorAll(".NavigationbarSelect");
