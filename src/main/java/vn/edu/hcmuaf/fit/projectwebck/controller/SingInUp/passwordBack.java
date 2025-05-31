@@ -18,7 +18,6 @@ import java.util.Properties;
 
 @WebServlet(name = "PasswordBackServlet", value = "/passwordBack")
 public class passwordBack extends HttpServlet {
-    UserServices us = new UserServices();
     EmailVerificationTokenServices emailVerificationTokenServices = new EmailVerificationTokenServices();
 
     @Override
@@ -31,7 +30,7 @@ public class passwordBack extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         if(username== null ||  email==null){
-            request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
+            request.getSession().setAttribute("errorMessage", "Vui long nhap day du thong tin.");
             request.getRequestDispatcher("passwordBack").forward(request, response);
             return;
         }
@@ -50,14 +49,15 @@ public class passwordBack extends HttpServlet {
 
             // Tạo link xác nhận
             String contextPath = request.getContextPath();
-            String verificationLink = "http://localhost:8080" + contextPath + "/sendPassword?token=" + token + "&email=" + email;
+            String verificationLink = "http://localhost:8080" + contextPath + "/sendPassword?token=" + token + "&email=" + email + "&userId=" + user.getId();
             // Gửi email
             sendEmail(email, verificationLink);
 
-            response.getWriter().write("Email thay doi mat khau tai khoan da duoc gui toi email cua ban.");
+            request.getSession().setAttribute("message", "Email thay đổi mật khẩu đã được gửi tới email của bạn.");
             response.sendRedirect("showLogin");
         } else {
-            response.getWriter().write("Khong thanh cong vui long thu lai!");
+            request.getSession().setAttribute("errorMessage", "Email hoặc username không đúng, vui lòng thử lại.");
+            response.sendRedirect("passwordBack");
         }
     }
 
@@ -88,8 +88,8 @@ public class passwordBack extends HttpServlet {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Đổi Mật Khẩu Tài Khoản");
-            message.setText("Vui lòng nhấp vào liên kết sau để đổi mật khẩu tài khoản:\n" + verificationLink);
+            message.setSubject("Doi Mat Khau Tai Khoan");
+            message.setText("Vui lòng nhap vao lien ket sau de doi mat khau tai khoan:\n" + verificationLink);
 
             Transport.send(message);
         } catch (MessagingException e) {

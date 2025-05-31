@@ -11,6 +11,7 @@ public class User {
     private String phone;
     private String thirty_party_id;
     private boolean isActive;
+    private String salt;
 
     public User(int id, String username, String password, int role, String fullName, String email, String dateOfBirth, String phone
     , String thirty_party_id) {
@@ -100,7 +101,10 @@ public class User {
 
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
-
+    public String getSalt() {return salt;}
+    public void setSalt(String salt) {
+         this.salt = salt;
+    }
     @Override
     public String toString() {
         return "User{" +
