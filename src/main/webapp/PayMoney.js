@@ -104,9 +104,26 @@ async function order(userId, addressId,fromCart) {
             })
         }
         currentOrderId = result;
+    } else {
+        const errorProducts = await response.json();
+        showModalProductErrorQuantity(errorProducts);
+
     }
 
+    function showModalProductErrorQuantity(products) {
+        const modalBody = document.getElementById('modalProductErrorBody');
+        let html = `<p>Các sản phẩm sau không đủ số lượng trong kho:</p><ul>`;
+        products.forEach(product => {
+            html += `<li>${product.product.name} - Chỉ còn ${product.quantity} sản phẩm</li>`;
+        });
+        html += `</ul>`;
 
+        modalBody.innerHTML = html;
+
+        const myModal = new bootstrap.Modal(document.getElementById('productQuantityErrorModal'));
+        myModal.show();
+
+    }
 
 }
 function exportPdf() {
