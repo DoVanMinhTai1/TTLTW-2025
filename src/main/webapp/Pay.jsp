@@ -38,23 +38,14 @@
                 <input type="text" name="Phonenumber" id="Phonenumber" placeholder="Số điện thoại" class="form"
                        value="${address.phone}"><br>
                 <input type="text" name="" id="Address" placeholder="Address" class="form" value="${number}"><br>
-                <select name="Conscious" id="Conscious" style="width: 93%;height:40px;">
-                    <option value="" selected>${province}</option>
-                    <option value="Hồ Chí Minh"> Hồ Chí Minh</option>
-                    <option value="Thái Bình">Thái Bình</option>
-                    <option value="Hưng Yên">Hưng Yên</option>
+                <select name="Conscious" id="Conscious" style="width: 90%;height:40px;">
+                    <option value="${province}" selected>${province}</option>
                 </select>
-                <select name="District" id="District" style="width: 93%;height:40px;">
-                    <option value="" selected>${district}</option>
-                    <option value="Thủ Đức">Thủ Đức</option>
-                    <option value="Quận 1">Quận 1</option>
-                    <option value="Quận 2">Quận 2</option>
+                <select name="District" id="District" style="width: 90%;height:40px;">
+                    <option value="${district}" selected>${district}</option>
                 </select>
-                <select name="Commune" id="Commune" style="width: 93%;height:40px;">
-                    <option value="" selected>${ward}</option>
-                    <option value="Linh Trung">Linh Trung</option>
-                    <option value="Linh Tây">Linh Tây</option>
-                    <option value="Linh Xuân">Linh Xuân</option>
+                <select name="Commune" id="Commune" style="width: 90%;height:40px;">
+                    <option value="${ward}" selected>${ward}</option>
                 </select>
                 <textarea name="Note" id="Note" placeholder="Ghi chú"></textarea>
             </div>

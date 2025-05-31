@@ -1,4 +1,67 @@
-async function discount(total, userId) {
+
+document.addEventListener("DOMContentLoaded", function () {
+    const provinceSelect = document.getElementById("Conscious");
+    const districtSelect = document.getElementById("District");
+    const wardSelect = document.getElementById("Commune");
+
+    const selectedProvince = provinceSelect.value;
+    const selectedDistrict = districtSelect.value;
+    const selectedWard = wardSelect.value;
+    console.log("selectedProvince =", selectedProvince);
+    console.log("selectedDistrict =", selectedDistrict);
+    console.log("selectedWard =", selectedWard);
+
+    fetch("https://provinces.open-api.vn/api/?depth=3")
+        .then(res => res.json())
+        .then(data => {
+            // Load tỉnh
+            provinceSelect.innerHTML = `<option disabled>Chọn tỉnh</option>`;
+            data.forEach(p => {
+                const selected = (p.name === selectedProvince) ? "selected" : "";
+                provinceSelect.innerHTML += `<option value="${p.name}" ${selected}>${p.name}</option>`;
+            });
+
+            const currentProvince = data.find(p => p.name === selectedProvince);
+            if (currentProvince) {
+                districtSelect.innerHTML = `<option disabled>Chọn quận</option>`;
+                currentProvince.districts.forEach(d => {
+                    const selected = (d.name === selectedDistrict) ? "selected" : "";
+                    districtSelect.innerHTML += `<option value="${d.name}" ${selected}>${d.name}</option>`;
+                });
+
+                const currentDistrict = currentProvince.districts.find(d => d.name === selectedDistrict);
+                if (currentDistrict) {
+                    wardSelect.innerHTML = `<option disabled>Chọn phường</option>`;
+                    currentDistrict.wards.forEach(w => {
+                        const selected = (w.name === selectedWard) ? "selected" : "";
+                        wardSelect.innerHTML += `<option value="${w.name}" ${selected}>${w.name}</option>`;
+                    });
+                }
+            }
+
+            // Sự kiện chọn tỉnh → load quận
+            provinceSelect.addEventListener("change", function () {
+                const selected = data.find(p => p.name === this.value);
+                districtSelect.innerHTML = `<option disabled selected>Chọn quận</option>`;
+                wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
+                selected.districts.forEach(d => {
+                    districtSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
+                });
+            });
+
+            // Sự kiện chọn quận → load phường
+            districtSelect.addEventListener("change", function () {
+                const province = data.find(p => p.name === provinceSelect.value);
+                const district = province.districts.find(d => d.name === this.value);
+                wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
+                district.wards.forEach(w => {
+                    wardSelect.innerHTML += `<option value="${w.name}">${w.name}</option>`;
+                });
+            });
+        });
+});
+
+async function discount(total,userId) {
     var discountCode = document.getElementById("DiscountCode").value;
     const response = await fetch(`/web/applyPromotion?total=${total}&discountCode=${discountCode}&uId=${userId}`);
     const valueProvisional = await response.json();
@@ -145,12 +208,6 @@ async function order(userId, addressId, fromCart) {
     }
 
 }
-
-function exportPdf() {
-    if (!currentOrderId) {
-        alert("Cannot export PDF without an order ID.");
-        return;
-    }
 
 function exportPdf() {
     if (!currentOrderId) {
