@@ -16,6 +16,8 @@
     <title>Pay</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Pay.css">
 </head>
 <body>
@@ -85,18 +87,21 @@
                     <c:choose>
                         <c:when test="${not empty productList}">
                             <c:forEach items="${productList}" var="p">
-                                <div class="PayRightContent_item" data-id="${p.product.id}" data-quantity="${p.quantity}"
+                                <div class="PayRightContent_item" data-id="${p.product.id}"
+                                     data-quantity="${p.quantity}"
                                      data-price="${p.product.price}">
                                     <div class="PayRightContent_item_imgnotice">
-                                        <img src="${p.product.image}" alt="Product Image" class="PayRightContent_img_item">
+                                        <img src="${p.product.image}" alt="Product Image"
+                                             class="PayRightContent_img_item">
                                         <span class="PayRightContent_item_notice">${p.quantity}</span>
                                     </div>
                                     <div class="PayRightContent_item_info">
                                         <div class="PayRightContent_item_header">
                                             <div class="PayRightContent_item_name">${p.product.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.product.price}"
-                                                                                                      type="number"
-                                                                                                      maxFractionDigits="0"/>đ
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber
+                                                    value="${p.product.price}"
+                                                    type="number"
+                                                    maxFractionDigits="0"/>đ
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +141,7 @@
                     <div class="text1">
                         <span class="t1">Tạm tính</span>
                         <span id="provisional">
-                          ${totalPrice}
+                            ${totalPrice}
                         </span>
                     </div>
                     <div class="text2">
@@ -174,14 +179,41 @@
     <div class="OrderSuccessfulFotter">
         <span>Mã đơn hàng</span><span class="Code" id="code">#FOOD1998</span>
     </div>
-    <button type="submit"><a
-            href="showHome"
-            class="Continue" target="myTab">
-        VỀ TRANG CHỦ
-    </a></button>
-    <button type="button" onclick="exportPdf()">In hóa đơn</button>
+
+    <div class="d-flex" style=" justify-content: center; gap: 5px;">
+        <button type="submit"><a
+                href="showHome"
+                class="Continue" target="myTab">
+            VỀ TRANG CHỦ
+        </a></button>
+        <button type="button" onclick="exportPdf()">In hóa đơn</button>
+    </div>
+
 </div>
+<!-- Modal -->
+<div class="modal fade" id="productQuantityErrorModal" tabindex="-1" aria-labelledby="productQuantityErrorLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="productQuantityErrorLabel">Lỗi số lượng sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" id="modalProductErrorBody">
+                <!-- Nội dung lỗi sẽ được chèn ở đây bằng JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/PayMoney.js"></script>
 <script type="text/javascript">

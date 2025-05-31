@@ -119,9 +119,8 @@ select:focus {
 .PayLeftContentOmegaTextSelect {
     margin: 10px 0;
     border: solid 1px gainsboro;
-    padding: 10px 0 10px 10px;
+    padding: 10px;
     width: 90%;
-    height: 22px;
     font-size: 14px;
     color: #888888;
     border-radius: 5px;
@@ -281,7 +280,7 @@ select:focus {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 460px;
-    height: 360px;
+    /*height: 360px;*/
     padding: 20px;
     border-radius: 5px;
     background-color: #ebebeb;
@@ -335,7 +334,7 @@ select:focus {
     border: none;
     padding: 15px;
     border-radius: 5px;
-    margin-left: 165px;
+    /*margin-left: 165px;*/
 }
 .Continue {
     color: black;

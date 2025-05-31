@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.projectwebck.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductReduceQuantity;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Promotion;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Stock;
 import vn.edu.hcmuaf.fit.projectwebck.dto.stock.StockKey;
@@ -93,4 +94,24 @@ public class StockDao {
         );
     }
 
+    public List<Stock> findAllByProductIds(List<Integer> productIds) {
+        String sql = "SELECT * FROM stocks WHERE productId IN (<productIds>)";
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bindList("productIds", productIds)
+                        .mapToBean(Stock.class)
+                        .list());
+    }
+
+    public void reduceQuantityByProductIds(List<ProductReduceQuantity> productReduceQuantities) {
+        String sql = "UPDATE stocks SET quantity = quantity - :quantity WHERE productId = :productId";
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            for (ProductReduceQuantity productReduceQuantity : productReduceQuantities) {
+                handle.createUpdate(sql).bind("quantity", productReduceQuantity.getQuantity())
+                        .bind("productId", productReduceQuantity.getProductId()).execute();
+            }
+        });
+    }
 }
