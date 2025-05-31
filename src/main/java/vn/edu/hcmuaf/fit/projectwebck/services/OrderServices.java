@@ -6,13 +6,15 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.OrderDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Order;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.OrderDetail;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.ProductReduceQuantity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class OrderServices {
     static OrderDao orderDao = new OrderDao();
-
+    static StockService stockService = new StockService();
     public List<Order> getAllOrders() {
         return orderDao.getAllOrders();
     }
@@ -62,4 +64,12 @@ public class OrderServices {
         return orderDao.updateOrderStatus(orderId, status);
     }
 
+    public void reduceStockWhenOrderConfirmed(int orderId) {
+        List<OrderDetail> details = orderDao.getOrderDetailsByOrderId(orderId); // You need to implement this method
+        List<ProductReduceQuantity> productReduceQuantities = new ArrayList<ProductReduceQuantity>();
+        for (OrderDetail detail : details) {
+            productReduceQuantities.add(new ProductReduceQuantity(detail.getProductId(), detail.getQuantity()));
+        }
+        stockService.reduceQuantityByProductIds(productReduceQuantities);
+    }
 }

@@ -59,6 +59,9 @@ public class UpdateStatus extends HttpServlet {
                     order.getId(),
                     statusText
             );
+            if(updated && status == 1) {
+                service.reduceStockWhenOrderConfirmed(orderId);
+            }
             response.setContentType("text/plain");
             if (updated) {
                 response.getWriter().write("OK");
@@ -66,6 +69,8 @@ public class UpdateStatus extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Cập nhật không thành công.");
             }
+
+
 
         } catch (NumberFormatException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

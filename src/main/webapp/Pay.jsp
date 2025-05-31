@@ -96,18 +96,21 @@
                     <c:choose>
                         <c:when test="${not empty productList}">
                             <c:forEach items="${productList}" var="p">
-                                <div class="PayRightContent_item" data-id="${p.product.id}" data-quantity="${p.quantity}"
+                                <div class="PayRightContent_item" data-id="${p.product.id}"
+                                     data-quantity="${p.quantity}"
                                      data-price="${p.product.price}">
                                     <div class="PayRightContent_item_imgnotice">
-                                        <img src="${p.product.image}" alt="Product Image" class="PayRightContent_img_item">
+                                        <img src="${p.product.image}" alt="Product Image"
+                                             class="PayRightContent_img_item">
                                         <span class="PayRightContent_item_notice">${p.quantity}</span>
                                     </div>
                                     <div class="PayRightContent_item_info">
                                         <div class="PayRightContent_item_header">
                                             <div class="PayRightContent_item_name">${p.product.name}</div>
-                                            <div class="PayRightContent_item_price"><fmt:formatNumber value="${p.product.price}"
-                                                                                                      type="number"
-                                                                                                      maxFractionDigits="0"/>đ
+                                            <div class="PayRightContent_item_price"><fmt:formatNumber
+                                                    value="${p.product.price}"
+                                                    type="number"
+                                                    maxFractionDigits="0"/>đ
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +150,7 @@
                     <div class="text1">
                         <span class="t1">Tạm tính</span>
                         <span id="provisional">
-                          ${totalPrice}
+                            ${totalPrice}
                         </span>
                     </div>
                     <div class="text2">
@@ -185,15 +188,19 @@
     <div class="OrderSuccessfulFotter">
         <span>Mã đơn hàng</span><span class="Code" id="code">#FOOD1998</span>
     </div>
-    <button type="submit"><a
-            href="showHome"
-            class="Continue" target="myTab">
-        VỀ TRANG CHỦ
-    </a></button>
-    <button type="button" onclick="exportPdf()">In hóa đơn</button>
+    <div class="d-flex" style=" justify-content: center; gap: 5px;">
+        <button type="submit"><a
+                href="showHome"
+                class="Continue" target="myTab">
+            VỀ TRANG CHỦ
+        </a></button>
+        <button type="button" onclick="exportPdf()">In hóa đơn</button>
+    </div>
+
 </div>
 <!-- Modal -->
-<div class="modal fade" id="productQuantityErrorModal" tabindex="-1" aria-labelledby="productQuantityErrorLabel" aria-hidden="true">
+<div class="modal fade" id="productQuantityErrorModal" tabindex="-1" aria-labelledby="productQuantityErrorLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
@@ -212,7 +219,9 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/PayMoney.js"></script>
 <script type="text/javascript">
     var userId = "${sessionScope.user.id}";
