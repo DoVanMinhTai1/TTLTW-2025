@@ -188,6 +188,7 @@
     <div class="OrderSuccessfulFotter">
         <span>Mã đơn hàng</span><span class="Code" id="code">#FOOD1998</span>
     </div>
+
     <div class="d-flex" style=" justify-content: center; gap: 5px;">
         <button type="submit"><a
                 href="showHome"
@@ -215,6 +216,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="

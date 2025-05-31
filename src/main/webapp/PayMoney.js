@@ -43,6 +43,7 @@ async function submitForm() {
 let currentOrderId = null;
 
 async function order(userId, addressId, fromCart) {
+
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
     const userId1 = userId;
@@ -151,12 +152,19 @@ function exportPdf() {
         return;
     }
 
+function exportPdf() {
+    if (!currentOrderId) {
+        alert("Cannot export PDF without an order ID.");
+        return;
+    }
+
     fetch('/web/exportPdf', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({orderId: currentOrderId})
+
     })
         .then(response => {
             if (!response.ok) {
