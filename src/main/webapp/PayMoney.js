@@ -1,4 +1,4 @@
-async function discount(total,userId) {
+async function discount(total, userId) {
     var discountCode = document.getElementById("DiscountCode").value;
     const response = await fetch(`/web/applyPromotion?total=${total}&discountCode=${discountCode}&uId=${userId}`);
     const valueProvisional = await response.json();
@@ -9,7 +9,7 @@ async function discount(total,userId) {
         provisionalElement.innerText = valueProvisional.totalAmount.toLocaleString('vi-VN', {maximumFractionDigits: 0}).replace(/\./g, ',');
         const transportValue = parseFloat(document.getElementById("transportValue").innerText.replace(/,/g, '').replace('đ', ''));
         const totalElement = document.getElementById("total");
-        totalElement.innerText = (valueProvisional.totalAmount + (isNaN(transportValue) ? 0 : transportValue)).toLocaleString('vi-VN', {maximumFractionDigits: 0}).replace(/\./g, ',')+"đ";
+        totalElement.innerText = (valueProvisional.totalAmount + (isNaN(transportValue) ? 0 : transportValue)).toLocaleString('vi-VN', {maximumFractionDigits: 0}).replace(/\./g, ',') + "đ";
 
 
     } else {
@@ -29,7 +29,7 @@ async function submitForm() {
     const transportElement = document.getElementById("transportValue");
     transportElement.innerText = parseFloat(valueTransport).toLocaleString('vi-VN', {
         maximumFractionDigits: 0
-    }).replace(/\./g, ',')+"đ";
+    }).replace(/\./g, ',') + "đ";
     // Tính tổng tiền
     const totalAmount = provisionalValue + parseFloat(valueTransport);
 
@@ -37,11 +37,12 @@ async function submitForm() {
     const totalElement = document.getElementById("total");
     totalElement.innerText = totalAmount.toLocaleString('vi-VN', {
         maximumFractionDigits: 0
-    }).replace(/\./g, ',')+"đ";
+    }).replace(/\./g, ',') + "đ";
 }
+
 let currentOrderId = null;
 
-async function order(userId, addressId,fromCart) {
+async function order(userId, addressId, fromCart) {
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
     const userId1 = userId;
@@ -56,7 +57,7 @@ async function order(userId, addressId,fromCart) {
         const quantity = parseInt(item.getAttribute('data-quantity'));
         const price = parseFloat(item.getAttribute('data-price')); // Lấy giá
 
-        cartMap[productId] = { quantity: quantity, price: price };
+        cartMap[productId] = {quantity: quantity, price: price};
         productList.push({
             productId: productId
         })
@@ -78,7 +79,7 @@ async function order(userId, addressId,fromCart) {
     if (response.ok) {
         const result = await response.json();
         console.log("Kết quả:", result);
-        document.getElementById("code").innerText=result;
+        document.getElementById("code").innerText = result;
         // Hiển thị thông báo đặt hàng thành công
         const newAddress = document.getElementById("OrderSuccessful");
         const overlay = document.createElement('div');
@@ -86,7 +87,7 @@ async function order(userId, addressId,fromCart) {
         overlay.id = "overlay";
         document.body.appendChild(overlay);
         newAddress.style.display = "block";
-        if(fromCart === 'true') {
+        if (fromCart === 'true') {
             $(document).ready(function () {
                 $.ajax({
                     url: '/web/RemoveCartList',
@@ -104,10 +105,27 @@ async function order(userId, addressId,fromCart) {
             })
         }
         currentOrderId = result;
+    } else if (response.status === 404) {
+        const notFoundProducts = await response.json();
+        showModalProductNotFound(notFoundProducts)
     } else {
         const errorProducts = await response.json();
         showModalProductErrorQuantity(errorProducts);
 
+    }
+
+    function showModalProductNotFound(products) {
+        const modalBody = document.getElementById('modalProductErrorBody');
+        let html = `<p>Các sản phẩm sau không có trong kho:</p><ul>`;
+        products.forEach(product => {
+            html += `<li>${product.name} </li>`;
+        });
+        html += `</ul>`;
+
+        modalBody.innerHTML = html;
+
+        const myModal = new bootstrap.Modal(document.getElementById('productQuantityErrorModal'));
+        myModal.show();
     }
 
     function showModalProductErrorQuantity(products) {
@@ -126,6 +144,7 @@ async function order(userId, addressId,fromCart) {
     }
 
 }
+
 function exportPdf() {
     if (!currentOrderId) {
         alert("Cannot export PDF without an order ID.");
@@ -137,7 +156,7 @@ function exportPdf() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ orderId: currentOrderId })
+        body: JSON.stringify({orderId: currentOrderId})
     })
         .then(response => {
             if (!response.ok) {

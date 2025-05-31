@@ -22,10 +22,8 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "AddOrder", value = "/addOrder")
 public class AddOrder extends HttpServlet {
@@ -137,6 +135,8 @@ public class AddOrder extends HttpServlet {
                 OrderServices service = new OrderServices();
 
 //  Issue 47: Xử lý số lượng sản phẩm khi đặt hàng
+                ProductServices productServices = new ProductServices();
+
                 List<Integer> productIds = new ArrayList<>();
                 Map<Integer, Integer> requestedQuantities = new HashMap<>();
 
@@ -144,15 +144,48 @@ public class AddOrder extends HttpServlet {
                     Map<String, Double> productInfo = entry.getValue();
 
                     int productId = entry.getKey();
-                    int quantity = productInfo.get("quantity") != null ? (int) Double.parseDouble(productInfo.get("quantity").toString()) : 0;
+                    int quantity;
+
+                    try {
+                        quantity = productInfo.get("quantity") != null
+                                ? (int) Double.parseDouble(productInfo.get("quantity").toString())
+                                : 0;
+                    } catch (NullPointerException | NumberFormatException e) {
+                        quantity = 0;
+                    }
+
 
                     productIds.add(productId);
                     requestedQuantities.put(productId, quantity);
                 }
 
                 StockService stockService = new StockService();
-                List<Stock> listStockByProductIds = stockService.findAllByProductIds(productIds);
+                List<Stock> listStockByProductIds = new ArrayList<>();
+                try {
+                    listStockByProductIds = stockService.findAllByProductIds(productIds);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
 
+//  Exception nếu sản phẩm chưa có trong kho
+                Set<Integer> foundIds = listStockByProductIds.stream().map(Stock::getProductId).collect(Collectors.toSet());
+
+                List<Integer> missingIds = productIds.stream().filter(productId
+                        -> !foundIds.contains(productId)).collect(Collectors.toList());
+                if (!missingIds.isEmpty()) {
+
+                    try {
+                        List<Product> productNotFoundInStock = productServices.getByIds(missingIds);
+                        response.setContentType("application/json");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write(gson.toJson(productNotFoundInStock));
+                        return;
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+//  Kết thúc Exception
                 List<Integer> productIdsOutQuantity = new ArrayList<>();
 //  Tạo List Object chứa productId và quantity để trừ số lượng khi đặt hàng thành công
                 List<ProductReduceQuantity> productReduceQuantities = new ArrayList<>();
@@ -166,7 +199,6 @@ public class AddOrder extends HttpServlet {
                     if (requested <= 0 || requested > stock.getQuantity()) {
 //                Add product Id với số lượng không phù hợp vào List
                         productIdsOutQuantity.add(stock.getProductId());
-                        ProductServices productServices = new ProductServices();
 
                         try {
                             List<Product> products = productServices.getByIds(productIdsOutQuantity);
@@ -188,10 +220,20 @@ public class AddOrder extends HttpServlet {
                     return;
                 }
 
-                long orderId = service.insertOrderByUser(order, cartMap);
+                long orderId = -1;
+                try {
+                    orderId = service.insertOrderByUser(order, cartMap);
+                    response.setContentType("application/json");
+                    response.getWriter().write(gson.toJson(orderId));
+                } catch (Exception e) {
+                    e.printStackTrace(); // Or better: log to a logger
+
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("{\"error\": \"Database error occurred while inserting order.\"}");
+                }
+
 //                    stockService.reduceQuantityByProductIds(productReduceQuantities);
-                response.setContentType("application/json");
-                response.getWriter().write(gson.toJson(orderId));
 
 
             }
