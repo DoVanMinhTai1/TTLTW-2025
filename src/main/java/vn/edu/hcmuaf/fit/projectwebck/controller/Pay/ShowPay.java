@@ -55,7 +55,10 @@ public class ShowPay extends HttpServlet {
         }
 
         boolean fromCart = !cartItemsList.isEmpty();
-
+        int productId = -1;
+        if(!fromCart) {
+             productId = Integer.parseInt(request.getParameter("productId"));
+        }
 
         BigInteger uIdLong = new BigInteger(uIdParam);
         AddressServices addressServices = new AddressServices();
@@ -105,15 +108,25 @@ public class ShowPay extends HttpServlet {
             ProductServices productServices = new ProductServices();
             List<ProductWithQuantity> productList = new ArrayList<>();
             int totalPrice = 0;
-            for (CartItem cartItem : cartItemsList) {
-                Product product = productServices.getById(cartItem.getProductId());
-                ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
-                totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
+            if (!fromCart) {
+                Product product = productServices.getById(productId);
+                ProductWithQuantity productWithQuantity = new ProductWithQuantity();
+                productWithQuantity.setProduct(product);
+                productWithQuantity.setQuantity(1);
                 productList.add(productWithQuantity);
+                request.setAttribute("productList", productList);
+            } else  {
+
+                for (CartItem cartItem : cartItemsList) {
+                    Product product = productServices.getById(cartItem.getProductId());
+                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
+                    totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
+                    productList.add(productWithQuantity);
+                }
+                request.setAttribute("productList", productList);
             }
             request.setAttribute("totalQuantity", cartItemsList.size());
             request.setAttribute("totalPrice", totalPrice);
-            request.setAttribute("productList", productList);
             request.setAttribute("fromCart", fromCart);
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
 
