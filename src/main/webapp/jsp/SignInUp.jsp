@@ -63,7 +63,7 @@
       <span>hoặc sử dụng tài khoản của bạn</span>
       <input type="text" placeholder="Tên người dùng" name = "username" required/>
       <input type="password" placeholder="Mật khẩu" name ="password" required/>
-      <input type="text" placeholder="Captcha" name ="captcha" />
+      <input type="text" placeholder="Captcha" name ="captcha" required/>
       <img src="CaptchaServlet" alt="CAPTCHA Image">
       <a href="passwordBack">Quên mật khẩu?</a>
       <button type="submit" >Đăng nhập</button>
