@@ -64,11 +64,22 @@ public class StockDao {
         return rowsAffected > 0;
     }
 
-    public Stock findById(int productId) {
+    public Stock findByProductId(int productId) {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM stocks WHERE productId = :productId")
                         .bind("productId", productId)
+                        .mapToBean(Stock.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    public Stock findById(int Id) {
+        Jdbi jdbi = JDBIConect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM stocks WHERE id = :id")
+                        .bind("id", Id)
                         .mapToBean(Stock.class)
                         .findOne()
                         .orElse(null)
@@ -113,5 +124,22 @@ public class StockDao {
                         .bind("productId", productReduceQuantity.getProductId()).execute();
             }
         });
+    }
+
+    public void increateQuantityByProductIds(List<ProductReduceQuantity> productReduceQuantities) {
+        String sql = "UPDATE stocks SET quantity = quantity + :quantity WHERE productId = :productId";
+        Jdbi jdbi = JDBIConect.get();
+        jdbi.useHandle(handle -> {
+            for (ProductReduceQuantity productReduceQuantity : productReduceQuantities) {
+                handle.createUpdate(sql).bind("quantity", productReduceQuantity.getQuantity())
+                        .bind("productId", productReduceQuantity.getProductId()).execute();
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        StockDao stockDao = new StockDao();
+        System.out.println(stockDao.getAllStocks());
+
     }
 }
