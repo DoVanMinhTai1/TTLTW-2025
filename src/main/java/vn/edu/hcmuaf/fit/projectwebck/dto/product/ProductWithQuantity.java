@@ -10,14 +10,31 @@ import java.util.List;
 public class ProductWithQuantity {
     private int quantity;
     private Product product;
+    private String size;
 
     public ProductWithQuantity(int quantity, Product product) {
         this.quantity = quantity;
         this.product = product;
     }
 
+    public ProductWithQuantity(int quantity, Product product, String size) {
+        this.quantity = quantity;
+        this.product = product;
+        this.size = size;
+    }
+
     public ProductWithQuantity() {
     }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+
 
     public int getQuantity() {
         return quantity;

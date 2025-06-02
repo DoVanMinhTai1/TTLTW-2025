@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.projectwebck.dao.ProductDao;
 import vn.edu.hcmuaf.fit.projectwebck.dao.cart.Cart;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.Address;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.CartItem;
@@ -35,10 +36,10 @@ public class ShowPay extends HttpServlet {
         request.setAttribute("listTransport", list);
         String uIdParam = request.getParameter("uId");
         Map<String, String[]> parameterMap = request.getParameterMap();
-        Map<Integer,Integer> cartItems = new HashMap<Integer,Integer>();
+        Map<Integer, Integer> cartItems = new HashMap<Integer, Integer>();
 
         parameterMap.forEach((k, v) -> {
-            if(k.startsWith("cart[")) {
+            if (k.startsWith("cart[")) {
                 String productIdSubString = k.substring(k.indexOf("[") + 1, k.indexOf("]"));
                 Integer productId = Integer.parseInt(productIdSubString);
                 Integer quantity = Integer.parseInt(v[0]);
@@ -56,8 +57,10 @@ public class ShowPay extends HttpServlet {
 
         boolean fromCart = !cartItemsList.isEmpty();
         int productId = -1;
-        if(!fromCart) {
-             productId = Integer.parseInt(request.getParameter("productId"));
+        String productSizeName = null;
+        if (!fromCart) {
+            productId = Integer.parseInt(request.getParameter("productId"));
+            productSizeName = request.getParameter("size");
         }
 
         BigInteger uIdLong = new BigInteger(uIdParam);
@@ -91,13 +94,14 @@ public class ShowPay extends HttpServlet {
                 ProductWithQuantity productWithQuantity = new ProductWithQuantity();
                 productWithQuantity.setProduct(product);
                 productWithQuantity.setQuantity(1);
+                productWithQuantity.setSize(productSizeName);
                 productList.add(productWithQuantity);
                 request.setAttribute("productList", productList);
-            } else  {
+            } else {
 
                 for (CartItem cartItem : cartItemsList) {
                     Product product = productServices.getById(cartItem.getProductId());
-                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
+                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(), product);
                     totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
                     productList.add(productWithQuantity);
                 }
@@ -133,13 +137,15 @@ public class ShowPay extends HttpServlet {
                 ProductWithQuantity productWithQuantity = new ProductWithQuantity();
                 productWithQuantity.setProduct(product);
                 productWithQuantity.setQuantity(1);
+                ProductDao productDao = new ProductDao();
+                productWithQuantity.setSize(productSizeName);
                 productList.add(productWithQuantity);
                 request.setAttribute("productList", productList);
-            } else  {
+            } else {
 
                 for (CartItem cartItem : cartItemsList) {
                     Product product = productServices.getById(cartItem.getProductId());
-                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
+                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(), product);
                     totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
                     productList.add(productWithQuantity);
                 }
