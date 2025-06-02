@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.services.*;
 
@@ -18,38 +19,79 @@ public class Show extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("showLogin");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
+        Role role = Role.fromId(user.getRole());
+        System.out.println("Role ID of user: " + user.getRole());
+        System.out.println("Session: " + session + ", User: " + session.getAttribute("user"));
+
         ProductServices productService = new ProductServices();
-        List<Product> products = productService.getAll();
-        request.setAttribute("listproduct", products);
+        if (role.hasPermission("MANAGE_VEGETABLES") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<Product> products = productService.getAll();
+            request.setAttribute("listproduct", products);
+        }
         OrderServices orderServices = new OrderServices();
-        List<Order> listOrder = orderServices.getAllOrders();
-        request.setAttribute("listorder", listOrder);
-        UserServices userServices = new UserServices();
-        List<User> listUser = userServices.getAllUsers();
-        request.setAttribute("listuser", listUser);
         OrderDetailServices orderDetailServices = new OrderDetailServices();
-        List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
-        request.setAttribute("listordetail", listOrD);
+        if (role.hasPermission("MANAGE_ORDERS") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<Order> listOrder = orderServices.getAllOrders();
+            request.setAttribute("listorder", listOrder);
+            List<Map<String, Object>> listLatestOrders = orderServices.getLatestOrders();
+            request.setAttribute("listlatestorders", listLatestOrders);
+            List<OrderDetail> listOrD = orderDetailServices.getAllOrderDetails();
+            request.setAttribute("listordetail", listOrD);
+            double sum = 0;
+            for (OrderDetail o : listOrD) {
+                sum += o.getTotalAmount();
+            }
+            request.setAttribute("totalRevenue", sum);
+            List<Map<String, Object>> buyCustomer = orderServices.getCustomer();
+            request.setAttribute("listCustomer", buyCustomer);
+        }
+
+        UserServices userServices = new UserServices();
+        if (role.hasPermission("MANAGE_USERS") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<User> listUser = userServices.getAllUsers();
+            request.setAttribute("listuser", listUser);
+        }
+
+
         LogsServices logsServices = new LogsServices();
         List<Log> listLog = logsServices.getAllLogs();
         request.setAttribute("listlog", listLog);
 
         //show order
 //        List<Order> listLatestOrders = orderServices.getLatestOrders();
-        List<Map<String, Object>> listLatestOrders = orderServices.getLatestOrders();
-        request.setAttribute("listlatestorders", listLatestOrders);
-
-        List<Map<String, Object>> buyCustomer = orderServices.getCustomer();
-        request.setAttribute("listCustomer", buyCustomer);
-        double sum = 0;
-        for (OrderDetail o : listOrD) {
-            sum += o.getTotalAmount();
+        String defaultOption = "option1";
+        if (!role.hasPermission("VIEW_DASHBOARD")) {
+            if (role.hasPermission("MANAGE_VEGETABLES")) {
+                defaultOption = "option2";
+            } else if (role.hasPermission("MANAGE_USERS")) {
+                defaultOption = "option3";
+            } else if (role.hasPermission("MANAGE_ORDERS")) {
+                defaultOption = "option4";
+            } else if (role.hasPermission("MANAGE_PROMOTIONS")) {
+                defaultOption = "option5";
+            } else if (role.hasPermission("MANAGE_PRODUCT_PROMOTION")) {
+                defaultOption = "option6";
+            } else if (role.hasPermission("MANAGE_STOCK")) {
+                defaultOption = "option7";
+            } else {
+                response.sendRedirect("showHome");
+                return;
+            }
         }
-        request.setAttribute("totalRevenue", sum);
-        request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request, response);
+        System.out.println("defaultOption: " + defaultOption); // Gỡ lỗi
+        request.setAttribute("runScript", defaultOption);
+        request.getRequestDispatcher("Admin.jsp").forward(request, response);
+//        request.getRequestDispatcher("Admin.jsp?runScript=" + defaultOption).forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+}
 }

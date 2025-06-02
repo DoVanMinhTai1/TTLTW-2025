@@ -1,20 +1,41 @@
 <%@ page import="vn.edu.hcmuaf.fit.projectwebck.dao.model.User" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="vn.edu.hcmuaf.fit.projectwebck.dao.model.Role" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     session = request.getSession();
-    String runScript = request.getParameter("runScript");
-    User user = (User) session.getAttribute("user");
-
-    if (user == null) {
+//    String runScript = request.getParameter("runScript");
+    if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("showLogin");
         return;
     }
-    if (user.getRole() != 1 && user.getRole() != 2) {
+    User user = (User) session.getAttribute("user");
+    int roleId = user.getRole();
+    Set<Integer> allowedRoles = new HashSet<>();
+    allowedRoles.add(1); // ADMIN
+    allowedRoles.add(2); // MOD_VEGETABLES
+    allowedRoles.add(3); // MOD_USERS
+    allowedRoles.add(4); // MOD_ORDERS
+    allowedRoles.add(5); // MOD_PROMOTIONS
+    allowedRoles.add(6); // MOD_PRODUCT_PROMOTION
+    allowedRoles.add(7); //MOD_STOCK
+    if (!allowedRoles.contains(roleId)) {
         response.sendRedirect("showHome");
         return;
     }
+
+    Role role = Role.fromId(roleId);
+    request.setAttribute("role", role);
+
+    // Lấy runScript từ request.getAttribute thay vì getParameter
+    String runScript = (String) request.getAttribute("runScript");
+    if (runScript == null || runScript.trim().isEmpty()) {
+        runScript = "option1"; // Giá trị mặc định
+    }
+    request.setAttribute("runScript", runScript);
 %>
 <html>
 <head>
@@ -43,45 +64,60 @@
         <h1>NLU Food</h1>
     </div>
     <ul>
-        <a href="showOption?option=option1">
-            <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
-                    src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
-            </li>
-        </a>
-        <a href="showOption?option=option2">
-            <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
-                    src="Img/snapedit_ves-admin.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
-        </a>
-        <a href="showOption?option=option3">
-            <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
-                    src="Img/snapedit_user-admin2.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
-            </li>
-        </a>
-        <a href="showOption?option=option4">
-            <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
-                    src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
-            </li>
-        </a>
-        <a href="showOption?option=option5">
-            <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
-                    src="Img/discount-admin.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
-            </li>
-        </a>
-        <a href="showOption?option=option6">
-            <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
-                    src="Img/discount-admin.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá</span>
-            </li>
-        </a>
-        <a href="showOption?option=option7">
-            <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
-                    src="Img/discount-admin.png" alt=""
-                    style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
-            </li>
-        </a>
+        <c:if test="${role.hasPermission('VIEW_DASHBOARD')}">
+<%--            <a href="showOption?option=option1">--%>
+                <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
+                        src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_VEGETABLES')}">
+<%--            <a href="showOption?option=option2">--%>
+                <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
+                        src="Img/snapedit_ves-admin.png" alt=""
+                        style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_USERS')}">
+<%--            <a href="showOption?option=option3">--%>
+                <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
+                        src="Img/snapedit_user-admin2.png" alt=""
+                        style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_ORDERS')}">
+<%--            <a href="showOption?option=option4">--%>
+                <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
+                        src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_PROMOTIONS')}">
+<%--            <a href="showOption?option=option5">--%>
+                <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
+                        src="Img/discount-admin.png" alt=""
+                        style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_PRODUCT_PROMOTION')}">
+<%--            <a href="showOption?option=option6">--%>
+                <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
+                        src="Img/discount-admin.png" alt=""
+                        style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+        <c:if test="${role.hasPermission('MANAGE_STOCK')}">
+<%--            <a href="showOption?option=option7">--%>
+                <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
+                        src="Img/discount-admin.png" alt=""
+                        style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
+                </li>
+<%--            </a>--%>
+        </c:if>
+
     </ul>
 </div>
 <div class="container">
@@ -147,628 +183,647 @@
     </div>
     <div class="content">
         <%--        DashBoar--%>
-        <div class="DashBoar select">
-            <div class="cards">
-                <div class="card">
-                    <div class="box">
-                        <h1>${listproduct.size()}</h1>
-                        <h3>Rau, củ, quả</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src="Img/snapedit_seed.png" alt="" style="width: 40px; height: 40px; ">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1>${listuser.size()}</h1>
-                        <h3>Người dùng</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src="Img/snapedit_user-line.png" alt="" style="width: 40px; height: 40px">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1>${listorder.size()}</h1>
-                        <h3>Đơn hàng</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src="Img/snapedit_cart-line.png" alt="" style="width: 40px; height: 40px">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1><c:out value="${totalRevenue}"/>đ</h1>
-                        <h3>Doanh thu</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src="Img/doanhthu-admin.png" alt="" style="width: 40px; height: 40px">
-                    </div>
-                </div>
-            </div>
-            <div class="content-2">
-                <div class="recent-payments">
-                    <div class="title_Dashboar">
-                        <h2>Đơn hàng gần đây</h2>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>Người dùng</th>
-                            <th>Rau Củ Quả</th>
-                            <th>Thành Tiền</th>
-                        </tr>
-                        <%--                        <c:forEach var="o" items="${listlatestorders}">--%>
-                        <%--                            <tr>--%>
-                        <%--                                <td>${o.get}</td>--%>
-                        <%--                                <td>Quả Bí Đao</td>--%>
-                        <%--                                <td>30.000đ</td>--%>
-                        <%--                                <td><a href="#" class="btn">Xem</a></td>--%>
-                        <%--                            </tr>--%>
-                        <%--                        </c:forEach>--%>
-
-                        <c:choose>
-                            <c:when test="${not empty listlatestorders}">
-                                <c:forEach var="summary" items="${listlatestorders}">
-                                    <tr>
-                                        <td>${summary.username}</td>
-                                        <td>${summary.name}</td>
-                                        <td>${summary.totalamount}</td>
-                                            <%--                                        <td><a href="#" class="btn">Xem</a></td>--%>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <tr>
-                                    <td colspan="3">Không tìm thấy đơn hàng nào.</td>
-                                </tr>
-                            </c:otherwise>
-                        </c:choose>
-                    </table>
-                </div>
-                <div class="new-users">
-                    <div class="title_Dashboar">
-                        <h2>Người dùng mua nhiều</h2>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>Tài khoản</th>
-                            <th>Tên</th>
-                        </tr>
-                        <c:choose>
-                            <c:when test="${not empty listCustomer}">
-                                <c:forEach var="conclusion" items="${listCustomer}">
-                                    <tr>
-                                        <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
-                                        <td>${conclusion.username}</td>
-                                            <%--                                        <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>--%>
-
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <tr>
-                                    <td colspan="3">Không tìm thấy khách hàng nào.</td>
-                                </tr>
-                            </c:otherwise>
-                        </c:choose>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <%--        Rau cu--%>
-        <div class="AdminListProduct select">
-            <div class="AdminListProductHeader">
-                <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
-                <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
-                <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
-                    sản phẩm
-                </button>
-            </div>
-            <ul class="Product_Item" id="list-searchProduct">
-                <li class="title_Item">
-                    <div>ID</div>
-                    <div>Ảnh</div>
-                    <div>Tên</div>
-                    <div>Giá</div>
-                    <div>Khối lượng</div>
-                </li>
-                <c:forEach var="p" items="${listproduct}">
-                    <li>
-                        <div>${p.id}</div>
-                        <div><img src="${p.image}" alt="" style="width: 50px"></div>
-                        <div>${p.name}</div>
-                        <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND"/></div>
-                        <div>${p.mass}Kg</div>
-                        <div class="menu">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <div class="ellipsis">
-                                <div onclick="UpdateProduct('${p.id}','${p.name}','${p.price}','${p.mass}','${p.description}','${p.image}','${p.category}')">
-                                    Sửa
-                                </div>
-                                <a href="removeProduct?pid=${p.id}">
-                                    <div>Xóa</div>
-                                </a>
-                            </div>
+        <c:if test="${role.hasPermission('VIEW_DASHBOARD')}">
+            <div class="DashBoar select">
+                <div class="cards">
+                    <div class="card">
+                        <div class="box">
+                            <h1>${listproduct.size()}</h1>
+                            <h3>Rau, củ, quả</h3>
                         </div>
-                    </li>
-                </c:forEach>
-            </ul>
-            <!-- Modal -->
-            <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        <div class="icon-case">
+                            <img src="Img/snapedit_seed.png" alt="" style="width: 40px; height: 40px; ">
                         </div>
-                        <div class="modal-body">
-                            <form action="addProduct" method="post" enctype="multipart/form-data">
-                                <input type="hidden" id="idp" name="idp">
-
-                                <div class="mb-3">
-                                    <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
-                                    <input type="file" class="form-control" id="productImage" name="images" multiple>
-                                    <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
-                                    <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
-                                           multiple>
-                                    <div id="showImageList">
-
-                                        <img src="" alt="" style="width: 50px; display: none" class="mt-2">
-
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="productName" class="form-label">Tên:</label>
-                                    <input type="text" class="form-control" id="productName" name="name"
-                                           placeholder="Vui lòng nhập tên ..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="productPrice" class="form-label">Giá:</label>
-                                    <input type="text" class="form-control" id="productPrice" name="price"
-                                           placeholder="Vui lòng nhập giá ..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="productDescribe" class="form-label">Mô tả:</label>
-                                    <textarea class="form-control" id="productDescribe" name="describe"
-                                              placeholder="Vui lòng mô tả" required></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="productMass" class="form-label">Khối lượng:</label>
-                                    <input type="text" class="form-control" id="productMass" name="mass"
-                                           placeholder="Vui lòng nhập số lượng ..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="productCategory" class="form-label">Loại:</label>
-                                    <select class="form-select" name="category" id="productCategory" required>
-                                        <option value="1" selected>Rau</option>
-                                        <option value="2">Củ</option>
-                                        <option value="3">Quả</option>
-                                    </select>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Lưu</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                            onclick="closeProduct()">Hủy
-                                    </button>
-                                </div>
-                            </form>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <h1>${listuser.size()}</h1>
+                            <h3>Người dùng</h3>
+                        </div>
+                        <div class="icon-case">
+                            <img src="Img/snapedit_user-line.png" alt="" style="width: 40px; height: 40px">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <h1>${listorder.size()}</h1>
+                            <h3>Đơn hàng</h3>
+                        </div>
+                        <div class="icon-case">
+                            <img src="Img/snapedit_cart-line.png" alt="" style="width: 40px; height: 40px">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <h1><c:out value="${totalRevenue}"/>đ</h1>
+                            <h3>Doanh thu</h3>
+                        </div>
+                        <div class="icon-case">
+                            <img src="Img/doanhthu-admin.png" alt="" style="width: 40px; height: 40px">
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="content-2">
+                    <div class="recent-payments">
+                        <div class="title_Dashboar">
+                            <h2>Đơn hàng gần đây</h2>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>Người dùng</th>
+                                <th>Rau Củ Quả</th>
+                                <th>Thành Tiền</th>
+                            </tr>
+                                <%--                        <c:forEach var="o" items="${listlatestorders}">--%>
+                                <%--                            <tr>--%>
+                                <%--                                <td>${o.get}</td>--%>
+                                <%--                                <td>Quả Bí Đao</td>--%>
+                                <%--                                <td>30.000đ</td>--%>
+                                <%--                                <td><a href="#" class="btn">Xem</a></td>--%>
+                                <%--                            </tr>--%>
+                                <%--                        </c:forEach>--%>
 
-        </div>
-        <%--        Nguoi dung--%>
-        <div class="AdminListUser select">
-            <div class="AdminListUserHeader">
-                <div>Tài khoản(<span>${listuser.size()}</span>)</div>
-                <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
-                <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài
-                    khoản
-                </button>
-            </div>
-            <ul class="User_Item" id="list-searchUser">
-                <li class="title_Item">
-                    <div>ID</div>
-                    <div>Tên</div>
-                    <div>Số điện thoại</div>
-                    <div>Phân quyền</div>
-                </li>
-                <c:forEach var="u" items="${listuser}">
-                    <li>
-                        <div>${u.id}</div>
-                        <div>${u.fullName}</div>
-                        <div>${u.phone}</div>
-                        <div>
                             <c:choose>
-                                <c:when test="${u.role == '1'}">Quản trị viên</c:when>
-                                <c:otherwise>Người dùng</c:otherwise>
+                                <c:when test="${not empty listlatestorders}">
+                                    <c:forEach var="summary" items="${listlatestorders}">
+                                        <tr>
+                                            <td>${summary.username}</td>
+                                            <td>${summary.name}</td>
+                                            <td>${summary.totalamount}</td>
+                                                <%--                                        <td><a href="#" class="btn">Xem</a></td>--%>
+                                        </tr>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="3">Không tìm thấy đơn hàng nào.</td>
+                                    </tr>
+                                </c:otherwise>
                             </c:choose>
+                        </table>
+                    </div>
+                    <div class="new-users">
+                        <div class="title_Dashboar">
+                            <h2>Người dùng mua nhiều</h2>
                         </div>
-                        <div class="menu">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <div class="ellipsis">
-                                <div onclick="UpdateUser('${u.id}', '${u.username}', '${u.password}', '${u.role}', '${u.fullName}', '${u.email}', '${u.dateOfBirth}', '${u.phone}')">
-                                    Sửa
-                                </div>
-                                <a href="removeUser?uid=${u.id}">
-                                    <div>Xóa</div>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </c:forEach>
-            </ul>
-            <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="addUser" method="post">
-                                <input type="hidden" id="uid" name="uid">
+                        <table>
+                            <tr>
+                                <th>Tài khoản</th>
+                                <th>Tên</th>
+                            </tr>
+                            <c:choose>
+                                <c:when test="${not empty listCustomer}">
+                                    <c:forEach var="conclusion" items="${listCustomer}">
+                                        <tr>
+                                            <td><img src="Img/user.png" alt="" style="width: 40px; height: 40px"></td>
+                                            <td>${conclusion.username}</td>
+                                                <%--                                        <td><img src="Img/infor-admin.png" alt="" style="width: 40px; height: 40px"></td>--%>
 
-                                <div class="mb-3">
-                                    <label for="UserName" class="form-label">Tên đăng nhập:</label>
-                                    <input type="text" id="UserName" name="UserName" class="form-control"
-                                           placeholder="Vui lòng nhập tên đăng nhập..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="UserPassword" class="form-label">Mật khẩu:</label>
-                                    <input type="password" id="UserPassword" name="Password" class="form-control"
-                                           placeholder="Vui lòng nhập mật khẩu..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="Role" class="form-label">Phân quyền:</label>
-                                    <select name="Role" id="Role" class="form-select" required>
-                                        <option value="Quản trị viên">Quản trị viên</option>
-                                        <option value="Người dùng">Người dùng</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="FullName" class="form-label">Họ tên:</label>
-                                    <input type="text" id="FullName" name="FullName" class="form-control"
-                                           placeholder="Vui lòng nhập họ tên..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="Phone" class="form-label">Số điện thoại:</label>
-                                    <input type="text" id="Phone" name="Phone" class="form-control"
-                                           placeholder="Vui lòng nhập số điện thoại..." required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="Birthday" class="form-label">Ngày sinh:</label>
-                                    <input type="date" id="Birthday" name="Birthday" class="form-control" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="Email" class="form-label">Email:</label>
-                                    <input type="email" id="Email" name="Email" class="form-control"
-                                           placeholder="Vui lòng nhập email..." required>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
-                                    <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal"
-                                            onclick="closeUser()">Hủy
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                                        </tr>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="3">Không tìm thấy khách hàng nào.</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                        </table>
                     </div>
                 </div>
             </div>
+        </c:if>
 
-        </div>
+        <%--        Rau cu--%>
+        <c:if test="${role.hasPermission('MANAGE_VEGETABLES')}">
+            <div class="AdminListProduct select">
+                <div class="AdminListProductHeader">
+                    <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
+                    <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
+                        sản phẩm
+                    </button>
+                </div>
+                <ul class="Product_Item" id="list-searchProduct">
+                    <li class="title_Item">
+                        <div>ID</div>
+                        <div>Ảnh</div>
+                        <div>Tên</div>
+                        <div>Giá</div>
+                        <div>Khối lượng</div>
+                    </li>
+                    <c:forEach var="p" items="${listproduct}">
+                        <li>
+                            <div>${p.id}</div>
+                            <div><img src="${p.image}" alt="" style="width: 50px"></div>
+                            <div>${p.name}</div>
+                            <div><f:formatNumber value="${p.price}" type="number" pattern="#,##0VND"/></div>
+                            <div>${p.mass}Kg</div>
+                            <div class="menu">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <div class="ellipsis">
+                                    <div onclick="UpdateProduct('${p.id}','${p.name}','${p.price}','${p.mass}','${p.description}','${p.image}','${p.category}')">
+                                        Sửa
+                                    </div>
+                                    <a href="removeProduct?pid=${p.id}">
+                                        <div>Xóa</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <!-- Modal -->
+                <div class="modal fade" id="ProductWindow" tabindex="-1" aria-labelledby="ProductWindowLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="addProduct" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" id="idp" name="idp">
+
+                                    <div class="mb-3">
+                                        <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
+                                        <input type="file" class="form-control" id="productImage" name="images" multiple>
+                                        <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
+                                        <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
+                                               multiple>
+                                        <div id="showImageList">
+
+                                            <img src="" alt="" style="width: 50px; display: none" class="mt-2">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="productName" class="form-label">Tên:</label>
+                                        <input type="text" class="form-control" id="productName" name="name"
+                                               placeholder="Vui lòng nhập tên ..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="productPrice" class="form-label">Giá:</label>
+                                        <input type="text" class="form-control" id="productPrice" name="price"
+                                               placeholder="Vui lòng nhập giá ..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="productDescribe" class="form-label">Mô tả:</label>
+                                        <textarea class="form-control" id="productDescribe" name="describe"
+                                                  placeholder="Vui lòng mô tả" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="productMass" class="form-label">Khối lượng:</label>
+                                        <input type="text" class="form-control" id="productMass" name="mass"
+                                               placeholder="Vui lòng nhập số lượng ..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="productCategory" class="form-label">Loại:</label>
+                                        <select class="form-select" name="category" id="productCategory" required>
+                                            <option value="1" selected>Rau</option>
+                                            <option value="2">Củ</option>
+                                            <option value="3">Quả</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Lưu</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                onclick="closeProduct()">Hủy
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+
+        <%--        Nguoi dung--%>
+        <c:if test="${role.hasPermission('MANAGE_USERS')}">
+            <div class="AdminListUser select">
+                <div class="AdminListUserHeader">
+                    <div>Tài khoản(<span>${listuser.size()}</span>)</div>
+                    <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài
+                        khoản
+                    </button>
+                </div>
+                <ul class="User_Item" id="list-searchUser">
+                    <li class="title_Item">
+                        <div>ID</div>
+                        <div>Tên</div>
+                        <div>Số điện thoại</div>
+                        <div>Phân quyền</div>
+                    </li>
+                    <c:forEach var="u" items="${listuser}">
+                        <li>
+                            <div>${u.id}</div>
+                            <div>${u.fullName}</div>
+                            <div>${u.phone}</div>
+                            <div>
+                                <c:choose>
+                                    <c:when test="${u.role == '1'}">Quản trị viên</c:when>
+                                    <c:otherwise>Người dùng</c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="menu">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <div class="ellipsis">
+                                    <div onclick="UpdateUser('${u.id}', '${u.username}', '${u.password}', '${u.role}', '${u.fullName}', '${u.email}', '${u.dateOfBirth}', '${u.phone}')">
+                                        Sửa
+                                    </div>
+                                    <a href="removeUser?uid=${u.id}">
+                                        <div>Xóa</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="addUser" method="post">
+                                    <input type="hidden" id="uid" name="uid">
+
+                                    <div class="mb-3">
+                                        <label for="UserName" class="form-label">Tên đăng nhập:</label>
+                                        <input type="text" id="UserName" name="UserName" class="form-control"
+                                               placeholder="Vui lòng nhập tên đăng nhập..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="UserPassword" class="form-label">Mật khẩu:</label>
+                                        <input type="password" id="UserPassword" name="Password" class="form-control"
+                                               placeholder="Vui lòng nhập mật khẩu..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="Role" class="form-label">Phân quyền:</label>
+                                        <select name="Role" id="Role" class="form-select" required>
+                                            <option value="Quản trị viên">Quản trị viên</option>
+                                            <option value="Người dùng">Người dùng</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="FullName" class="form-label">Họ tên:</label>
+                                        <input type="text" id="FullName" name="FullName" class="form-control"
+                                               placeholder="Vui lòng nhập họ tên..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="Phone" class="form-label">Số điện thoại:</label>
+                                        <input type="text" id="Phone" name="Phone" class="form-control"
+                                               placeholder="Vui lòng nhập số điện thoại..." required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="Birthday" class="form-label">Ngày sinh:</label>
+                                        <input type="date" id="Birthday" name="Birthday" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="Email" class="form-label">Email:</label>
+                                        <input type="email" id="Email" name="Email" class="form-control"
+                                               placeholder="Vui lòng nhập email..." required>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
+                                        <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal"
+                                                onclick="closeUser()">Hủy
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+
 
         <%--Don hang--%>
-        <div class="AdminListOrder select">
-            <div class="AdminListOrderHeader">
-                <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
-                <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
-            </div>
-            <ul class="Order_Item" id="list-searchOrder">
-                <li class="title_Item">
-                    <div class="orderItemId">Mã đơn</div>
-                    <div class="orderItemName">Khách hàng</div>
-                    <div class="orderItemDate">Ngày đặt</div>
-                    <div class="orderItemTotal">Thành tiền</div>
-                    <div class="orderItemStatus">Trạng thái</div>
-                    <div class="act">Hành động</div>
-                </li>
-                <c:forEach var="order" items="${listorder}">
-                    <li>
-                        <div class="orderItemId">${order.id}</div>
-                        <div class="orderItemName">${order.fullName}</div>
-                        <div class="orderItemDate">${order.dateOfBooking}</div>
-                        <div class="orderItemTotal"><f:formatNumber value="${order.money}" type="number"
-                                                                    pattern="#,##0VND"/></div>
-                        <div class="orderItemStatus "><span class="orderItemS status-${order.status}"
-                                                            id="orderItemS-${order.id}"> <c:choose>
-                            <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
-                            <c:when test="${order.status == 1}">Đã xác nhận</c:when>
-                            <c:when test="${order.status == 2}">Đang đóng gói</c:when>
-                            <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
-                            <c:when test="${order.status == 4}">Hoàn tất</c:when>
-                            <c:when test="${order.status == 5}">Đã hủy</c:when>
-                            <c:otherwise>Không xác định</c:otherwise>
-                        </c:choose></span>
-
-                        </div>
-                        <div class="act">
-                            <select class="status-update">
-                                <option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ xác nhận</option>
-                                <option value="1" ${order.status == 1 ? 'selected' : ''}>Đã xác nhận</option>
-                                <option value="2" ${order.status == 2 ? 'selected' : ''}>Đang đóng gói</option>
-                                <option value="3" ${order.status == 3 ? 'selected' : ''}>Đang vận chuyển</option>
-                                <option value="4" ${order.status == 4 ? 'selected' : ''}>Hoàn tất</option>
-                                <option value="5" ${order.status == 5 ? 'selected' : ''}>Hủy đơn</option>
-                            </select>
-                        </div>
-                        <div class="menu">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <div class="ellipsis">
-                                <div onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.fullName}','${order.phone}')">
-                                    Chi tiết đơn hàng
-                                </div>
-                                <a href="removeOder?oid=${order.id}">
-                                    <div>Xóa</div>
-                                </a>
-                            </div>
-                        </div>
+        <c:if test="${role.hasPermission('MANAGE_ORDERS')}">
+            <div class="AdminListOrder select">
+                <div class="AdminListOrderHeader">
+                    <div>Đơn Hàng(<span>${listuser.size()}</span>)</div>
+                    <input type="text" name="searchOrder" id="searchOrder" placeholder="Nhập mã đơn hàng?">
+                </div>
+                <ul class="Order_Item" id="list-searchOrder">
+                    <li class="title_Item">
+                        <div class="orderItemId">Mã đơn</div>
+                        <div class="orderItemName">Khách hàng</div>
+                        <div class="orderItemDate">Ngày đặt</div>
+                        <div class="orderItemTotal">Thành tiền</div>
+                        <div class="orderItemStatus">Trạng thái</div>
+                        <div class="act">Hành động</div>
                     </li>
-                </c:forEach>
-            </ul>
-            <div class="OderWindow" id="OderWindow">
-                <div class="iconClose" onclick="viewOrderClose()"><i class="fa-solid fa-xmark"></i></div>
-                <div class="OderWindowTitle">Danh sách sản phẩm</div>
-                <div id="ProductItems" class="Product_List_item">
-                    <%--                    Phan chi tiet don hang--%>
-                </div>
-                <div class="TotalAmount">
-                    <span class="text">Tổng cộng</span>
-                    <span class="total" id="total">${totalAmount}đ</span>
-                </div>
-                <div class="DeliveryAddress">
-                    <span class="text">Địa chỉ nhận hàng:</span>
-                    <span class="delivery"></span>
-                </div>
-                <div class="UserBuy">
-                    <span class="text">Tên khách hàng & SĐT:</span>
-                    <span class="userInf"></span>
-                </div>
-                <div class="DeliveryAddress">
-                    <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
+                    <c:forEach var="order" items="${listorder}">
+                        <li>
+                            <div class="orderItemId">${order.id}</div>
+                            <div class="orderItemName">${order.fullName}</div>
+                            <div class="orderItemDate">${order.dateOfBooking}</div>
+                            <div class="orderItemTotal"><f:formatNumber value="${order.money}" type="number"
+                                                                        pattern="#,##0VND"/></div>
+                            <div class="orderItemStatus "><span class="orderItemS status-${order.status}"
+                                                                id="orderItemS-${order.id}"> <c:choose>
+                                <c:when test="${order.status == 0}">Chờ xác nhận</c:when>
+                                <c:when test="${order.status == 1}">Đã xác nhận</c:when>
+                                <c:when test="${order.status == 2}">Đang đóng gói</c:when>
+                                <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
+                                <c:when test="${order.status == 4}">Hoàn tất</c:when>
+                                <c:when test="${order.status == 5}">Đã hủy</c:when>
+                                <c:otherwise>Không xác định</c:otherwise>
+                            </c:choose></span>
+
+                            </div>
+                            <div class="act">
+                                <select class="status-update">
+                                    <option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ xác nhận</option>
+                                    <option value="1" ${order.status == 1 ? 'selected' : ''}>Đã xác nhận</option>
+                                    <option value="2" ${order.status == 2 ? 'selected' : ''}>Đang đóng gói</option>
+                                    <option value="3" ${order.status == 3 ? 'selected' : ''}>Đang vận chuyển</option>
+                                    <option value="4" ${order.status == 4 ? 'selected' : ''}>Hoàn tất</option>
+                                    <option value="5" ${order.status == 5 ? 'selected' : ''}>Hủy đơn</option>
+                                </select>
+                            </div>
+                            <div class="menu">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <div class="ellipsis">
+                                    <div onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.fullName}','${order.phone}')">
+                                        Chi tiết đơn hàng
+                                    </div>
+                                    <a href="removeOder?oid=${order.id}">
+                                        <div>Xóa</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <div class="OderWindow" id="OderWindow">
+                    <div class="iconClose" onclick="viewOrderClose()"><i class="fa-solid fa-xmark"></i></div>
+                    <div class="OderWindowTitle">Danh sách sản phẩm</div>
+                    <div id="ProductItems" class="Product_List_item">
+                            <%--                    Phan chi tiet don hang--%>
+                    </div>
+                    <div class="TotalAmount">
+                        <span class="text">Tổng cộng</span>
+                        <span class="total" id="total">${totalAmount}đ</span>
+                    </div>
+                    <div class="DeliveryAddress">
+                        <span class="text">Địa chỉ nhận hàng:</span>
+                        <span class="delivery"></span>
+                    </div>
+                    <div class="UserBuy">
+                        <span class="text">Tên khách hàng & SĐT:</span>
+                        <span class="userInf"></span>
+                    </div>
+                    <div class="DeliveryAddress">
+                        <span class="text">Ngày đặt:<span class="deliveryDate"> </span></span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
+
         <%--Khuyến mãi--%>
-        <div class="AdminListPromotion select">
-            <div class="AdminListPromotionHeader">
-                <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
-                <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
-                <button type="button" onclick="generatePromoCode()">
-                    Phát mã khuyến mãi
-                </button>
-                <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
-                    Thêm khuyến mãi
-                </button>
-            </div>
-            <ul class="Promotion_Item" id="list-searchPromotion">
-                <li class="title_Item">
-                    <div>Mã khuyến mãi</div>
-                    <div>Ngày bắt đầu</div>
-                    <div>Ngày kết thúc</div>
-                    <div>Giá trị</div>
-                </li>
-                <c:forEach var="po" items="${listpromotion}">
-                    <li>
-                        <div>${po.id}</div>
-                        <div>${po.startDate}</div>
-                        <div>${po.endDate}</div>
-                        <div>${po.value}%</div>
-                        <div class="menu">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <div class="ellipsis">
-                                <div onclick="UpdatePromotion('${po.id}', '${po.name}', '${po.startDate}', '${po.endDate}', '${po.value}')">
-                                    Sửa
-                                </div>
-                                <a href="removePromotion?poid=${po.id}">
-                                    <div>Xóa</div>
-                                </a>
-                            </div>
-                        </div>
+        <c:if test="${role.hasPermission('MANAGE_PROMOTIONS')}">
+            <div class="AdminListPromotion select">
+                <div class="AdminListPromotionHeader">
+                    <div>Khuyến mãi (<span>${listpromotion.size()}</span>)</div>
+                    <input type="text" name="searchPromotion" id="searchPromotion" placeholder="Nhập mã khuyến mãi?">
+                    <button type="button" onclick="generatePromoCode()">
+                        Phát mã khuyến mãi
+                    </button>
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
+                        Thêm khuyến mãi
+                    </button>
+                </div>
+                <ul class="Promotion_Item" id="list-searchPromotion">
+                    <li class="title_Item">
+                        <div>Mã khuyến mãi</div>
+                        <div>Ngày bắt đầu</div>
+                        <div>Ngày kết thúc</div>
+                        <div>Giá trị</div>
                     </li>
-                </c:forEach>
-            </ul>
-            <div class="GeneratePromoCode" id="GeneratePromoCode">
-                <h2>Phát mã khuyến mãi</h2>
-                <form action="GeneratePromoCode" method="POST">
-                    <label for="maKM">Chọn mã khuyến mãi:</label>
-                    <select id="maKM" name="maKM" required>
-                        <!-- Dữ liệu từ backend -->
-                        <c:forEach var="po" items="${listpromotion}">
-                            <option value="${po.id}">${po.id} - ${po.description}</option>
-                        </c:forEach>
-                    </select>
+                    <c:forEach var="po" items="${listpromotion}">
+                        <li>
+                            <div>${po.id}</div>
+                            <div>${po.startDate}</div>
+                            <div>${po.endDate}</div>
+                            <div>${po.value}%</div>
+                            <div class="menu">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <div class="ellipsis">
+                                    <div onclick="UpdatePromotion('${po.id}', '${po.name}', '${po.startDate}', '${po.endDate}', '${po.value}')">
+                                        Sửa
+                                    </div>
+                                    <a href="removePromotion?poid=${po.id}">
+                                        <div>Xóa</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <div class="GeneratePromoCode" id="GeneratePromoCode">
+                    <h2>Phát mã khuyến mãi</h2>
+                    <form action="GeneratePromoCode" method="POST">
+                        <label for="maKM">Chọn mã khuyến mãi:</label>
+                        <select id="maKM" name="maKM" required>
+                            <!-- Dữ liệu từ backend -->
+                            <c:forEach var="po" items="${listpromotion}">
+                                <option value="${po.id}">${po.id} - ${po.description}</option>
+                            </c:forEach>
+                        </select>
 
-                    <label for="listAccount">Chọn tài khoản được nhận mã:</label>
-                    <select id="listAccount" name="listAccount" multiple required>
-                        <c:forEach var="account" items="${listAccount}">
-                            <option value="${account.id}">
-                                    ${account.username} - Tổng: ${account.tong}đ
+                        <label for="listAccount">Chọn tài khoản được nhận mã:</label>
+                        <select id="listAccount" name="listAccount" multiple required>
+                            <c:forEach var="account" items="${listAccount}">
+                                <option value="${account.id}">
+                                        ${account.username} - Tổng: ${account.tong}đ
 
-                            </option>
-                        </c:forEach>
-                    </select>
-                    <br>
-                    <button type="submit">Phát mã</button>
-                    <button onclick="closeGeneratePromoCode()">Đóng</button>
-                </form>
-            </div>
-            <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="addPromotion" method="post">
-                                <input type="hidden" id="poid" name="poid">
+                                </option>
+                            </c:forEach>
+                        </select>
+                        <br>
+                        <button type="submit">Phát mã</button>
+                        <button onclick="closeGeneratePromoCode()">Đóng</button>
+                    </form>
+                </div>
+                <div class="modal fade" id="PromotionWindow" tabindex="-1" aria-labelledby="PromotionWindowLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="addPromotion" method="post">
+                                    <input type="hidden" id="poid" name="poid">
 
-                                <div class="mb-3">
-                                    <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
-                                    <input type="text" id="PromotionName" name="PromotionName" class="form-control"
-                                           placeholder="Vui lòng nhập tên khuyến mãi..." required>
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="PromotionName" class="form-label">Tên khuyến mãi:</label>
+                                        <input type="text" id="PromotionName" name="PromotionName" class="form-control"
+                                               placeholder="Vui lòng nhập tên khuyến mãi..." required>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
-                                    <input type="date" id="StartDate" name="StartDate" class="form-control" required>
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
+                                        <input type="date" id="StartDate" name="StartDate" class="form-control" required>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="EndDate" class="form-label">Ngày kết thúc:</label>
-                                    <input type="date" id="EndDate" name="EndDate" class="form-control" required>
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="EndDate" class="form-label">Ngày kết thúc:</label>
+                                        <input type="date" id="EndDate" name="EndDate" class="form-control" required>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="Value" class="form-label">Giá trị (%):</label>
-                                    <input type="number" id="Value" name="Value" class="form-control"
-                                           placeholder="Nhập giá trị khuyến mãi (%)..." required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Quantity" class="form-label">Số lượng:</label>
-                                    <input type="number" id="Quantity" name="Quantity" class="form-control"
-                                           placeholder="Nhập Số lượng..." required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Describe" class="form-label">Mô tả:</label>
-                                    <input type="text" id="Describe" name="Describe" class="form-control"
-                                           placeholder="Nhập Mô tả ..." required>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
-                                    <button type="button" class="btn btn-secondary ButtonPromotion2"
-                                            data-bs-dismiss="modal" onclick="closePromotion()">Hủy
-                                    </button>
-                                </div>
-                            </form>
+                                    <div class="mb-3">
+                                        <label for="Value" class="form-label">Giá trị (%):</label>
+                                        <input type="number" id="Value" name="Value" class="form-control"
+                                               placeholder="Nhập giá trị khuyến mãi (%)..." required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Quantity" class="form-label">Số lượng:</label>
+                                        <input type="number" id="Quantity" name="Quantity" class="form-control"
+                                               placeholder="Nhập Số lượng..." required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Describe" class="form-label">Mô tả:</label>
+                                        <input type="text" id="Describe" name="Describe" class="form-control"
+                                               placeholder="Nhập Mô tả ..." required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success ButtonPromotion1">Lưu</button>
+                                        <button type="button" class="btn btn-secondary ButtonPromotion2"
+                                                data-bs-dismiss="modal" onclick="closePromotion()">Hủy
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </c:if>
 
-        <div class="AdminListProductDiscount select mt-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Quản lý sản phẩm giảm giá</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
-                    phẩm giảm giá
-                </button>
-            </div>
-            <table id="productTable" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Tên sản phẩm</th>
-                    <th>Loại giảm giá</th>
-                    <th>Phần trăm giảm giá</th>
-                    <th>Giảm giá theo tiền tệ</th>
-                    <th>Gía sau khi giảm</th>
-                    <th>Ngày bắt đầu</th>
-                    <th>Ngày kết thúc</th>
-                    <th></th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-                <c:forEach var="productDiscount" items="${productWithDiscount}">
+        <c:if test="${role.hasPermission('MANAGE_PRODUCT_PROMOTION')}">
+            <div class="AdminListProductDiscount select mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Quản lý sản phẩm giảm giá</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductDiscount">Thêm sản
+                        phẩm giảm giá
+                    </button>
+                </div>
+                <table id="productTable" class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>${productDiscount.nameProduct}</td>
-                        <td>${productDiscount.discoutType}</td>
-                        <td>${productDiscount.discountPercentage}</td>
-                        <td>${productDiscount.price}</td>
-                        <td>abc</td>
-                        <td>${productDiscount.startDate}</td>
-                        <td>${productDiscount.endDate}</td>
-                        <td>
-                            <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
-                            </button>
-                            <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cập
-                                nhật sản phẩm giảm giá
-                            </button>
-                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
-                        </td>
+                        <th>Tên sản phẩm</th>
+                        <th>Loại giảm giá</th>
+                        <th>Phần trăm giảm giá</th>
+                        <th>Giảm giá theo tiền tệ</th>
+                        <th>Gía sau khi giảm</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th></th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
 
-        <div class="AdminListStock select mt-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Quản lý kho hàng</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStock">Thêm sản
-                    phẩm vào kho hàng
-                </button>
-                <input type="file" id="input-excel" />
-    <button onclick="addStock()">Test</button>
+                    </thead>
+
+                    <tbody>
+                    <c:forEach var="productDiscount" items="${productWithDiscount}">
+                        <tr>
+                            <td>${productDiscount.nameProduct}</td>
+                            <td>${productDiscount.discoutType}</td>
+                            <td>${productDiscount.discountPercentage}</td>
+                            <td>${productDiscount.price}</td>
+                            <td>abc</td>
+                            <td>${productDiscount.startDate}</td>
+                            <td>${productDiscount.endDate}</td>
+                            <td>
+                                <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
+                                </button>
+                                <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cập
+                                    nhật sản phẩm giảm giá
+                                </button>
+                                    <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
-            <table id="stockTable" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Tên Kho hàng</th>
-                    <th>Địa chỉ</th>
-                    <th>Quận</th>
-                    <th></th>
-                </tr>
+        </c:if>
 
-                </thead>
-
-                <tbody>
-                <c:forEach var="stock" items="${stocks}">
+        <c:if test="${role.hasPermission('MANAGE_STOCK')}">
+            <div class="AdminListStock select mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Quản lý kho hàng</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStock">Thêm sản
+                        phẩm vào kho hàng
+                    </button>
+                    <input type="file" id="input-excel" />
+                    <button onclick="addStock()">Test</button>
+                </div>
+                <table id="stockTable" class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>${stock.id}</td>
-                        <td>${stock.productId}</td>
-                        <td>${stock.quantity}</td>
-                        <td>${stock.name}</td>
-                        <td>${stock.addressLine }</td>
-                        <td>${stock.district}</td>
-                        <td>
-                            <button onclick="deleteStock(${stock.id})">Xóa sản phẩm kho hàng
-                            </button>
-                            <button class="btn btn-primary" onclick="getStockById(${stock.prouctId})">Cật
-                                nhật kho hàng
-                            </button>
-                                <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
-                        </td>
+                        <th>Id</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Tên Kho hàng</th>
+                        <th>Địa chỉ</th>
+                        <th>Quận</th>
+                        <th></th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+
+                    </thead>
+
+                    <tbody>
+                    <c:forEach var="stock" items="${stocks}">
+                        <tr>
+                            <td>${stock.id}</td>
+                            <td>${stock.productId}</td>
+                            <td>${stock.quantity}</td>
+                            <td>${stock.name}</td>
+                            <td>${stock.addressLine }</td>
+                            <td>${stock.district}</td>
+                            <td>
+                                <button onclick="deleteStock(${stock.id})">Xóa sản phẩm kho hàng
+                                </button>
+                                <button class="btn btn-primary" onclick="getStockById(${stock.prouctId})">Cật
+                                    nhật kho hàng
+                                </button>
+                                    <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
+
     </div>
 </div>
 
@@ -919,13 +974,76 @@
 
 
 <script type="text/javascript">
-    window.onload = function () {
-        // Kiểm tra xem runScript có khác null không
-        <% if (runScript != null) { %>
-        // Gọi hàm navigationbarClick và truyền giá trị runScript vào
-        navigationbarClick('<%= runScript %>');
-        <% } %>
+    let userPermissions = []; // Khởi tạo trước để tránh lỗi undefined
+
+    async function loadPermissions() {
+        try {
+            const response = await fetch('http://localhost:8080/lab4/getPermissions', {
+                method: 'GET',
+                credentials: 'include' // Đảm bảo gửi cookie/session
+            });
+            if (!response.ok) {
+                throw new Error(`Lỗi tải quyền: ${response.status} - ${response.statusText}`);
+            }
+            const data = await response.json();
+            userPermissions = Array.isArray(data) ? data : (data.permissions || []); // Gán giá trị
+            console.log('Quyền đã tải:', userPermissions);
+            return userPermissions;
+        } catch (error) {
+            console.error('Lỗi tải quyền:', error);
+            userPermissions = ["VIEW_DASHBOARD"]; // Mặc định khi lỗi
+            return userPermissions;
+        }
+    }
+
+    window.onload = async function () {
+        try {
+            await loadPermissions(); // Đợi quyền được tải
+            const runScript = '<%= (String) request.getAttribute("runScript") %>';
+            console.log('runScript:', runScript);
+            if (runScript && runScript !== 'null' && runScript !== '') {
+                navigationbarClick(runScript);
+            } else {
+                const defaultOptions = [
+                    { option: "option1", permission: "VIEW_DASHBOARD" },
+                    { option: "option2", permission: "MANAGE_VEGETABLES" },
+                    { option: "option3", permission: "MANAGE_USERS" },
+                    { option: "option4", permission: "MANAGE_ORDERS" },
+                    { option: "option5", permission: "MANAGE_PROMOTIONS" },
+                    { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" },
+                    { option: "option7", permission: "MANAGE_STOCK" }
+                ];
+                const validOption = defaultOptions.find(opt => userPermissions.includes(opt.permission));
+                navigationbarClick(validOption ? validOption.option : "option1");
+            }
+        } catch (error) {
+            console.error('Lỗi trong window.onload:', error);
+        }
     };
+
+    // Đảm bảo hàm navigationbarClick kiểm tra userPermissions
+    function navigationbarClick(option) {
+        if (!userPermissions || !Array.isArray(userPermissions)) {
+            console.error('userPermissions không hợp lệ:', userPermissions);
+            return;
+        }
+        const defaultOptions = [
+            { option: "option1", permission: "VIEW_DASHBOARD" },
+            { option: "option2", permission: "MANAGE_VEGETABLES" },
+            { option: "option3", permission: "MANAGE_USERS" },
+            { option: "option4", permission: "MANAGE_ORDERS" },
+            { option: "option5", permission: "MANAGE_PROMOTIONS" },
+            { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" },
+            { option: "option7", permission: "MANAGE_STOCK" }
+        ];
+        const selectedOption = defaultOptions.find(opt => opt.option === option);
+        if (selectedOption && userPermissions.includes(selectedOption.permission)) {
+            // Thực hiện logic hiển thị
+            console.log(`Chọn option: ${option}`);
+        } else {
+            console.warn(`Thiếu quyền ${selectedOption ? selectedOption.permission : 'không xác định'} cho option ${option}`);
+        }
+    }
 </script>
 
 <%--them san pham khuyen mai--%>
