@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.projectwebck.dao.ReturnRequestDAO;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.*;
@@ -19,7 +20,20 @@ public class ShowOption extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("showLogin");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
+        Role role = Role.fromId(user.getRole());
+
         String option = request.getParameter("option");
+        if (!hasPermission(role, option)) {
+            response.sendRedirect("access-denied.jsp");
+            return;
+        }
         ProductServices productService = new ProductServices();
         List<Product> products = productService.getAll();
 
@@ -43,10 +57,11 @@ public class ShowOption extends HttpServlet {
 
                 List<Map<String, Object>> buyCustomer = orderServices.getCustomer();
 
-                double sum = 0;
-                for (OrderDetail o : listOrD) {
-                    sum += o.getTotalAmount();
-                }
+//                double sum = 0;
+//                for (OrderDetail o : listOrD) {
+//                    sum += o.getTotalAmount();
+//                }
+                double sum = listOrD.stream().mapToDouble(OrderDetail::getTotalAmount).sum();
 
                 request.setAttribute("totalRevenue", sum);
                 request.setAttribute("listproduct", products);
@@ -55,24 +70,24 @@ public class ShowOption extends HttpServlet {
                 request.setAttribute("listlatestorders", listLatestOrders);
                 request.setAttribute("listCustomer", buyCustomer);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option1").forward(request,response);
                 break;
             case "option2":
                  productService = new ProductServices();
                  products = productService.getAll();
                 request.setAttribute("listproduct",products);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request,response);
                 break;
             case "option3":
                 request.setAttribute("listuser",listUser);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option3").forward(request,response);
                 break;
             case "option4":
                 request.setAttribute("listorder", listOrder);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option4").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option4").forward(request,response);
                 break;
             case "option5":
                 PromotionServices promotionServices = new PromotionServices();
@@ -81,13 +96,13 @@ public class ShowOption extends HttpServlet {
                 request.setAttribute("listpromotion", listPromotion);
                 request.setAttribute("listAccount", listAccount);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
                 break;
             case "option6":
                 List<ProductWithDiscount> product = productService.getProductsWithDiscount();
                 request.setAttribute("productWithDiscount", product);
                 request.setAttribute("listlog", listLog);
-                request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
+//                request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
             case "option7":
                 List<Stock> allStocks = stockService.getAllStocks();
@@ -105,9 +120,33 @@ public class ShowOption extends HttpServlet {
 
             break;
         }
+        request.setAttribute("runScript", option);
+        request.getRequestDispatcher("Admin.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
+    private boolean hasPermission(Role role, String option) {
+        if (option == null) return false;
+        switch (option) {
+            case "option1":
+                return role.hasPermission("VIEW_DASHBOARD");
+            case "option2":
+                return role.hasPermission("MANAGE_VEGETABLES");
+            case "option3":
+                return role.hasPermission("MANAGE_USERS");
+            case "option4":
+                return role.hasPermission("MANAGE_ORDERS");
+            case "option5":
+                return role.hasPermission("MANAGE_PROMOTIONS");
+            case "option6":
+                return role.hasPermission("MANAGE_PRODUCT_PROMOTION");
+            case "option7":
+                return role.hasPermission("MANAGE_STOCK");
+            default:
+                return false;
+        }
     }
 }
