@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-.env
+src/main/java/vn/edu/hcmuaf/fit/projectwebck/utils/.env

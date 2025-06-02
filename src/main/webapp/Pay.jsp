@@ -106,6 +106,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div>Kích thước là : ${p.size}</div>
                             </c:forEach>
                         </c:when>
                         <%--                        <c:otherwise>--%>

@@ -217,6 +217,7 @@
                    transition: all 0.3s ease;
                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
                                 data-price="${size.price}"
+                                data-value="${size.massUnits}${size.massValue}"
                                 onclick="updatePrice(this)">
                                 ${size.massUnits} ${size.massValue}
                         </button>
@@ -290,7 +291,7 @@
     border-radius: 5px;
     font-size: 17px;
     color: white;
-    border: none;"><a href="showPay?uId=${sessionScope.user.id}&productId=${p.id}" style="text-decoration: none;
+    border: none;"><a id="buy-now-btn" href="showPay?uId=${sessionScope.user.id}&productId=${p.id}" style="text-decoration: none;
     color: white;">Mua ngay</a></button>
                 </div>
             </div>
@@ -498,7 +499,7 @@
 
         fetch("/web/updateComment", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 id: currentEditingId,
                 content: newContent,
@@ -521,7 +522,6 @@
                 console.error("Lỗi khi gửi dữ liệu:", err);
             });
     }
-
 
 
     function handleAddToCart(Id, productId) {
@@ -567,15 +567,48 @@
 
 </script>
 <script>
+
+    let selected = null
+
     function updatePrice(element) {
-        console.log('click123')
-        let selectedPrice = element.getAttribute("data-price");
-        document.getElementById("product-price").innerText = selectedPrice + " VND";
-        console.log('click456')
-        console.log(selectedPrice)
+        const buyNowLink = document.querySelector('.buy a');
+        const url = new URL(buyNowLink.href);
+
+        // Nếu người dùng bấm lại cùng nút -> bỏ chọn
+        if (selected === element) {
+            element.classList.remove("active");
+            selected = null;
+
+            url.searchParams.delete("size");
+            buyNowLink.href = url.toString();
+
+            document.getElementById("product-price").innerText = "Chọn size";
+            return;
+        }
+
+        // Gỡ active cũ và gán active mới
         document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
         element.classList.add('active');
+        selected = element;
+
+        // Cập nhật giá
+        let selectedPrice = element.getAttribute("data-price");
+        document.getElementById("product-price").innerText = selectedPrice + " VND";
+
+        // Lấy size và cập nhật URL
+        const selectedSize = element.getAttribute("data-value");
+        url.searchParams.set("size", selectedSize);
+        buyNowLink.href = url.toString();
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("buy-now-btn").addEventListener("click", function (event) {
+            if (!selected) {
+                event.preventDefault(); // Stop navigation
+                alert("Vui lòng chọn kích thước sản phẩm trước khi mua!");
+            }
+        });
+    });
 </script>
 
 </html>

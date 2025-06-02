@@ -23,7 +23,6 @@ public class showHome extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("logInUser", user);
-
         request.setAttribute("listProductBestSeller",productsSeller);
         request.setAttribute("allProduct",products);
         request.getRequestDispatcher("jsp/Home.jsp").forward(request,response);

@@ -93,15 +93,107 @@ public class AddOrder extends HttpServlet {
                 order.setDateOfBooking(LocalDate.now().toString());
                 order.setStatus(0);
                 order.setMoney(total);
+                order.setUserId(Integer.valueOf(userId));
                 OrderServices service = new OrderServices();
-                long orderId = service.insertOrderByUser(order, cartMap);
-                HttpSession session = request.getSession(true);
-                Cart cart = (Cart) session.getAttribute("cart");
-                cart.removeAll();
-                session.setAttribute("cart", cart);
+
+//  Issue 47: Xử lý số lượng sản phẩm khi đặt hàng
+                ProductServices productServices = new ProductServices();
+
+                List<Integer> productIds = new ArrayList<>();
+                Map<Integer, Integer> requestedQuantities = new HashMap<>();
+
+                for (Map.Entry<Integer, Map<String, Double>> entry : cartMap.entrySet()) {
+                    Map<String, Double> productInfo = entry.getValue();
+
+                    int productId = entry.getKey();
+                    int quantity;
+
+                    try {
+                        quantity = productInfo.get("quantity") != null
+                                ? (int) Double.parseDouble(productInfo.get("quantity").toString())
+                                : 0;
+                    } catch (NullPointerException | NumberFormatException e) {
+                        quantity = 0;
+                    }
+
+
+                    productIds.add(productId);
+                    requestedQuantities.put(productId, quantity);
+                }
+
+                StockService stockService = new StockService();
+                List<Stock> listStockByProductIds = new ArrayList<>();
+                try {
+                    listStockByProductIds = stockService.findAllByProductIds(productIds);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+//  Exception nếu sản phẩm chưa có trong kho
+                Set<Integer> foundIds = listStockByProductIds.stream().map(Stock::getProductId).collect(Collectors.toSet());
+
+                List<Integer> missingIds = productIds.stream().filter(productId
+                        -> !foundIds.contains(productId)).collect(Collectors.toList());
+                if (!missingIds.isEmpty()) {
+
+                    try {
+                        List<Product> productNotFoundInStock = productServices.getByIds(missingIds);
+                        response.setContentType("application/json");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write(gson.toJson(productNotFoundInStock));
+                        return;
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+//  Kết thúc Exception
+                List<Integer> productIdsOutQuantity = new ArrayList<>();
+//  Tạo List Object chứa productId và quantity để trừ số lượng khi đặt hàng thành công
+                List<ProductReduceQuantity> productReduceQuantities = new ArrayList<>();
+
+                List<ProductWithQuantity> productsWithQuantity = new ArrayList<>();
+
+                for (Stock stock : listStockByProductIds) {
+                    Integer productId = stock.getProductId();
+                    Integer requested = requestedQuantities.getOrDefault(productId.intValue(), 0);
+
+                    if (requested <= 0 || requested > stock.getQuantity()) {
+//                Add product Id với số lượng không phù hợp vào List
+                        productIdsOutQuantity.add(stock.getProductId());
+
+                        try {
+                            List<Product> products = productServices.getByIds(productIdsOutQuantity);
+                            for (Product product : products) {
+                                productsWithQuantity.add(new ProductWithQuantity(stock.getQuantity(), product));
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        productReduceQuantities.add(new ProductReduceQuantity(stock.getProductId(), requested));
+                    }
+                }
 // Phản hồi kết quả
-                response.setContentType("application/json");
-                response.getWriter().write(gson.toJson(orderId));
+                if (!productIdsOutQuantity.isEmpty()) {
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(gson.toJson(productsWithQuantity));
+                    return;
+                }
+
+                long orderId = -1;
+                try {
+                    orderId = service.insertOrderByUser(order, cartMap);
+                    response.setContentType("application/json");
+                    response.getWriter().write(gson.toJson(orderId));
+                } catch (Exception e) {
+                    e.printStackTrace(); // Or better: log to a logger
+
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("{\"error\": \"Database error occurred while inserting order.\"}");
+                }
             } else {
                 int addressId = jsonObject.get("addressId").getAsInt();
                 double total = jsonObject.get("total").getAsDouble();
@@ -233,7 +325,6 @@ public class AddOrder extends HttpServlet {
                     response.getWriter().write("{\"error\": \"Database error occurred while inserting order.\"}");
                 }
 
-//                    stockService.reduceQuantityByProductIds(productReduceQuantities);
 
 
             }

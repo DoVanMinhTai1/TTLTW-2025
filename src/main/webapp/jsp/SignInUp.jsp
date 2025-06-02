@@ -52,7 +52,8 @@
       <div class="social-container">
         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
 
-        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OAuth2CallbackServlet&response_type=code&client_id=314134351747-96fqghf4l57catc97as2q2ibv14l7u0u.apps.googleusercontent.com&approval_prompt=force">
+        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/web/OAuth2CallbackServlet&response_type=code
+        &client_id=314134351747-96fqghf4l57catc97as2q2ibv14l7u0u.apps.googleusercontent.com&approval_prompt=force">
 
           <i class="fab fa-google-plus-g"></i>
 

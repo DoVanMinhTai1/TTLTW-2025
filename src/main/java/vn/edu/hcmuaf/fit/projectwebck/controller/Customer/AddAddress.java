@@ -44,10 +44,10 @@ public class AddAddress extends HttpServlet {
             newAddress.setCompany(company);
             newAddress.setAddress(addresss);
             newAddress.setOrigin(origin);
-            newAddress.setThirty_party_id(userIdString);
+            newAddress.setUserId(Integer.valueOf(userIdString));
             AddressServices addressServices = new AddressServices();
-            addressServices.insertAddressByThirtyPartyId(newAddress);
-            List<Address> listAddress = addressServices.getAllById(1);
+            addressServices.insertAddress(newAddress);
+            List<Address> listAddress = addressServices.getAllById(Integer.valueOf(userIdString));
             request.setAttribute("listAddress", listAddress);
 
             // Forward về trang quản lý địa chỉ
