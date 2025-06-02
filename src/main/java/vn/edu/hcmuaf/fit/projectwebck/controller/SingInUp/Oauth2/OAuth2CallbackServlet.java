@@ -1,8 +1,6 @@
 package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.util.Map;
 import java.util.UUID;
 
 import jakarta.servlet.http.*;
@@ -13,8 +11,6 @@ import vn.edu.hcmuaf.fit.projectwebck.dao.db.JDBIConect;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.GoogleProfile;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
-
-import static vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp.Oauth2.GoogleLogin.getUserInfo;
 
 @WebServlet(name = "OAuth2CallbackServlet", value = "/OAuth2CallbackServlet")
 public class OAuth2CallbackServlet extends HttpServlet {
@@ -48,16 +44,24 @@ public class OAuth2CallbackServlet extends HttpServlet {
 
                 saveUserToDatabase(gp);
             }
-            gp.setId(userId);
-            System.out.println(gp);
+
+            User userReturn = convertGoogleProfileToUser(gp, userId);
 
             HttpSession session = request.getSession();
-            session.setAttribute("user", gp);
+            session.setAttribute("user", userReturn);
 
-            response.sendRedirect("showAll");
+            response.sendRedirect("showHome");
         } else {
             response.sendRedirect("error.jsp");
         }
+    }
+
+    private User convertGoogleProfileToUser(GoogleProfile gp, String userId) {
+        User user = new User();
+        user.setEmail(gp.getEmail());
+        user.setId(Integer.valueOf(userId));
+        user.setFullName(gp.getGiven_name());
+        return user;
     }
 
     private void saveUserToDatabase(GoogleProfile gp) {
