@@ -83,6 +83,26 @@ public class ShowPay extends HttpServlet {
             request.setAttribute("district", district);
             request.setAttribute("province", province);
             request.setAttribute("email", email);
+            ProductServices productServices = new ProductServices();
+            List<ProductWithQuantity> productList = new ArrayList<>();
+            int totalPrice = 0;
+            if (!fromCart) {
+                Product product = productServices.getById(productId);
+                ProductWithQuantity productWithQuantity = new ProductWithQuantity();
+                productWithQuantity.setProduct(product);
+                productWithQuantity.setQuantity(1);
+                productList.add(productWithQuantity);
+                request.setAttribute("productList", productList);
+            } else  {
+
+                for (CartItem cartItem : cartItemsList) {
+                    Product product = productServices.getById(cartItem.getProductId());
+                    ProductWithQuantity productWithQuantity = new ProductWithQuantity(cartItem.getQuantity(),product);
+                    totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
+                    productList.add(productWithQuantity);
+                }
+                request.setAttribute("productList", productList);
+            }
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
         } else {
 

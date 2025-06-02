@@ -41,7 +41,7 @@
                     <c:when test="${not empty currentUser}">
                         <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
                             <div class="headercontendangnhap">
-                                    ${not empty currentUser.username ? currentUser.username : currentUser.given_name}
+                                    ${not empty currentUser.username ? currentUser.username : currentUser.fullName}
                             </div>
                         </a>
                         <div class="line d-flex align-items-center justify-content-center"
