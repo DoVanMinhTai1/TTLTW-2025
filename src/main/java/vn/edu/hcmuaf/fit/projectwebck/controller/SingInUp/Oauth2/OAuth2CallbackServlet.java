@@ -60,8 +60,7 @@ public class OAuth2CallbackServlet extends HttpServlet {
         User user = new User();
         user.setEmail(gp.getEmail());
         user.setId(Integer.valueOf(userId));
-        user.setFullName(gp.getFullName());
-        user.setUsername(gp.getGiven_name());
+        user.setFullName(gp.getGiven_name());
         return user;
     }
 
