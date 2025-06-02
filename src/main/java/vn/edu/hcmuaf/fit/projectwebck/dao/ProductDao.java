@@ -305,7 +305,7 @@ public class ProductDao {
         String sql = "select pd.id,pd.product_id,pd.discount_price,pd.discoun_type,pd.percentage_discount,pd.startdatetime,pd.enddatetime,p.`name`\n" +
                 "from products p\n" +
                 "INNER JOIN productdiscounts pd ON p.id = pd.product_id\n" +
-                "WHERE pd.is_active = TRUE AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
+                "WHERE pd.is_active = 1 AND NOW() BETWEEN pd.startdatetime AND pd.enddatetime\n" +
                 "ORDER BY pd.id asc;";
         List<ProductWithDiscount> product = jdbi.withHandle(handle ->
                 handle.createQuery(sql)
