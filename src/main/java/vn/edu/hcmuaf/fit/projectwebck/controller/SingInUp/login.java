@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.projectwebck.controller.SingInUp;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.projectwebck.dao.model.Role;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.services.UserServices;
 
@@ -25,14 +26,22 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            session = request.getSession();
+            System.out.println("Login: Created new session ID = " + session.getId());
+        } else {
+            System.out.println("Login: Using session ID = " + session.getId());
+        }
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String userCaptcha = request.getParameter("captcha");
+        String userCaptcha = request.getParameter("captcha") != null ? request.getParameter("captcha").trim() : "";
+        ;
 //        User user = userService.login(username, password);
         String captchaSession = (String) session.getAttribute("captcha");
         // Kiểm tra CAPTCHA trước khi xử lý đăng nhập
-        if (captchaSession == null || !captchaSession.equals(userCaptcha)) {
+        System.out.println("Login: Session CAPTCHA = " + captchaSession + ", User CAPTCHA = " + userCaptcha);
+        if (captchaSession == null || !captchaSession.equalsIgnoreCase(userCaptcha)) {
             request.setAttribute("errorMessage", "CAPTCHA không chính xác.");
             request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
             return; // Dừng xử lý nếu CAPTCHA sai
@@ -50,13 +59,22 @@ public class login extends HttpServlet {
             }
             if (hashedPassword.equals(user.getPassword())) {
                 session.setAttribute("user", user);
-                if (user.getRole() == 1 || user.getRole() == 2) {
-                    response.sendRedirect("showAdmin");
-                } else {
-                    response.sendRedirect("showHome");
+                Role role = Role.fromId(user.getRole());
+                switch (role) {
+                    case USER:
+                        response.sendRedirect("showHome");
+                        break;
+                    case ADMIN:
+                    case MOD_VEGETABLES:
+                    case MOD_USERS:
+                    case MOD_ORDERS:
+                    case MOD_PROMOTIONS:
+                    case MOD_PRODUCT_PROMOTION:
+                    case MOD_STOCK:
+                        response.sendRedirect("showAdmin");
+                        break;
                 }
-            }
-            else {
+            } else {
                 request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
                 request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
             }
@@ -64,8 +82,8 @@ public class login extends HttpServlet {
             request.setAttribute("errorMessage", "Tên người dùng hoặc mật khẩu không chính xác.");
             request.getRequestDispatcher("jsp/SignInUp.jsp").forward(request, response);
         }
-
     }
+
     private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -84,6 +102,7 @@ public class login extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
     private String hashPBKDF2(String password, byte[] salt) {
         try {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
