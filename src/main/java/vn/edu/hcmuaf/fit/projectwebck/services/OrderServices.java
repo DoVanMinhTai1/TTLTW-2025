@@ -72,4 +72,18 @@ public class OrderServices {
         }
         stockService.reduceQuantityByProductIds(productReduceQuantities);
     }
+
+    public void increateStockWhenOrderReturn(int orderId) {
+        List<OrderDetail> details = orderDao.getOrderDetailsByOrderId(orderId); // You need to implement this method
+        List<ProductReduceQuantity> productReduceQuantities = new ArrayList<ProductReduceQuantity>();
+        for (OrderDetail detail : details) {
+            productReduceQuantities.add(new ProductReduceQuantity(detail.getProductId(), detail.getQuantity()));
+        }
+        stockService.increateQuantityByProductIds(productReduceQuantities);
+    }
+
+
+
+
+
 }
