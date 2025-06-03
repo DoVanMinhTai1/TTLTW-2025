@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.projectwebck.dao.ReturnRequestDAO;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
+import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
 import vn.edu.hcmuaf.fit.projectwebck.services.*;
 
 
@@ -59,6 +61,23 @@ public class Show extends HttpServlet {
             request.setAttribute("listuser", listUser);
         }
 
+        ProductServices productServices = new ProductServices();
+        if (role.hasPermission("MANAGE_PRODUCT_PROMOTION") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<ProductWithDiscount> product = productService.getProductsWithDiscount();
+            request.setAttribute("productWithDiscount", product);
+        }
+
+        StockService stockService = new StockService();
+        if (role.hasPermission("MANAGE_STOCK") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<Stock> allStocks = stockService.getAllStocks();
+            request.setAttribute("stocks", allStocks);
+        }
+
+        ReturnRequestDAO returnRequestDAO = new ReturnRequestDAO();
+        if (role.hasPermission("MANAGE_RETURN") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<ReturnRequest> allReturn = returnRequestDAO.getAllReturn();
+            request.setAttribute("returnRequests", allReturn);
+        }
 
         LogsServices logsServices = new LogsServices();
         List<Log> listLog = logsServices.getAllLogs();
@@ -80,6 +99,8 @@ public class Show extends HttpServlet {
                 defaultOption = "option6";
             } else if (role.hasPermission("MANAGE_STOCK")) {
                 defaultOption = "option7";
+            } else if (role.hasPermission("MANAGE_RETURN")) {
+                defaultOption = "option8";
             } else {
                 response.sendRedirect("showHome");
                 return;

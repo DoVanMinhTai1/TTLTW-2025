@@ -22,6 +22,8 @@
     allowedRoles.add(5); // MOD_PROMOTIONS
     allowedRoles.add(6); // MOD_PRODUCT_PROMOTION
     allowedRoles.add(7); //MOD_STOCK
+    allowedRoles.add(8); //MOD_RETURN
+
     if (!allowedRoles.contains(roleId)) {
         response.sendRedirect("showHome");
         return;
@@ -65,57 +67,66 @@
     </div>
     <ul>
         <c:if test="${role.hasPermission('VIEW_DASHBOARD')}">
-<%--            <a href="showOption?option=option1">--%>
-                <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
-                        src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
-                </li>
-<%--            </a>--%>
+
+            <%--            <a href="showOption?option=option1">--%>
+            <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
+                    src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
+            </li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_VEGETABLES')}">
-<%--            <a href="showOption?option=option2">--%>
-                <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
-                        src="Img/snapedit_ves-admin.png" alt=""
-                        style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option2">--%>
+            <li class="NavigationbarSelect" id="option2" onclick="navigationbarClick('option2')"><img
+                    src="Img/snapedit_ves-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Rau củ</span></li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_USERS')}">
-<%--            <a href="showOption?option=option3">--%>
-                <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
-                        src="Img/snapedit_user-admin2.png" alt=""
-                        style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
-                </li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option3">--%>
+            <li class="NavigationbarSelect" id="option3" onclick="navigationbarClick('option3')"><img
+                    src="Img/snapedit_user-admin2.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Người dùng</span>
+            </li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_ORDERS')}">
-<%--            <a href="showOption?option=option4">--%>
-                <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
-                        src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
-                </li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option4">--%>
+            <li class="NavigationbarSelect" id="option4" onclick="navigationbarClick('option4')"><img
+                    src="Img/order-admin.png" alt="" style="width: 40px; height:40px"/>&nbsp;<span>Đơn hàng</span>
+            </li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_PROMOTIONS')}">
-<%--            <a href="showOption?option=option5">--%>
-                <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
-                        src="Img/discount-admin.png" alt=""
-                        style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
-                </li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option5">--%>
+            <li class="NavigationbarSelect" id="option5" onclick="navigationbarClick('option5')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Khuyến mãi</span>
+            </li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_PRODUCT_PROMOTION')}">
-<%--            <a href="showOption?option=option6">--%>
-                <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
-                        src="Img/discount-admin.png" alt=""
-                        style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá</span>
-                </li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option6">--%>
+            <li class="NavigationbarSelect" id="option6" onclick="navigationbarClick('option6')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Sản phẩm giảm giá</span>
+            </li>
+            <%--            </a>--%>
         </c:if>
         <c:if test="${role.hasPermission('MANAGE_STOCK')}">
-<%--            <a href="showOption?option=option7">--%>
-                <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
-                        src="Img/discount-admin.png" alt=""
-                        style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
-                </li>
-<%--            </a>--%>
+            <%--            <a href="showOption?option=option7">--%>
+            <li class="NavigationbarSelect" id="option7" onclick="navigationbarClick('option7')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Kho hàng</span>
+            </li>
+            <%--            </a>--%>
+        </c:if>
+
+        <c:if test="${role.hasPermission('MANAGE_RETURN')}">
+
+            <li class="NavigationbarSelect" id="option8" onclick="navigationbarClick('option8')"><img
+                    src="Img/discount-admin.png" alt=""
+                    style="width: 40px; height:40px"/>&nbsp;<span>Đổi Trả</span>
+            </li>
         </c:if>
 
     </ul>
@@ -300,7 +311,8 @@
                 <div class="AdminListProductHeader">
                     <div>Sản phẩm(<span>${listproduct.size()}</span>)</div>
                     <input type="text" name="name" id="searchProduct" placeholder="Nhập tên sản phẩm?">
-                    <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">Thêm
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#ProductWindow" onclick="addProduct()">
+                        Thêm
                         sản phẩm
                     </button>
                 </div>
@@ -340,7 +352,8 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="ProductWindowLabel">Nhập thông tin sản phẩm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Đóng"></button>
                             </div>
                             <div class="modal-body">
                                 <form action="addProduct" method="post" enctype="multipart/form-data">
@@ -348,12 +361,16 @@
 
                                     <div class="mb-3">
                                         <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
-                                        <input type="file" class="form-control" id="productImage" name="images" multiple>
+                                        <input type="file" class="form-control" id="productImage" name="images"
+                                               multiple>
+
                                         <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
                                     </div>
                                     <div class="mb-3">
                                         <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
-                                        <input type="file" class="form-control" id="productImageList" name="imagesList132[]"
+                                        <input type="file" class="form-control" id="productImageList"
+                                               name="imagesList132[]"
+
                                                multiple>
                                         <div id="showImageList">
 
@@ -416,7 +433,9 @@
                 <div class="AdminListUserHeader">
                     <div>Tài khoản(<span>${listuser.size()}</span>)</div>
                     <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
-                    <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm tài
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm
+                        tài
+
                         khoản
                     </button>
                 </div>
@@ -452,12 +471,16 @@
                         </li>
                     </c:forEach>
                 </ul>
-                <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel" aria-hidden="true">
+                <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel"
+                     aria-hidden="true">
+
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Đóng"></button>
+
                             </div>
                             <div class="modal-body">
                                 <form action="addUser" method="post">
@@ -508,7 +531,9 @@
 
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
-                                        <button type="button" class="btn btn-secondary ButtonUser2" data-bs-dismiss="modal"
+                                        <button type="button" class="btn btn-secondary ButtonUser2"
+                                                data-bs-dismiss="modal"
+
                                                 onclick="closeUser()">Hủy
                                         </button>
                                     </div>
@@ -615,7 +640,9 @@
                     <button type="button" onclick="generatePromoCode()">
                         Phát mã khuyến mãi
                     </button>
-                    <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow" onclick="addPromotion()">
+                    <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow"
+                            onclick="addPromotion()">
+
                         Thêm khuyến mãi
                     </button>
                 </div>
@@ -677,7 +704,9 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Đóng"></button>
+
                             </div>
                             <div class="modal-body">
                                 <form action="addPromotion" method="post">
@@ -691,7 +720,9 @@
 
                                     <div class="mb-3">
                                         <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
-                                        <input type="date" id="StartDate" name="StartDate" class="form-control" required>
+                                        <input type="date" id="StartDate" name="StartDate" class="form-control"
+                                               required>
+
                                     </div>
 
                                     <div class="mb-3">
@@ -748,9 +779,7 @@
                         <th>Ngày kết thúc</th>
                         <th></th>
                     </tr>
-
                     </thead>
-
                     <tbody>
                     <c:forEach var="productDiscount" items="${productWithDiscount}">
                         <tr>
@@ -764,7 +793,8 @@
                             <td>
                                 <button onclick="deleteProductDiscount(${productDiscount.id})">Xóa sản phẩm giảm giá
                                 </button>
-                                <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">Cập
+                                <button class="btn btn-primary" onclick="getProductById(${productDiscount.prouctId})">
+                                    Cập
                                     nhật sản phẩm giảm giá
                                 </button>
                                     <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
@@ -774,6 +804,7 @@
                     </tbody>
                 </table>
             </div>
+
         </c:if>
 
         <c:if test="${role.hasPermission('MANAGE_STOCK')}">
@@ -783,8 +814,7 @@
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStock">Thêm sản
                         phẩm vào kho hàng
                     </button>
-                    <input type="file" id="input-excel" />
-                    <button onclick="addStock()">Test</button>
+
                 </div>
                 <table id="stockTable" class="table table-striped">
                     <thead>
@@ -812,8 +842,9 @@
                             <td>
                                 <button onclick="deleteStock(${stock.id})">Xóa sản phẩm kho hàng
                                 </button>
-                                <button class="btn btn-primary" onclick="getStockById(${stock.prouctId})">Cật
+                                <button class="btn btn-primary" onclick="getStockById(${stock.id})">Cật
                                     nhật kho hàng
+
                                 </button>
                                     <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
                             </td>
@@ -824,8 +855,90 @@
             </div>
         </c:if>
 
+        <c:if test="${role.hasPermission('MANAGE_RETURN')}">
+            <div class="AdminReturnList select mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Quản lý đơn đổi trả</h2>
+                </div>
+
+                <table id="returnTable" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Người dùng</th>
+                        <th>Lý do đổi trả</th>
+                        <th>Ảnh</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="returnRequest" items="${returnRequests}">
+                        <tr>
+                            <td>${returnRequest.id}</td>
+                            <td>${returnRequest.orderId}</td>
+                            <td>${returnRequest.userId}</td>
+                            <td>${returnRequest.reason}</td>
+                            <td>
+                                <c:forEach var="img" items="${returnRequest.imagePaths}">
+                                    <img src="${img}" style="max-height: 80px; margin-right: 5px;"/>
+                                </c:forEach>
+                            </td>
+                            <td>
+                                    ${returnRequest.status}
+                            <td>
+                            <td>
+                                <button class="btn btn-success"
+                                        onclick="showProcessModal(${returnRequest.id}, '${returnRequest.reason}', '${returnRequest.orderId}')">
+                                    Xử lý
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+
+        </c:if>
+
     </div>
 </div>
+<!-- Modal xử lý đổi trả -->
+<div class="modal fade" id="processReturnModal" tabindex="-1" aria-labelledby="processModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="returnProcessForm" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xử lý đơn đổi trả</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="returnId" id="modal-returnId">
+                    <div class="mb-3">
+                        <label for="modal-userReason" class="form-label">Lý do từ khách hàng:</label>
+                        <textarea class="form-control" id="modal-userReason" readonly></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adminResponse" class="form-label">Phản hồi từ Admin:</label>
+                        <textarea class="form-control" name="adminResponse" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trạng thái xử lý:</label><br>
+                        <input type="radio" name="status" value="accepted" required> Chấp nhận
+                        <input type="radio" name="status" value="rejected" required style="margin-left: 20px;"> Từ chối
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="orderId" id="modal-orderId">
+                    <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <div class="modal fade" id="addStock" tabindex="-1" aria-labelledby="addStockModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -835,32 +948,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="stockForm">
-                    <div class="mb-3">
-                        <label for="productSelect" class="form-label">Tên sản phẩm</label>
-                        <select class="form-control" id="productStockSelect" required>
-                            <option value="">-- Chọn sản phẩm --</option>
-                            <!-- Load option bằng Ajax -->
-                        </select>
+
+                <div id="uploadSection" class="d-flex align-items-center gap-2 mt-3" style="display: none;">
+                    <input type="file" id="input-excel" class="form-control"/>
+                    <div>
+
+                        <button class="btn btn-secondary" onclick="addStock()">Thêm</button>
                     </div>
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" id="quantityProductStock" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="warehouseName" class="form-label">Tên kho hàng</label>
-                        <input type="text" class="form-control" id="warehouseName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="warehouseAddress" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="warehouseAddress" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="district" class="form-label">Quận</label>
-                        <input type="text" class="form-control" id="district" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Lưu</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -898,10 +993,6 @@
                     <div class="mb-3">
                         <label for="productDiscountPrice" class="form-label">Gỉam giá cố định</label>
                         <input type="number" class="form-control" id="productDiscountPrice" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="discountPrice" class="form-label">Giá sau giảm (VND)</label>
-                        <input type="number" class="form-control" id="discountPrice" required>
                     </div>
                     <div class="mb-3">
                         <label for="startDate" class="form-label">Ngày bắt đầu</label>
@@ -954,10 +1045,6 @@
                         <input type="number" class="form-control" id="updateProductDiscountPrice" required>
                     </div>
                     <div class="mb-3">
-                        <label for="discountPrice" class="form-label">Giá sau giảm (VND)</label>
-                        <input type="number" class="form-control" id="updateDiscountPrice" required>
-                    </div>
-                    <div class="mb-3">
                         <label for="startDate" class="form-label">Ngày bắt đầu</label>
                         <input type="datetime-local" class="form-control" id="updateStartDateDiscountPrice" required>
                     </div>
@@ -971,14 +1058,66 @@
         </div>
     </div>
 </div>
+<div id="uploadSection" class="d-flex align-items-center gap-2 mt-3" style="display: none;">
+    <input type="file" id="input-excel" class="form-control" style="max-width: 250px;"/>
+    <button class="btn btn-secondary" onclick="addStock()">Thêm</button>
+</div>
 
 
+<div class="modal fade" id="editStockModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="editStockForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cập nhật kho hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editStockId">
+                    <input type="hidden" id="editProductId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Tên kho:</label>
+                        <input type="text" id="editName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ:</label>
+                        <input type="text" id="editAddressLine" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quận/Huyện:</label>
+                        <input type="text" id="editDistrict" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tỉnh/Thành phố:</label>
+                        <input type="text" id="editStateOrProvince" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quốc gia:</label>
+                        <input type="text" id="editCountry" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số lượng:</label>
+                        <input type="number" id="editQuantity" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</div>
 <script type="text/javascript">
     let userPermissions = []; // Khởi tạo trước để tránh lỗi undefined
 
     async function loadPermissions() {
         try {
-            const response = await fetch('http://localhost:8080/lab4/getPermissions', {
+            const response = await fetch('http://localhost:8080/web/getPermissions', {
                 method: 'GET',
                 credentials: 'include' // Đảm bảo gửi cookie/session
             });
@@ -1005,13 +1144,14 @@
                 navigationbarClick(runScript);
             } else {
                 const defaultOptions = [
-                    { option: "option1", permission: "VIEW_DASHBOARD" },
-                    { option: "option2", permission: "MANAGE_VEGETABLES" },
-                    { option: "option3", permission: "MANAGE_USERS" },
-                    { option: "option4", permission: "MANAGE_ORDERS" },
-                    { option: "option5", permission: "MANAGE_PROMOTIONS" },
-                    { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" },
-                    { option: "option7", permission: "MANAGE_STOCK" }
+                    {option: "option1", permission: "VIEW_DASHBOARD"},
+                    {option: "option2", permission: "MANAGE_VEGETABLES"},
+                    {option: "option3", permission: "MANAGE_USERS"},
+                    {option: "option4", permission: "MANAGE_ORDERS"},
+                    {option: "option5", permission: "MANAGE_PROMOTIONS"},
+                    {option: "option6", permission: "MANAGE_PRODUCT_PROMOTION"},
+                    {option: "option7", permission: "MANAGE_STOCK"}
+
                 ];
                 const validOption = defaultOptions.find(opt => userPermissions.includes(opt.permission));
                 navigationbarClick(validOption ? validOption.option : "option1");
@@ -1028,13 +1168,16 @@
             return;
         }
         const defaultOptions = [
-            { option: "option1", permission: "VIEW_DASHBOARD" },
-            { option: "option2", permission: "MANAGE_VEGETABLES" },
-            { option: "option3", permission: "MANAGE_USERS" },
-            { option: "option4", permission: "MANAGE_ORDERS" },
-            { option: "option5", permission: "MANAGE_PROMOTIONS" },
-            { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" },
-            { option: "option7", permission: "MANAGE_STOCK" }
+            {option: "option1", permission: "VIEW_DASHBOARD"},
+            {option: "option2", permission: "MANAGE_VEGETABLES"},
+            {option: "option3", permission: "MANAGE_USERS"},
+            {option: "option4", permission: "MANAGE_ORDERS"},
+            {option: "option5", permission: "MANAGE_PROMOTIONS"},
+            {option: "option6", permission: "MANAGE_PRODUCT_PROMOTION"},
+            {option: "option7", permission: "MANAGE_STOCK"},
+            {option: "option8", permission: "MANAGE_RETURN"}
+
+
         ];
         const selectedOption = defaultOptions.find(opt => opt.option === option);
         if (selectedOption && userPermissions.includes(selectedOption.permission)) {
@@ -1057,31 +1200,101 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Admin.js"></script>
 <script>
-    let extractData = []
-        document.getElementById("input-excel").addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (!file) return;
+    function deleteStock(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+            fetch('/web/deleteStock', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: id})
+            }).then(res => res.json())
+                .then(data => {
+                    alert("Xóa thành công!");
+                    location.reload();
+                }).catch(err => console.error(err));
+        }
+    }
 
-            const reader = new FileReader();
-            reader.onload = function (env) {
-                const data = env.target.result;
-                const workbook = XLSX.read(data, { type: 'binary' });
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const extractedData = XLSX.utils.sheet_to_json(worksheet);
-                extractData = extractedData;
-                console.log("Extracted:", extractedData); // ✅ Should appear
-            };
+    function getStockById(id) {
+        fetch(`/web/getStock?id=` + id)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('editStockId').value = data.id;
+                document.getElementById('editProductId').value = data.productId;
+                document.getElementById('editName').value = data.name;
+                document.getElementById('editAddressLine').value = data.addressLine;
+                document.getElementById('editDistrict').value = data.district;
+                document.getElementById('editStateOrProvince').value = data.stateOrProvince;
+                document.getElementById('editCountry').value = data.country;
+                document.getElementById('editQuantity').value = data.quantity;
 
-            reader.readAsBinaryString(file); // ✅ Required
+                let modal = new bootstrap.Modal(document.getElementById('editStockModal'));
+                modal.show();
+            });
+    }
+
+    document.getElementById('editStockForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const payload = {
+            id: parseInt(document.getElementById('editStockId').value),
+            productId: parseInt(document.getElementById('editProductId').value),
+            name: document.getElementById('editName').value,
+            addressLine: document.getElementById('editAddressLine').value,
+            district: document.getElementById('editDistrict').value,
+            stateOrProvince: document.getElementById('editStateOrProvince').value,
+            country: document.getElementById('editCountry').value,
+            quantity: parseInt(document.getElementById('editQuantity').value)
+        };
+
+        fetch('/web/updateStock', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        }).then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                bootstrap.Modal.getInstance(document.getElementById('editStockModal')).hide();
+                location.reload();
+            }).catch(err => {
+            console.error(err);
+            alert("Có lỗi xảy ra khi cập nhật kho.");
         });
+    });
+
+
+    function showProcessModal(returnId, reason, orderId) {
+        document.getElementById('modal-returnId').value = returnId;
+        document.getElementById('modal-userReason').value = reason;
+        document.getElementById('modal-orderId').value = orderId;
+        let modal = new bootstrap.Modal(document.getElementById('processReturnModal'));
+        modal.show();
+    }
+
+    let extractData = []
+    document.getElementById("input-excel").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (env) {
+            const data = env.target.result;
+            const workbook = XLSX.read(data, {type: 'binary'});
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const extractedData = XLSX.utils.sheet_to_json(worksheet);
+            extractData = extractedData;
+            console.log("Extracted:", extractedData); // ✅ Should appear
+        };
+
+        reader.readAsBinaryString(file); // ✅ Required
+    });
 
     function addStock() {
         $.ajax({
             url: "UploadStock",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({stocks : extractData}),
+            data: JSON.stringify({stocks: extractData}),
             success: function (response) {
                 console.log(response);
             },
@@ -1092,49 +1305,44 @@
     }
 
 
+    document.getElementById("returnProcessForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn submit mặc định
 
-    // document.getElementById('excelFile').addEventListener('change', function (e) {
-    //     const file = e.target.files[0];
-    //     const reader = new FileReader();
-    //
-    //     reader.onload = function (event) {
-    //         const data = new Uint8Array(event.target.result);
-    //         const workbook = XLSX.read(data, { type: 'array' });
-    //
-    //         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    //         const products = XLSX.utils.sheet_to_json(firstSheet);
-    //
-    //         console.log(products); // Each row in Excel becomes one object
-    //         // You can now send this data to the server via AJAX
-    //         // or display a preview
-    //     };
-    //
-    //     reader.readAsArrayBuffer(file);
-    // });
-
-    // let extractData = []
-    // document.getElementById('input-excel').addEventListener('change', function (e) {
-    //     const file = e.target.files[0];
-    //
-    //     const reader = new FileReader();
-    //     reader.onLoad = function (event) {
-    //         const content = event.target.result;
-    //
-    //         const data = new Uint8Array(content);
-    //
-    //         const workbook = XLSX.read(data, { type: 'binary' });
-    //
-    //         const firstSheet = workbook.Sheets[workbook.SheetsName[0]];
-    //         const product = XLSX.utils.sheet_to_json(firstSheet);
-    //         console.log("✅ Extracted data:", product);
-    //
-    //         extractData.push(product);
-    //         console.log(product);
-    //
-    //     }
-    //         reader.readAsArrayBuffer(file);
-    //
-    // })
+        const returnId = document.getElementById("modal-returnId").value;
+        const adminResponse = this.adminResponse.value;
+        const status = this.status.value;
+        const orderId = document.getElementById("modal-orderId").value;
+        // Gọi API POST
+        fetch("/web/ReturnProcessSubmit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                returnId: returnId,
+                adminResponse: adminResponse,
+                status: status,
+                orderId: orderId
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Lỗi khi gửi phản hồi");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Xử lý thành công!");
+                // Tùy chọn: reload lại trang hoặc đóng modal
+                document.getElementById("returnProcessForm").reset();
+                const modal = bootstrap.Modal.getInstance(document.getElementById("processReturnModal"));
+                modal.hide();
+                location.reload(); // hoặc cập nhật danh sách đổi trả
+            })
+            .catch(error => {
+                alert("Đã xảy ra lỗi: " + error.message);
+            });
+    });
 
     let isProductLoaded = false;
 
@@ -1225,7 +1433,7 @@
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
             })
-                .then(response => reponse.text())
+                .then(alert("Thêm thành công"))
                 .then(data => {
                     alert(data);
                     location.reload();
@@ -1240,17 +1448,18 @@
         const idnew = id;
         $.ajax({
             url: `/web/deleteProductDiscount`,
-            type: 'DELETE',
+            type: 'POST',
             data: JSON.stringify({id: idnew}),
             contentType: 'application/json',
             success: function (response) {
-                if (response.success()) {
-                    alert("delete Product success")
+                if (response.success) {
+                    alert("Xóa sản phẩm thành công!");
                     location.reload();
                 } else {
-                    alert('Failed to delete product discount.');
+                    alert("Xóa sản phẩm thất bại.");
                 }
             }
+
         })
 
     }
@@ -1361,7 +1570,6 @@
             discountType: DiscountType,
             discountPercent: document.getElementById('updateDiscountPercent').value,
             discountPrice: document.getElementById('updateProductDiscountPrice').value,
-            discountFinalPrice: document.getElementById('updateDiscountPrice').value,
             startDate: document.getElementById('updateStartDateDiscountPrice').value,
             endDate: document.getElementById('updateEndDateDiscountPrice').value
         };

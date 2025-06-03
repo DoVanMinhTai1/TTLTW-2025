@@ -8,7 +8,7 @@ public enum Role {
     USER(0, "Người dùng", new HashSet<>(Arrays.asList("VIEW_HOME"))),
     ADMIN(1, "Quản trị viên", new HashSet<>(Arrays.asList(
             "VIEW_DASHBOARD", "MANAGE_VEGETABLES", "MANAGE_USERS", "MANAGE_ORDERS",
-                  "MANAGE_PROMOTIONS", "MANAGE_PRODUCT_PROMOTION", "MANAGE_STOCK"
+                  "MANAGE_PROMOTIONS", "MANAGE_PRODUCT_PROMOTION", "MANAGE_STOCK","MANAGE_RETURN"
     ))),
     MOD_VEGETABLES(2, "Quản lý rau củ", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_VEGETABLES"))),
     MOD_USERS(3, "Quản lý người dùng", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_USERS"))),
@@ -16,7 +16,9 @@ public enum Role {
     MOD_PROMOTIONS(5, "Quản lý khuyến mãi", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_PROMOTIONS"))),
     MOD_PRODUCT_PROMOTION(6, "Quản lý sản phẩm giảm giá", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_PRODUCT_PROMOTION"))),
     MOD_STOCK(7, "Quản lý kho", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_STOCK"))),
-    GUEST(8, "Khách", new HashSet<>(Arrays.asList("VIEW_HOME")));
+    MOD_RETURN(8, "Quản lý đổi trả", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_RETURN"))),
+    GUEST(9, "Khách", new HashSet<>(Arrays.asList("VIEW_HOME")));
+
 
     private final int id;
     private final String name;

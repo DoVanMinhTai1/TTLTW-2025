@@ -65,12 +65,6 @@ public class ShowCustomer extends HttpServlet {
                 request.setAttribute("listAddress", listAddress);
                 request.getRequestDispatcher("Customer.jsp?runScript=option4").forward(request, response);
                 break;
-            case "option5":
-//                PromotionServices promotionServices = new PromotionServices();
-//                List<Promotion> listPromotion = promotionServices.getAllPromotion();
-//                request.setAttribute("listpromotion", listPromotion);
-//                request.getRequestDispatcher("Admin.jsp?runScript=option5").forward(request,response);
-                break;
             default:
 
                 break;

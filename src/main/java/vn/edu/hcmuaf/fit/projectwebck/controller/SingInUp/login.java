@@ -71,6 +71,7 @@ public class login extends HttpServlet {
                     case MOD_PROMOTIONS:
                     case MOD_PRODUCT_PROMOTION:
                     case MOD_STOCK:
+                    case MOD_RETURN:
                         response.sendRedirect("showAdmin");
                         break;
                 }

@@ -21,9 +21,33 @@ public class DelProductDiscount extends HttpServlet {
 
     }
 
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        super.doPost(req, resp);
+//        BufferedReader reader = req.getReader();
+//        StringBuilder sb = new StringBuilder();
+//        Gson gson = new Gson();
+//        String line;
+//        while ((line = reader.readLine()) != null) {
+//            System.out.println(line);
+//            sb.append(line);
+//        }
+//        String requestBody = sb.toString();
+//        JsonObject jsonObject = gson.fromJson(requestBody, JsonObject.class);
+//        int id = jsonObject.get("id").getAsInt();
+//        boolean success = productServices.deleteProductDiscount(id);
+//        resp.setContentType("application/json");
+//        resp.setCharacterEncoding("UTF-8");
+//        PrintWriter out = resp.getWriter();
+//        out.write("{\"success\": " + success + "}");
+//        out.flush();
+//    }
+//
+//
+
+
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
         Gson gson = new Gson();

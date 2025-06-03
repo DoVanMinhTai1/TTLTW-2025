@@ -51,9 +51,9 @@ public class UpdateProduct extends HttpServlet {
 
         Collection<Part> listPart = request.getParts().stream().filter(item -> item.getName().equals("imagesList[]") && item.getSize() > 0).collect(Collectors.toList());
         System.out.println("listPart: " + listPart.size());
-       List<String> listPath = saveProductImageList(listPart);
+        List<String> listPath = saveProductImageList(listPart);
         ProductServices productServices = new ProductServices();
-        productServices.insertProductImages(listPath,id);
+        productServices.insertProductImages(listPath, id);
 
 
         Part productImagePart = request.getPart("image");
@@ -127,11 +127,11 @@ public class UpdateProduct extends HttpServlet {
             String fileName = System.currentTimeMillis() + "_" + part.getSubmittedFileName();
             String filePath = uploadPath + File.separator + fileName;
 
-          try {
-              part.write(filePath);
-          } catch (IOException e) {
-              throw new RuntimeException(e);
-          }
+            try {
+                part.write(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             listPathRes.add("Img/" + fileName);
 
         }
