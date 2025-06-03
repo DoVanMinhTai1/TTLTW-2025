@@ -20,8 +20,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--%>
-    <%--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script type="text/javascript" src="${pageContext.request.contextPath}/Customer.js" defer></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Customer.css">
 </head>
@@ -141,7 +141,28 @@
                     </table>
                 </div>
                 <div class="YourOrder select">
-                    <div class="YourOrderTitle">ĐƠN HÀNG CỦA BẠN</div>
+                    <div class="d-flex" style="display: flex; justify-content: space-between">
+                        <div class="YourOrderTitle" style="width: 100%; text-align: center;">ĐƠN HÀNG CỦA BẠN</div>
+
+                    </div>
+                    <div class="filter-section" style="justify-content: end;  margin-bottom: 20px;
+    font-size: 16px;">
+
+                        <label for="orderStatusFilter">Lọc theo trạng thái:</label>
+                        <select id="orderStatusFilter" onchange="filterOrdersByStatus()" style="padding: 6px 10px;
+    font-size: 15px;
+    border-radius: 6px;">
+                            <option value="all">Tất cả</option>
+                            <option value="0">Chờ xác nhận</option>
+                            <option value="1">Đã xác nhận</option>
+                            <option value="2">Đang đóng gói</option>
+                            <option value="3">Đang vận chuyển</option>
+                            <option value="4">Hoàn tất</option>
+                            <option value="5">Đã hủy</option>
+                            <option value="6">Đổi trả</option>
+                        </select>
+                    </div>
+
                     <table>
                         <thead>
                         <tr>
@@ -152,6 +173,7 @@
                             <th>Tổng Thanh Toán</th>
                             <th>Chi Tiết</th>
                             <th>Xuất pdf</th>
+                            <th>Đổi Trả</th>
                         </tr>
                         </thead>
                         <tbody id="OrderTableBody">
@@ -167,20 +189,55 @@
                                     <c:when test="${order.status == 3}">Đang vận chuyển</c:when>
                                     <c:when test="${order.status == 4}">Hoàn tất</c:when>
                                     <c:when test="${order.status == 5}">Đã hủy</c:when>
+                                    <c:when test="${order.status == 6}">Đang chờ xử lý từ đổi trả</c:when>
+                                    <c:when test="${order.status == 7}">Chấp thuận đổi trả</c:when>
+                                    <c:when test="${order.status == 8}">Từ chối đổi trả</c:when>
                                     <c:otherwise>Không xác định</c:otherwise>
                                 </c:choose></span></td>
                                 <td><span class="Order_Money">${order.money}đ</span></td>
                                 <td>
-                                    <div class="Detail"
-                                         onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.status}','${sessionScope.user.id}')">
-                                        <i class="fa-regular fa-eye"></i><span>Xem</span>
-                                    </div>
+                                    <c:choose>
+                                        <c:when test="${order.status == 6}">
+
+                                            <button onclick="showWordReturn(${order.status})">
+                                                Xem
+                                            </button>
+                                        </c:when>
+                                        <c:when test="${order.status == 7}">
+
+                                            <button onclick="showWordReturn(${order.status})">
+                                                Xem
+                                            </button>
+                                        </c:when>
+                                        <c:when test="${order.status == 8}">
+
+                                            <button onclick="showWordReturn(${order.status})">
+                                                Xem
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+
+                                            <div class="Detail"
+                                                 onclick="viewOrder('${order.id}','${order.address}','${order.dateOfBooking}','${order.status}','${sessionScope.user.id}')">
+                                                <i class="fa-regular fa-eye"></i><span>Xem</span>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                 </td>
                                 <td>
                                     <button class="ExportBtn" onclick="exportPdf(${order.id})">
                                         <i class="fa-solid fa-file-pdf"></i> PDF
                                     </button>
                                 </td>
+                                <c:if test="${order.status == 4}">
+                                    <td>
+                                        <button class="ReturnBtn" onclick="openReturnModal(${order.id})">
+                                            <i class="fa-solid fa-rotate-left"></i> Đổi/Trả
+                                        </button>
+                                    </td>
+                                </c:if>
+
 
                             </tr>
                         </c:forEach>
@@ -308,11 +365,88 @@
     </div>
 </div>
 
+<!-- Modal đổi trả hàng -->
+<div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="returnForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="returnModalLabel">Yêu cầu đổi/trả hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="orderId" id="returnOrderId">
+                    <div class="mb-3">
+                        <label for="returnReason" class="form-label">Lý do đổi/trả</label>
+                        <textarea name="reason" id="returnReason" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="returnImages" class="form-label">Hình ảnh (có thể chọn nhiều):</label>
+                        <input type="file" name="images" id="returnImages" class="form-control" multiple
+                               accept="image/*">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="showWordReturn" tabindex="-1" aria-labelledby="returnInfoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnInfoLabel">Trạng thái đổi trả</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" id="returnStatusContent">
+                <!-- Nội dung sẽ được cập nhật bằng JS -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+    function showWordReturn(status) {
+        let content = "";
+
+        switch (status) {
+            case 6:
+                content = "Đơn đổi trả của bạn đang chờ xử lý. Vui lòng đợi nhân viên kiểm tra.";
+                break;
+            case 7:
+                content = "Yêu cầu đổi trả của bạn đã được chấp thuận. Đơn vị vận chuyển sẽ liên hệ để nhận hàng tại địa chỉ giao hàng.";
+                break;
+            case 8:
+                content = "Yêu cầu đổi trả đã bị từ chối. Vui lòng kiểm tra lại thông tin hoặc liên hệ hỗ trợ.";
+                break;
+            default:
+                content = "Không xác định trạng thái đơn hàng.";
+        }
+
+        document.getElementById('returnStatusContent').textContent = content;
+        const modal = new bootstrap.Modal(document.getElementById('showWordReturn'));
+        modal.show();
+    }
+
+
     window.onload = function () {
         // Kiểm tra xem runScript có khác null không
         <% if (runScript != null) { %>
@@ -350,6 +484,7 @@
             }
         })
     }
+
     function exportPdf(orderId) {
         if (!orderId) {
             alert("Cannot export PDF without an order ID.");
@@ -361,7 +496,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ orderId: orderId })
+            body: JSON.stringify({orderId: orderId})
         })
             .then(response => {
                 if (!response.ok) {
@@ -384,6 +519,70 @@
                 alert('Export failed');
             });
     }
+
+
+    function filterOrdersByStatus() {
+        const selectedStatus = document.getElementById("orderStatusFilter").value;
+        const rows = document.querySelectorAll("#OrderTableBody .Order_item");
+
+        rows.forEach(row => {
+            const statusSpan = row.querySelector(".Order_DeliveryDate");
+            const classList = statusSpan.classList;
+            const matched = [...classList].find(c => c.startsWith("status-"));
+            const statusCode = matched ? matched.replace("status-", "") : "";
+
+            if (selectedStatus === "all" || selectedStatus === statusCode) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    function requestReturn(orderId) {
+        const confirmReturn = confirm("Bạn có chắc chắn muốn yêu cầu đổi/trả đơn hàng #" + orderId + "?");
+
+        if (confirmReturn) {
+            // Gửi yêu cầu lên server
+            fetch(`/web/return-request?orderId=${orderId}`, {
+                method: 'POST'
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Yêu cầu đổi/trả đã được gửi!");
+                    } else {
+                        alert("Không thể gửi yêu cầu đổi/trả. Vui lòng thử lại.");
+                    }
+                });
+        }
+    }
+
+    function openReturnModal(orderId) {
+        document.getElementById('returnOrderId').value = orderId;
+        const modal = new bootstrap.Modal(document.getElementById('returnModal'));
+        modal.show();
+    }
+
+    document.getElementById('returnForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('/web/ReturnRequest', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Đã gửi yêu cầu đổi/trả!");
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('returnModal'));
+                    modal.hide();
+                } else {
+                    alert("Lỗi khi gửi yêu cầu.");
+                }
+            });
+    });
+
 </script>
 
 </body>
