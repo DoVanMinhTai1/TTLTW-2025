@@ -137,4 +137,9 @@ public class ProductServices {
     public void deleteProductImages(int productId, int id) {
         productDao.deleteProductImages(productId,id);
     }
+
+    public static void main(String[] args) {
+        ProductServices service = new ProductServices();
+        System.out.println(service.getProductsWithDiscount());
+    }
 }

@@ -30,7 +30,7 @@ public class StockService {
         return stockDao.updateStock(stockToUpdate);
     }
 
-    public Stock findById(int productId) {
+    public Stock findByProductId(int productId) {
         return stockDao.findById(productId);
     }
 
@@ -44,5 +44,13 @@ public class StockService {
 
     public void reduceQuantityByProductIds(List<ProductReduceQuantity> productReduceQuantities) {
          stockDao.reduceQuantityByProductIds(productReduceQuantities);
+    }
+
+    public void increateQuantityByProductIds(List<ProductReduceQuantity> productReduceQuantities) {
+        stockDao.increateQuantityByProductIds(productReduceQuantities);
+    }
+
+    public Stock getStockById(int id) {
+        return stockDao.findById(id);
     }
 }

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vn.edu.hcmuaf.fit.projectwebck.dao.ReturnRequestDAO;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.*;
 import vn.edu.hcmuaf.fit.projectwebck.dto.product.ProductWithDiscount;
@@ -48,6 +49,7 @@ public class ShowOption extends HttpServlet {
         List<Log> listLog = logsServices.getAllLogs();
 
         StockService stockService = new StockService();
+        ReturnRequestDAO  returnRequestDAO = new ReturnRequestDAO();
 
         switch (option) {
             case "option1":
@@ -103,10 +105,16 @@ public class ShowOption extends HttpServlet {
 //                request.getRequestDispatcher("Admin.jsp?runScript=option6").forward(request,response);
                 break;
             case "option7":
-//                List<Stock> allStocks = stockService.getAllStocks();
-//                request.setAttribute("stocks", allStocks);
-//                request.getRequestDispatcher("Admin.jsp?runScript=option7").forward(request,response);
+                List<Stock> allStocks = stockService.getAllStocks();
+                request.setAttribute("stocks", allStocks);
+                request.getRequestDispatcher("Admin.jsp?runScript=option7").forward(request,response);
                 break;
+            case "option8":
+                List<ReturnRequest> allReturn = returnRequestDAO.getAllReturn();
+                request.setAttribute("returnRequests", allReturn);
+                request.getRequestDispatcher("Admin.jsp?runScript=option8").forward(request,response);
+                break;
+
 
             default:
 
