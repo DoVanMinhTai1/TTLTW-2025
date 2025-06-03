@@ -69,6 +69,7 @@ function navigationbarClick(select) {
         "option6": "MANAGE_PRODUCT_PROMOTION",
         "option7": "MANAGE_STOCK",
         "option8": "MANAGE_RETURN",
+
     };
 
     const requiredPermission = permissionMap[select];
@@ -91,6 +92,7 @@ function navigationbarClick(select) {
             { option: "option6", permission: "MANAGE_PRODUCT_PROMOTION" },
             { option: "option7", permission: "MANAGE_STOCK" },
             { option: "option8", permission: "MANAGE_RETURN" },
+
         ];
         const validOption = defaultOptions.find(opt => userPermissions.includes(opt.permission));
         if (validOption) {
@@ -129,7 +131,6 @@ function navigationbarClick(select) {
         case "option8":
             contentElement = document.querySelector(".AdminReturnList")
             break;
-
         default:
             console.warn(`Không có nội dung cho: ${select}`);
             return;

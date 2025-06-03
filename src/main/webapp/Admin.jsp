@@ -23,6 +23,7 @@
     allowedRoles.add(6); // MOD_PRODUCT_PROMOTION
     allowedRoles.add(7); //MOD_STOCK
     allowedRoles.add(8); //MOD_RETURN
+
     if (!allowedRoles.contains(roleId)) {
         response.sendRedirect("showHome");
         return;
@@ -66,6 +67,7 @@
     </div>
     <ul>
         <c:if test="${role.hasPermission('VIEW_DASHBOARD')}">
+
             <%--            <a href="showOption?option=option1">--%>
             <li class="NavigationbarSelect" id="option1" onclick="navigationbarClick('option1')"><img
                     src="Img/bar-admin.png" alt="" style="width: 40px; height:40px;"/>&nbsp;<span>Điều khiển</span>
@@ -361,12 +363,14 @@
                                         <label for="productImage" class="form-label">Ảnh Thumbnail:</label>
                                         <input type="file" class="form-control" id="productImage" name="images"
                                                multiple>
+
                                         <img src="" alt="" id="image" style="width: 50px; display: none" class="mt-2">
                                     </div>
                                     <div class="mb-3">
                                         <label for="productImage" class="form-label">Ảnh Chi tiết sản phẩm:</label>
                                         <input type="file" class="form-control" id="productImageList"
                                                name="imagesList132[]"
+
                                                multiple>
                                         <div id="showImageList">
 
@@ -431,6 +435,7 @@
                     <input type="text" name="searchUser" id="searchUser" placeholder="Nhập tên khách hàng?">
                     <button type="submit" data-bs-toggle="modal" data-bs-target="#UserWindow" onclick="addUser()">Thêm
                         tài
+
                         khoản
                     </button>
                 </div>
@@ -468,12 +473,14 @@
                 </ul>
                 <div class="modal fade" id="UserWindow" tabindex="-1" aria-labelledby="UserWindowLabel"
                      aria-hidden="true">
+
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="UserWindowLabel">Nhập thông tin tài khoản</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Đóng"></button>
+
                             </div>
                             <div class="modal-body">
                                 <form action="addUser" method="post">
@@ -526,6 +533,7 @@
                                         <button type="submit" class="btn btn-success ButtonUser1">Lưu</button>
                                         <button type="button" class="btn btn-secondary ButtonUser2"
                                                 data-bs-dismiss="modal"
+
                                                 onclick="closeUser()">Hủy
                                         </button>
                                     </div>
@@ -634,6 +642,7 @@
                     </button>
                     <button type="submit" data-bs-toggle="modal" data-bs-target="#PromotionWindow"
                             onclick="addPromotion()">
+
                         Thêm khuyến mãi
                     </button>
                 </div>
@@ -697,6 +706,7 @@
                                 <h5 class="modal-title" id="PromotionWindowLabel">Nhập thông tin khuyến mãi</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Đóng"></button>
+
                             </div>
                             <div class="modal-body">
                                 <form action="addPromotion" method="post">
@@ -712,6 +722,7 @@
                                         <label for="StartDate" class="form-label">Ngày bắt đầu:</label>
                                         <input type="date" id="StartDate" name="StartDate" class="form-control"
                                                required>
+
                                     </div>
 
                                     <div class="mb-3">
@@ -833,6 +844,7 @@
                                 </button>
                                 <button class="btn btn-primary" onclick="getStockById(${stock.id})">Cật
                                     nhật kho hàng
+
                                 </button>
                                     <%--                            <button onclick="updateProductDiscount(${productDiscount.id})"></button>--%>
                             </td>
@@ -1139,6 +1151,7 @@
                     {option: "option5", permission: "MANAGE_PROMOTIONS"},
                     {option: "option6", permission: "MANAGE_PRODUCT_PROMOTION"},
                     {option: "option7", permission: "MANAGE_STOCK"}
+
                 ];
                 const validOption = defaultOptions.find(opt => userPermissions.includes(opt.permission));
                 navigationbarClick(validOption ? validOption.option : "option1");
@@ -1163,6 +1176,7 @@
             {option: "option6", permission: "MANAGE_PRODUCT_PROMOTION"},
             {option: "option7", permission: "MANAGE_STOCK"},
             {option: "option8", permission: "MANAGE_RETURN"}
+
 
         ];
         const selectedOption = defaultOptions.find(opt => opt.option === option);
