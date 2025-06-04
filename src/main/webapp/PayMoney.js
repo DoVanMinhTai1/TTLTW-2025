@@ -4,62 +4,143 @@ document.addEventListener("DOMContentLoaded", function () {
     const districtSelect = document.getElementById("District");
     const wardSelect = document.getElementById("Commune");
 
-    const selectedProvince = provinceSelect.value;
-    const selectedDistrict = districtSelect.value;
-    const selectedWard = wardSelect.value;
-    console.log("selectedProvince =", selectedProvince);
-    console.log("selectedDistrict =", selectedDistrict);
-    console.log("selectedWard =", selectedWard);
+    const provinceIdInput = document.getElementById("ProvinceID");
+    const districtIdInput = document.getElementById("DistrictID");
+    const wardCodeInput = document.getElementById("WardCode");
 
-    fetch("https://provinces.open-api.vn/api/?depth=3")
+    fetch("/web/addressData?type=provinces")
         .then(res => res.json())
         .then(data => {
-            // Load tỉnh
-            provinceSelect.innerHTML = `<option disabled>Chọn tỉnh</option>`;
+            provinceSelect.innerHTML = `<option disabled selected>Chọn tỉnh</option>`;
             data.forEach(p => {
-                const selected = (p.name === selectedProvince) ? "selected" : "";
-                provinceSelect.innerHTML += `<option value="${p.name}" ${selected}>${p.name}</option>`;
+                provinceSelect.innerHTML += `<option value="${p.ProvinceID}">${p.ProvinceName}</option>`;
             });
+            provinceSelect.disabled = false;
+        })
+        .catch(err => {
+            console.error("Lỗi khi tải tỉnh:", err);
+            alert("Không thể tải danh sách tỉnh. Vui lòng thử lại.");
+        });
 
-            const currentProvince = data.find(p => p.name === selectedProvince);
-            if (currentProvince) {
-                districtSelect.innerHTML = `<option disabled>Chọn quận</option>`;
-                currentProvince.districts.forEach(d => {
-                    const selected = (d.name === selectedDistrict) ? "selected" : "";
-                    districtSelect.innerHTML += `<option value="${d.name}" ${selected}>${d.name}</option>`;
-                });
+    // Sự kiện chọn tỉnh → load quận
+    provinceSelect.addEventListener("change", function () {
+        const provinceId = this.value;
+        provinceIdInput.value = provinceId;
+        districtSelect.innerHTML = `<option disabled selected>Chọn quận</option>`;
+        wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
+        districtSelect.disabled = true;
+        wardSelect.disabled = true;
+        districtIdInput.value = "";
+        wardCodeInput.value = "";
+        resetTransportFee();
 
-                const currentDistrict = currentProvince.districts.find(d => d.name === selectedDistrict);
-                if (currentDistrict) {
-                    wardSelect.innerHTML = `<option disabled>Chọn phường</option>`;
-                    currentDistrict.wards.forEach(w => {
-                        const selected = (w.name === selectedWard) ? "selected" : "";
-                        wardSelect.innerHTML += `<option value="${w.name}" ${selected}>${w.name}</option>`;
+        if (provinceId) {
+            fetch(`/web/addressData?type=districts&parentId=${provinceId}`)
+                .then(res => res.json())
+                .then(data => {
+                    districtSelect.innerHTML = `<option disabled selected>Chọn quận</option>`;
+                    data.forEach(d => {
+                        districtSelect.innerHTML += `<option value="${d.DistrictID}">${d.DistrictName}</option>`;
                     });
-                }
-            }
+                    districtSelect.disabled = false;
+                })
+                .catch(err => {
+                    console.error("Lỗi khi tải quận:", err);
+                    alert("Không thể tải danh sách quận. Vui lòng thử lại.");
+                });
+        }
+    });
 
             // Sự kiện chọn tỉnh → load quận
-            provinceSelect.addEventListener("change", function () {
-                const selected = data.find(p => p.name === this.value);
-                districtSelect.innerHTML = `<option disabled selected>Chọn quận</option>`;
+            districtSelect.addEventListener("change", function () {
+                const districtId = this.value;
+                districtIdInput.value = districtId;
                 wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
-                selected.districts.forEach(d => {
-                    districtSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
-                });
+                wardSelect.disabled = true;
+                wardCodeInput.value = "";
+                resetTransportFee();
+
+                if (districtId) {
+                    fetch(`/web/addressData?type=wards&parentId=${districtId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
+                            data.forEach(w => {
+                                wardSelect.innerHTML += `<option value="${w.WardCode}">${w.WardName}</option>`;
+                            });
+                            wardSelect.disabled = false;
+                        })
+                        .catch(err => {
+                            console.error("Lỗi khi tải phường:", err);
+                            alert("Không thể tải danh sách phường. Vui lòng thử lại.");
+                        });
+                }
             });
 
             // Sự kiện chọn quận → load phường
-            districtSelect.addEventListener("change", function () {
-                const province = data.find(p => p.name === provinceSelect.value);
-                const district = province.districts.find(d => d.name === this.value);
-                wardSelect.innerHTML = `<option disabled selected>Chọn phường</option>`;
-                district.wards.forEach(w => {
-                    wardSelect.innerHTML += `<option value="${w.name}">${w.name}</option>`;
-                });
+            wardSelect.addEventListener("change", function () {
+                const wardCode = this.value;
+                wardCodeInput.value = wardCode;
+                calculateShippingFee();
             });
         });
-});
+// });
+//reset phí vc
+function resetTransportFee() {
+    const transportElement = document.getElementById("transportValue");
+    const ghnFeeElement = document.getElementById("ghnFee");
+    const provisionalValueText = document.getElementById("provisional").innerText.replace(/,/g, '').replace('đ', '');
+    const provisionalValue = parseFloat(provisionalValueText) || 0;
+
+    transportElement.innerText = "0đ";
+    ghnFeeElement.innerText = "0";
+    document.getElementById("total").innerText = provisionalValue.toLocaleString('vi-VN', { maximumFractionDigits: 0 }) + "đ";
+}
+// Tính phí vận chuyển
+async function calculateShippingFee() {
+    const districtId = document.getElementById("DistrictID").value;
+    const wardCode = document.getElementById("WardCode").value;
+    const totalWeight = 1000; // Trọng lượng cố định: 1kg
+    const length = 30; // Chiều dài cố định: 30cm
+    const width = 20; // Chiều rộng cố định: 20cm
+    const height = 10; // Chiều cao cố định: 10cm
+
+    if (districtId && wardCode) {
+        try {
+            const response = await fetch("/web/calculateShippingFee", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `toDistrictId=${districtId}&toWardCode=${wardCode}&weight=${totalWeight}&length=${length}&width=${width}&height=${height}`
+            });
+            const result = await response.json();
+
+            if (result.code === 200) {
+                const fee = result.data.total;
+                const transportElement = document.getElementById("transportValue");
+                const ghnFeeElement = document.getElementById("ghnFee");
+                transportElement.innerText = fee.toLocaleString('vi-VN', { maximumFractionDigits: 0 }) + "đ";
+                ghnFeeElement.innerText = fee.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+
+                // Cập nhật tổng tiền
+                const provisionalValueText = document.getElementById("provisional").innerText.replace(/,/g, '').replace('đ', '');
+                const provisionalValue = parseFloat(provisionalValueText) || 0;
+                const totalAmount = provisionalValue + fee;
+                document.getElementById("total").innerText = totalAmount.toLocaleString('vi-VN', { maximumFractionDigits: 0 }) + "đ";
+            } else {
+                alert("Lỗi khi tính phí vận chuyển: " + result.message);
+                resetTransportFee();
+            }
+        } catch (error) {
+            console.error("Lỗi khi tính phí vận chuyển:", error);
+            alert("Không thể tính phí vận chuyển. Vui lòng thử lại.");
+            resetTransportFee();
+        }
+    } else {
+        resetTransportFee();
+    }
+}
 
 async function discount(total,userId) {
     var discountCode = document.getElementById("DiscountCode").value;

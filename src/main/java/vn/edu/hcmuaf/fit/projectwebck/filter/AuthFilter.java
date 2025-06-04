@@ -28,7 +28,7 @@ public class AuthFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         String uri = httpRequest.getRequestURI();
-        if (uri.endsWith("login") || uri.endsWith("showLogin") || uri.endsWith("SignInUp.jsp") || uri.endsWith("CaptchaServlet") || uri.endsWith("register")) {
+        if (uri.endsWith("login") || uri.endsWith("showLogin") || uri.endsWith("SignInUp.jsp") || uri.endsWith("CaptchaServlet") || uri.endsWith("register")|| uri.endsWith("sendPassword") || uri.endsWith("passwordBack")) {
             chain.doFilter(request, response);
             return;
         }

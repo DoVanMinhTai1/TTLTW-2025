@@ -38,14 +38,22 @@
                 <input type="text" name="Phonenumber" id="Phonenumber" placeholder="Số điện thoại" class="form"
                        value="${address.phone}"><br>
                 <input type="text" name="" id="Address" placeholder="Address" class="form" value="${number}"><br>
-                <select name="Conscious" id="Conscious" style="width: 90%;height:40px;">
-                    <option value="${province}" selected>${province}</option>
+                <!-- Trường ẩn -->
+                <input type="hidden" id="ProvinceID" name="ProvinceID">
+                <input type="hidden" id="DistrictID" name="DistrictID">
+                <input type="hidden" id="WardCode" name="WardCode">
+
+                <select name="Conscious" id="Conscious" style="width: 90%;height:40px;" disabled>
+<%--                    <option value="${province}" selected>${province}</option>--%>
+                        <option disabled selected>Chọn tỉnh</option>
                 </select>
-                <select name="District" id="District" style="width: 90%;height:40px;">
-                    <option value="${district}" selected>${district}</option>
+                <select name="District" id="District" style="width: 90%;height:40px;" disabled>
+<%--                    <option value="${district}" selected>${district}</option>--%>
+                        <option disabled selected>Chọn quận</option>
                 </select>
-                <select name="Commune" id="Commune" style="width: 90%;height:40px;">
-                    <option value="${ward}" selected>${ward}</option>
+                <select name="Commune" id="Commune" style="width: 90%;height:40px;" disabled>
+<%--                    <option value="${ward}" selected>${ward}</option>--%>
+                    <option disabled selected>Chọn phường</option>
                 </select>
                 <textarea name="Note" id="Note" placeholder="Ghi chú"></textarea>
             </div>
@@ -54,6 +62,12 @@
             <div class="PayLeftContentOmega">
                 <div class="PayLeftContentOmegaText">Vận chuyển</div>
                 <form id="transportForm" action="SelectTransport" method="post">
+                    <!-- Tùy chọn Giao Hàng Nhanh -->
+                    <div class="PayLeftContentOmegaTextSelect">
+                        <input type="radio" id="ghnShipping" name="option" value="0" checked onchange="calculateShippingFee()">
+                        <label for="ghnShipping">Giao Hàng Nhanh</label>
+                        <span class="PayLeftContentOmegaTextPrice" id="ghnFee">0</span>
+                    </div>
                     <c:forEach var="tr" items="${listTransport}">
                         <div class="PayLeftContentOmegaTextSelect">
                             <input type="radio" id="${tr.id}" name="option" value="${tr.value}" onchange="submitForm()">
@@ -66,7 +80,7 @@
                 </form>
                 <div class="PayLeftContentOmegaText">Thanh toán</div>
                 <div class="PayLeftContentOmegaTextSelect">
-                    <input type="radio" id="DirectPayment" name="Payment" value="DirectPayment">
+                    <input type="radio" id="DirectPayment" name="Payment" value="DirectPayment" checked>
                     <label for="DirectPayment"> Thanh toán khi giao hàng</label>
                     <i class="fa-sharp-duotone fa-solid fa-money-bill"></i>
                 </div>
@@ -147,7 +161,7 @@
                     </div>
                     <div class="text2">
                         <span class="t1">Phí vận chuyển</span>
-                        <span id="transportValue"></span>
+                        <span id="transportValue">đ</span>
                     </div>
                 </div>
                 <div class="PayRightContentTitleProductListTotal">
