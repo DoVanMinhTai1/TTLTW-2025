@@ -19,6 +19,7 @@ public enum Role {
     MOD_RETURN(8, "Quản lý đổi trả", new HashSet<>(Arrays.asList("VIEW_DASHBOARD", "MANAGE_RETURN"))),
     GUEST(9, "Khách", new HashSet<>(Arrays.asList("VIEW_HOME")));
 
+
     private final int id;
     private final String name;
     private final Set<String> permissions;

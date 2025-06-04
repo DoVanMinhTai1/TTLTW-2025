@@ -112,7 +112,7 @@ public class Show extends HttpServlet {
 //        request.getRequestDispatcher("Admin.jsp?runScript=" + defaultOption).forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+}
 }
