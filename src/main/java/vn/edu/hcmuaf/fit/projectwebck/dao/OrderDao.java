@@ -139,7 +139,20 @@ public class OrderDao {
             for (Map.Entry<Integer, Map<String, Double>> entry : cartMap.entrySet()) {
                 int productId = entry.getKey();
                 Map<String, Double> productInfo = entry.getValue();
-                int quantity = productInfo.get("quantity") != null ? productInfo.get("quantity").intValue() : 0;
+//                int quantity = productInfo.get("quantity") != null ? productInfo.get("quantity").intValue() : 0;
+                int quantity;
+                Object quantityObj = productInfo.get("quantity");
+                if (quantityObj instanceof String) {
+                    try {
+                        quantity = Integer.parseInt((String) quantityObj);
+                    } catch (NumberFormatException e) {
+                        quantity = 0; // Hoặc xử lý lỗi phù hợp (ví dụ: throw exception hoặc ghi log)
+                    }
+                } else if (quantityObj instanceof Double) {
+                    quantity = ((Double) quantityObj).intValue();
+                } else {
+                    quantity = 0; // Giá trị mặc định nếu không phải String hoặc Double
+                }
                 double price = productInfo.get("price") != null ? productInfo.get("price") : 0.0;
 
                 handle.createUpdate(orderDetailQuery)
