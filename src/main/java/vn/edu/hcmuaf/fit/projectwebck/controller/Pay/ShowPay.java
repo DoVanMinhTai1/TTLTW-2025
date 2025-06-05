@@ -134,12 +134,15 @@ public class ShowPay extends HttpServlet {
             int totalPrice = 0;
             if (!fromCart) {
                 Product product = productServices.getById(productId);
+                product.getPrice();
                 ProductWithQuantity productWithQuantity = new ProductWithQuantity();
                 productWithQuantity.setProduct(product);
                 productWithQuantity.setQuantity(1);
                 ProductDao productDao = new ProductDao();
                 productWithQuantity.setSize(productSizeName);
                 productList.add(productWithQuantity);
+                request.setAttribute("totalQuantity", 1);
+                request.setAttribute("totalPrice", product.getPrice());
                 request.setAttribute("productList", productList);
             } else {
 
@@ -149,11 +152,12 @@ public class ShowPay extends HttpServlet {
                     totalPrice += (int) (productWithQuantity.getProduct().getPrice() * productWithQuantity.getQuantity());
                     productList.add(productWithQuantity);
                 }
+                request.setAttribute("totalQuantity", cartItemsList.size());
+                request.setAttribute("totalPrice", totalPrice);
+                request.setAttribute("fromCart", fromCart);
                 request.setAttribute("productList", productList);
             }
-            request.setAttribute("totalQuantity", cartItemsList.size());
-            request.setAttribute("totalPrice", totalPrice);
-            request.setAttribute("fromCart", fromCart);
+
             request.getRequestDispatcher("Pay.jsp").forward(request, response);
 
 

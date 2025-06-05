@@ -151,6 +151,7 @@
                             <a href="showDetail?id=${p.id}" class="product-thumb">
                                 <img src="${p.image}" alt=""/>
                             </a>
+
                             <!--xem ngay-->
 
                                 <%--              <a href="addItemHome?pid=${p.id}" class = "add-to-cart">Thêm</a>--%>
@@ -170,6 +171,7 @@
                             </c:choose>
 
                             <a href="showDetail?id=${p.id}" class="buy-now">Xem</a>
+
 
                             <fmt:parseDate value="${p.extraDay}" pattern="yyyy-MM-dd" var="dateAdded"/>
                             <c:set var="now" value="<%= new java.util.Date() %>"/>

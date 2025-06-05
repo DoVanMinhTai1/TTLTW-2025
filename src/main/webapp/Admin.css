@@ -114,7 +114,7 @@ th, td {
 .side-menu {
     position: fixed;
     background: #00845c;
-    width: 310px;
+    /*width: 310px;*/
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -174,7 +174,7 @@ th, td {
 .container {
     position: absolute;
     right: 0;
-    width: 80vw;
+    /*width: 80vw;*/
     height: 100vh;
     background: white;
 }
