@@ -83,6 +83,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 wardCodeInput.value = wardCode;
                 calculateShippingFee();
             });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const responseCode = urlParams.get('vnp_ResponseCode');
+    const orderId = urlParams.get('vnp_TxnRef');
+    const fromCart = sessionStorage.getItem('fromCart');
+    const productList = JSON.parse(sessionStorage.getItem('productList'));
+
+    if (window.location.pathname.includes('/vnpay_return') && responseCode === '00' && fromCart === 'true' && productList && productList.length > 0) {
+        $.ajax({
+            url: '/web/RemoveCartList',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(productList),
+            timeout: 5000,
+            success: function () {
+                console.log("Giỏ hàng đã được xóa sau khi thanh toán VNPay.");
+                sessionStorage.removeItem('productList');
+                sessionStorage.removeItem('fromCart');
+                sessionStorage.removeItem('userId');
+                alert("Thanh toán thành công và giỏ hàng đã được xóa!");
+            },
+            error: function () {
+                console.error("Lỗi khi xóa giỏ hàng sau thanh toán VNPay.");
+                alert("Thanh toán thành công nhưng không thể xóa giỏ hàng. Vui lòng liên hệ hỗ trợ.");
+            }
+        });
+    } else if (window.location.pathname.includes('/vnpay_return') && responseCode !== '00') {
+        console.log("Thanh toán VNPay thất bại. Mã lỗi: ", responseCode);
+        alert("Thanh toán thất bại. Mã lỗi: " + responseCode);
+    }
         });
 // });
 //reset phí vc
@@ -187,7 +217,7 @@ async function submitForm() {
 let currentOrderId = null;
 
 async function order(userId, addressId, fromCart) {
-
+    const paymentMethod = document.querySelector('input[name="Payment"]:checked').value;
     // Chọn tất cả các sản phẩm
     const items = document.querySelectorAll('.PayRightContent_item');
     const userId1 = userId;
@@ -208,55 +238,106 @@ async function order(userId, addressId, fromCart) {
         })
     });
 
-    const response = await fetch(`/web/addOrder`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            userId: userId1,
-            addressId: addressId,
-            cartMap: cartMap,
-            total: numericTotal
-        })
-    });
-
-    if (response.ok) {
-        const result = await response.json();
-        console.log("Kết quả:", result);
-        document.getElementById("code").innerText = result;
-        // Hiển thị thông báo đặt hàng thành công
-        const newAddress = document.getElementById("OrderSuccessful");
-        const overlay = document.createElement('div');
-        overlay.className = "overlay";
-        overlay.id = "overlay";
-        document.body.appendChild(overlay);
-        newAddress.style.display = "block";
-        if (fromCart === 'true') {
-            $(document).ready(function () {
-                $.ajax({
-                    url: '/web/RemoveCartList',
-                    type: 'POST',
-                    data: JSON.stringify(
-                        productList
-                    ),
-                    success: function () {
-
-                    },
-                    error: function () {
-
-                    }
+    console.log(numericTotal)
+    addressId = parseInt(addressId);
+    const vnpayUrl = `/web/create-vnpay-payment`;
+    const addOrderUrl = `/web/addOrder`;
+    const requestBody = {
+        userId: userId1,
+        addressId: addressId,
+        cartMap: cartMap,
+        total: numericTotal
+    };
+    try {
+        if (paymentMethod === "Paybycard") {
+            // Lưu productList và fromCart vào sessionStorage trước khi chuyển hướng
+            sessionStorage.setItem('productList', JSON.stringify(productList));
+            sessionStorage.setItem('fromCart', fromCart);
+            sessionStorage.setItem('userId', userId1);
+            // Xử lý thanh toán qua VNPay
+            // Gửi yêu cầu đến endpoint /create-vnpay-payment để tạo URL thanh toán
+            console.log("Sending request to:", vnpayUrl);
+            const response = await fetch(vnpayUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+            // Kiểm tra phản hồi từ server
+            if (!response.ok) {
+                const error = await response.json();
+                if (response.status === 404) {
+                    // Sản phẩm không tồn tại trong kho
+                    showModalProductNotFound(error);
+                } else if (response.status === 400) {
+                    // Số lượng sản phẩm không đủ
+                    showModalProductErrorQuantity(error);
+                } else {
+                    // Lỗi khác (ví dụ: không hỗ trợ khu vực)
+                    alert("Lỗi: " + error.message|| "Không thể tạo thanh toán VNPay");
+                }
+                return; // Thoát hàm nếu có lỗi
+            }
+            // Nhận URL thanh toán và orderId từ server
+            const result = await response.json();
+            currentOrderId = result.orderId; // Lưu orderId để xuất PDF
+            window.location.href = result.paymentUrl; // Chuyển hướng đến cổng VNPay
+        } else {
+            const response = await fetch(`/web/addOrder`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userId: userId1,
+                    addressId: addressId,
+                    cartMap: cartMap,
+                    total: numericTotal
                 })
-            })
-        }
-        currentOrderId = result;
-    } else if (response.status === 404) {
-        const notFoundProducts = await response.json();
-        showModalProductNotFound(notFoundProducts)
-    } else {
-        const errorProducts = await response.json();
-        showModalProductErrorQuantity(errorProducts);
+            });
 
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Kết quả:", result);
+                document.getElementById("code").innerText = result;
+                // Hiển thị thông báo đặt hàng thành công
+                const newAddress = document.getElementById("OrderSuccessful");
+                const overlay = document.createElement('div');
+                overlay.className = "overlay";
+                overlay.id = "overlay";
+                document.body.appendChild(overlay);
+                newAddress.style.display = "block";
+                if (fromCart === 'true') {
+                    // $(document).ready(function () {
+                        $.ajax({
+                            url: '/web/RemoveCartList',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(
+                                productList
+                            ),
+                            success: function () {
+
+                            },
+                            error: function () {
+
+                            }
+                        })
+                    // })
+                }
+                currentOrderId = result;
+            } else if (response.status === 404) {
+                const notFoundProducts = await response.json();
+                showModalProductNotFound(notFoundProducts)
+            } else {
+                const errorProducts = await response.json();
+                showModalProductErrorQuantity(errorProducts);
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Lỗi khi xử lý đơn hàng.");
     }
 
     function showModalProductNotFound(products) {

@@ -197,6 +197,9 @@ public class AddOrder extends HttpServlet {
             } else {
                 int addressId = jsonObject.get("addressId").getAsInt();
                 double total = jsonObject.get("total").getAsDouble();
+                System.out.println(jsonObject.get("total"));
+
+                System.out.println("123" + total);
 
                 int userIdInt = jsonObject.get("userId").getAsInt();
                 AddressServices addressServices = new AddressServices();
