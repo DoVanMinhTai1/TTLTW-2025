@@ -20,7 +20,7 @@ public class EmailService {
         session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("22130332@st.hcmuaf.edu.vn", "hrbw ivpv tcmq fzci");
+                return new PasswordAuthentication("22130238@st.hcmuaf.edu.vn", "zobi vtfr drzd nlgg");
             }
         });
     }

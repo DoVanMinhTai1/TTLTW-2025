@@ -17,53 +17,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home.css">
 </head>
-<body><header class="header" id="header">
-  <div class="container1">
-    <a href="showHome"><img id="logo" src="Img/snapedit_1730861562696.png" alt="Shopping Cart Image"
-                                 style="width: 150px"></a>
-    <form action="${pageContext.request.contextPath}/search" method="get" id="search-box10">
-      <input type="text" name="search" id="search" placeholder="Bạn cần tìm gì ?">
-    </form>
-    <i class="fas fa-phone"></i>
-    <div class="headerphone">HOTLINE: 0327237467</div>
-    <c:set var="currentUser" value="${sessionScope.user}" /> <!-- Lấy user từ session -->
-    <c:choose>
-      <c:when test="${not empty currentUser}">
-        <a href="showCustomerPage?uId=${sessionScope.user.id}" style="text-decoration: none">
-          <div class="headercontendangnhap">
-              ${currentUser.username}
-          </div>
-        </a>
-        <div class="line"></div>
-        <a href="logout" style="text-decoration: none">
-          <div class="headercontendangki">Đăng Xuất</div>
-        </a>
-      </c:when>
-      <c:otherwise>
-        <a href="showLogin" style="text-decoration: none">
-          <div class="headercontendangnhap">
-            Đăng Nhập
-          </div>
-        </a>
-        <div class="line"></div>
-        <a href="showLogin" style="text-decoration: none">
-          <div class="headercontendangki">Đăng Kí</div>
-        </a>
-      </c:otherwise>
-    </c:choose>
-
-    <!--        gio hang-->
-    <div class="shopping_cart">
-      <div class="shopping_cart_swap">
-        <i class="fa-solid fa-basket-shopping"></i>
-        <span class="shopping_notice">${sessionScope.cart!=null?sessionScope.cart.totalQuantity:0}</span>
-      </div>
-    </div>
-    <div class="shoppingtext"><a href="ShowCart">Giỏ hàng</a></div>
-  </div>
-</header>
+<body>
+<jsp:include page="Header.jsp"/>
 <div class="menu">
   <ul>
     <li>
@@ -100,21 +59,21 @@
       <div class="pro-cat"><h6>Quả</h6></div>
     </div>
     <div class="right">
-      <button id="option">
+      <button class="newOption" id="optionNewOption">
         <h6>
-          <span  id="selected-option">Mặc định</span>
+          <span id="selected-option">Mặc định</span>
           <i class="fa-solid fa-chevron-down"></i>
         </h6>
       </button>
-      <div class="drop-menu">
-        <ul class="dropdown-menu">
-          <li data-value="Mặc định" data-link="allProduct.html"  >Mặc định</li>
+      <div class="newOption drop-menu">
+        <ul class="newOption dropdown-menu123">
+          <li data-value="Mặc định" data-link="allProduct.html">Mặc định</li>
           <li data-value="Giá giảm dần" data-link="allProduct-desc.html">Giá giảm dần</li>
-          <li data-value="Giá tăng dần" data-link="allProduct-asc.html">Giá tăng dần</li>
+          <li data-value="Giá tăng dần">Giá tăng dần</li>
         </ul>
       </div>
-      <form id="sortForm" action="sortFruits" method="GET" style="display:none;">
-        <input type="hidden" name="sortProduct" value="" id="sortProductInput">
+      <form id="sortForm" action="showAll" method="GET" style="display:none;">
+        <input type="hidden" name="sortProduct" value="Mặc định" id="sortProductInput">
       </form>
     </div>
   </div>
@@ -130,7 +89,20 @@
               <img src="${p.image}" alt=""/>
             </a>
             <!--xem ngay-->
-            <a href="addFruit?pid=${p.id}" class = "add-to-cart">Them</a>
+            <c:choose>
+              <c:when test="${not empty sessionScope.user}">
+                <button class="add-to-cart"
+                        onclick="handleAddToCart(${sessionScope.user.id},${p.id})">Thêm
+                </button>
+
+              </c:when>
+              <c:otherwise>
+                <button class="add-to-cart"
+                        onclick="handleAddToCart(null,${p.id})">Thêm
+                </button>
+              </c:otherwise>
+
+            </c:choose>
             <a href="showDetail?id=${p.id}" class="buy-now">Xem ngay</a>
             <fmt:parseDate value="${p.extraDay}" pattern="yyyy-MM-dd" var="dateAdded" />
             <c:set var="now" value="<%= new java.util.Date() %>" />
@@ -249,7 +221,50 @@
     });
   })
 
-  document.querySelectorAll(".dropdown-menu li").forEach(item => {
+  function handleAddToCart(Id, productId) {
+    if (Id === null) {
+      const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+      loginModal.show();
+
+      setTimeout(() => {
+        loginModal.hide();
+      }, 3000);
+    } else {
+      $.ajax({
+        url: "/web/add-cart",
+        method: 'POST',
+        data: JSON.stringify(
+                {
+                  userId: Id,
+                  productId: productId
+                }
+        ),
+        success: function (reponse) {
+          document.querySelector("#addToCartModalAlert .modal-body").textContent = "Thêm vào giỏ hàng thành công"
+          const loginModal = new bootstrap.Modal(document.getElementById('addToCartModalAlert'));
+
+          loginModal.show();
+
+          setTimeout(() => {
+            loginModal.hide();
+          }, 3000);
+          $.ajax({
+            url: "/web/TotalQuantity",
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+              let totalQuantity = document.getElementById("totalQuantityCartItem");
+              totalQuantity.textContent = data;
+            }
+          });
+        }
+      })
+    }
+  }
+
+
+
+  document.querySelectorAll(".newOption.dropdown-menu123 li").forEach(item => {
     item.addEventListener("click", function () {
       // Lấy giá trị của mục được chọn
       const selectedValue = this.getAttribute("data-value");
@@ -265,23 +280,31 @@
       document.querySelector(".drop-menu").classList.remove("show");
     });
   });
-  const menu = document.querySelector(".drop-menu");
-  const option = document.getElementById("option");
-  document.getElementById("option").addEventListener("click", function (e) {
+  const menu = document.querySelector(".drop-menu.newOption");
+  const option = document.getElementById("optionNewOption");
+  document.getElementById("optionNewOption").addEventListener("click", function (e) {
     e.stopPropagation(); // Ngăn chặn sự kiện nổi lên
-    document.querySelector(".drop-menu").classList.toggle("show");
+    document.querySelector(".drop-menu.newOption").classList.toggle("show");
   });
 
   // Đóng menu nếu người dùng nhấp ra ngoài
-  document.addEventListener("click", function (event) {
+  document.addEventListener("click", function  (event) {
     if (!option.contains(event.target) && !menu.contains(event.target)) {
       menu.classList.remove("show");
     }
   });
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const selectedValue = "${param.sortProduct != null ? param.sortProduct : 'Mặc định'}";
     document.getElementById("selected-option").textContent = selectedValue;
     document.getElementById("sortProductInput").value = selectedValue; // Cập nhật giá trị input
+  });
+
+  console.log('check',${item})
+  menu.querySelectorAll("li").forEach(item => {
+    item.addEventListener("click", function () {
+      console.log("Clicked:", this.getAttribute("data-value")); // Log giá trị được chọn
+      // Các dòng còn lại...
+    });
   });
 </script>
 </html>

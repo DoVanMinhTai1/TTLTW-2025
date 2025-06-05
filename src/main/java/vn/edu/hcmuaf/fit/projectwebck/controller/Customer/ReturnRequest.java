@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.projectwebck.dao.model.User;
 import vn.edu.hcmuaf.fit.projectwebck.dao.ReturnRequestDAO;
+import vn.edu.hcmuaf.fit.projectwebck.services.OrderServices;
 
 @WebServlet(name = "returnRequest", value = "/ReturnRequest")
 @MultipartConfig(fileSizeThreshold=1024*1024, maxFileSize=5*1024*1024, maxRequestSize=20*1024*1024)
@@ -57,6 +58,8 @@ public class ReturnRequest extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         int userId = user.getId();
 
+        OrderServices orderServices = new OrderServices();
+        orderServices.updateOrderStatus(orderId,6);
         List<String> imagePaths = saveProductImageList(req.getParts());
 
         // Gọi DAO để lưu vào CSDL

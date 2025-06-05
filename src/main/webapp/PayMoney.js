@@ -194,7 +194,7 @@ async function order(userId, addressId, fromCart) {
     // Tạo object để lưu productId, quantity, và price
     const cartMap = {};
     const rawTotal = document.getElementById('total').innerText;
-    const numericTotal = parseInt(rawTotal.replace(/[^\d]/g, ''));
+    let numericTotal = parseInt(rawTotal.replace(/[^\d]/g, ''));
     // Duyệt qua từng sản phẩm và thêm vào cartMap
     const productList = [];
     items.forEach(item => {
@@ -207,7 +207,7 @@ async function order(userId, addressId, fromCart) {
             productId: productId
         })
     });
-
+    addressId = parseInt(addressId);
     const response = await fetch(`/web/addOrder`, {
         method: "POST",
         headers: {
@@ -220,6 +220,8 @@ async function order(userId, addressId, fromCart) {
             total: numericTotal
         })
     });
+
+    console.log('123',response);
 
     if (response.ok) {
         const result = await response.json();
