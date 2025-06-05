@@ -443,10 +443,9 @@ input:focus {
 }
 
 .AddressBookDetail {
+    /*height: 40%;*/
     margin-bottom: 20px;
-    height: 100px;
-    padding: 15px 0 15px 10px;
-    border-bottom: solid 1px gainsboro;
+
 }
 
 .AddressBookDetailAphal {
@@ -455,15 +454,29 @@ input:focus {
 }
 
 .AddressBookDetailOmega {
-    /*width: 25%;*/
-    /*float: right;*/
-    width: auto;
+    /* width: 25%; */
+    /* float: right; */
+    width: 30%;
+    /* height: auto; */
+    border-right: solid 1px gainsboro;
+    border-left: solid 1px gainsboro;
+    border-top: solid 1px gainsboro;
+    border-bottom: solid 1px gainsboro;
+    display: flex;
+    padding: 10px;
+    /* justify-content: end; */
+    flex-direction: column;
 }
 
 
 .AddressBookDetailAphal {
     font-weight: 600;
     border-right: solid 1px gainsboro;
+    border-left: solid 1px gainsboro;
+    border-top: solid 1px gainsboro;
+    border-bottom: solid 1px gainsboro;
+    padding: 10px;
+
 }
 
 .AddressBookDetailAphal span {
@@ -490,7 +503,7 @@ input:focus {
 /*}*/
 
 .AddressBookDetailOmega .Edit {
-    margin: 0 15px;
+    /*margin: 0 15px;*/
     color: #7cc652;
 }
 

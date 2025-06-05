@@ -304,7 +304,7 @@
                         <button type="submit" class="button1" onclick="addAddress()">Thêm địa chỉ</button>
                     </div>
                     <c:forEach var="address" items="${listAddress}">
-                        <div class="AddressBookDetail">
+                        <div class="AddressBookDetail" style="display: flex;">
                             <div class="AddressBookDetailAphal">
                                 <div class="AddressBookDetailAphalContent">Họ tên: <span>${address.name}</span></div>
                                 <div class="AddressBookDetailAphalContent">Địa chỉ: <span>${address.address}</span>
@@ -315,13 +315,13 @@
                                 </div>
                             </div>
                             <div class="AddressBookDetailOmega">
-                                <span class="Edit"
+                                <span class="Edit" style="text-align: center;"
                                       onclick="UpdateAddress('${address.id}','${address.name}','${address.address}','${address.phone}','${address.origin}','${address.company}')">Chỉnh sửa địa chỉ</span>
                                 <c:if test="${address.origin == 0}">
-                                    <a href="removeAddress?addressId=${address.id}">
-                                        <span class="Delete">Xóa</span>
+                                    <a  href="removeAddress?addressId=${address.id}" style="text-align: center;">
+                                        <span  class="Delete">Xóa</span>
                                     </a>
-                                    <button onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa
+                                    <button style="text-align: center; border: none; background-color: white" onclick="updateAddressOrigin(${address.id}, ${currentUser.id})">Đặt làm địa
                                         chỉ mặc định
                                     </button>
                                 </c:if>

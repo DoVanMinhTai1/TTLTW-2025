@@ -75,7 +75,8 @@ function navigationbarClick(select) {
             break
     }
 }
-function editAccountInf(userId){
+
+function editAccountInf(userId) {
     let name = document.getElementById("nameAccount");
     let email = document.getElementById("emailAccount");
     let phone = document.getElementById("phoneAccount");
@@ -117,7 +118,8 @@ function editAccountInf(userId){
             .catch(error => console.error("Lỗi:", error));
     }
 }
-async function  viewOrder(orderId,address,dateOfBooking,status,uId) {
+
+async function viewOrder(orderId, address, dateOfBooking, status, uId) {
     const response = await fetch(`/web/detailOrder?orderId=${orderId}`);
     const orderDetails = await response.json();
     const viewOrder = document.getElementById("OderWindow");
@@ -150,14 +152,14 @@ async function  viewOrder(orderId,address,dateOfBooking,status,uId) {
         `;
         detailContainer.innerHTML += itemHTML;
     });
-    viewOrder.querySelector(".total").innerText = totalAmount+'VND';
+    viewOrder.querySelector(".total").innerText = totalAmount + 'VND';
     viewOrder.querySelector(".delivery").innerText = address;
     viewOrder.querySelector(".deliveryDate").innerText = dateOfBooking;
-    const confirm= viewOrder.querySelector(".confirm");
-    confirm.innerHTML="";
+    const confirm = viewOrder.querySelector(".confirm");
+    confirm.innerHTML = "";
     confirm.innerHTML = `<a href="confirmOrder?orderId=${orderId}&status=4&option=option2&uId=${uId}">Đã nhận hàng</a>`;
-    const cancelOrder=viewOrder.querySelector(".cancelOrder");
-    cancelOrder.innerHTML="";
+    const cancelOrder = viewOrder.querySelector(".cancelOrder");
+    cancelOrder.innerHTML = "";
     cancelOrder.innerHTML = `<a href="cancelOrder?orderId=${orderId}&status=5&option=option2&uId=${uId}">Hủy đơn</a>`;
     if (status > 3 && status < 6) {
         confirm.style.display = "none";
@@ -202,7 +204,7 @@ function addAddress() {
 
 }
 
-function UpdateAddress(id,name,address,phone,origin,company) {
+function UpdateAddress(id, name, address, phone, origin, company) {
     windowAddress()
 
     const parts = address.split(',');
@@ -255,6 +257,7 @@ function windowAddress() {
     document.body.appendChild(overlay);
     newAddress.style.display = "block";
 }
+
 function toggleRadioButton() {
     const checkI = document.getElementById("fa-check");
     const isDefaultInput = document.getElementById("isDefault");
@@ -267,6 +270,7 @@ function toggleRadioButton() {
         isDefaultInput.value = "1"; // Được chọn
     }
 }
+
 // js cho icon con mat
 function togglePassword(inputId, iconId) {
     const input = document.getElementById(inputId);
@@ -279,6 +283,7 @@ function togglePassword(inputId, iconId) {
         icon.style.backgroundColor = "white";
     }
 }
+
 // js cho phan kiem tra mat khau
 function addPasswordValidation(inputId) {
     const password = document.getElementById(inputId);
@@ -322,7 +327,7 @@ function displayMessage(message, type) {
 }
 
 // Gọi các hàm kiểm tra khi tài liệu đã sẵn sàng
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     addPasswordValidation('newpassword');
     addConfirmPasswordValidation('newpassword', 'confirm-password');
 });
