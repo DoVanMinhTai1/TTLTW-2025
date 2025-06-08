@@ -91,7 +91,7 @@ function editAccountInf(userId) {
         let newName = document.getElementById("nameInput").value;
         let newEmail = document.getElementById("emailInput").value;
         let newPhone = document.getElementById("phoneInput").value;
-        fetch("/web/UpdateUserCustomer", {
+        fetch("/web/UpdateInfCustomer", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

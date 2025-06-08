@@ -821,7 +821,7 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Tên sản phẩm</th>
+                        <th>Id sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Tên Kho hàng</th>
                         <th>Địa chỉ</th>

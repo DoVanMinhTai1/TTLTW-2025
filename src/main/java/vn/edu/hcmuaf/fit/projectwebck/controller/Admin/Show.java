@@ -66,6 +66,13 @@ public class Show extends HttpServlet {
             List<ProductWithDiscount> product = productService.getProductsWithDiscount();
             request.setAttribute("productWithDiscount", product);
         }
+        PromotionServices promotionServices = new PromotionServices();
+        if (role.hasPermission("MANAGE_PROMOTIONS") || role.hasPermission("VIEW_DASHBOARD")) {
+            List<Promotion> listPromotion = promotionServices.getAllPromotion();
+            List<Map<String, Object>> listAccount = orderServices.getListOfAccounts();
+            request.setAttribute("listpromotion", listPromotion);
+            request.setAttribute("listAccount", listAccount);
+        }
 
         StockService stockService = new StockService();
         if (role.hasPermission("MANAGE_STOCK") || role.hasPermission("VIEW_DASHBOARD")) {
@@ -85,7 +92,10 @@ public class Show extends HttpServlet {
 
         //show order
 //        List<Order> listLatestOrders = orderServices.getLatestOrders();
-        String defaultOption = "option1";
+        String defaultOption = request.getParameter("defaultOption");
+        if (defaultOption == null) {
+            defaultOption = "option1";
+        }
         if (!role.hasPermission("VIEW_DASHBOARD")) {
             if (role.hasPermission("MANAGE_VEGETABLES")) {
                 defaultOption = "option2";

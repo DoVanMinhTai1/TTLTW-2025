@@ -36,9 +36,11 @@ public class RemoveProduct extends HttpServlet {
                 logService.danger(user.getUsername()+" đã xóa một sản phẩm",user.getId(),"Xóa sản phẩm",productRm.toString(),"");
             }
         }
-        request.setAttribute("listproduct", products);
+//        request.setAttribute("listproduct", products);
         request.setAttribute("message", "Xóa sản phẩm thành công");
-        request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+//        request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+        response.sendRedirect("showAdmin?defaultOption=option2");
+
     }
 
     @Override

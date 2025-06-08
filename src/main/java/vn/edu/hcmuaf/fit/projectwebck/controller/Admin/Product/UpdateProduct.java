@@ -109,9 +109,11 @@ public class UpdateProduct extends HttpServlet {
                     logService.warning(user.getUsername() + " đã cập nhật 1 sản phẩm", user.getId(), "Cập nhật sản phẩm", product.toString(), productUpdate.toString());
                 }
             }
-            request.setAttribute("listproduct", products);
+//            request.setAttribute("listproduct", products);
             request.setAttribute("message", "Cập nhật sản phẩm thành công");
-            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+//            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+            response.sendRedirect("showAdmin?defaultOption=option2");
+
         } catch (NumberFormatException e) {
             request.setAttribute("message", "Cập nhật sản phẩm không thành công");
             request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);

@@ -89,9 +89,10 @@ public class AddProduct extends HttpServlet {
                     logService.alert(user.getUsername()+" đã thêm một sản phẩm mới",user.getId(),"Thêm sản phẩm","",product.toString());
                 }
             }
-            request.setAttribute("listproduct", products);
+//            request.setAttribute("listproduct", products);
             request.setAttribute("message", "Thêm sản phẩm thành công");
-            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+//            request.getRequestDispatcher("Admin.jsp?runScript=option2").forward(request, response);
+            response.sendRedirect("showAdmin?defaultOption=option2");
         } catch (NumberFormatException e) {
             request.setAttribute("message", "Thêm sản phẩm không thành công");
             // Trả về kết quả và hiển thị lỗi bằng cách chuyển hướng
