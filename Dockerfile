@@ -5,7 +5,7 @@ FROM tomcat:10.1-jdk17
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy file WAR vào thư mục webapps, đổi tên thành ROOT.war để truy cập tại /
-COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
+COPY target/lab4-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
 # Mở cổng 8080
 EXPOSE 8080
