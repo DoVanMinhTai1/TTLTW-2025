@@ -1,26 +1,47 @@
 package vn.edu.hcmuaf.fit.projectwebck.dao.db;
 
-import java.sql.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class PreConnect {
-    private static final String URL = "jdbc:mysql://" + DBProperties.host() + ":" + DBProperties.port() + "/" +
-            DBProperties.dbname() + "?" + DBProperties.option();
-    private static final String USERNAME = DBProperties.username();
-    private static final String PASSWORD = DBProperties.password();
 
     public static Connection getConnection() throws SQLException {
-        DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-    }
+        try {
+            // Ưu tiên đọc từ biến môi trường của Render
+            String databaseUrl = System.getenv("DATABASE_URL");
 
-    public static void main(String[] args) throws SQLException {
-        PreConnect p = new PreConnect();
-        Connection conn = getConnection();
-        Statement stmt = conn.createStatement();
-        PreparedStatement pstmt = conn.prepareStatement("select * from products");
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()) {
-            System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+            if (databaseUrl != null && !databaseUrl.isEmpty()) {
+                // ----- CHẠY TRÊN RENDER -----
+                URI dbUri = new URI(databaseUrl);
+
+                String username = dbUri.getUserInfo().split(":")[0];
+                String password = dbUri.getUserInfo().split(":")[1];
+                String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+                // Đăng ký driver của PostgreSQL
+                Class.forName("org.postgresql.Driver");
+
+                return DriverManager.getConnection(jdbcUrl, username, password);
+
+            } else {
+                // ----- CHẠY LOCAL (fallback) -----
+                // Bạn cần cập nhật DBProperties để trỏ tới PostgreSQL local nếu muốn test
+                String localUrl = "jdbc:postgresql://" + DBProperties.host() + ":" + DBProperties.port() + "/" + DBProperties.dbname();
+                String localUser = DBProperties.username();
+                String localPassword = DBProperties.password();
+
+                Class.forName("org.postgresql.Driver");
+
+                return DriverManager.getConnection(localUrl, localUser, localPassword);
+            }
+        } catch (URISyntaxException | ClassNotFoundException e) {
+            System.err.println("Database connection configuration error: " + e.getMessage());
+            throw new SQLException("Configuration error", e);
         }
     }
+
+    // Main method để test
 }
