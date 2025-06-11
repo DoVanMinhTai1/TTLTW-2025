@@ -38,11 +38,13 @@ public class OrderDao {
     public List<Map<String, Object>> getCustomer() {
         Jdbi jdbi = JDBIConect.get();
         return jdbi.withHandle(handle ->
-                handle.createQuery("select u.username, count(o.userId) as SOLANMUAHANG from orders o join users u on o.userId = u.id\n" +
-                                "where MONTH(o.dateOfBooking) = MONTH(CURRENT_DATE()) and YEAR(o.dateOfBooking) = YEAR(CURRENT_DATE())\n" +
-                                "group by u.username\n" +
-                                "order by SOLANMUAHANG desc\n" +
-                                "limit 4")
+                handle.createQuery("SELECT u.username, COUNT(o.\"userId\") AS solanmua " +
+                                "FROM orders o " +
+                                "JOIN users u ON o.\"userId\" = u.id " +
+                                "WHERE EXTRACT(MONTH FROM o.\"dateOfBooking\") = EXTRACT(MONTH FROM CURRENT_DATE) " +
+                                "AND EXTRACT(YEAR FROM o.\"dateOfBooking\") = EXTRACT(YEAR FROM CURRENT_DATE) " +
+                                "GROUP BY u.username " +
+                                "ORDER BY solanmua DESC")
                         .mapToMap() // Ánh xạ kết quả thành Map
                         .list()
         );
